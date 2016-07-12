@@ -1,0 +1,9 @@
+public/vendor/*
+node_modules/*
+*.min.js.map
+/config.js
+.nodemonignore
+nohup.out
+npm-debug.log
+config.js
+bower_components/*
