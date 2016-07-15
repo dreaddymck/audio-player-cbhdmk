@@ -18,4 +18,4 @@ shortcode: [dmck-audioplayer]
 
 == screenshot ==
 
-![alt tag](https://github.com/dreaddy/audio-player-cbhdmk/blob/master/screenshot.png)
+![alt tag](https://github.com/dreaddymck/audio-player-cbhdmk/blob/master/screenshot.png)
