@@ -10,7 +10,7 @@ volume.slider({
     range: 'min',
     min: 1,
     max: 100,
-    value: 80,
+    value: 100,
     start: function(event,ui) {},
     slide: function(event, ui) {
         dmck_audioplayer.song.volume = ui.value / 100;
@@ -221,8 +221,23 @@ function player_events(){
 	    
 	    if( jQuery('.playlist').hasClass('hidden') ) {
 		    jQuery('.playlist').fadeIn(300).removeClass('hidden');
+		    jQuery('.sort').fadeIn(300).removeClass('hidden');
+		    
+		    jQuery( ".showlist" ).button({
+		        icons: { primary: "ui-icon-folder-open" },
+		        text: false
+		    });		    
+		    
+		    
 	    }else{
-		    jQuery('.playlist').fadeOut(300).addClass('hidden');	
+		    jQuery('.playlist').fadeOut(300).addClass('hidden');
+		    jQuery('.sort').fadeOut(300).removeClass('hidden');
+
+		    jQuery( ".showlist" ).button({
+		        icons: { primary: "ui-icon-folder-collapsed" },
+		        text: false
+		    });		    
+	    
 	    }
 	    
 	});

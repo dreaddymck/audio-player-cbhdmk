@@ -1,9 +1,9 @@
 @CHARSET "ISO-8859-1";
 
 .ui-icon {
-  -ms-transform: scale(1.5); /* IE 9 */
-  -webkit-transform: scale(1.5); /* Chrome, Safari, Opera */
-  transform: scale(1.5);
+  	-ms-transform: scale(1.5); /* IE 9 */
+  	-webkit-transform: scale(1.5); /* Chrome, Safari, Opera */
+  	transform: scale(1.5); 
 }
 .ui-li-title {
 	margin-bottom: 12px;
@@ -30,14 +30,14 @@ img.ui-li-img {
     margin: 3px;
 }
 .options {
-    background-color: #333333;
+    background-color: transparent;
     position: relative;
     width: 100%;
 }
 .sortdef, .sortnew, .sortold {}
 .player {
     background-color: #333333;
-    height: 300px;
+    height: 250px;
     position: relative;
     width: 100%;
 }
@@ -70,6 +70,10 @@ img.ui-li-img {
 .controls .sort {
     cursor: pointer;
     float: left;
+    margin-top: 6px;
+	margin-left: 20px;
+	margin-right: 20px;	
+	clear: both;    
 }
 .controls .play, .controls .pause, .controls .rew, .controls .fwd {
     float: left;
@@ -112,7 +116,7 @@ img.ui-li-img {
     background-color: #3A3A3A;
 }
 .duration  {
-    height: 100px;
+    height: 75px;
     width: 100%;
     background-color: #3A3A3A;
 }
@@ -144,7 +148,7 @@ img.ui-li-img {
 }
 .playlist {
     background-color: #fff;
-    border-radius: 5px 5px 5px 5px;
+ /*   border-radius: 5px 5px 5px 5px; */
     list-style-type: none;
     margin: -1px 0 0 0px;
     padding-bottom: 10px;
@@ -155,7 +159,7 @@ img.ui-li-img {
 .playlist li {
 /*    color: #EEEEEE;*/
     cursor: pointer;
-    margin: 0px 10px 5px -30px;
+    margin: 0px 0px 6px -40px;
     padding: 2px;
     border-bottom: 1px solid #bd8b13;
 }
