@@ -98,12 +98,13 @@ if (!class_exists("WPAudioPlayerCBHDMK")) {
 			
 			$this->shared_scripts();
 			
-			wp_enqueue_style( 'jquery-ui.min.css',  $this->plugin_url . "plugins/jquery-ui-1.12.1.custom/jquery-ui.min.css");
+			wp_enqueue_style( 'jquery-ui.min.css',  $this->plugin_url . "plugins/jquery-ui-1.12.1/jquery-ui.min.css");
 			wp_enqueue_style( 'playlist.css',  $this->plugin_url . "playlist.css");
 			
-			wp_enqueue_script( 'jquery-ui.min.js', $this->plugin_url . 'plugins/jquery-ui-1.12.1.custom/jquery-ui.js', array( 'jquery' ), '1.11.4', true );
+			wp_enqueue_script( 'jquery-ui.min.js', $this->plugin_url . 'plugins/jquery-ui-1.12.1/jquery-ui.js', array( 'jquery' ), '1.12.1', true );
 			wp_enqueue_script( 'playlist-functions.js', $this->plugin_url . 'js/playlist-functions.js', array( 'jquery' ), '1.0.3', true );
 			wp_enqueue_script( 'playlist.js', $this->plugin_url . 'js/playlist.js', array( 'jquery' ), '1.0.1', true );
+			wp_enqueue_script( 'visualizer.js', $this->plugin_url . 'js/visualizer.js', '', '1.0.1', true );
 		
 			$this->localize_vars();
 
