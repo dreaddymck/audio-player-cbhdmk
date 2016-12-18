@@ -9,10 +9,10 @@
     font-weight: bolder;
 }
 .ui-li-excerpt {
-/* 	margin-bottom: 6px; */
+
 }
 .ui-li-tags {
-/* 	margin-bottom: 6px; */
+
 }
 .ui-li-moreinfo {
 	font-weight: bolder;
@@ -92,7 +92,7 @@ img.ui-li-img {
 }
 .abox {}
 .abox .left {
-	width: 50%;
+	width: 55%;
 	float: left;
 }
 .abox .right{
@@ -105,7 +105,7 @@ img.ui-li-img {
     background-color: initial;
 }
 .duration  {
-    height: 96px;
+    height: 70px;
     width: 100%;
     background-color: initial;
 }
