@@ -355,9 +355,9 @@ function playAudio() {
 	jQuery('.play').addClass('hidden');
 	jQuery('.pause').addClass('visible');
 
-	setTimeout(function() {
-		visu(dmck_audioplayer);
-	}, 1000);
+//	setTimeout(function() {
+//		visu(dmck_audioplayer);
+//	}, 1000);
 
 }
 
@@ -365,7 +365,7 @@ function visu(dmck_audioplayer) {
 
 	var ctx = new AudioContext();
 
-	console.log(ctx.state);
+//	console.log(ctx.state);
 //
 //	return;
 
