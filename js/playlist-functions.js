@@ -277,9 +277,9 @@ function initAudio(elem) {
 
 
 	// visu(dmck_audioplayer);
-	var ctx = new AudioContext();
-	dmck_audioplayer.audioSrc = ctx.destination;
-	dmck_audioplayer.analyser = ctx.createAnalyser();
+	// var ctx = new AudioContext();
+	// dmck_audioplayer.audioSrc = ctx.destination;
+	// dmck_audioplayer.analyser = ctx.createAnalyser();
 	// we have to connect the MediaElementSource with the analyser
 	// dmck_audioplayer.audioSrc.connect(dmck_audioplayer.analyser);
 	// we could configure the analyser: e.g. analyser.fftSize (for further
