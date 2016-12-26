@@ -44,7 +44,7 @@ function fetch_playlist(orderby, order) {
 
 	jQuery.get(dmck_audioplayer.plugin_url + "playlist-functions.php", {
 		debug : "false",
-		orderby : orderby ? orderby : "modified",
+		orderby : orderby ? orderby : "date",
 		order : order ? order : "DESC",
 	}).done(function(data) {
 
@@ -268,7 +268,7 @@ function initAudio(elem) {
 			"ID", id);
 	jQuery('.player .artist').text(artist);
 	// jQuery('.player .cover').css('background-image','url(' + cover + ')' );
-	jQuery('.this_excerpt').text(elem.find('.ui-li-excerpt')[0].innerHTML);
+	//	jQuery('.this_excerpt').text(elem.find('.ui-li-excerpt')[0].innerHTML);
 
 	set_cover_background(cover);
 	set_cover_click(permalink);

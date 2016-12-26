@@ -31,19 +31,30 @@ if (!class_exists("PlayListFromPostCls")) {
 		}
 		function fetch_playList_from_posts() {
 			
+						
+			$tag_in 	= get_option( 'tag_in') ? array( get_option( 'tag_in') ) : null;
+			$tag_not_in = get_option( 'tag_not_in') ? array( get_option( 'tag_not_in')): null;
+			
+			$this->_log($tag_in);
+			
 			$args = array(
 					'numberposts' 		=> -1,
 					'orderby'          	=> $this->orderby,
 					'order'            	=> $this->order,
 					'post_status'      	=> 'publish',
-					'no_found_rows' 	=> true
+					'no_found_rows' 	=> true,
+					'tag__in' 			=> $tag_in,
+					'tag__not_in'		=> $tag_not_in,
 			);
 			
 			$lastposts 	= get_posts( $args );
 			$response 	= [];
 		
+ 			
+			
 			foreach ( $lastposts as $post ) : setup_postdata( $post );
-		
+			
+				
 				$object 	= new stdClass();
 				$audio 		= $this->fetch_audio_from_string( $post->post_content );
 			
@@ -128,7 +139,10 @@ if (!class_exists("PlayListFromPostCls")) {
 			return $matches[0];
 		
 		}
-
+		function _log($obj = '') {
+		
+			error_log( print_r($obj,1));
+		}
 	}
 	new PlayListFromPostCls();
 	

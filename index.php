@@ -27,7 +27,10 @@ if (!class_exists("WPAudioPlayerCBHDMK")) {
 		public $theme_url;
 		public $github_url				= "https://github.com/dreaddy/audio-player-cbhdmk";
 		public $wpdb;
-
+		
+		public $tag_in	= null;
+		public $tag_not_in	= null;
+		
 		function __construct() {
 			
 			global $wpdb;
@@ -113,6 +116,7 @@ if (!class_exists("WPAudioPlayerCBHDMK")) {
 			wp_enqueue_script( 'functions.js', $this->plugin_url . 'js/functions.js', array( 'jquery' ), '1.0.1', true );
 		}
 		function localize_vars(){
+			
 			$local = array(
 					'plugin_url' => $this->plugin_url,
 					'is_front_page' => is_front_page(),
@@ -160,8 +164,11 @@ if (!class_exists("WPAudioPlayerCBHDMK")) {
 										)
 									);
 		}
-		function include_file($options) {
-
+		function include_file($options) {			
+		
+			update_option( 'tag_in', $options['tag_in']);
+			update_option( 'tag_not_in', $options['tag_not_in']);
+						
 			include (plugin_dir_path(__FILE__).'playlist-layout.php');
 		}
 
