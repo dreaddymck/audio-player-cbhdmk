@@ -35,7 +35,7 @@ if (!class_exists("PlayListFromPostCls")) {
 			$tag_in 	= get_option( 'tag_in') ? array( get_option( 'tag_in') ) : null;
 			$tag_not_in = get_option( 'tag_not_in') ? array( get_option( 'tag_not_in')): null;
 			
-			$this->_log($tag_in);
+			//$this->_log($tag_in);
 			
 			$args = array(
 					'numberposts' 		=> -1,
