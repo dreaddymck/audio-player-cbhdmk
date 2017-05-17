@@ -257,7 +257,7 @@ function set_duration_background(img) {
 
 function initAudio(elem) {
     var url = elem.attr('audiourl');
-    var title = elem.attr('artist');
+    var title = elem.attr('artist') + ' - ' + elem.find('.ui-li-excerpt').text();
     var cover = elem.attr('cover');
     var wavformpng = elem.attr('wavformpng');
     var artist = elem.attr('artist');
