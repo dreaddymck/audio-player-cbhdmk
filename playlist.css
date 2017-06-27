@@ -113,12 +113,7 @@ img.ui-li-img {
     height: 25px;
     	
 }
-.ui-slider-range {
-    background: rgba(0, 0, 0, 0.10);
-    height: 100%;
-    position: absolute;
-    top: 0;
-}
+.ui-slider-range {background: rgba(0, 0, 0, .3);height: 100%;position: absolute;top: 0;}
 .ui-slider-handle {
     cursor: pointer;
     height: 10px;
@@ -136,7 +131,7 @@ img.ui-li-img {
     width: 25px;
 }
 .playlist {
-    background-color: #fff;
+/*     background-color: #fff; */
     list-style-type: none;
     margin: -1px 0 0 0px;
     padding-bottom: 10px;
