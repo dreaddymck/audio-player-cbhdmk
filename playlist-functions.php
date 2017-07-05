@@ -2,7 +2,7 @@
 // error_reporting(E_ALL);
 // ini_set('display_errors', true);
 
-require_once( $_SERVER['DOCUMENT_ROOT'] . "/wp-load.php");
+require_once( "../../../wp-load.php");
 
 if (!class_exists("PlayListFromPostCls")) {
 
