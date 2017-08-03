@@ -148,8 +148,8 @@ img.ui-li-img {
     background-color: rgba(0, 0, 0, 0.10);
 }
 .playlist li:hover {
-	background:url('images/click_to_play.png') center center no-repeat;
-	background-size: contain;
+/* 	background:url('images/click_to_play.png') center center no-repeat; */
+/* 	background-size: contain; */
     background-color: rgba(0, 0, 0, 0.10);
 }
 
