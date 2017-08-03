@@ -108,6 +108,7 @@ img.ui-li-img {
     height: 80px;
     width: 100%;
     background-color: initial;
+    border: 0px !important;
 }
 .tracktime  {
     height: 25px;
