@@ -85,10 +85,18 @@ function render_playlist(response) {
 	var id = json[i].ID;
 	var moreinfo = json[i].moreinfo;
 
-	var li = jQuery('<li/>').addClass('ui-li-item').attr('audiourl',
-		json[i].mp3).attr('cover', json[i].cover).attr('artist', title)
-		.attr('permalink', permalink).attr('wavformpng', wavformpng)
-		.attr('id', id).appendTo(jQuery('.playlist'));
+	var li = jQuery('<li/>').addClass('ui-li-item')
+							.attr('audiourl', json[i].mp3)
+							.attr('cover', json[i].cover)
+							.attr('artist', json[i].artist)
+							.attr('permalink', permalink)
+							.attr('wavformpng', wavformpng)
+							.attr('id', id)
+							.css({
+								'background-image' : 'url("' + wavformpng + '")',
+								'background-size' : 'cover',
+							    })
+							.appendTo(jQuery('.playlist'));
 
 	jQuery('<img>').addClass('ui-li-img').attr('src', json[i].cover).attr(
 		'height', "50px").attr('width', "50px").appendTo(li);
