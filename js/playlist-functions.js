@@ -89,6 +89,7 @@ function render_playlist(response) {
 							.attr('audiourl', json[i].mp3)
 							.attr('cover', json[i].cover)
 							.attr('artist', json[i].artist)
+							.attr('title', json[i].title)
 							.attr('permalink', permalink)
 							.attr('wavformpng', wavformpng)
 							.attr('id', id)
@@ -265,7 +266,7 @@ function set_duration_background(img) {
 
 function initAudio(elem) {
     var url = elem.attr('audiourl');
-    var title = elem.attr('artist') + ' - ' + elem.find('.ui-li-excerpt').text();
+    var title = elem.attr('artist') + ' - ' + elem.attr('title') + ' - ' + elem.find('.ui-li-excerpt').text();
     var cover = elem.attr('cover');
     var wavformpng = elem.attr('wavformpng');
     var artist = elem.attr('artist');
