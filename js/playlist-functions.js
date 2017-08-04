@@ -75,10 +75,12 @@ function render_playlist(response) {
     // console.log(json);
 
     jQuery.each(json, function(i) {
-	var title = json[i].title
-		.replace(/&nbsp;|&#039;|&amp;|&#039;|  /g, " ");
-	var excerpt = json[i].excerpt.replace(/&nbsp;|&#039;|&amp;|&#039|  ;/g,
-		" ");
+    	
+	var title = DencodeEntities( json[i].title ); // replace(/&nbsp;|&#039;|&amp;|&#039;|  /g, " ");
+	var excerpt = DencodeEntities( json[i].excerpt ); //.replace(/&nbsp;|&#039;|&amp;|&#039|  ;/g,	" ");
+	
+	
+	
 	var permalink = json[i].permalink;
 	var wavformpng = json[i].wavformpng;
 	var wavformjson = json[i].wavformjson;
@@ -266,7 +268,7 @@ function set_duration_background(img) {
 
 function initAudio(elem) {
     var url = elem.attr('audiourl');
-    var title = elem.attr('artist') + ' - ' + elem.attr('title') + ' - ' + elem.find('.ui-li-excerpt').text();
+    var title = DencodeEntities( elem.attr('artist') + ' - ' + elem.attr('title') + ' - ' + elem.find('.ui-li-excerpt').text() );
     var cover = elem.attr('cover');
     var wavformpng = elem.attr('wavformpng');
     var artist = elem.attr('artist');
@@ -443,4 +445,12 @@ function formatSecondsAsTime(secs, format) {
     }
 
     return min + ':' + sec;
+}
+
+//Encode/decode htmlentities
+function EncodeEntities(s){
+	return jQuery("<div/>").text(s).html();
+}
+function DencodeEntities(s){
+	return jQuery("<div/>").html(s).text();
 }
