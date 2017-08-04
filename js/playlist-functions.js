@@ -78,7 +78,7 @@ function render_playlist(response) {
     	
 	var title = DencodeEntities( json[i].title ); // replace(/&nbsp;|&#039;|&amp;|&#039;|  /g, " ");
 	var excerpt = DencodeEntities( json[i].excerpt ); //.replace(/&nbsp;|&#039;|&amp;|&#039|  ;/g,	" ");
-	
+	var tags = DencodeEntities( json[i].tags.toLowerCase() )
 	
 	
 	var permalink = json[i].permalink;
@@ -108,8 +108,7 @@ function render_playlist(response) {
 
 	jQuery('<div>').addClass('ui-li-excerpt').text(excerpt).appendTo(li);
 
-	jQuery('<div>').addClass('ui-li-tags').text(json[i].tags.toLowerCase())
-		.appendTo(li);
+	jQuery('<div>').addClass('ui-li-tags').text( tags ).appendTo(li);
 
 	jQuery('<span>').addClass('ui-li-moreinfo')
 		.attr('permalink', permalink).click(function(e) {
