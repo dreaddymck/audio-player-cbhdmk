@@ -169,7 +169,9 @@ if (!class_exists("WPAudioPlayerCBHDMK")) {
 			update_option( 'tag_in', $options['tag_in']);
 			update_option( 'tag_not_in', $options['tag_not_in']);
 						
-			include (plugin_dir_path(__FILE__).'playlist-layout.php');
+			//include (plugin_dir_path(__FILE__).'playlist-layout.php');
+			
+			return file_get_contents(plugin_dir_path(__FILE__).'playlist-layout.php');
 		}
 
 		function admin_menu_include() {
