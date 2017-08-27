@@ -97,7 +97,7 @@ function render_playlist(response) {
 							.attr('id', id)
 							.css({
 								'background-image' : 'url("' + wavformpng + '")',
-								'background-size' : 'cover',
+								'background-size' : 'contain',
 							    })
 							.appendTo(jQuery('.playlist'));
 

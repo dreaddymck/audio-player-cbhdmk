@@ -56,8 +56,8 @@ img.ui-li-img {
 .showlist:hover {}
 .cover {
     background: transparent;
-    height: 150px;
-    width: 150px;
+    height: 75px;
+    width: 75px;
 }
 .this_excerpt {
 	word-wrap: break-word;
@@ -92,8 +92,8 @@ img.ui-li-img {
 }
 .abox {}
 .abox .left {
-	width: 50%;
-	float: left;
+/* 	width: 50%; */
+/* 	float: left; */
 }
 .abox .right{
 	float: right;
@@ -105,7 +105,7 @@ img.ui-li-img {
     background-color: initial;
 }
 .duration  {
-    height: 80px;
+    height: 150px;
     width: 100%;
     background-color: initial;
     border: 0px !important;
@@ -158,7 +158,7 @@ img.ui-li-img {
 @media only screen and (max-width: 600px) {
 	.cover {
 	    background: transparent;
-	    height: 100px;
-	    width: 100px;
+	    height: 75px;
+	    width: 75px;
 	}
 }
