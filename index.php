@@ -113,6 +113,8 @@ if (!class_exists("WPAudioPlayerCBHDMK")) {
 
 		}
 		function shared_scripts(){
+			wp_enqueue_style( 'bootstrap.min.css',  $this->plugin_url . "css/bootstrap.min.css");
+			wp_enqueue_script( 'bootstrap.js', $this->plugin_url . 'js/bootstrap.min.js', array( 'jquery' ), '', true );
 			wp_enqueue_script( 'functions.js', $this->plugin_url . 'js/functions.js', array( 'jquery' ), '1.0.1', true );
 		}
 		function localize_vars(){
