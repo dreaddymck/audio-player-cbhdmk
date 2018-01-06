@@ -92,6 +92,9 @@ img.ui-li-img {
 .playlist li:hover {
     background-color: rgba(0, 0, 0, 0.10);
 }
+.artist {
+    float: right
+}
 
 @media only screen and (max-width: 600px) {
 
