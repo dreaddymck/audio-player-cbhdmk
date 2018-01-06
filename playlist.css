@@ -91,3 +91,14 @@ img.ui-li-img {
     .cover { height: 100px; }
     .duration { height: 100px; }
 }
+@media screen and (min-width: 30em) {
+	.page-one-column .panel-content .wrap 	{
+        max-width: 1080px  !important;
+	}
+	.custom-header {
+		margin-bottom: 3px !important;
+	}
+	.site-branding {
+		padding: initial;
+	}
+}
