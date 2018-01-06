@@ -1,83 +1,26 @@
 @CHARSET "ISO-8859-1";
-.ui-icon {
-    -ms-transform: scale(1.5);
-    /* IE 9 */
-    -webkit-transform: scale(1.5);
-    /* Chrome, Safari, Opera */
-    transform: scale(1.5);
-}
-.ui-li-title { font-weight: bolder; }
-.ui-li-moreinfo { font-weight: bolder; }
-.ui-li-moreinfo:hover {
-    background-color: rgba(0, 0, 0, 0.10);
-    color: #fff;
-}
-img.ui-li-img {
-    float: right;
-    margin: 2px;
-}
-.options {
-    background-color: transparent;
-    position: relative;
-    width: 100%;
-}
 
-.player {
-    background-color: inherit;
-    height: 250px;
-    width: 100%;
-}
-
-.title,
-.artist {
-    left: 20px;
-    -moz-user-select: none;
-    -webkit-user-select: none;
-    -ms-user-select: none;
-}
-
-.title {
-    cursor: pointer;
-}
-
-.cover {
-    background: transparent;
-    height: 100px;
-    width: 100px;
-}
-
-.this_excerpt {
-    word-wrap: break-word;
-}
-
-.controls .sort {
-    cursor: pointer;
-    float: left;
-    clear: both;
-}
-
-.controls .play,
-.controls .pause,
-.controls .rew,
-.controls .fwd,
-.controls .showList {
-    float: left;
-}
-
-.sort .sortdef,
-.sort .sortnew,
-.sort .sortold {
-    float: left;
-}
-
-.controls .pause {
-    display: none;
-}
 .hidden {
     display: none;
 }
-.controls .visible {
-    display: block;
+.player {
+    background-color: inherit;
+    width: 100%;
+}
+.title {
+    cursor: pointer;
+}
+.this_excerpt {
+    word-wrap: break-word;
+}
+.cover {
+    height: 250px;
+}
+.duration {
+    height: 250px;
+    width: 100%;
+    background-color: initial;
+    border: 0px !important;
 }
 .volume {
     height: 30px;
@@ -85,14 +28,25 @@ img.ui-li-img {
     width: 100%;
     background-color: initial;
 }
-.duration {
-    height: 150px;
-    width: 100%;
-    background-color: initial;
-    border: 0px !important;
-}
 .tracktime {
     height: 25px;
+}
+img.ui-li-img {
+    float: right;
+    margin: 2px;
+}
+.ui-icon {
+    -ms-transform: scale(1.0);
+    /* IE 9 */
+    -webkit-transform: scale(1.0);
+    /* Chrome, Safari, Opera */
+    transform: scale(1.0);
+}
+.ui-li-title { font-weight: bolder; }
+.ui-li-moreinfo { font-weight: bolder; }
+.ui-li-moreinfo:hover {
+    background-color: rgba(0, 0, 0, 0.10);
+    color: #fff;
 }
 .ui-slider-range {
     background: rgba(0, 0, 0, .3);
@@ -140,9 +94,12 @@ img.ui-li-img {
 }
 
 @media only screen and (max-width: 600px) {
+
     .cover {
-        background: transparent;
-        height: 75px;
-        width: 75px;
+        height: 100px;
     }
+    .duration {
+        height: 100px;
+    }    
+
 }
