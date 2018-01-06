@@ -224,9 +224,10 @@ function player_events () {
 }
 function set_cover_background (img) {
 	jQuery('.player .cover').css({
-	'background-image': 'url(' + img + ')',
-	'background-size': 'cover'
+		'background-image': 'url(' + img + ')',
+		'background-size': 'cover'
 	})
+	
 }
 function set_cover_click (str) {
 	jQuery('.player .cover').css('cursor', 'pointer').unbind('click').bind(

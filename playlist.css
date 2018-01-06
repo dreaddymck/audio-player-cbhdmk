@@ -14,7 +14,7 @@
     word-wrap: break-word;
 }
 .cover {
-    height: 250px;
+    height: 260px;
 }
 .duration {
     height: 250px;
@@ -71,7 +71,6 @@ img.ui-li-img {
     width: 25px;
 }
 .playlist {
-    /*     background-color: #fff; */
     list-style-type: none;
     margin: -1px 0 0 0px;
     padding-bottom: 10px;
@@ -81,28 +80,14 @@ img.ui-li-img {
 }
 .playlist li {
     cursor: pointer;
-    margin-top: 12px;
-    margin-bottom: 12px;
+    margin-top: 18px;
+    margin-bottom: 18px;
 }
-
-.playlist li.active {
-    background-color: rgba(0, 0, 0, 0.10);
-}
-
-.playlist li:hover {
-    background-color: rgba(0, 0, 0, 0.10);
-}
-.artist {
-    float: right
-}
+.playlist li.active { background-color: rgba(0, 0, 0, 0.10); }
+.playlist li:hover { background-color: rgba(0, 0, 0, 0.10); }
+.artist { float: right }
 
 @media only screen and (max-width: 600px) {
-
-    .cover {
-        height: 100px;
-    }
-    .duration {
-        height: 100px;
-    }    
-
+    .cover { height: 100px; }
+    .duration { height: 100px; }
 }
