@@ -62,13 +62,13 @@ img.ui-li-img {
 }
 .volume .ui-slider-handle {
     background: rgba(0, 0, 0, 0.10);
-    height: 25px;
-    width: 25px;
+    height: 30px;
+    width: 30px;
 }
 .duration .ui-slider-handle {
     background: rgba(0, 0, 0, 0.10);
-    height: 25px;
-    width: 25px;
+    height: 30px;
+    width: 30px;
 }
 .playlist {
     list-style-type: none;
