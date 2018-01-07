@@ -92,13 +92,13 @@ img.ui-li-img {
     .duration { height: 100px; }
 }
 @media screen and (min-width: 30em) {
-	.page-one-column .panel-content .wrap 	{
-        max-width: 1080px  !important;
-	}
-	.custom-header {
-		margin-bottom: 3px !important;
-	}
-	.site-branding {
-		padding: initial;
-	}
+    .site-branding { margin-bottom: 6px !important; }
+    .panel-content .wrap {
+		padding-bottom: 1em !important;
+		padding-top: 1em !important;
+    }
+	.site-content { padding: 2.5em 0 0 !important; }    
+    .page-one-column .panel-content .wrap 	{ max-width: 1080px  !important; }
+	.custom-header { margin-bottom: 3px !important; }
+
 }
