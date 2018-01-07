@@ -87,7 +87,7 @@ function render_playlist (response) {
 		.attr('id', id)
 		.css({
 			'background-image': 'url("' + wavformpng + '")',
-			'background-size': 'auto'
+			'background-size': '100% 100%'
 		})
 		.appendTo(jQuery('.playlist'))
 
@@ -225,7 +225,7 @@ function player_events () {
 function set_cover_background (img) {
 	jQuery('.player .cover').css({
 		'background-image': 'url(' + img + ')',
-		'background-size': 'cover'
+		'background-size': '100% 100%'
 	})
 	
 }
@@ -238,7 +238,7 @@ function set_cover_click (str) {
 function set_duration_background (img) {
 	jQuery('.duration').css({
 	'background-image': 'url("' + img + '")',
-	'background-size': 'auto'
+	'background-size': '100% 100%'
 	})
 }
 

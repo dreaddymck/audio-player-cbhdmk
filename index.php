@@ -89,7 +89,9 @@ if (!class_exists("WPAudioPlayerCBHDMK")) {
 			
 			if ( $this->settings_page == $hook_suffix ) {
 				wp_enqueue_style( 'admin.css',  $this->plugin_url . "admin/admin.css");
+				
 				$this->shared_scripts();
+				
 				wp_enqueue_script( 'admin.js', $this->plugin_url . 'admin/admin.js', array( 'jquery' ), '1.0.0', true );
 								
 				$this->localize_vars();
@@ -98,16 +100,15 @@ if (!class_exists("WPAudioPlayerCBHDMK")) {
 		function user_scripts() {
 			
 			if( $this->has_shortcode( $this->shortcode ) ) {}
-			
-			$this->shared_scripts();
-			
+		
 			wp_enqueue_style( 'jquery-ui.min.css',  $this->plugin_url . "plugins/jquery-ui-1.12.1/jquery-ui.min.css");
-			wp_enqueue_style( 'playlist.css',  $this->plugin_url . "playlist.css");
-			
 			wp_enqueue_script( 'jquery-ui.min.js', $this->plugin_url . 'plugins/jquery-ui-1.12.1/jquery-ui.js', array( 'jquery' ), '1.12.1', true );
+
+			$this->shared_scripts();
+
+			wp_enqueue_style( 'playlist.css',  $this->plugin_url . "playlist.css");
 			wp_enqueue_script( 'playlist-functions.js', $this->plugin_url . 'js/playlist-functions.js', array( 'jquery' ), '1.0.3', true );
 			wp_enqueue_script( 'playlist.js', $this->plugin_url . 'js/playlist.js', array( 'jquery' ), '1.0.1', true );
-// 			wp_enqueue_script( 'visualizer.js', $this->plugin_url . 'js/visualizer.js', '', '1.0.1', true );
 		
 			$this->localize_vars();
 
