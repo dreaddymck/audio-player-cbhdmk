@@ -19,3 +19,8 @@ shortcode: [dmck-audioplayer]
 == screenshot ==
 
 ![alt tag](https://github.com/dreaddymck/audio-player-cbhdmk/blob/master/screenshot.png)
+
+== notes ==
+
+The following wrapper used to pre-generate the wav form images. Dependencies listed:
+https://github.com/dreaddymck/wavformgen.php
