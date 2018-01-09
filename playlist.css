@@ -18,12 +18,37 @@ html { font-size: 100% !important; }
 .cover {
     height: 260px;
 }
-body.home .navigation-top, 
-body.home .site-footer, 
+
+
 body.home .panel-box{
-    animation: pulse 25s infinite;
+    background: linear-gradient(190deg, #222222ff,#910291ff,#91024a,#4a0291,#222222ff);
+    background-size: 300% 300%;    
+    -webkit-animation: Gradient 30s ease infinite;
+    -moz-animation: Gradient 30s ease infinite;
+    animation: Gradient 30s ease infinite;
 }
-@keyframes pulse {
+@-webkit-keyframes Gradient {
+    0%{background-position:0% 50%}
+    50%{background-position:100% 50%}
+    100%{background-position:0% 50%}
+}
+@-moz-keyframes Gradient {
+    0%{background-position:0% 50%}
+    50%{background-position:100% 50%}
+    100%{background-position:0% 50%}
+}
+@keyframes Gradient { 
+    0%{background-position:0% 50%}
+    50%{background-position:100% 50%}
+    100%{background-position:0% 50%}
+}
+body.home .navigation-top, 
+body.home .site-footer{
+	-webkit-animation: Pulse 25s ease infinite;
+	-moz-animation: Pulse 25s ease infinite;
+	animation: Pulse 25s ease infinite;
+}
+@keyframes Pulse {
     0% {
       background-color: #222222ff;
     }
@@ -33,7 +58,10 @@ body.home .panel-box{
     100% {
       background-color: #222222ff;
     }
-  }
+}
+
+
+
 .duration {
     height: 250px;
     width: 100%;
