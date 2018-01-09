@@ -18,6 +18,22 @@ html { font-size: 100% !important; }
 .cover {
     height: 260px;
 }
+body.home .navigation-top, 
+body.home .site-footer, 
+body.home .panel-box{
+    animation: pulse 25s infinite;
+}
+@keyframes pulse {
+    0% {
+      background-color: #222222ff;
+    }
+    50% {
+        background-color: #910291ff;
+      }    
+    100% {
+      background-color: #222222ff;
+    }
+  }
 .duration {
     height: 250px;
     width: 100%;

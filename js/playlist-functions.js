@@ -13,7 +13,7 @@ volume.slider({
 	value: 100,
 	start: function (event, ui) {},
 	slide: function (event, ui) {
-	dmck_audioplayer.song.volume = ui.value / 100
+		dmck_audioplayer.song.volume = ui.value / 100
 	},
 	stop: function (event, ui) {}
 })
@@ -25,7 +25,7 @@ duration.slider({
 	max: 10,
 	start: function (event, ui) {},
 	slide: function (event, ui) {
-	dmck_audioplayer.song.currentTime = ui.value
+		dmck_audioplayer.song.currentTime = ui.value
 	},
 	stop: function (event, ui) {}
 })
@@ -38,22 +38,22 @@ function fetch_playlist (orderby, order) {
 	jQuery('.title').html('loading...')
 
 	jQuery.get(dmck_audioplayer.plugin_url + 'playlist-functions.php', {
-	debug: 'false',
-	orderby: orderby ? orderby : 'date',
-	order: order ? order : 'DESC'
+		debug: 'false',
+		orderby: orderby ? orderby : 'date',
+		order: order ? order : 'DESC'
 	}).done(function (data) {
-	render_playlist(data)
+		render_playlist(data)
 
-	// initialization - first element in playlist
-	initAudio(jQuery('.playlist li:first-child'))
+		// initialization - first element in playlist
+		initAudio(jQuery('.playlist li:first-child'))
 
-	if (!orderby) {
-		player_events()
-	}
+		if (!orderby) {
+			player_events()
+		}
 
-	jQuery('body').css('cursor', 'default')
-	jQuery('.controls button').prop('disabled', '')
-	jQuery('.sort button').prop('disabled', '')
+		jQuery('body').css('cursor', 'default')
+		jQuery('.controls button').prop('disabled', '')
+		jQuery('.sort button').prop('disabled', '')
 	})
 }
 
@@ -67,62 +67,62 @@ function render_playlist (response) {
 	// console.log(json)
 
 	jQuery.each(json, function (i) {
-	var title = DencodeEntities(json[i].title); // replace(/&nbsp;|&#039;|&amp;|&#039;|  /g, " ")
-	var excerpt = DencodeEntities(json[i].excerpt); // .replace(/&nbsp;|&#039;|&amp;|&#039|  ;/g,	" ")
-	var tags = DencodeEntities(json[i].tags.toLowerCase())
+		var title = DencodeEntities(json[i].title); // replace(/&nbsp;|&#039;|&amp;|&#039;|  /g, " ")
+		var excerpt = DencodeEntities(json[i].excerpt); // .replace(/&nbsp;|&#039;|&amp;|&#039|  ;/g,	" ")
+		var tags = DencodeEntities(json[i].tags.toLowerCase())
 
-	var permalink = json[i].permalink
-	var wavformpng = json[i].wavformpng
-	var wavformjson = json[i].wavformjson
-	var id = json[i].ID
-	var moreinfo = json[i].moreinfo
+		var permalink = json[i].permalink
+		var wavformpng = json[i].wavformpng
+		var wavformjson = json[i].wavformjson
+		var id = json[i].ID
+		var moreinfo = json[i].moreinfo
 
-	var li = jQuery('<li/>').addClass('ui-li-item')
-		.attr('audiourl', json[i].mp3)
-		.attr('cover', json[i].cover)
-		.attr('artist', json[i].artist)
-		.attr('title', json[i].title)
-		.attr('permalink', permalink)
-		.attr('wavformpng', wavformpng)
-		.attr('id', id)
-		.css({
-			'background-image': 'url("' + wavformpng + '")',
-			'background-size': '100% 100%'
-		})
-		.appendTo(jQuery('.playlist'))
+		var li = jQuery('<li/>').addClass('ui-li-item')
+			.attr('audiourl', json[i].mp3)
+			.attr('cover', json[i].cover)
+			.attr('artist', json[i].artist)
+			.attr('title', json[i].title)
+			.attr('permalink', permalink)
+			.attr('wavformpng', wavformpng)
+			.attr('id', id)
+			.css({
+				'background-image': 'url("' + wavformpng + '")',
+				'background-size': '100% 100%'
+			})
+			.appendTo(jQuery('.playlist'))
 
-	jQuery('<img>').addClass('ui-li-img').attr('src', json[i].cover).attr(
-		'height', '50px').attr('width', '50px').appendTo(li)
+		jQuery('<img>').addClass('ui-li-img').attr('src', json[i].cover).attr(
+			'height', '50px').attr('width', '50px').appendTo(li)
 
-	jQuery('<div>').addClass('ui-li-title').text(title).appendTo(li)
+		jQuery('<div>').addClass('ui-li-title').text(title).appendTo(li)
 
-	jQuery('<div>').addClass('ui-li-excerpt').text(excerpt).appendTo(li)
+		jQuery('<div>').addClass('ui-li-excerpt').text(excerpt).appendTo(li)
 
-	jQuery('<div>').addClass('ui-li-tags').text(tags).appendTo(li)
+		jQuery('<div>').addClass('ui-li-tags').text(tags).appendTo(li)
 
-	jQuery('<span>').addClass('ui-li-moreinfo')
-		.attr('permalink', permalink).click(function (e) {
-		e.preventDefault()
-		e.stopPropagation()
-		var permalink = jQuery(this).attr('permalink')
-		window.open(permalink, '_top', '')
-	}).text(moreinfo).appendTo(li)
+		jQuery('<span>').addClass('ui-li-moreinfo')
+			.attr('permalink', permalink).click(function (e) {
+			e.preventDefault()
+			e.stopPropagation()
+			var permalink = jQuery(this).attr('permalink')
+			window.open(permalink, '_top', '')
+		}).text(moreinfo).appendTo(li)
 
-	jQuery('<br>').addClass('ui-li-br').appendTo(li)
+		jQuery('<br>').addClass('ui-li-br').appendTo(li)
 	})
 
 	// playlist elements - click
 	jQuery('.playlist li').click(function () {
-	stopAudio()
+		stopAudio()
 
-	duration.slider('option', 'min', 0)
+		duration.slider('option', 'min', 0)
 
-	var id_old = jQuery('.player .title').attr('ID')
-	var id_new = jQuery(this).attr('ID')
+		var id_old = jQuery('.player .title').attr('ID')
+		var id_new = jQuery(this).attr('ID')
 
-	initAudio(jQuery(this))
-	// play = true
-	dmck_audioplayer.playing = true
+		initAudio(jQuery(this))
+		// play = true
+		dmck_audioplayer.playing = true
 	})
 }
 
@@ -133,93 +133,93 @@ function player_events () {
 
 	// play click
 	jQuery('.play').click(function (e) {
-	e.preventDefault()
-	playAudio()
-	// play = true
-	dmck_audioplayer.playing = true
+		e.preventDefault()
+		playAudio()
+		// play = true
+		dmck_audioplayer.playing = true
 	})
 
 	jQuery('.player .title').click(function (e) {
-	e.preventDefault()
-	var permalink = jQuery(this).attr('permalink')
-	window.open(permalink, '_top', '')
+		e.preventDefault()
+		var permalink = jQuery(this).attr('permalink')
+		window.open(permalink, '_top', '')
 	})
 
 	// pause click
 	jQuery('.pause').click(function (e) {
-	e.preventDefault()
-	stopAudio()
-	// play = true
-	dmck_audioplayer.playing = false
+		e.preventDefault()
+		stopAudio()
+		// play = true
+		dmck_audioplayer.playing = false
 	})
 
 	// forward click
 	jQuery('.fwd').click(function (e) {
-	e.preventDefault()
-	e.stopPropagation()
+		e.preventDefault()
+		e.stopPropagation()
 
-	stopAudio()
+		stopAudio()
 
-	var next = jQuery('.playlist li.active').next()
-	if (next.length == 0) {
-		next = jQuery('.playlist li:first-child')
-	}
+		var next = jQuery('.playlist li.active').next()
+		if (next.length == 0) {
+			next = jQuery('.playlist li:first-child')
+		}
 
-	initAudio(next)
-	// play = true
-	dmck_audioplayer.playing = true
+		initAudio(next)
+		// play = true
+		//dmck_audioplayer.playing = true
 	})
 
 	// rewind click
 	jQuery('.rew').click(function (e) {
-	e.preventDefault()
-	e.stopPropagation()
+		e.preventDefault()
+		e.stopPropagation()
 
-	stopAudio()
+		stopAudio()
 
-	var prev = jQuery('.playlist li.active').prev()
-	if (prev.length == 0) {
-		prev = jQuery('.playlist li:last-child')
-	}
-	initAudio(prev)
-	// play = true
-	dmck_audioplayer.playing = true
+		var prev = jQuery('.playlist li.active').prev()
+		if (prev.length == 0) {
+			prev = jQuery('.playlist li:last-child')
+		}
+		initAudio(prev)
+		// play = true
+		//dmck_audioplayer.playing = true
 	})
 
 	// show playlist
 	jQuery('.showlist').click(function (e) {
-	e.preventDefault()
-	e.stopPropagation()
+		e.preventDefault()
+		e.stopPropagation()
 
-	if (jQuery('.playlist').hasClass('hidden')) {
-		jQuery('.playlist').fadeIn(300).removeClass('hidden')
-		jQuery('.sort').fadeIn(300).removeClass('hidden')
+		if (jQuery('.playlist').hasClass('hidden')) {
+			jQuery('.playlist').fadeIn(300).removeClass('hidden')
+			jQuery('.sort').fadeIn(300).removeClass('hidden')
 
-		jQuery('.showlistIcon').removeClass('ui-icon-plusthick')
-		jQuery('.showlistIcon').addClass('ui-icon-minusthick')
-	} else {
-		jQuery('.playlist').fadeOut(300).addClass('hidden')
-		jQuery('.sort').fadeOut(300).removeClass('hidden')
+			jQuery('.showlistIcon').removeClass('ui-icon-plusthick')
+			jQuery('.showlistIcon').addClass('ui-icon-minusthick')
+		} else {
+			jQuery('.playlist').fadeOut(300).addClass('hidden')
+			jQuery('.sort').fadeOut(300).removeClass('hidden')
 
-		jQuery('.showlistIcon').removeClass('ui-icon-minusthick')
-		jQuery('.showlistIcon').addClass('ui-icon-plusthick')
-	}
+			jQuery('.showlistIcon').removeClass('ui-icon-minusthick')
+			jQuery('.showlistIcon').addClass('ui-icon-plusthick')
+		}
 	})
 
 	jQuery('.sortdef').on('click', function (e) {
-	e.preventDefault()
-	stopAudio()
-	fetch_playlist('rand', 'DESC')
+		e.preventDefault()
+		stopAudio()
+		fetch_playlist('rand', 'DESC')
 	})
 	jQuery('.sortnew').on('click', function (e) {
-	e.preventDefault()
-	stopAudio()
-	fetch_playlist('date', 'DESC')
+		e.preventDefault()
+		stopAudio()
+		fetch_playlist('date', 'DESC')
 	})
 	jQuery('.sortold').on('click', function (e) {
-	e.preventDefault()
-	stopAudio()
-	fetch_playlist('date', 'ASC')
+		e.preventDefault()
+		stopAudio()
+		fetch_playlist('date', 'ASC')
 	})
 }
 function set_cover_background (img) {
@@ -227,18 +227,17 @@ function set_cover_background (img) {
 		'background-image': 'url(' + img + ')',
 		'background-size': '100% 100%'
 	})
-	
 }
 function set_cover_click (str) {
 	jQuery('.player .cover').css('cursor', 'pointer').unbind('click').bind(
-	'click', function () {
-		window.open(str, '_top')
-	})
+		'click', function () {
+			window.open(str, '_top')
+		})
 }
 function set_duration_background (img) {
 	jQuery('.duration').css({
-	'background-image': 'url("' + img + '")',
-	'background-size': '100% 100%'
+		'background-image': 'url("' + img + '")',
+		'background-size': '100% 100%'
 	})
 }
 
@@ -252,7 +251,7 @@ function initAudio (elem) {
 	var id = elem.attr('ID')
 
 	jQuery('.player .title').text(title).attr('permalink', permalink).attr(
-	'ID', id)
+		'ID', id)
 	jQuery('.player .artist').text(artist)
 	// jQuery('.player .cover').css('background-image','url(' + cover + ')' )
 	// jQuery('.this_excerpt').text(elem.find('.ui-li-excerpt')[0].innerHTML)
@@ -282,44 +281,44 @@ function initAudio (elem) {
 
 	// timeupdate event listener
 	dmck_audioplayer.song
-	.addEventListener(
-		'timeupdate',
-		function () {
-		if (!isNaN(dmck_audioplayer.song.duration)) {
-			duration
-			.slider({
-				value: parseFloat(dmck_audioplayer.song.currentTime)
+		.addEventListener(
+			'timeupdate',
+			function () {
+				if (!isNaN(dmck_audioplayer.song.duration)) {
+					duration
+						.slider({
+							value: parseFloat(dmck_audioplayer.song.currentTime)
+						})
+
+					jQuery('.tracktime')
+						.html(
+							formatSecondsAsTime(dmck_audioplayer.song.currentTime)
+							+ ' / '
+							+ formatSecondsAsTime(dmck_audioplayer.song.duration))
+				}
 			})
 
-			jQuery('.tracktime')
-			.html(
-				formatSecondsAsTime(dmck_audioplayer.song.currentTime)
-				+ ' / '
-				+ formatSecondsAsTime(dmck_audioplayer.song.duration))
-		}
-		})
-
 	dmck_audioplayer.song.addEventListener('ended', function (e) {
-	stopAudio()
+		stopAudio()
 
-	var next = jQuery('.playlist li.active').next()
-	if (next.length == 0) {
-		next = jQuery('.playlist li:first-child')
-	}
+		var next = jQuery('.playlist li.active').next()
+		if (next.length == 0) {
+			next = jQuery('.playlist li:first-child')
+		}
 
-	initAudio(next)
+		initAudio(next)
 	})
 
 	dmck_audioplayer.song.addEventListener('canplay', function (e) {
-	duration.slider('value',
-		parseInt(dmck_audioplayer.song.currentTime, 10))
+		duration.slider('value',
+			parseInt(dmck_audioplayer.song.currentTime, 10))
 
-	// if(play) {
-	// playAudio()
-	// }
-	if (dmck_audioplayer.playing) {
-		playAudio()
-	}
+		// if(play) {
+		// playAudio()
+		// }
+		if (dmck_audioplayer.playing) {
+			playAudio()
+		}
 	})
 
 	jQuery('.playlist li').removeClass('active')
@@ -350,42 +349,42 @@ function visu (dmck_audioplayer) {
 
 	if (ctx.state == 'running') {
 
-	// var audioSrc = ctx.destination
-	// var analyser = ctx.createAnalyser()
-	// we have to connect the MediaElementSource with the analyser
-	// audioSrc.connect(analyser)
-	// we could configure the analyser: e.g. analyser.fftSize (for further
-	// infos read the spec)
+		// var audioSrc = ctx.destination
+		// var analyser = ctx.createAnalyser()
+		// we have to connect the MediaElementSource with the analyser
+		// audioSrc.connect(analyser)
+		// we could configure the analyser: e.g. analyser.fftSize (for further
+		// infos read the spec)
 
-	// frequencyBinCount tells you how many values you'll receive from the
-	// analyser
-	// var frequencyData = new
-	// Uint8Array(dmck_audioplayer.analyser.frequencyBinCount)
+		// frequencyBinCount tells you how many values you'll receive from the
+		// analyser
+		// var frequencyData = new
+		// Uint8Array(dmck_audioplayer.analyser.frequencyBinCount)
 
-	// console.log(frequencyData)
+		// console.log(frequencyData)
 
-	// we're ready to receive some data!
-	// loop
-	function renderFrame () {
-		requestAnimationFrame(renderFrame)
-		// update data in frequencyData
-		dmck_audioplayer.analyser.getByteFrequencyData(frequencyData)
-		// render frame based on values in frequencyData
+		// we're ready to receive some data!
+		// loop
+		function renderFrame () {
+			requestAnimationFrame(renderFrame)
+			// update data in frequencyData
+			dmck_audioplayer.analyser.getByteFrequencyData(frequencyData)
+			// render frame based on values in frequencyData
 
-		renderer = renderers['r0']
+			renderer = renderers['r0']
 
-		renderer.init({
-		count: dmck_audioplayer.analyser.frequencyBinCount,
-		width: 250,
-		height: 250
-		})
+			renderer.init({
+				count: dmck_audioplayer.analyser.frequencyBinCount,
+				width: 250,
+				height: 250
+			})
 
-		console.log(frequencyData)
+			console.log(frequencyData)
 
-		renderer.renderFrame(frequencyData)
+			renderer.renderFrame(frequencyData)
 
-		requestAnimationFrame(renderFrame)
-	}
+			requestAnimationFrame(renderFrame)
+		}
 
 	// renderFrame()
 	}
@@ -404,10 +403,10 @@ function formatSecondsAsTime (secs, format) {
 	var sec = Math.floor(secs - (hr * 3600) - (min * 60))
 
 	if (min < 10) {
-	min = '0' + min
+		min = '0' + min
 	}
 	if (sec < 10) {
-	sec = '0' + sec
+		sec = '0' + sec
 	}
 
 	return min + ':' + sec
