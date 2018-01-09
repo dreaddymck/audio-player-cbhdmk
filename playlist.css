@@ -18,8 +18,9 @@ html { font-size: 100% !important; }
 .cover {
     height: 260px;
 }
+
  
-body.home .panel-box{
+/* body.home .panel-box{
     background: linear-gradient(270deg, #222222ff,#910291ff,#222222ff,#91024a,#222222ff,#4a0291,#222222ff);
     background-size: 400% 400%;    
     -webkit-animation: Gradient 30s ease infinite;
@@ -46,7 +47,7 @@ body.home .panel-box{
     50%{background-position:50% 75% }
     75%{background-position:75% 100% }
     100%{background-position:100% 0%}
-}
+} */
 
 .duration {
     height: 250px;
@@ -129,7 +130,6 @@ img.ui-li-img {
 		padding-bottom: 1em !important;
 		padding-top: 1em !important;
     }
-	.site-content { padding: 2.5em 0 0 !important; }    
     .page-one-column .panel-content .wrap 	{ max-width: 1080px  !important; }
 	.custom-header { margin-bottom: 3px !important; }
 
