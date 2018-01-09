@@ -18,49 +18,35 @@ html { font-size: 100% !important; }
 .cover {
     height: 260px;
 }
-
-
+ 
 body.home .panel-box{
-    background: linear-gradient(190deg, #222222ff,#910291ff,#91024a,#4a0291,#222222ff);
-    background-size: 300% 300%;    
+    background: linear-gradient(270deg, #222222ff,#910291ff,#222222ff,#91024a,#222222ff,#4a0291,#222222ff);
+    background-size: 400% 400%;    
     -webkit-animation: Gradient 30s ease infinite;
     -moz-animation: Gradient 30s ease infinite;
     animation: Gradient 30s ease infinite;
 }
 @-webkit-keyframes Gradient {
-    0%{background-position:0% 50%}
-    50%{background-position:100% 50%}
-    100%{background-position:0% 50%}
+    0%{background-position:0% 25%}
+    25%{background-position:25% 50% }
+    50%{background-position:50% 75% }
+    75%{background-position:75% 100% }
+    100%{background-position:100% 0%}
 }
 @-moz-keyframes Gradient {
-    0%{background-position:0% 50%}
-    50%{background-position:100% 50%}
-    100%{background-position:0% 50%}
+    0%{background-position:0% 25%}
+    25%{background-position:25% 50% }
+    50%{background-position:50% 75% }
+    75%{background-position:75% 100% }
+    100%{background-position:100% 0%}
 }
 @keyframes Gradient { 
-    0%{background-position:0% 50%}
-    50%{background-position:100% 50%}
-    100%{background-position:0% 50%}
+    0%{background-position:0% 25%}
+    25%{background-position:25% 50% }
+    50%{background-position:50% 75% }
+    75%{background-position:75% 100% }
+    100%{background-position:100% 0%}
 }
-body.home .navigation-top, 
-body.home .site-footer{
-	-webkit-animation: Pulse 25s ease infinite;
-	-moz-animation: Pulse 25s ease infinite;
-	animation: Pulse 25s ease infinite;
-}
-@keyframes Pulse {
-    0% {
-      background-color: #222222ff;
-    }
-    50% {
-        background-color: #910291ff;
-      }    
-    100% {
-      background-color: #222222ff;
-    }
-}
-
-
 
 .duration {
     height: 250px;
