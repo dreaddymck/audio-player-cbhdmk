@@ -19,6 +19,17 @@ html { font-size: 100% !important; }
     height: 260px;
 }
 
+.active  {
+    padding: 20px;
+    /* margin: 10px; */
+    background-color: inherit;
+    color: #fff;
+    line-height: 1.3em;
+    border: 2px dashed #fff;
+    border-radius: 10px;
+    box-shadow: 0 0 0 4px inherit, 2px 1px 6px 4px rgba(10, 10, 0, 0.5);
+    font-weight: normal;
+ }
  
 /* body.home .panel-box{
     background: linear-gradient(270deg, #222222ff,#910291ff,#222222ff,#91024a,#222222ff,#4a0291,#222222ff);
