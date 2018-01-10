@@ -35,12 +35,24 @@ const playlist = {
 			}
 		}
 		playlist.observe({ 
-			targetNodes : playlist.target.nav,
-			callback	: playlist.callback.nav, 
+			targetNodes : 	playlist.target.nav,
+			callback	: 	playlist.callback.nav,
+			config		: 	{ 
+								childList: false, 
+								characterData: false, 
+								attributes: true, 
+								subtree: false 
+							} 
 		});
 		playlist.observe({ 
 			targetNodes : playlist.target.list,
-			callback	: playlist.callback.list, 
+			callback	: playlist.callback.list,
+			config		: 	{ 
+								childList: false, 
+								characterData: false, 
+								attributes: true, 
+								subtree: false 
+							} 
 		});					
 	},
 	target: {
@@ -81,7 +93,7 @@ const playlist = {
 						playlist.toggle(false)
 					}					
 
-				}, 500);
+				}, 200);
 			}
 		}
 	},
@@ -89,12 +101,12 @@ const playlist = {
 	observe: function(obj){
 		let MutationObserver    = window.MutationObserver || window.WebKitMutationObserver;
 		let myObserver          = new MutationObserver (mutationHandler);
-		let config           	= { 
-				childList: true, 
-				characterData: true, 
-				attributes: true, 
-				subtree: true 
-		};
+		let config           	= obj.config ? obj.config : { 
+											childList: true, 
+											characterData: true, 
+											attributes: true, 
+											subtree: true 
+									};
 		//--- Add a target node to the observer. Can only add one node at a time.
 		obj.targetNodes.each ( function () {
 			myObserver.observe (this, config);
