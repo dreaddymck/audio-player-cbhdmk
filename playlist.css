@@ -80,7 +80,6 @@ img.ui-li-img {
 .playlist li.active  {
     padding: 20px;
     line-height: 1.3em;
-    border: 2px dashed #fff;
     border-radius: 10px;
     box-shadow: 0 0 0 4px inherit, 2px 1px 6px 4px rgba(10, 10, 0, 0.5);
  }
