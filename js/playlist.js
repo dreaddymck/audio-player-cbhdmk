@@ -8,32 +8,58 @@ const playlist = {
 		} else {
 			setTimeout(function() { playlist.defer(method) }, 500);
 		}
+	},
+	offscreen: function(){
+
+		//Filter Expression
+		jQuery.expr.filters.offscreen = function(el) {
+			
+			var rect = el.getBoundingClientRect();
+			return (
+					(rect.x + rect.width) < 0 
+					|| (rect.y + rect.height) < 0
+					|| (rect.x > window.innerWidth || rect.y > window.innerHeight)
+			);
+		};		
+
+		jQuery(window).scroll( function(){
+
+			if( jQuery(window).width() < 768 ){
+
+				if( jQuery('.site-branding').is(':offscreen') ){
+					jQuery('.navigation-top').addClass('site-navigation-fixed');//    padding-top: 24px;
+				}else
+				if( jQuery('.site-header').not(':offscreen') ){
+					jQuery('.navigation-top').addClass('site-navigation-fixed').css({"padding-top":"25px"})
+				}							
+				else
+				{
+					jQuery('.navigation-top').removeClass('site-navigation-fixed').css({"padding-top":"auto"})						
+				}
+			}
+		}) 
+
 	},	
 	setup: function(){
 
+		playlist.offscreen();
+
+		jQuery('.entry-header').hide();
 		jQuery( "button" ).button();
 
 		if( jQuery('.playlist').length ){
 			fetch_playlist();
-			let player_secondary = `<li id="menu-item-controls" class="menu-item controls hidden">` + 
-									jQuery('body.home .controls').html() + 
-									`</li>`;
+			let player_secondary = `<div id="menu-item-controls" class="menu-item controls hidden">
+										<div class="col-lg-4 col-lg-offset-4">` + 
+										jQuery('body.home .controls').html() + 
+									`	</div>
+									</div>`;
 			
-			jQuery(playlist.target.nav).find("#top-menu").append(player_secondary)
+			jQuery(playlist.target.nav).append(player_secondary)
 
 			dmck_audioplayer.has_shortcode = true;
 		}
-		let callback = function(type){
-			if(type == "attributes"){
-				if( jQuery(playlist.target).hasClass("site-navigation-fixed") ){
-					playlist.toggle(true)
-				}
-				else
-				{
-					playlist.toggle(false)
-				}
-			}
-		}
+
 		playlist.observe({ 
 			targetNodes : 	playlist.target.nav,
 			callback	: 	playlist.callback.nav,
@@ -56,7 +82,7 @@ const playlist = {
 		});					
 	},
 	target: {
-		nav: jQuery("body.home .navigation-top"),
+		nav: jQuery(".navigation-top, .navigation-top .wrap, .navigation-wrapper"),
 		list: jQuery("body.home .playlist")
 	},
 

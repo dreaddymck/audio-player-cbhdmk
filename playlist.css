@@ -1,12 +1,6 @@
-@CHARSET "ISO-8859-1";
-
 html { font-size: 100% !important; }
 
 .hidden { display: none; }
-.player {
-    background-color: inherit;
-    width: 100%;
-}
 .title { cursor: pointer; }
 .this_excerpt { word-wrap: break-word; }
 .cover { height: 260px; }
@@ -83,34 +77,6 @@ img.ui-li-img {
     border-radius: 10px;
     box-shadow: 0 0 0 4px inherit, 2px 1px 6px 4px rgba(10, 10, 0, 0.5);
  }
-/* body.home .panel-box{
-    background: linear-gradient(270deg, #222222ff,#910291ff,#222222ff,#91024a,#222222ff,#4a0291,#222222ff);
-    background-size: 400% 400%;    
-    -webkit-animation: Gradient 30s ease infinite;
-    -moz-animation: Gradient 30s ease infinite;
-    animation: Gradient 30s ease infinite;
-}
-@-webkit-keyframes Gradient {
-    0%{background-position:0% 25%}
-    25%{background-position:25% 50% }
-    50%{background-position:50% 75% }
-    75%{background-position:75% 100% }
-    100%{background-position:100% 0%}
-}
-@-moz-keyframes Gradient {
-    0%{background-position:0% 25%}
-    25%{background-position:25% 50% }
-    50%{background-position:50% 75% }
-    75%{background-position:75% 100% }
-    100%{background-position:100% 0%}
-}
-@keyframes Gradient { 
-    0%{background-position:0% 25%}
-    25%{background-position:25% 50% }
-    50%{background-position:50% 75% }
-    75%{background-position:75% 100% }
-    100%{background-position:100% 0%}
-} */
 
 .artist { float: right }
 
