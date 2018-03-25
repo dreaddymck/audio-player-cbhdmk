@@ -4,7 +4,9 @@ html { font-size: 100% !important; }
 .title, .top-played-track { cursor: pointer; }
 .this_excerpt { word-wrap: break-word; }
 .cover { height: 260px; }
-
+.top-played{
+    list-style-type:decimal
+} 
 .duration {
     height: 250px;
     width: 100%;

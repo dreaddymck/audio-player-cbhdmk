@@ -58,7 +58,7 @@ const access_log = {
 
         let div     = jQuery('<div class="col-lg-6 col-lg-offset-4">');
         let title   = jQuery('<h3>').text("Top 5 Played");
-        let list      = jQuery('<ol class="top-played">');
+        let list      = jQuery('<ul class="top-played">');
         let str;
 
         for(var x in obj ){
