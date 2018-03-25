@@ -67,9 +67,9 @@ function render_playlist (response) {
 	// console.log(json)
 
 	jQuery.each(json, function (i) {
-		var title = DencodeEntities(json[i].title); // replace(/&nbsp;|&#039;|&amp;|&#039;|  /g, " ")
-		var excerpt = DencodeEntities(json[i].excerpt); // .replace(/&nbsp;|&#039;|&amp;|&#039|  ;/g,	" ")
-		var tags = DencodeEntities(json[i].tags.toLowerCase())
+		var title = DecodeEntities(json[i].title); // replace(/&nbsp;|&#039;|&amp;|&#039;|  /g, " ")
+		var excerpt = DecodeEntities(json[i].excerpt); // .replace(/&nbsp;|&#039;|&amp;|&#039|  ;/g,	" ")
+		var tags = DecodeEntities(json[i].tags.toLowerCase())
 
 		var permalink = json[i].permalink
 		var wavformpng = json[i].wavformpng
@@ -243,14 +243,18 @@ function set_duration_background (img) {
 
 function initAudio (elem) {
 	var url = elem.attr('audiourl')
-	var title = DencodeEntities(elem.attr('artist') + ' - ' + elem.attr('title') + ' - ' + elem.find('.ui-li-excerpt').text())
+	
+	var title = DecodeEntities(elem.attr('artist')) + ' - ' + 
+				DecodeEntities(elem.attr('title')) + '<br><small>' + 
+				DecodeEntities(elem.find('.ui-li-excerpt').text()) + '</small>'
+
 	var cover = elem.attr('cover')
 	var wavformpng = elem.attr('wavformpng')
 	var artist = elem.attr('artist')
 	var permalink = elem.attr('permalink')
 	var id = elem.attr('ID')
 
-	jQuery('.player .title').text(title).attr('permalink', permalink).attr(
+	jQuery('.player .title').html(title).attr('permalink', permalink).attr(
 		'ID', id)
 	jQuery('.player .artist').text(artist)
 	// jQuery('.player .cover').css('background-image','url(' + cover + ')' )
@@ -416,6 +420,6 @@ function formatSecondsAsTime (secs, format) {
 function EncodeEntities (s) {
 	return jQuery('<div/>').text(s).html()
 }
-function DencodeEntities (s) {
+function DecodeEntities (s) {
 	return jQuery('<div/>').html(s).text()
 }
