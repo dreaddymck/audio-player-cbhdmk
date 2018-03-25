@@ -78,7 +78,7 @@ function render_playlist (response) {
 		var moreinfo = json[i].moreinfo
 
 		var li = jQuery('<li/>').addClass('ui-li-item')
-			.attr('audiourl', json[i].mp3)
+			.attr('audiourl', decodeURIComponent(json[i].mp3))
 			.attr('cover', json[i].cover)
 			.attr('artist', json[i].artist)
 			.attr('title', json[i].title)
