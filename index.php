@@ -110,6 +110,7 @@ if (!class_exists("WPAudioPlayerCBHDMK")) {
 
 			wp_enqueue_style( 'playlist.css',  $this->plugin_url . "playlist.css");
 			wp_enqueue_script( 'playlist-functions.js', $this->plugin_url . 'js/playlist-functions.js', array( 'jquery' ), '1.0.3', true );
+			wp_enqueue_script( 'playlist-element.js', $this->plugin_url . 'js/playlist-element.js', array( 'jquery' ), '1.0.0', true );
 			wp_enqueue_script( 'playlist.js', $this->plugin_url . 'js/playlist.js', array( 'jquery' ), '1.0.1', true );
 
 		}

@@ -42,12 +42,11 @@ const access_log = {
                         });
 
                         jQuery('.entry-content').append( access_log.widget( sorted.slice(0,5) ) )
+                        //jQuery('.entry-content').append( access_log.widget( sorted ) )
 
-                        jQuery('.top-played-track').click(function(e){
-                            
-                            jQuery('.playlist')
-                                .find('li[audiourl*="'+ jQuery(this).attr("audiourl") +'"]')
-                                .trigger('click');
+                        jQuery('.top-played-track').click(function(e){                          
+
+                            playlist_element.get( { path : jQuery(this).attr("audiourl")} )                            
                         
                         })                        
          
