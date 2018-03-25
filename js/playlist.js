@@ -42,6 +42,10 @@ const playlist = {
 	},	
 	setup: function(){
 
+        if( ! dmck_audioplayer.is_front_page){
+            return false
+        }
+
 		playlist.offscreen();
 
 		jQuery('.entry-header').hide();
