@@ -65,7 +65,14 @@ const access_log = {
         for(var x in obj ){
             str = `
                 <li class="top-played-track" audiourl="Public/MUSIC/FEATURING/`+ obj[x][0] +`">
+                    <row>
+                    <div class="col-sm-10">
                     `+ obj[x][0] +`
+                    </div>
+                    <div class="col-sm-2">
+                    `+ obj[x][1] +`
+                    </div>
+                    </row>
                 </li>`;
             list.append(str);     
         }
