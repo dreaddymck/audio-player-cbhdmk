@@ -1,12 +1,12 @@
-"user strict"
+"use strict";
 
 const playlist = {	
-	init: function(){ playlist.defer( playlist.setup ) },		
+	init: function(){ this.defer( this.setup ) },		
 	defer: function (method) {
 		if (window.jQuery) {
 			method();
 		} else {
-			setTimeout(function() { playlist.defer(method) }, 500);
+			setTimeout(function() { this.defer(method) }, 500);
 		}
 	},
 	offscreen: function(){

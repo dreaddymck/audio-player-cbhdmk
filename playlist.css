@@ -1,7 +1,7 @@
 html { font-size: 100% !important; }
 
 .hidden { display: none; }
-.title { cursor: pointer; }
+.title, .top-played-track { cursor: pointer; }
 .this_excerpt { word-wrap: break-word; }
 .cover { height: 260px; }
 

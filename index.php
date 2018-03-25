@@ -88,35 +88,39 @@ if (!class_exists("WPAudioPlayerCBHDMK")) {
 		function admin_scripts($hook_suffix) {
 			
 			if ( $this->settings_page == $hook_suffix ) {
-				wp_enqueue_style( 'admin.css',  $this->plugin_url . "admin/admin.css");
 				
 				$this->shared_scripts();
-				
+				$this->localize_vars();
+
+				wp_enqueue_style( 'admin.css',  $this->plugin_url . "admin/admin.css");
 				wp_enqueue_script( 'admin.js', $this->plugin_url . 'admin/admin.js', array( 'jquery' ), '1.0.0', true );
 								
-				$this->localize_vars();
+				
 			}
 		}
 		function user_scripts() {
 			
 			if( $this->has_shortcode( $this->shortcode ) ) {}
 		
+			$this->shared_scripts();	
+			$this->localize_vars();
+
 			wp_enqueue_style( 'jquery-ui.min.css',  $this->plugin_url . "plugins/jquery-ui-1.12.1/jquery-ui.min.css");
 			wp_enqueue_script( 'jquery-ui.min.js', $this->plugin_url . 'plugins/jquery-ui-1.12.1/jquery-ui.js', array( 'jquery' ), '1.12.1', true );
-
-			$this->shared_scripts();
 
 			wp_enqueue_style( 'playlist.css',  $this->plugin_url . "playlist.css");
 			wp_enqueue_script( 'playlist-functions.js', $this->plugin_url . 'js/playlist-functions.js', array( 'jquery' ), '1.0.3', true );
 			wp_enqueue_script( 'playlist.js', $this->plugin_url . 'js/playlist.js', array( 'jquery' ), '1.0.1', true );
-		
-			$this->localize_vars();
 
 		}
 		function shared_scripts(){
+
+			wp_enqueue_script( 'functions.js', $this->plugin_url . 'js/functions.js', array( 'jquery' ), '1.0.1', true );
+
 			wp_enqueue_style( 'bootstrap.min.css',  $this->plugin_url . "css/bootstrap.min.css");
 			wp_enqueue_script( 'bootstrap.js', $this->plugin_url . 'js/bootstrap.min.js', array( 'jquery' ), '', true );
-			wp_enqueue_script( 'functions.js', $this->plugin_url . 'js/functions.js', array( 'jquery' ), '1.0.1', true );
+			wp_enqueue_script( 'access_log.js', $this->plugin_url . 'js/access_log.js', array( 'jquery' ), '1.0.0', true );
+			
 		}
 		function localize_vars(){
 			

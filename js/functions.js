@@ -1,4 +1,7 @@
+"use strict";
+
 /**
  * functions.js
  * 
  */
+
