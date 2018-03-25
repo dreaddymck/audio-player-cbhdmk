@@ -14,7 +14,9 @@ const access_log = {
     },
     setup: function(){
 
-        //return false;
+        if( ! dmck_audioplayer.is_front_page){
+            return false
+        }
 
         jQuery
         .get( 'data/dreaddymck.com.log.json' )
