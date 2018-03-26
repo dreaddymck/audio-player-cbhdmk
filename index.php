@@ -55,18 +55,20 @@ if (!class_exists("WPAudioPlayerCBHDMK")) {
 			add_action( 'admin_head', array($this, 'head_hook') );
 
 			add_filter('get_the_excerpt', array($this,'the_exerpt_filter'));
-			add_filter('the_content', array($this,'content_toggle_ssl'));
+			add_filter('the_content', array($this,'content_toggle_https'));
 
 		}
-		function content_toggle_ssl($content){
+		function content_toggle_https($content){
 			
 			$site_url = get_site_url();
 			
-			if( $this->isSecure() ){
+			if( $this->isSecure() ){			
 				
-				
-				$secure_url	= preg_replace( "/^http:/i", "https:", $site_url );
-				$pattern 	= "/" .preg_quote($site_url, '/') . "/i";
+				$secure_url		= preg_replace( "/^http:/i", "https:", $site_url );
+				$insecure_url	= preg_replace( "/^https:/i", "http:", $site_url );
+	
+				$pattern 		= "/" .preg_quote($insecure_url, '/') . "/i";
+	
 				$content 	= preg_replace( $pattern, $secure_url, $content );
 
 			}
