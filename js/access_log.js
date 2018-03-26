@@ -58,7 +58,7 @@ const access_log = {
     widget: function(obj){
 
         let div     = jQuery('<div class="col-lg-6 col-lg-offset-4">');
-        let title   = jQuery('<h3>').text("Today's Top 5 ");
+        let title   = jQuery('<h3>').text("Top 5");
         let list    = jQuery('<ul class="top-played">');
         let str;
 
