@@ -12,9 +12,11 @@ License: MIT
 // error_reporting(E_ALL);
 // ini_set("display_errors","On");
 
+require_once( "playlist_utilities_class.php");
+
 if (!class_exists("WPAudioPlayerCBHDMK")) {
 
-	class WPAudioPlayerCBHDMK {
+	class WPAudioPlayerCBHDMK  extends playlist_utilities_class {
 
 		public $plugin_title 			= '(DMCK) audio player';
 		public $plugin_slug				= 'dmck_audioplayer';
@@ -53,7 +55,23 @@ if (!class_exists("WPAudioPlayerCBHDMK")) {
 			add_action( 'admin_head', array($this, 'head_hook') );
 
 			add_filter('get_the_excerpt', array($this,'the_exerpt_filter'));
+			add_filter('the_content', array($this,'content_toggle_ssl'));
 
+		}
+		function content_toggle_ssl($content){
+			
+			$site_url = get_site_url();
+			
+			if( $this->isSecure() ){
+				
+				
+				$secure_url	= preg_replace( "/^http:/i", "https:", $site_url );
+				$pattern 	= "/" .preg_quote($site_url, '/') . "/i";
+				$content 	= preg_replace( $pattern, $secure_url, $content );
+
+			}
+
+			return $content;
 		}
 		function the_exerpt_filter($param) {
 			
