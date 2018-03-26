@@ -61,22 +61,31 @@ if (!class_exists("PlayListFromPostCls")) {
 				if(! isset($audio[0])) { continue; }
 				
 				$object->ID		        = $post->ID;
+
 				$object->mp3		    = $audio[0];
-				
 				$object->wavformpng	    = $this->waveformpng($audio[0]);
 				$object->wavformjson	= $this->waveformjson($audio[0]);
-				
+
+				if($this->isSecure()){
+
+					$object->mp3		    = preg_replace("/^http:/i", "https:", $object->mp3);
+					$object->wavformpng	    = preg_replace("/^http:/i", "https:", $object->wavformpng);
+					$object->wavformjson	= preg_replace("/^http:/i", "https:", $object->wavformjson);
+	
+				}				
+
 				$object->title		= esc_attr($post->post_title);
 				$object->artist		= "dreaddymck";
 				$object->rating		= 0;
-		// 	 	$object->buy		= '#';
-		// 	 	$object->price		= '0.00';
 				$object->cover		= $this->fetch_the_post_thumbnail_src( get_the_post_thumbnail($post->ID, "thumbnail") );
 				$object->permalink	= get_permalink( $post->ID );
 				$object->moreinfo	= get_option('moreinfo') ? esc_attr( get_option('moreinfo') ) : "permalink";
 				$object->playlist_thumb = $object->cover;
 				$object->tags 		=  implode( ', ', wp_get_post_tags( $post->ID, array( 'fields' => 'names' )) );
 			
+
+
+
 				$excerpt_tmp 	= $post->post_content;
 				$excerpt_tmp 	= htmlspecialchars_decode($excerpt_tmp);
 				$excerpt_tmp 	= preg_replace('#<[^>]+>#', ' ', $excerpt_tmp);
@@ -96,6 +105,11 @@ if (!class_exists("PlayListFromPostCls")) {
 			exit( json_encode($response) ) ;
 		
 		}
+		function isSecure() {
+			return
+			  (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off')
+			  || $_SERVER['SERVER_PORT'] == 443;
+		}		
 		function waveformpng($str) {
 		    return preg_replace('/\.mp3$/', '.wavform.png', $str);
 		}

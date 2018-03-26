@@ -49,10 +49,18 @@ if (!class_exists("PlayListElement")) {
                 }
 				
 				$object->ID		        = $post->ID;
-				$object->mp3		    = $audio[0];
-				
+
+				$object->mp3		    = $audio[0];				
 				$object->wavformpng	    = $this->waveformpng($audio[0]);
 				$object->wavformjson	= $this->waveformjson($audio[0]);
+				
+				if($this->isSecure()){
+
+					$object->mp3		    = preg_replace("/^http:/i", "https:", $object->mp3);
+					$object->wavformpng	    = preg_replace("/^http:/i", "https:", $object->wavformpng);
+					$object->wavformjson	= preg_replace("/^http:/i", "https:", $object->wavformjson);
+	
+				}				
 				
 				$object->title		= esc_attr($post->post_title);
 				$object->artist		= "dreaddymck";
@@ -82,6 +90,11 @@ if (!class_exists("PlayListElement")) {
             exit( json_encode($response) ) ;
 		
 		}
+		function isSecure() {
+			return
+			  (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off')
+			  || $_SERVER['SERVER_PORT'] == 443;
+		}		
 		function waveformpng($str) {
 		    return preg_replace('/\.mp3$/', '.wavform.png', $str);
 		}
