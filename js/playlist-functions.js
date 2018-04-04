@@ -225,7 +225,7 @@ function player_events () {
 function set_cover_background (img) {
 	jQuery('.player .cover').css({
 		'background-image': 'url(' + img + ')',
-		'background-size': '100% 100%'
+		'background-size': '100% auto'
 	})
 }
 function set_cover_click (str) {
