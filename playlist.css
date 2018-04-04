@@ -83,11 +83,6 @@ img.ui-li-img {
 
 .artist { float: right }
 
-@media only screen and (max-width: 600px) {
-    .cover { height: 100px; }
-    .duration { height: 100px; }
-   
-}
 @media screen and (min-width: 30em) {
     .site-branding { margin-bottom: 6px !important; }
     .panel-content .wrap {
