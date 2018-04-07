@@ -46,7 +46,7 @@ const access_log = {
                             return b[1].count - a[1].count;
                         });
 
-                        jQuery('.entry-content').append( access_log.widget( sorted.slice(0,5) ) ).find("i").each(function(e){
+                        jQuery('.entry-content').append( access_log.widget( sorted.slice(0,5) ) ).find(".top-5-request i").each(function(e){
                             return jQuery(this).addClass("btn-xs");
                         });
 
