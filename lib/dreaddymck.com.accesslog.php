@@ -117,7 +117,7 @@ class dreaddymck_com_accesslog {
     
             $json = json_encode($arr,JSON_FORCE_OBJECT);
     
-            $query = "insert into dreaddymck_dev.dmck_audio_log_reports (data) values ( '" . $json . "' )";
+            $query = "insert into dmck_audio_log_reports (data) values ( '" . $json . "' )";
     
             $results = $this->query( $query );
     
