@@ -1,7 +1,7 @@
 <?php
 
 try{
-    require_once "../../../../wp-config.php";
+    require_once dirname(__FILE__) . "/../../../../wp-config.php";
 }
 catch (Exception $e) { exit($e); }
 
