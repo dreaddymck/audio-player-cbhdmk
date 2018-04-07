@@ -46,7 +46,10 @@ const access_log = {
                             return b[1].count - a[1].count;
                         });
 
-                        jQuery('.entry-content').append( access_log.widget( sorted.slice(0,5) ) )
+                        jQuery('.entry-content').append( access_log.widget( sorted.slice(0,5) ) ).find("i").each(function(e){
+                            return jQuery(this).addClass("btn-xs");
+                        });
+
 
                         jQuery('.top-played-track').click(function(e){                          
 
@@ -61,44 +64,69 @@ const access_log = {
     },
     widget: function(obj){
 
-        let div     = jQuery('<div>');
-        let title   = jQuery('<h3>').text("Top 5");
-        let list    = jQuery('<ul class="top-played">');
-        let str;
+        let control = this.player_control();
 
+        let str     = `
+<h3>Top 5</h3>
+<table class="table table-sm top-5-request">
+<thead>
+<tr>
+  <th scope="col-sm-8">
+    <div class="col-xs-2">Track</div>
+    <div class="col-xs-4">`+ control +`</div>
+    <div class="col-xs-6">&nbsp;</div>
+  </th>
+  <th scope="col-sm-1">Requests</th>
+  <th scope="col-sm-3">Last</th>
+</tr>
+</thead>
+<tbody>
+  
+        `;
         
 
         for(var x in obj ){
             
             let date = new Date(obj[x][1].time*1000 ).toLocaleString();
 
-            str = `
-<li class="top-played-track" audiourl="Public/MUSIC/FEATURING/`+ obj[x][0] +`">
-    <row>
-        <div class="col-sm-8">
-            <small>
-                `+ obj[x][0] +`
-            </small>    
-        </div>
-        <div class="col-sm-1">
-            <small>
-                `+ obj[x][1].count +`
-            </small>
-        </div>
-        <div class="col-sm-3">
-            <small>
-                `+ date +`
-            </small> 
-        </div>                    
-    </row>
-</li>
+            str += `
+<tr class="top-played-track" audiourl="Public/MUSIC/FEATURING/`+ obj[x][0] +`">
+    <td>
+        <small>
+            `+ obj[x][0] +`
+        </small>    
+    </td>
+    <td>
+        <small>
+            `+ obj[x][1].count +`
+        </small>
+    </td>
+    <td>
+        <small>
+            `+ date +`
+        </small> 
+    </td> 
+</tr>
             `;
-            list.append(str);     
+           ;     
         }
-        div.append(title);
-        div.append(list);
-       
-        return div;
+
+        
+        str += `
+</tbody>
+</table>        
+        `;
+        return str;
+    },
+    player_control: function(){
+
+		if( jQuery('.playlist').length ){
+
+            let player = jQuery('body.home .panel .controls').html();
+			
+			return player
+
+		}        
     }
 
 };

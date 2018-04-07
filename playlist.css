@@ -36,10 +36,7 @@ img.ui-li-img {
     transform: scale(1.0);
 }
 .ui-li-title, .ui-li-moreinfo { font-weight: bolder; }
-.ui-li-moreinfo:hover {
-    background-color: rgba(0, 0, 0, 0.10);
-    color: #fff;
-}
+
 .ui-slider-range {
     background: rgba(0, 0, 0, .3);
     height: 100%;
