@@ -39,15 +39,27 @@ class dreaddymck_com_accesslog {
 
         switch ($this->options) {
             case "put":
+                $this->purge();
                 $response = $this->put();
                 break;
             case "get":
                 $response = $this->get();
                 break;
+            case "purge":
+                $response = $this->purge();
+                break;                
             default:
         }
         return $response;        
 
+    }
+    function purge(){
+        
+        $query = "DELETE FROM dmck_audio_log_reports where UNIX_TIMESTAMP( updated ) <  UNIX_TIMESTAMP( DATE_SUB(NOW(), INTERVAL 30 DAY) )";
+
+        $results = $this->query( $query );
+        
+        return;        
     }
     function get() {
 
