@@ -18,13 +18,16 @@ const access_log = {
             return false
         }
 
+        let param = jQuery.param( {"options":"get"} );
+        
         jQuery
-        .get( 'data/dreaddymck.com.log.json' )
+        .get( dmck_audioplayer.plugin_url + '/lib/dreaddymck.com.accesslog.php?' + param   )
         .done(
                 function(response) {
                     /*
                      * response is a php urlencode string
                      */
+
                     if(!response){
                         return;
                     }
@@ -33,16 +36,17 @@ const access_log = {
                     } 
                     else 
                     {                        
+                        response = JSON.parse(response)
+
                         let sorted = [];
                         for(var x in response ){
                             sorted.push([ decodeURIComponent(x), response[x]]);
                         }
                         sorted.sort(function(a, b) {
-                            return b[1] - a[1];
+                            return b[1].count - a[1].count;
                         });
 
                         jQuery('.entry-content').append( access_log.widget( sorted.slice(0,5) ) )
-                        //jQuery('.entry-content').append( access_log.widget( sorted ) )
 
                         jQuery('.top-played-track').click(function(e){                          
 
@@ -57,23 +61,38 @@ const access_log = {
     },
     widget: function(obj){
 
-        let div     = jQuery('<div class="col-lg-6 col-lg-offset-4">');
+        let div     = jQuery('<div>');
         let title   = jQuery('<h3>').text("Top 5");
         let list    = jQuery('<ul class="top-played">');
         let str;
 
+        
+
         for(var x in obj ){
+            
+            let date = new Date(obj[x][1].time*1000 ).toLocaleString();
+
             str = `
-                <li class="top-played-track" audiourl="Public/MUSIC/FEATURING/`+ obj[x][0] +`">
-                    <row>
-                    <div class="col-sm-10">
-                    `+ obj[x][0] +`
-                    </div>
-                    <div class="col-sm-2">
-                    `+ obj[x][1] +`
-                    </div>
-                    </row>
-                </li>`;
+<li class="top-played-track" audiourl="Public/MUSIC/FEATURING/`+ obj[x][0] +`">
+    <row>
+        <div class="col-sm-8">
+            <small>
+                `+ obj[x][0] +`
+            </small>    
+        </div>
+        <div class="col-sm-1">
+            <small>
+                `+ obj[x][1].count +`
+            </small>
+        </div>
+        <div class="col-sm-3">
+            <small>
+                `+ date +`
+            </small> 
+        </div>                    
+    </row>
+</li>
+            `;
             list.append(str);     
         }
         div.append(title);
