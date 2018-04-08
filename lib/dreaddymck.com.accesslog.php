@@ -63,7 +63,7 @@ class dreaddymck_com_accesslog {
     }
     function get() {
 
-        $query = "SELECT data FROM dmck_audio_log_reports WHERE DATE(`updated`) = CURDATE() LIMIT 1";
+        $query = "SELECT data FROM dmck_audio_log_reports WHERE DATE(`updated`) = CURDATE() ORDER BY updated DESC LIMIT 1";
         
         $results = $this->query( $query );
 
@@ -132,8 +132,8 @@ class dreaddymck_com_accesslog {
             $query = "insert into dmck_audio_log_reports (data) values ( '" . $json . "' )";
     
             $results = $this->query( $query );
-    
-            return json_encode($results,JSON_FORCE_OBJECT);;
+
+            return $json;
     
         } catch (Exception $e) {
             echo 'Caught exception: ', $e->getMessage(), "\n";

@@ -4,8 +4,11 @@ const playlist_control = {
 	
 	// var play = false
 	duration: jQuery('.duration'),
+	
 	volume: jQuery('.volume'),
-
+	
+	playlist:jQuery('.playlist'),
+	
 	init: function(){
 
 		dmck_audioplayer.playing = false;
@@ -52,7 +55,7 @@ const playlist_control = {
 			playlist_control.render_playlist(data)
 	
 			// initialization - first element in playlist
-			playlist_control.initAudio(jQuery('.playlist li:first-child'))
+			playlist_control.initAudio(playlist_control.playlist.find('li:first-child'))
 	
 			if (!orderby) {
 				playlist_control.player_events()
@@ -120,7 +123,7 @@ const playlist_control = {
 		})
 	
 		// playlist elements - click
-		jQuery('.playlist li').click(function () {
+		playlist_control.playlist.find('li').click(function () {
 			playlist_control.stopAudio()
 	
 			playlist_control.duration.slider('option', 'min', 0)
@@ -167,9 +170,9 @@ const playlist_control = {
 	
 			playlist_control.stopAudio()
 	
-			var next = jQuery('.playlist li.active').next()
+			var next = playlist_control.playlist.find('li.active').next()
 			if (next.length == 0) {
-				next = jQuery('.playlist li:first-child')
+				next = playlist_control.playlist.find('li:first-child')
 			}
 	
 			playlist_control.initAudio(next)
@@ -184,9 +187,9 @@ const playlist_control = {
 	
 			playlist_control.stopAudio()
 	
-			var prev = jQuery('.playlist li.active').prev()
+			var prev = playlist_control.playlist.find('li.active').prev()
 			if (prev.length == 0) {
-				prev = jQuery('.playlist li:last-child')
+				prev = playlist_control.playlist.find('li:last-child')
 			}
 			playlist_control.initAudio(prev)
 			// play = true
@@ -311,9 +314,9 @@ const playlist_control = {
 		dmck_audioplayer.song.addEventListener('ended', function (e) {
 			playlist_control.stopAudio()
 	
-			var next = jQuery('.playlist li.active').next()
+			var next = playlist_control.playlist.find('li.active').next()
 			if (next.length == 0) {
-				next = jQuery('.playlist li:first-child')
+				next = playlist_control.playlist.find('li:first-child')
 			}
 	
 			playlist_control.initAudio(next)
@@ -331,7 +334,7 @@ const playlist_control = {
 			}
 		})
 	
-		jQuery('.playlist li').removeClass('active')
+		playlist_control.playlist.find('li').removeClass('active')
 	
 		elem.addClass('active')
 	},	
