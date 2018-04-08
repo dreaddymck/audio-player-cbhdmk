@@ -9,7 +9,7 @@ const playlist = {
 			setTimeout(function() { this.defer(method) }, 500);
 		}
 	},
-	powered_by: ` and a <a href="https://github.com/dreaddymck/audio-player-cbhdmk" target="_blank">Dreaddymck Audio thing</a>`,
+	powered_by: ` and a <a href="https://github.com/dreaddymck/audio-player-cbhdmk" target="_blank">DreaddyMck Plugin WIP</a>`,
 	offscreen: function(){
 
 		//Filter Expression
