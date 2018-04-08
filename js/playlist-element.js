@@ -32,11 +32,11 @@ const playlist_element = {
                     .attr('permalink', permalink)
                     .attr('wavformpng', wavformpng)
                     .attr('id', id)
-                    .css({
-                        'background-image': 'url("' + wavformpng + '")',
-                        'background-size': '100% 100%'
-                    })
-                    .appendTo(jQuery('.playlist'))
+                    // .css({
+                    //     'background-image': 'url("' + wavformpng + '")',
+                    //     'background-size': '100% 100%'
+                    // })
+                    //.appendTo(jQuery('.playlist'))
         
                 jQuery('<img>').addClass('ui-li-img').attr('src', json[i].cover).attr(
                     'height', '50px').attr('width', '50px').appendTo(li)
@@ -55,13 +55,7 @@ const playlist_element = {
                     window.open(permalink, '_top', '')
                 }).text(moreinfo).appendTo(li)
         
-                playlist_control.stopAudio()
-
-                playlist_control.duration.slider('option', 'min', 0)                        
-    
-                playlist_control.initAudio(li);
-    
-                dmck_audioplayer.playing = true                
+                return li;
 
             })            
         })

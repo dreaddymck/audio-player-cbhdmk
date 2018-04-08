@@ -106,12 +106,11 @@ const playlist_control = {
 				'height', '50px').attr('width', '50px').appendTo(li)
 	
 			jQuery('<div>').addClass('ui-li-title').text(title).appendTo(li)
-	
-			jQuery('<div>').addClass('ui-li-excerpt').text(excerpt).appendTo(li)
-	
-			jQuery('<div>').addClass('ui-li-tags').text(tags).appendTo(li)
-	
-			jQuery('<span>').addClass('ui-li-moreinfo')
+			jQuery('<small>').addClass('ui-li-excerpt').text(excerpt).appendTo(li)
+			jQuery('<br>').addClass('ui-li-br').appendTo(li)
+			jQuery('<small>').addClass('ui-li-tags').text(tags).appendTo(li)
+			jQuery('<br>').addClass('ui-li-br').appendTo(li)
+			jQuery('<small>').addClass('ui-li-moreinfo')
 				.attr('permalink', permalink).click(function (e) {
 				e.preventDefault()
 				e.stopPropagation()
@@ -251,6 +250,9 @@ const playlist_control = {
 		})
 	},
 	initAudio: function (elem) {
+
+		if(!elem.attr){return}
+
 		var url = elem.attr('audiourl')
 		
 		var title = playlist_control.DecodeEntities(elem.attr('artist')) + ' - ' + 

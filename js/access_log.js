@@ -46,14 +46,47 @@ const access_log = {
                             return b[1].count - a[1].count;
                         });
 
-                        jQuery('.entry-content').append( access_log.widget( sorted.slice(0,5) ) ).find(".top-5-request i").each(function(e){
+                        jQuery('.entry-content').append( access_log.widget( sorted.slice(0,10) ) ).find(".top-5-request i").each(function(e){
                             return jQuery(this).addClass("btn-xs");
                         });
 
+                        let play = function(obj){
 
-                        jQuery('.top-played-track').click(function(e){                          
 
-                            playlist_element.get( { path : jQuery(this).attr("audiourl")} )                            
+                        }
+
+
+                        jQuery('.top-played-track').click(function(e){
+                            
+                            let url = jQuery(this).attr("audiourl");
+
+                            let obj = "";
+
+                            playlist_control.playlist.find('li').each(function(){
+                                
+                                if( jQuery(this).attr('audiourl').includes(url) )
+                                {
+                                    jQuery(this).trigger("click");
+                                    
+                                    obj =  jQuery(this).attr('audiourl');
+
+                                    return;
+                                }
+                            })
+                          
+                            if(!obj){
+                                playlist_element.get( { path : jQuery(this).attr("audiourl")} );
+                            }
+
+                            playlist_control.stopAudio()
+
+                            playlist_control.duration.slider('option', 'min', 0)                        
+
+                            playlist_control.initAudio(obj);
+                
+                            dmck_audioplayer.playing = true                               
+                           
+                            return;
                         
                         })                        
          
@@ -67,7 +100,7 @@ const access_log = {
         let control = this.player_control();
 
         let str     = `
-<h3>Top 5</h3>
+<h3>Top 10</h3>
 <table class="table table-sm top-5-request">
 <thead>
 <tr>

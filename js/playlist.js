@@ -9,6 +9,7 @@ const playlist = {
 			setTimeout(function() { this.defer(method) }, 500);
 		}
 	},
+	powered_by: ` and a <a href="https://github.com/dreaddymck/audio-player-cbhdmk" target="_blank">Dreaddymck Audio thing</a>`,
 	offscreen: function(){
 
 		//Filter Expression
@@ -50,6 +51,7 @@ const playlist = {
 
 		jQuery('.entry-header').hide();
 		jQuery( "button" ).button();
+		jQuery( ".site-info" ).append( playlist.powered_by );
 
 		if( jQuery('.playlist').length ){
 			playlist_control.fetch_playlist();
