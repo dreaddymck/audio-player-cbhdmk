@@ -100,7 +100,7 @@ const access_log = {
         let control = this.player_control();
 
         let str     = `
-<h3>Top 10</h3>
+<h3>Today's Top 10</h3>
 <table class="table table-sm top-5-request">
 <thead>
 <tr>
