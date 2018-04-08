@@ -133,7 +133,7 @@ class dreaddymck_com_accesslog {
     
             $results = $this->query( $query );
 
-            return $json;
+            return; //$json;
     
         } catch (Exception $e) {
             echo 'Caught exception: ', $e->getMessage(), "\n";
