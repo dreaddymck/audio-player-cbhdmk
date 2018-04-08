@@ -14,9 +14,9 @@ const playlist_element = {
 
             jQuery.each(json, function (i) {
 
-                var title = DecodeEntities(json[i].title); // replace(/&nbsp;|&#039;|&amp;|&#039;|  /g, " ")
-                var excerpt = DecodeEntities(json[i].excerpt); // .replace(/&nbsp;|&#039;|&amp;|&#039|  ;/g,	" ")
-                var tags = DecodeEntities(json[i].tags.toLowerCase())
+                var title = playlist_control.DecodeEntities(json[i].title); // replace(/&nbsp;|&#039;|&amp;|&#039;|  /g, " ")
+                var excerpt = playlist_control.DecodeEntities(json[i].excerpt); // .replace(/&nbsp;|&#039;|&amp;|&#039|  ;/g,	" ")
+                var tags = playlist_control.DecodeEntities(json[i].tags.toLowerCase())
         
                 var permalink = json[i].permalink
                 var wavformpng = json[i].wavformpng
@@ -55,11 +55,11 @@ const playlist_element = {
                     window.open(permalink, '_top', '')
                 }).text(moreinfo).appendTo(li)
         
-                stopAudio()
+                playlist_control.stopAudio()
 
-                duration.slider('option', 'min', 0)                        
+                playlist_control.duration.slider('option', 'min', 0)                        
     
-                initAudio(li);
+                playlist_control.initAudio(li);
     
                 dmck_audioplayer.playing = true                
 

@@ -52,7 +52,7 @@ const playlist = {
 		jQuery( "button" ).button();
 
 		if( jQuery('.playlist').length ){
-			fetch_playlist();
+			playlist_control.fetch_playlist();
 			let player_secondary = `<div id="menu-item-controls" class="menu-item controls hidden">
 										<div class="col-lg-4 col-lg-offset-4">` + 
 										jQuery('body.home .controls').html() + 
