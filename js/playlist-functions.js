@@ -85,10 +85,10 @@ function render_playlist (response) {
 			.attr('permalink', permalink)
 			.attr('wavformpng', wavformpng)
 			.attr('id', id)
-			.css({
-				'background-image': 'url("' + wavformpng + '")',
-				'background-size': '100% 100%'
-			})
+			// .css({
+			// 	'background-image': 'url("' + wavformpng + '")',
+			// 	'background-size': '100% 100%'
+			// })
 			.appendTo(jQuery('.playlist'))
 
 		jQuery('<img>').addClass('ui-li-img').attr('src', json[i].cover).attr(
