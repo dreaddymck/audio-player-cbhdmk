@@ -110,7 +110,7 @@ const access_log = {
     <div class="col-xs-6">&nbsp;</div>
   </th>
   <th scope="col-sm-1">Requests</th>
-  <th scope="col-sm-3">Last</th>
+  <th scope="col-sm-3">Time</th>
 </tr>
 </thead>
 <tbody>
