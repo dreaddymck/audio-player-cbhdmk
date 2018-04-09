@@ -138,7 +138,7 @@ const playlist_control = {
 	player_events: function  () {
 
 		// set volume
-		dmck_audioplayer.song.volume = 1.0
+		dmck_audioplayer.song.volume = 1.0;
 	
 		// play click
 		jQuery('.play').click(function (e) {
@@ -146,13 +146,13 @@ const playlist_control = {
 			playlist_control.playAudio()
 			// play = true
 			dmck_audioplayer.playing = true
-		})
+		});
 	
 		jQuery('.player .title').click(function (e) {
 			e.preventDefault()
 			var permalink = jQuery(this).attr('permalink')
 			window.open(permalink, '_top', '')
-		})
+		});
 	
 		// pause click
 		jQuery('.pause').click(function (e) {
@@ -160,7 +160,7 @@ const playlist_control = {
 			playlist_control.stopAudio()
 			// play = true
 			dmck_audioplayer.playing = false
-		})
+		});
 	
 		// forward click
 		jQuery('.fwd').click(function (e) {
@@ -177,7 +177,7 @@ const playlist_control = {
 			playlist_control.initAudio(next)
 			// play = true
 			//dmck_audioplayer.playing = true
-		})
+		});
 	
 		// rewind click
 		jQuery('.rew').click(function (e) {
@@ -193,43 +193,43 @@ const playlist_control = {
 			playlist_control.initAudio(prev)
 			// play = true
 			//dmck_audioplayer.playing = true
-		})
-	
+		});	
 		// show playlist
 		jQuery('.showlist').click(function (e) {
 			e.preventDefault()
 			e.stopPropagation()
-	
-			if (jQuery('.playlist').hasClass('hidden')) {
-				jQuery('.playlist').fadeIn(300).removeClass('hidden')
-				jQuery('.sort').fadeIn(300).removeClass('hidden')
-	
-				jQuery('.showlistIcon').removeClass('ui-icon-plusthick')
-				jQuery('.showlistIcon').addClass('ui-icon-minusthick')
-			} else {
-				jQuery('.playlist').fadeOut(300).addClass('hidden')
-				jQuery('.sort').fadeOut(300).removeClass('hidden')
-	
-				jQuery('.showlistIcon').removeClass('ui-icon-minusthick')
-				jQuery('.showlistIcon').addClass('ui-icon-plusthick')
-			}
-		})
-	
+			playlist_control.show_playlist();
+		});	
 		jQuery('.sortdef').on('click', function (e) {
 			e.preventDefault()
 			playlist_control.stopAudio()
 			playlist_control.fetch_playlist('rand', 'DESC')
-		})
+		});
 		jQuery('.sortnew').on('click', function (e) {
 			e.preventDefault()
 			playlist_control.stopAudio()
 			playlist_control.fetch_playlist('date', 'DESC')
-		})
+		});
 		jQuery('.sortold').on('click', function (e) {
 			e.preventDefault()
 			playlist_control.stopAudio()
 			playlist_control.fetch_playlist('date', 'ASC')
-		})
+		});
+	},
+	show_playlist: function(){
+		if (jQuery('.playlist').hasClass('hidden')) {
+			jQuery('.playlist').fadeIn(300).removeClass('hidden')
+			jQuery('.sort').fadeIn(300).removeClass('hidden')
+
+			jQuery('.showlistIcon').removeClass('ui-icon-plusthick')
+			jQuery('.showlistIcon').addClass('ui-icon-minusthick')
+		} else {
+			jQuery('.playlist').fadeOut(300).addClass('hidden')
+			jQuery('.sort').fadeOut(300).removeClass('hidden')
+
+			jQuery('.showlistIcon').removeClass('ui-icon-minusthick')
+			jQuery('.showlistIcon').addClass('ui-icon-plusthick')
+		}
 	},
 	set_cover_background: function (img) {
 		jQuery('.player .cover').css({

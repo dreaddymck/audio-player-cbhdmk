@@ -8,7 +8,7 @@ then
 else
 
         echo $1
-	fgrep -irn --exclude-dir=node_modules $1
+	fgrep -irn --exclude-dir=node_modules "$1"
 
 fi
 
