@@ -107,20 +107,31 @@ class dreaddymck_com_accesslog {
                         $str = $tmparray[ count($tmparray) - 1 ];
     
                         $new_date = strtotime( $date ); 
-                        
+
                         if( isset( $arr[$str] ) )
                         {
                             
                             $old_date = strtotime( $arr[$str]["time"] );
                             
-    
+   
                             $arr[$str]["count"]   += 1;
-                            $arr[$str]["time"]    = $old_date >= $new_date ? $old_date : $new_date;
+                            
+                            if($old_date){
+
+                                $arr[$str]["time"]    = $old_date >= $new_date ? $old_date : $new_date;
+                            
+                            }else{
+                                $arr[$str]["time"]    = $new_date;
+                            }
+                            
+                            
                         }
                         else
                         {
                             $arr[$str] = array( "count" => 1, "time" => $new_date );
                         }
+
+                        
                     }
                 } 
             }        
