@@ -7,7 +7,7 @@
 <?php settings_fields( $this->plugin_settings_group ); ?>
 <?php do_settings_sections( $this->plugin_settings_group ); ?>
 	
-<div class="container" style="display:none;">
+<div class="container table" style="display:none;">
 
 	<ul class="tabs">
 		<li class="tab-link current" data-tab="tab-1">settings</li>
@@ -15,7 +15,8 @@
 	</ul>
 
 	<div id="tab-1" class="tab-content current">
-		<?php submit_button(); ?>
+
+		<?php submit_button( __( 'Submit', 'Submit' ), 'primary' ); ?>
 		
 		
 <!--         currencySymbol:'$', -->
@@ -26,19 +27,20 @@
 		<div>	
 			<?php _e('favicon href'); ?>: 
 	        <br>
-	        <textarea  name="favicon" style="width: auto; height: auto;"><?php echo esc_attr( get_option('favicon') ); ?></textarea>
+	        <textarea  name="favicon" class="form-control"><?php echo esc_attr( get_option('favicon') ); ?></textarea>
 		</div>
 		<div>
 			<?php _e('default album cover'); ?>: 
 	        <br>
-	        <input type="text" name="default_album_cover" value="<?php echo esc_attr( get_option('default_album_cover') ); ?>">
+	        <input type="text" name="default_album_cover"  class="form-control" value="<?php echo esc_attr( get_option('default_album_cover') ); ?>">
         </div>
 		<div>
 			<?php _e('more info text'); ?>: 
 	        <br>
-	        <input type="text" name="moreinfo" value="<?php echo esc_attr( get_option('moreinfo') ); ?>">
+	        <input type="text" name="moreinfo"  class="form-control" value="<?php echo esc_attr( get_option('moreinfo') ); ?>">
         </div>                
-		<?php submit_button(); ?>
+		
+		<?php submit_button( __( 'Submit', 'Submit' ), 'primary' ); ?>
 		
 	</div>
 	<div id="tab-2" class="tab-content"></div>

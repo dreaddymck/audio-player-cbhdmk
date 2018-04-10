@@ -120,6 +120,7 @@ if (!class_exists("WPAudioPlayerCBHDMK")) {
 			
 			if ( $this->settings_page == $hook_suffix ) {
 				
+				$this->register_plugin_styles();
 				$this->shared_scripts();
 				$this->localize_vars();
 
