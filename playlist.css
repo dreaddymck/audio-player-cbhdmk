@@ -64,22 +64,24 @@ img.ui-li-img {
 }
 .playlist li {
     cursor: pointer;
-    margin-top: 18px;
-    margin-bottom: 18px;
+    margin-bottom: 12px;
 }
 .playlist li.active, .playlist li:hover { 
     background-color: rgb(0, 0, 0); 
-    filter:saturate(2);;
+    filter:saturate(2);
+    box-shadow: 0 0 0 4px inherit, 2px 1px 6px 4px rgba(10, 10, 0, 0.5);    
 }
 .playlist li.active  {
-    padding: 20px;
-    line-height: 1.3em;
-    border-radius: 10px;
-    box-shadow: 0 0 0 4px inherit, 2px 1px 6px 4px rgba(10, 10, 0, 0.5);
+
  }
 
 .artist { float: right }
 
+.controls-centered{
+    float: none;
+    margin: 0 auto;
+    text-align: center;
+}
 @media screen and (min-width: 30em) {
     .site-branding { margin-bottom: 6px !important; }
     .panel-content .wrap {

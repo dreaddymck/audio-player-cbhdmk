@@ -52,7 +52,7 @@ const playlist_control = {
 			orderby: orderby ? orderby : 'date',
 			order: order ? order : 'DESC'
 		}).done(function (data) {
-			playlist_control.render_playlist(data)
+			playlist_render.init(data)
 	
 			// initialization - first element in playlist
 			playlist_control.initAudio(playlist_control.playlist.find('li:first-child'))
@@ -67,74 +67,7 @@ const playlist_control = {
 		})
 	},
 	
-	render_playlist: function  (response) {
-	
-		var json = jQuery.parseJSON(response)
-	
-		var description = 'originals and rebrixes. Listen, enjoy'
-	
-		jQuery('.playlist').html('')
-	
-		// console.log(json)
-	
-		jQuery.each(json, function (i) {
-			var title = playlist_control.DecodeEntities(json[i].title); // replace(/&nbsp;|&#039;|&amp;|&#039;|  /g, " ")
-			var excerpt = playlist_control.DecodeEntities(json[i].excerpt); // .replace(/&nbsp;|&#039;|&amp;|&#039|  ;/g,	" ")
-			var tags = playlist_control.DecodeEntities(json[i].tags.toLowerCase())
-	
-			var permalink = json[i].permalink
-			var wavformpng = json[i].wavformpng
-			var wavformjson = json[i].wavformjson
-			var id = json[i].ID
-			var moreinfo = json[i].moreinfo
-	
-			var li = jQuery('<li/>').addClass('ui-li-item')
-				.attr('audiourl', decodeURIComponent(json[i].mp3))
-				.attr('cover', json[i].cover)
-				.attr('artist', json[i].artist)
-				.attr('title', json[i].title)
-				.attr('permalink', permalink)
-				.attr('wavformpng', wavformpng)
-				.attr('id', id)
-				// .css({
-				// 	'background-image': 'url("' + wavformpng + '")',
-				// 	'background-size': '100% 100%'
-				// })
-				.appendTo(jQuery('.playlist'))
-	
-			jQuery('<img>').addClass('ui-li-img').attr('src', json[i].cover).attr(
-				'height', '50px').attr('width', '50px').appendTo(li)
-	
-			jQuery('<div>').addClass('ui-li-title').text(title).appendTo(li)
-			jQuery('<small>').addClass('ui-li-excerpt').text(excerpt).appendTo(li)
-			jQuery('<br>').addClass('ui-li-br').appendTo(li)
-			jQuery('<small>').addClass('ui-li-tags').text(tags).appendTo(li)
-			jQuery('<br>').addClass('ui-li-br').appendTo(li)
-			jQuery('<small>').addClass('ui-li-moreinfo')
-				.attr('permalink', permalink).click(function (e) {
-				e.preventDefault()
-				e.stopPropagation()
-				var permalink = jQuery(this).attr('permalink')
-				window.open(permalink, '_top', '')
-			}).text(moreinfo).appendTo(li)
-	
-			jQuery('<br>').addClass('ui-li-br').appendTo(li)
-		})
-	
-		// playlist elements - click
-		playlist_control.playlist.find('li').click(function () {
-			playlist_control.stopAudio()
-	
-			playlist_control.duration.slider('option', 'min', 0)
-	
-			var id_old = jQuery('.player .title').attr('ID')
-			var id_new = jQuery(this).attr('ID')
-	
-			playlist_control.initAudio(jQuery(this))
-			// play = true
-			dmck_audioplayer.playing = true
-		})
-	},
+
 	player_events: function  () {
 
 		// set volume
@@ -261,7 +194,7 @@ const playlist_control = {
 	
 		var cover = elem.attr('cover')
 		var wavformpng = elem.attr('wavformpng')
-		var artist = elem.attr('artist')
+		var artist = elem.attr('artist')	
 		var permalink = elem.attr('permalink')
 		var id = elem.attr('ID')
 	

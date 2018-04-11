@@ -29,9 +29,6 @@ const playlist = {
 
 				if( jQuery('.site-branding').is(':offscreen') ){
 					jQuery('.navigation-top').addClass('site-navigation-fixed');//    padding-top: 24px;
-				}else
-				if( jQuery('.site-header').not(':offscreen') ){
-					jQuery('.navigation-top').addClass('site-navigation-fixed').css({"padding-top":"25px"})
 				}							
 				else
 				{

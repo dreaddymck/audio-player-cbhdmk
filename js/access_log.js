@@ -46,7 +46,7 @@ const access_log = {
                             return b[1].count - a[1].count;
                         });
 
-                        jQuery('.entry-content').append( access_log.widget( sorted.slice(0,10) ) ).find(".top-5-request i").each(function(e){
+                        jQuery('.top-requests').append( access_log.widget( sorted.slice(0,10) ) ).find(".top-requests-data i").each(function(e){
                             return jQuery(this).addClass("btn-xs");
                         });
 
@@ -97,11 +97,10 @@ const access_log = {
     },
     widget: function(obj){
 
-        let control = this.player_control();
+        let control = ""; //this.player_control();
 
         let str     = `
-<h3>Today's Top 10</h3>
-<table class="table table-sm top-5-request">
+<table class="top-requests-data">
 <thead>
 <tr>
   <th scope="col-sm-8">
@@ -114,7 +113,7 @@ const access_log = {
 </tr>
 </thead>
 <tbody>
-  
+ 
         `;
         
 
