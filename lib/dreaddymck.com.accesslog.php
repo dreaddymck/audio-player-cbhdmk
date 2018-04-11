@@ -96,7 +96,8 @@ class dreaddymck_com_accesslog {
     
                         preg_match('/\[(.*)\]/', $parts[0], $date_array);
     
-                        $date = $date_array[1];                    
+                        $date       = $date_array[1]; 
+                        $new_date   = strtotime( $date );                    
     
                         $str = preg_replace('/GET/', "", $str);
                         $str = preg_replace('/HTTP.*/', "", $str);                   
@@ -105,33 +106,18 @@ class dreaddymck_com_accesslog {
                         $tmparray = explode("/", $str );
     
                         $str = $tmparray[ count($tmparray) - 1 ];
-    
-                        $new_date = strtotime( $date ); 
-
+                        
                         if( isset( $arr[$str] ) )
-                        {
-                            
-                            $old_date = strtotime( $arr[$str]["time"] );
-                            
-   
-                            $arr[$str]["count"]   += 1;
-                            
-                            if($old_date){
+                        {                            
+                            $arr[$str]["count"] += 1;
 
-                                $arr[$str]["time"]    = $old_date >= $new_date ? $old_date : $new_date;
-                            
-                            }else{
-                                $arr[$str]["time"]    = $new_date;
-                            }
-                            
-                            
+                            $old_date           = $arr[$str]["time"];
+                            $arr[$str]["time"]  = $old_date > $new_date ? $old_date : $new_date;
                         }
                         else
                         {
                             $arr[$str] = array( "count" => 1, "time" => $new_date );
                         }
-
-                        
                     }
                 } 
             }        
@@ -144,7 +130,8 @@ class dreaddymck_com_accesslog {
     
             $results = $this->query( $query );
 
-            return; //$json;
+            //return $json;
+            return;
     
         } catch (Exception $e) {
             echo 'Caught exception: ', $e->getMessage(), "\n";
