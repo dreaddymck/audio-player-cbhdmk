@@ -55,7 +55,9 @@ const playlist_control = {
 			playlist_render.init(data)
 	
 			// initialization - first element in playlist
-			playlist_control.initAudio(playlist_control.playlist.find('li:first-child'))
+			playlist_control.initAudio(playlist_control.playlist.find('li:first-child'));
+
+			access_log.active( playlist_control.playlist.find('li:first-child').attr("audiourl") );
 	
 			if (!orderby) {
 				playlist_control.player_events()
@@ -255,7 +257,7 @@ const playlist_control = {
 			}
 	
 			playlist_control.initAudio(next)
-		})
+		});
 	
 		dmck_audioplayer.song.addEventListener('canplay', function (e) {
 			playlist_control.duration.slider('value',
@@ -267,11 +269,13 @@ const playlist_control = {
 			if (dmck_audioplayer.playing) {
 				playlist_control.playAudio()
 			}
-		})
+		});
 	
-		playlist_control.playlist.find('li').removeClass('active')
+		playlist_control.playlist.find('li').removeClass('active');
 	
-		elem.addClass('active')
+		elem.addClass('active');
+		
+		access_log.active(url);
 	},	
 
 	playAudio: function () {

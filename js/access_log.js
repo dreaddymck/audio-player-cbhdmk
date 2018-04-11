@@ -50,17 +50,11 @@ const access_log = {
                             return jQuery(this).addClass("btn-xs");
                         });
 
-                        let play = function(obj){
-
-
-                        }
-
-
                         jQuery('.top-played-track').click(function(e){
                             
                             let url = jQuery(this).attr("audiourl");
 
-                            let obj = "";
+                            let track = "";
 
                             playlist_control.playlist.find('li').each(function(){
                                 
@@ -68,13 +62,13 @@ const access_log = {
                                 {
                                     jQuery(this).trigger("click");
                                     
-                                    obj =  jQuery(this).attr('audiourl');
+                                    track =  jQuery(this).attr('audiourl');
 
                                     return;
                                 }
                             })
                           
-                            if(!obj){
+                            if(! track ){
                                 playlist_element.get( { path : jQuery(this).attr("audiourl")} );
                             }
 
@@ -82,9 +76,11 @@ const access_log = {
 
                             playlist_control.duration.slider('option', 'min', 0)                        
 
-                            playlist_control.initAudio(obj);
+                            playlist_control.initAudio( track );
                 
-                            dmck_audioplayer.playing = true                               
+                            dmck_audioplayer.playing = true  
+                            
+                            access_log.active( track );    
                            
                             return;
                         
@@ -93,6 +89,19 @@ const access_log = {
                     }
 
                 });        
+
+    },
+    active: function(url){
+
+        jQuery(".top-requests-data tr").each(function(){
+                                
+            if( url.includes(jQuery(this).attr('audiourl')) )
+            {
+                jQuery(this).addClass('active');
+            }else{
+                jQuery(this).removeClass('active');
+            }
+        })
 
     },
     widget: function(obj){

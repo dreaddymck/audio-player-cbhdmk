@@ -2,9 +2,9 @@
 
 	<div class="col-md-4">
 
-		<div class="panel panel-box">
+		<div class="panel panel-box box-background">
 			<div class="panel-body">
-				<div class="cover "></div>
+				<div class="cover"></div>
 			</div>
 			<div class="panel-heading options">			
 
