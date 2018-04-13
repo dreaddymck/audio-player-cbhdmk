@@ -64,8 +64,8 @@ img.ui-li-img {
 }
 .playlist li {
     cursor: pointer;
-    margin-top: 18px;
-    margin-bottom: 18px;
+    padding-top: 12px;
+    padding-bottom: 12px;
 }
 .playlist li.active, .playlist li:hover, .top-requests-data tbody tr.active, .top-requests-data tbody tr:hover{ 
     background-color: rgb(0, 0, 0); 
