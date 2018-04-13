@@ -27,15 +27,20 @@ const access_log = {
                     /*
                      * response is a php urlencode string
                      */
-
+                                           
                     if(!response){
+                        jQuery('#tab-top-request').addClass('hidden');
                         return;
                     }
                     if (response.errors) { 
                         console.log(response.errors); 
+                        jQuery('#tab-top-request').addClass('hidden');
+                        return;
                     } 
                     else 
                     {                        
+                        jQuery('#tab-top-request').removeClass('hidden'); 
+
                         response = JSON.parse(response)
 
                         let sorted = [];
