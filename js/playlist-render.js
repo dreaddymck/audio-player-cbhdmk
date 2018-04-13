@@ -64,7 +64,7 @@ const playlist_render = {
 		//jQuery('<small>').addClass('ui-li-excerpt').text(excerpt).appendTo(div)
 		//jQuery('<br>').addClass('ui-li-br').appendTo(div)
 		jQuery('<small>').addClass('ui-li-tags').text(tags).appendTo(div)
-		jQuery('<br>').addClass('ui-li-br').appendTo(div)
+		//jQuery('<br>').addClass('ui-li-br').appendTo(div)
         jQuery('<small>').addClass('ui-li-moreinfo')
             .attr("title", "more information")
 			.attr('permalink', permalink).click(function (e) {
