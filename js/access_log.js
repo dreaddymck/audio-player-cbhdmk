@@ -106,19 +106,13 @@ const access_log = {
     },
     widget: function(obj){
 
-        let control = ""; //this.player_control();
-
         let str     = `
 <table class="top-requests-data">
 <thead>
 <tr>
-  <th scope="col-sm-8">
-    <div class="col-xs-2">Track</div>
-    <div class="col-xs-4">`+ control +`</div>
-    <div class="col-xs-6">&nbsp;</div>
-  </th>
-  <th scope="col-sm-1">Requests</th>
-  <th scope="col-sm-3">Time</th>
+  <th class="col-sm-9">Track</th>
+  <th class="col-sm-1">Requests</th>
+  <th class="col-sm-2">Time</th>
 </tr>
 </thead>
 <tbody>
