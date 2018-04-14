@@ -66,6 +66,8 @@ img.ui-li-img {
     cursor: pointer;
     padding-top: 12px;
     padding-bottom: 12px;
+    padding-left: 3px;
+    padding-right: 3px;    
 }
 .playlist li.active, .playlist li:hover, .top-requests-data tbody tr.active, .top-requests-data tbody tr:hover{ 
     background-color: rgb(0, 0, 0); 
@@ -80,6 +82,10 @@ img.ui-li-img {
     float: none;
     margin: 0 auto;
     text-align: center;
+}
+.controls-centered i{
+    margin-right: 6px;
+    margin-left: 6px;
 }
 @media screen and (min-width: 30em) {
     .site-branding { margin-bottom: 6px !important; }

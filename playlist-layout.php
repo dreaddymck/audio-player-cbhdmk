@@ -48,9 +48,8 @@
 </div>
 <div class="row">
 
-	<ul class="nav nav-tabs">
-		<li class="active"><a data-toggle="tab" href="#tab-home">Playlist</a></li>
-		<li><a data-toggle="tab" href="#tab-top-request" id="#tab-top-request">Today's Top 10</a></li>
+	<ul class="nav nav-tabs info-tabs">
+		<li class="active"><a data-toggle="tab" href="#tab-home">Playlist</a></li>		
 	</ul>
 
 	<div class="tab-content">
@@ -58,8 +57,7 @@
 			<ul class="playlist ">
 				<li audiourl="*.mp3" cover="cover1.jpg" artist="Artist 1">*.mp3</li>
 			</ul>
-		</div>
-		<div id="tab-top-request" class="tab-pane fade top-requests"></div>
+		</div>		
 	</div>	
 
 </div>

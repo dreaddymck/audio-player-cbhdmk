@@ -141,6 +141,7 @@ if (!class_exists("WPAudioPlayerCBHDMK")) {
 			wp_enqueue_script( 'playlist-control.js', $this->plugin_url . 'js/playlist-control.js', array( 'jquery' ), '1.0.3', true );
 			wp_enqueue_script( 'playlist-element.js', $this->plugin_url . 'js/playlist-element.js', array( 'jquery' ), '1.0.0', true );
 			wp_enqueue_script( 'playlist.js', $this->plugin_url . 'js/playlist.js', array( 'jquery' ), '1.0.1', true );
+			wp_enqueue_script( 'Chart.bundle.js', $this->plugin_url . 'js/Chart.bundle.js', array( 'jquery' ), '1.0.1', true );
 
 		}
 		function shared_scripts(){

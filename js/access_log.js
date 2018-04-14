@@ -18,84 +18,163 @@ const access_log = {
             return false
         }
 
-        let param = jQuery.param( {"options":"get"} );
+        access_log.reports.top_requests_now();
+        //access_log.reports.top_requests_today();        
+
+    },    
+    reports: 
+    {
+        top_requests_now: function(){
+
+            let param = jQuery.param( {"options":"get"} );
         
-        jQuery
-        .get( dmck_audioplayer.plugin_url + '/lib/dreaddymck.com.accesslog.php?' + param   )
-        .done(
+            jQuery
+            .get( dmck_audioplayer.plugin_url + '/lib/reports.php?' + param   )
+            .done(
+                    function(response) {
+                        /*
+                         * response is a php urlencode string
+                         */
+                                               
+                        if(!response){
+                            return;
+                        }
+                        if (response.errors) { 
+                            console.log(response.errors); 
+                            return;
+                        } 
+                        else 
+                        {                        
+    
+                            jQuery(".info-tabs").append(`
+<li><a data-toggle="tab" href="#tab-top-request" id="#tab-top-request">Today's Top 10</a></li>
+                            `);
+                            
+                            jQuery(".tab-content").append(`
+<div id="tab-top-request" class="tab-pane fade top-requests"></div>                        
+                            `); 
+
+                            response = JSON.parse(response)
+    
+                            let sorted = [];
+                            for(var x in response ){
+                                sorted.push([ decodeURIComponent(x), response[x]]);
+                            }
+                            sorted.sort(function(a, b) {
+                                return b[1].count - a[1].count;
+                            });
+    
+                            jQuery('.top-requests').append( access_log.widget( sorted.slice(0,10) ) ).find(".top-requests-data i").each(function(e){
+                                return jQuery(this).addClass("btn-xs");
+                            });
+    
+                            jQuery('.top-played-track').click(function(e){
+                                
+                                let url = jQuery(this).attr("audiourl");
+    
+                                let track = "";
+    
+                                playlist_control.playlist.find('li').each(function(){
+                                    
+                                    if( jQuery(this).attr('audiourl').includes(url) )
+                                    {
+                                        jQuery(this).trigger("click");
+                                        
+                                        track =  jQuery(this).attr('audiourl');
+    
+                                        return;
+                                    }
+                                })
+                              
+                                if(! track ){
+                                    playlist_element.get( { path : jQuery(this).attr("audiourl")} );
+                                }
+    
+                                playlist_control.stopAudio()
+    
+                                playlist_control.duration.slider('option', 'min', 0)                        
+    
+                                playlist_control.initAudio( track );
+                    
+                                dmck_audioplayer.playing = true  
+                                
+                                access_log.active( track );    
+                               
+                                return;
+                            
+                            })                        
+             
+                        }
+    
+                    });
+
+        },
+        top_requests_today: function(){
+            
+            let param = jQuery.param({
+                "options":"get-today"
+            });
+        
+            jQuery
+            .get( dmck_audioplayer.plugin_url + '/lib/access_log_reports.php?' + param   )
+            .done(
                 function(response) {
                     /*
-                     * response is a php urlencode string
-                     */
-                                           
+                        * response is a php urlencode string
+                        */
+                                            
                     if(!response){
-                        jQuery('#tab-top-request').addClass('hidden');
                         return;
                     }
                     if (response.errors) { 
                         console.log(response.errors); 
-                        jQuery('#tab-top-request').addClass('hidden');
                         return;
                     } 
                     else 
-                    {                        
-                        jQuery('#tab-top-request').removeClass('hidden'); 
+                    {  
+                        jQuery(".info-tabs").append(`
+<li><a data-toggle="tab" href="#tab-chart" id="#tab-chart">Chart</a></li>
+                        `);
 
-                        response = JSON.parse(response)
-
-                        let sorted = [];
-                        for(var x in response ){
-                            sorted.push([ decodeURIComponent(x), response[x]]);
-                        }
-                        sorted.sort(function(a, b) {
-                            return b[1].count - a[1].count;
-                        });
-
-                        jQuery('.top-requests').append( access_log.widget( sorted.slice(0,10) ) ).find(".top-requests-data i").each(function(e){
-                            return jQuery(this).addClass("btn-xs");
-                        });
-
-                        jQuery('.top-played-track').click(function(e){
-                            
-                            let url = jQuery(this).attr("audiourl");
-
-                            let track = "";
-
-                            playlist_control.playlist.find('li').each(function(){
-                                
-                                if( jQuery(this).attr('audiourl').includes(url) )
-                                {
-                                    jQuery(this).trigger("click");
-                                    
-                                    track =  jQuery(this).attr('audiourl');
-
-                                    return;
-                                }
-                            })
-                          
-                            if(! track ){
-                                playlist_element.get( { path : jQuery(this).attr("audiourl")} );
-                            }
-
-                            playlist_control.stopAudio()
-
-                            playlist_control.duration.slider('option', 'min', 0)                        
-
-                            playlist_control.initAudio( track );
-                
-                            dmck_audioplayer.playing = true  
-                            
-                            access_log.active( track );    
-                           
-                            return;
+                        jQuery(".tab-content").append(`
+<div id="tab-chart" class="tab-pane fade">
+    <canvas id="top-requests-chart" width="100%" height="auto"></canvas>
+</div>                        
+                        `);                        
                         
-                        })                        
-         
+                        response = JSON.parse(response); 
+
+                        let ctx = jQuery("#top-requests-chart");
+
+                        let top_requests_chart = new Chart(ctx, {
+                            type: 'horizontalBar',
+                            data: {
+                                labels: JSON.parse(  decodeURIComponent(response[0][0]) ),
+                                datasets: [{
+                                    label: '# of Requests',
+                                    data: JSON.parse(response[0][2]),
+                                    borderWidth: 1
+                                }]
+                            },
+                            options: {
+                                scales: {
+                                    yAxes: [{
+                                        ticks: {
+                                            beginAtZero:true
+                                        }
+                                    }],
+                                  
+                                }
+                            }
+                        });                        
+
                     }
 
-                });        
-
+                    
+                });
+        }
     },
+
     active: function(url){
 
         jQuery(".top-requests-data tr").each(function(){
