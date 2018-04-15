@@ -162,7 +162,7 @@ const playlist = {
 	}
 }
 
-playlist.init();	
+	
 
 
 

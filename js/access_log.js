@@ -233,4 +233,3 @@ const access_log = {
 
 };
 
-access_log.init();
