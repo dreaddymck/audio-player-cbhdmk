@@ -9,11 +9,11 @@ html { font-size: 100% !important; }
     padding-left:0;
 } 
 .duration {
-    height: 250px;
+    height: 200px;
     width: 100%;
     background-color: initial;
     border: 0px !important;
-    filter:saturate(2);;
+    filter:saturate(2);
 }
 .volume {
     height: 30px;

@@ -3,7 +3,7 @@
 const access_log = {
 
 	init: function(){ 
-        this.defer( this.setup ) 
+        this.defer( this.run ) 
     },		
 	defer: function (method) {
 		if (window.jQuery) {
@@ -12,19 +12,16 @@ const access_log = {
 			setTimeout(function() { this.defer(method) }, 500);
 		}
     },
-    setup: function(){
+    run: function(){
 
         if( ! dmck_audioplayer.is_front_page){
             return false
         }
-
-        access_log.reports.top_requests_now();
-        //access_log.reports.top_requests_today();        
-
+        access_log.reports.top_requests();
     },    
     reports: 
     {
-        top_requests_now: function(){
+        top_requests: function(){
 
             let param = jQuery.param( {"options":"get"} );
         
@@ -62,12 +59,14 @@ const access_log = {
                             }
                             sorted.sort(function(a, b) {
                                 return b[1].count - a[1].count;
-                            });
-    
+                            });                            
+
                             jQuery('.top-requests').append( access_log.widget( sorted.slice(0,10) ) ).find(".top-requests-data i").each(function(e){
                                 return jQuery(this).addClass("btn-xs");
                             });
     
+                            access_log.reports.top_requests_chart(sorted.slice(0,10));
+                            
                             jQuery('.top-played-track').click(function(e){
                                 
                                 let url = jQuery(this).attr("audiourl");
@@ -98,7 +97,9 @@ const access_log = {
                     
                                 dmck_audioplayer.playing = true  
                                 
-                                access_log.active( track );    
+                                access_log.active( track );  
+                                
+                                
                                
                                 return;
                             
@@ -109,69 +110,51 @@ const access_log = {
                     });
 
         },
-        top_requests_today: function(){
+        top_requests_chart: function(arr){
+
+            let labels = [];
+            let data = [];
+
+            for( let x in arr ){
+                labels.push(arr[x][0]);
+                data.push(arr[x][1].count)
+            }
+
+            jQuery(".info-tabs").append(`
+            <li><a data-toggle="tab" href="#tab-chart" id="#tab-chart">Chart</a></li>
+                                    `);
             
-            let param = jQuery.param({
-                "options":"get-today"
-            });
-        
-            jQuery
-            .get( dmck_audioplayer.plugin_url + '/lib/access_log_reports.php?' + param   )
-            .done(
-                function(response) {
-                    /*
-                        * response is a php urlencode string
-                        */
-                                            
-                    if(!response){
-                        return;
-                    }
-                    if (response.errors) { 
-                        console.log(response.errors); 
-                        return;
-                    } 
-                    else 
-                    {  
-                        jQuery(".info-tabs").append(`
-<li><a data-toggle="tab" href="#tab-chart" id="#tab-chart">Chart</a></li>
-                        `);
+                                    jQuery(".tab-content").append(`
+            <div id="tab-chart" class="tab-pane fade">
+                <canvas id="top-requests-chart" width="auto" height="auto"></canvas>
+            </div>                        
+                                    `);              
 
-                        jQuery(".tab-content").append(`
-<div id="tab-chart" class="tab-pane fade">
-    <canvas id="top-requests-chart" width="100%" height="auto"></canvas>
-</div>                        
-                        `);                        
-                        
-                        response = JSON.parse(response); 
+            
+            let ctx = jQuery("#top-requests-chart");
 
-                        let ctx = jQuery("#top-requests-chart");
-
-                        let top_requests_chart = new Chart(ctx, {
-                            type: 'horizontalBar',
-                            data: {
-                                labels: JSON.parse(  decodeURIComponent(response[0][0]) ),
-                                datasets: [{
-                                    label: '# of Requests',
-                                    data: JSON.parse(response[0][2]),
-                                    borderWidth: 1
-                                }]
-                            },
-                            options: {
-                                scales: {
-                                    yAxes: [{
-                                        ticks: {
-                                            beginAtZero:true
-                                        }
-                                    }],
-                                  
-                                }
+            let top_requests_chart = new Chart(ctx, {
+                type: 'horizontalBar',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: '# of Requests',
+                        data: data,
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    scales: {
+                        yAxes: [{
+                            ticks: {
+                                beginAtZero:true
                             }
-                        });                        
-
+                        }],
+                      
                     }
-
-                    
-                });
+                }
+            }); 
         }
     },
 

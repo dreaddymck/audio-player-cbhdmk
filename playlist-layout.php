@@ -32,7 +32,7 @@
 	</div>
 	<div class="col-md-8">
 		
-		<h3 class="title" title="click for more information"></h3>
+		<h1 class="title" title="click for more information"></h1>
 
 		<div class="volume" style="display:none"></div>
 		
