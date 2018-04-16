@@ -120,7 +120,7 @@ const access_log = {
                 data.push(arr[x][1].count)
             }
 
-            jQuery(".tab-content").append(`
+            jQuery(".top-requests").append(`
 <canvas id="top-requests-chart" width="auto" height="auto"></canvas>
             `);
             
