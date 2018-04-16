@@ -120,16 +120,9 @@ const access_log = {
                 data.push(arr[x][1].count)
             }
 
-            jQuery(".info-tabs").append(`
-            <li><a data-toggle="tab" href="#tab-chart" id="#tab-chart">Chart</a></li>
-                                    `);
-            
-                                    jQuery(".tab-content").append(`
-            <div id="tab-chart" class="tab-pane fade">
-                <canvas id="top-requests-chart" width="auto" height="auto"></canvas>
-            </div>                        
-                                    `);              
-
+            jQuery(".tab-content").append(`
+<canvas id="top-requests-chart" width="auto" height="auto"></canvas>
+            `);
             
             let ctx = jQuery("#top-requests-chart");
 
