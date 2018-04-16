@@ -1,5 +1,3 @@
-html { font-size: 100% !important; }
-
 .hidden { display: none; }
 .title, .top-played-track { cursor: pointer; }
 .this_excerpt { word-wrap: break-word; }
@@ -36,7 +34,6 @@ img.ui-li-img {
     transform: scale(1.0);
 }
 .ui-li-title, .ui-li-moreinfo { font-weight: bolder; }
-
 .ui-slider-range {
     background: rgba(0, 0, 0, .3);
     height: 100%;
@@ -75,9 +72,7 @@ img.ui-li-img {
     box-shadow: 0 0 0 4px inherit, 2px 1px 6px 4px rgba(10, 10, 0, 0.5);    
 }
 /* .playlist li.active, .top-requests-data tbody tr.active {} */
-
 .artist { float: right }
-
 .controls-centered{
     float: none;
     margin: 0 auto;
