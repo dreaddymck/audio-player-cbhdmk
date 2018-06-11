@@ -41,7 +41,7 @@ if (!class_exists("PlayListElement")) {
 
 			$response   = $this->render_elements($posts);
 			
-			error_log(print_r($response,1));
+			//error_log(print_r($response,1));
 
 			wp_reset_postdata();
 
