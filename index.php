@@ -81,25 +81,27 @@ if (!class_exists("WPAudioPlayerCBHDMK")) {
 			if ( !is_singular()) //if it is not a post or a page
 				return;
 
+			$matches = $this->fetch_audio_from_string( $post->post_content );
+
+			if(!$matches[0])
+				return;
+
 			//echo '<meta property="fb:admins" content="dreaddymck"/>'."\r\n";
 			echo '<meta property="og:title" content="' . get_the_title() . '"/>'."\r\n";
-			echo '<meta property="og:type" content="article"/>'."\r\n";
+			echo '<meta property="og:type" content="music.song"/>'."\r\n";
 			echo '<meta property="og:url" content="' . get_permalink() . '"/>'."\r\n";
 			echo '<meta property="og:site_name" content="' . get_bloginfo( 'name' ) . '"/>'."\r\n";
-		
-			$formats = "mp3";
-		
-			$regex   = '~(https?://.+/.+\.(' . $formats . '))(([^"\'])|$)?~imUx';
-		
-			preg_match_all( $regex, $post->post_content, $matches, PREG_PATTERN_ORDER );
-
-			if($matches[0]){
+			if($this->isSecure()){
 				
-				echo '<meta property="og:audio" content="'.$matches[0][0].'" />'."\r\n";
-				echo '<meta property="og:audio:secure_url" content="'.preg_replace("/^http:/i", "https:", $matches[0][0]).'" />'."\r\n";
-				echo '<meta property="og:audio:type" content="audio/mpeg" />'."\r\n";			
-			}
-		
+				$matches[0] = preg_replace("/^http:/i", "https:", $matches[0]);
+
+				echo '<meta property="og:audio:secure_url" content="'. $matches[0] .'" />'."\r\n";
+			}				
+			
+			echo '<meta property="og:audio" content="'.$matches[0].'" />'."\r\n";
+			echo '<meta property="og:audio:type" content="audio/mpeg" />'."\r\n";	
+			
+			echo '<meta property="og:music:musician" content="dreaddymck"/>'."\r\n";			
 
 			if(!has_post_thumbnail( $post->ID )) { //the post does not have featured image, use a default image
 				$default_image = $this->fetch_the_post_thumbnail_src( get_the_post_thumbnail($post->ID, "thumbnail") );
