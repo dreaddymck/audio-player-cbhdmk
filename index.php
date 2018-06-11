@@ -54,9 +54,10 @@ if (!class_exists("WPAudioPlayerCBHDMK")) {
 			add_action( 'wp_enqueue_scripts', array($this, 'user_scripts') );
 			
 			add_action( 'wp_head', array($this, 'head_hook') );
+			add_action( 'wp_head', array($this,'insert_fb_in_head'), 5 );
 			add_action( 'login_head', array($this, 'head_hook') );
 			add_action( 'admin_head', array($this, 'head_hook') );
-			add_action( 'wp_head', array($this,'insert_fb_in_head'), 5 );
+			
 
 			
 			add_filter('get_the_excerpt', array($this,'the_exerpt_filter'));
@@ -80,7 +81,7 @@ if (!class_exists("WPAudioPlayerCBHDMK")) {
 			if ( !is_singular()) //if it is not a post or a page
 				return;
 
-			echo '<meta property="fb:admins" content="dreaddymck"/>'."\r\n";
+			//echo '<meta property="fb:admins" content="dreaddymck"/>'."\r\n";
 			echo '<meta property="og:title" content="' . get_the_title() . '"/>'."\r\n";
 			echo '<meta property="og:type" content="article"/>'."\r\n";
 			echo '<meta property="og:url" content="' . get_permalink() . '"/>'."\r\n";
