@@ -46,22 +46,57 @@ if (!class_exists("WPAudioPlayerCBHDMK")) {
 			add_action( 'init', array( $this, 'register_shortcodes'));
 			add_action( 'admin_init', array( $this, 'register_settings') );
 			add_action( 'admin_menu', array( $this, 'admin_menu' ));
+			
 			add_action( 'admin_enqueue_scripts', array($this, 'admin_scripts') );
 			add_action( 'admin_bar_menu', array( $this, 'admin_bar_setup'), 999);
+
 			add_action( 'wp_enqueue_scripts', array( $this, 'register_plugin_styles' ) );
 			add_action( 'wp_enqueue_scripts', array($this, 'user_scripts') );
 			
 			add_action( 'wp_head', array($this, 'head_hook') );
 			add_action( 'login_head', array($this, 'head_hook') );
 			add_action( 'admin_head', array($this, 'head_hook') );
+			add_action( 'wp_head', array($this,'insert_fb_in_head'), 5 );
 
 			
 			add_filter('get_the_excerpt', array($this,'the_exerpt_filter'));
 			add_filter('the_content', array($this,'content_toggle_https'));
+			add_filter('language_attributes', array($this,'add_opengraph_doctype'));
 
 			
 
 		}
+		//Adding the Open Graph in the Language Attributes
+		function add_opengraph_doctype( $output ) {
+			return $output . ' xmlns:og="http://opengraphprotocol.org/schema/" xmlns:fb="http://www.facebook.com/2008/fbml"';
+		}
+		
+
+		//Lets add Open Graph Meta Info
+
+		function insert_fb_in_head() {
+			global $post;
+			if ( !is_singular()) //if it is not a post or a page
+				return;
+
+			echo '<meta property="fb:admins" content="dreaddymck"/>';
+			echo '<meta property="og:title" content="' . get_the_title() . '"/>';
+			echo '<meta property="og:type" content="article"/>';
+			echo '<meta property="og:url" content="' . get_permalink() . '"/>';
+			echo '<meta property="og:site_name" content="' . get_bloginfo( 'name' ) . '"/>';
+
+			if(!has_post_thumbnail( $post->ID )) { //the post does not have featured image, use a default image
+				$default_image = $this->fetch_the_post_thumbnail_src( get_the_post_thumbnail($post->ID, "thumbnail") );
+				echo '<meta property="og:image" content="' . $default_image . '"/>';
+			}
+			else{
+				$thumbnail_src = wp_get_attachment_image_src( get_post_thumbnail_id( $post->ID ), 'medium' );
+				echo '<meta property="og:image" content="' . esc_attr( $thumbnail_src[0] ) . '"/>';
+			}
+			echo "
+			";
+		}
+				
 	
 		function content_toggle_https($content){
 			
