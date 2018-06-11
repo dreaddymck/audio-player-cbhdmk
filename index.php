@@ -94,7 +94,7 @@ if (!class_exists("WPAudioPlayerCBHDMK")) {
 
 			if($matches[0]){
 				
-				echo '<meta property="og:audio" content="'.preg_replace("/^https:/i", "http:", $matches[0][0]).'" />'."\r\n";
+				echo '<meta property="og:audio" content="'.$matches[0][0].'" />'."\r\n";
 				echo '<meta property="og:audio:secure_url" content="'.preg_replace("/^http:/i", "https:", $matches[0][0]).'" />'."\r\n";
 				echo '<meta property="og:audio:type" content="audio/mpeg" />'."\r\n";			
 			}
