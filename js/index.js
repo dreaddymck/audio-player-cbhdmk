@@ -4,7 +4,7 @@ playlist.init();
 access_log.init();
 
 jQuery(function() {
-    jQuery(".cc-block").detach().appendTo('.site-content .wrap');
+    jQuery(".cc-block").detach().appendTo('.site-content .wrap').css({"width":"100%"});
 });
 
 
