@@ -23,7 +23,11 @@
 <!--         buyText:'BUY', -->
 <!--         tracksToShow:5, -->
 <!--         autoplay:false,		 -->
-		
+		<div>	
+			<?php _e('facebook_app_id'); ?>: 
+	        <br>
+	        <input type="text" name="facebook_app_id"  class="form-control" value="<?php echo esc_attr( get_option('facebook_app_id') ); ?>">
+		</div>		
 		<div>	
 			<?php _e('favicon href'); ?>: 
 	        <br>

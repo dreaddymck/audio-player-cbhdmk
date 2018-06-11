@@ -22,7 +22,7 @@ if (!class_exists("WPAudioPlayerCBHDMK")) {
 		public $plugin_slug				= 'dmck_audioplayer';
 		public $plugin_settings_group 	= 'dmck-audioplayer-settings-group';
 		public $shortcode				= "dmck-audioplayer";
-		public $adminpreferences 		= array('adminpreferences','favicon','default_album_cover', 'moreinfo');
+		public $adminpreferences 		= array('adminpreferences','favicon','default_album_cover', 'moreinfo', 'facebook_app_id	');
 		public $userpreferences 		= array('userpreferences');
 		
 		public $plugin_url;
@@ -67,24 +67,45 @@ if (!class_exists("WPAudioPlayerCBHDMK")) {
 			
 
 		}
-		//Adding the Open Graph in the Language Attributes
-		function add_opengraph_doctype( $output ) {
-			return $output . ' xmlns:og="http://opengraphprotocol.org/schema/" xmlns:fb="http://www.facebook.com/2008/fbml"';
-		}
-		
 
-		//Lets add Open Graph Meta Info
+		function opengraph_condition(){
 
-		function insert_fb_in_head() {
 			global $post;
 
 			if ( !is_singular()) //if it is not a post or a page
-				return;
+				return false;
 
 			$matches = $this->fetch_audio_from_string( $post->post_content );
 
 			if(!$matches[0])
+				return false;
+				
+			return $matches;	
+
+		}
+
+		//Adding the Open Graph in the Language Attributes
+		function add_opengraph_doctype( $output ) {
+
+			if( ! $this->opengraph_condition() )
+				return;		
+
+			return $output . ' xmlns:og="http://opengraphprotocol.org/schema/" xmlns:fb="http://www.facebook.com/2008/fbml"';
+		}
+		
+
+		function insert_fb_in_head() {
+
+			global $post;
+
+			$matches = $this->opengraph_condition();
+			if(!$matches[0])
 				return;
+			
+			$facebook_app_id = esc_attr( get_option('facebook_app_id') );	
+			if(!$facebook_app_id)
+				return
+
 
 			$text = $this->excerpt($post->post_content);	
 
@@ -113,6 +134,33 @@ if (!class_exists("WPAudioPlayerCBHDMK")) {
 				$thumbnail_src = wp_get_attachment_image_src( get_post_thumbnail_id( $post->ID ), 'medium' );
 				echo '<meta property="og:image" content="' . esc_attr( $thumbnail_src[0] ) . '"/>'."\r\n";
 			}
+
+			
+
+			echo <<<EOF
+
+			<script>
+			window.fbAsyncInit = function() {
+			  FB.init({
+				appId      : '$facebook_app_id',
+				xfbml      : true,
+				version    : 'v3.0'
+			  });
+			
+			  FB.AppEvents.logPageView();
+			
+			};
+		  
+			(function(d, s, id){
+			   var js, fjs = d.getElementsByTagName(s)[0];
+			   if (d.getElementById(id)) {return;}
+			   js = d.createElement(s); js.id = id;
+			   js.src = "https://connect.facebook.net/en_US/sdk.js";
+			   fjs.parentNode.insertBefore(js, fjs);
+			 }(document, 'script', 'facebook-jssdk'));
+		  </script>			
+EOF;
+
 			
 		}
 
