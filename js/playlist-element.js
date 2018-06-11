@@ -54,6 +54,10 @@ const playlist_element = {
                     var permalink = jQuery(this).attr('permalink')
                     window.open(permalink, '_top', '')
                 }).text(moreinfo).appendTo(li)
+
+                if(typeof obj.callback === 'function'){
+                    obj.callback(li);
+                }
         
                 return li;
 

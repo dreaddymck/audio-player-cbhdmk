@@ -72,6 +72,19 @@ const access_log = {
                                 let url = jQuery(this).attr("audiourl");
     
                                 let track = "";
+
+                                let callback = function(track){
+
+                                    playlist_control.stopAudio()
+    
+                                    playlist_control.duration.slider('option', 'min', 0)                        
+        
+                                    playlist_control.initAudio( track );
+                        
+                                    dmck_audioplayer.playing = true  
+                                    
+                                    access_log.active( track );
+                                }
     
                                 playlist_control.playlist.find('li').each(function(){
                                     
@@ -86,20 +99,13 @@ const access_log = {
                                 })
                               
                                 if(! track ){
-                                    playlist_element.get( { path : jQuery(this).attr("audiourl")} );
-                                }
-    
-                                playlist_control.stopAudio()
-    
-                                playlist_control.duration.slider('option', 'min', 0)                        
-    
-                                playlist_control.initAudio( track );
-                    
-                                dmck_audioplayer.playing = true  
-                                
-                                access_log.active( track );  
-                                
-                                
+                                    track = playlist_element.get({ 
+                                        path : jQuery(this).attr("audiourl"),
+                                        callback: callback
+                                    });
+                                }else{
+                                    callback(track);
+                                }  
                                
                                 return;
                             
