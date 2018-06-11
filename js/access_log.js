@@ -99,7 +99,7 @@ const access_log = {
                                 })
                               
                                 if(! track ){
-                                    track = playlist_element.get({ 
+                                    playlist_element.get({ 
                                         path : jQuery(this).attr("audiourl"),
                                         callback: callback
                                     });

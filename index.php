@@ -86,19 +86,21 @@ if (!class_exists("WPAudioPlayerCBHDMK")) {
 			if(!$matches[0])
 				return;
 
+			$text = $this->excerpt($post->post_content);	
+
 			//echo '<meta property="fb:admins" content="dreaddymck"/>'."\r\n";
 			echo '<meta property="og:title" content="' . get_the_title() . '"/>'."\r\n";
 			echo '<meta property="og:type" content="music.song"/>'."\r\n";
 			echo '<meta property="og:url" content="' . get_permalink() . '"/>'."\r\n";
 			echo '<meta property="og:site_name" content="' . get_bloginfo( 'name' ) . '"/>'."\r\n";
-			if($this->isSecure()){
-				
-				$matches[0] = preg_replace("/^http:/i", "https:", $matches[0]);
 
+			if($this->isSecure()){
+				$matches[0] = preg_replace("/^http:/i", "https:", $matches[0]);
 				echo '<meta property="og:audio:secure_url" content="'. $matches[0] .'" />'."\r\n";
 			}				
 			
 			echo '<meta property="og:audio" content="'.$matches[0].'" />'."\r\n";
+			echo '<meta property="og:description" content="'.$text.'" />'."\r\n";
 			echo '<meta property="og:audio:type" content="audio/mpeg" />'."\r\n";	
 			
 			echo '<meta property="og:music:musician" content="dreaddymck"/>'."\r\n";			
@@ -111,8 +113,19 @@ if (!class_exists("WPAudioPlayerCBHDMK")) {
 				$thumbnail_src = wp_get_attachment_image_src( get_post_thumbnail_id( $post->ID ), 'medium' );
 				echo '<meta property="og:image" content="' . esc_attr( $thumbnail_src[0] ) . '"/>'."\r\n";
 			}
-			echo "
-			";
+			
+		}
+
+		function excerpt($text){
+
+			$text = strip_shortcodes( $text );
+			$text = apply_filters( 'the_content', $text );
+			$text = str_replace(']]>', ']]&gt;', $text);
+			$excerpt_length = apply_filters( 'excerpt_length', 55 );
+			$excerpt_more = apply_filters( 'excerpt_more', ' ' . '[&hellip;]' );
+			$text = wp_trim_words( $text, $excerpt_length, $excerpt_more );	
+
+			return $text;
 		}
 				
 	
