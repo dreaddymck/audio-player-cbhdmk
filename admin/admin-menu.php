@@ -23,11 +23,7 @@
 <!--         buyText:'BUY', -->
 <!--         tracksToShow:5, -->
 <!--         autoplay:false,		 -->
-		<div>	
-			<?php _e('facebook_app_id'); ?>: 
-	        <br>
-	        <input type="text" name="facebook_app_id"  class="form-control" value="<?php echo esc_attr( get_option('facebook_app_id') ); ?>">
-		</div>		
+	
 		<div>	
 			<?php _e('favicon href'); ?>: 
 	        <br>
@@ -42,8 +38,16 @@
 			<?php _e('more info text'); ?>: 
 	        <br>
 	        <input type="text" name="moreinfo"  class="form-control" value="<?php echo esc_attr( get_option('moreinfo') ); ?>">
-        </div>                
+        </div>
 		
+		<hr>                
+		
+		<div>	
+			<?php _e('facebook_app_id'); ?>: 
+	        <br>
+	        <input type="text" name="facebook_app_id"  class="form-control" value="<?php echo esc_attr( get_option('facebook_app_id') ); ?>">
+		</div>	
+
 		<?php submit_button( __( 'Submit', 'Submit' ), 'primary' ); ?>
 		
 	</div>

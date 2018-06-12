@@ -99,15 +99,8 @@ if (!class_exists("WPAudioPlayerCBHDMK")) {
 			$matches = $this->opengraph_condition();
 			if(!$matches[0])
 				return;
-			
-			$facebook_app_id = esc_attr( get_option('facebook_app_id') );	
-			if(!$facebook_app_id)
-				return
 
 			$title 	= get_the_title();	
-
-			
-
 			$text 	= $this->excerpt($post->post_content);
 
 			//echo '<meta property="fb:admins" content="dreaddymck"/>'."\r\n";
@@ -134,12 +127,9 @@ if (!class_exists("WPAudioPlayerCBHDMK")) {
 				$img = wp_get_attachment_image_src( get_post_thumbnail_id( $post->ID ), 'medium' );
 			}
 			if($img){
-
 				$img = esc_attr( $thumbnail_src[0] );
-
 				echo '<meta property="og:image" content="' . $img . '"/>'."\r\n";
-				echo '<meta name="twitter:image" content="'. $img .'" />'."\r\n";
-	
+				echo '<meta name="twitter:image" content="'. $img .'" />'."\r\n";	
 			}
 
 			echo '<meta name="twitter:title" content="' . $title . '"/>'."\r\n";
@@ -148,7 +138,10 @@ if (!class_exists("WPAudioPlayerCBHDMK")) {
 			echo '<meta name="twitter:creator" content="@dreaddymck" />'."\r\n";
 			echo '<meta name="twitter:description" content="'.$text.'" />'."\r\n";
 
-			echo <<<EOF
+			$facebook_app_id = esc_attr( get_option('facebook_app_id') );	
+			if($facebook_app_id){
+
+				echo <<<EOF
 
 <script>
 window.fbAsyncInit = function() {
@@ -172,7 +165,7 @@ window.fbAsyncInit = function() {
 </script>	
 		  		
 EOF;
-
+			}
 			
 		}
 
