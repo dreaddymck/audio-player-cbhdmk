@@ -95,6 +95,9 @@ if (!class_exists("WPAudioPlayerCBHDMK")) {
 				$desc 		= $this->excerpt($post->post_content);
 
 				if($matches[0]){
+
+					$matches[0] = esc_url( $matches[0] );
+
 					if($this->isSecure()){
 						$matches[0] = preg_replace("/^http:/i", "https:", $matches[0]);
 						echo '<meta property="og:audio:secure_url" content="'. $matches[0] .'" />'."\r\n";
@@ -120,7 +123,7 @@ if (!class_exists("WPAudioPlayerCBHDMK")) {
 
 			$img = $this->fetch_the_post_thumbnail_src( get_the_post_thumbnail($post->ID, "medium") );
 			if($img){
-				$img = esc_attr( $img );
+				$img = esc_url( $img );
 				echo '<meta property="og:image" content="' . $img . '"/>'."\r\n";
 				echo '<meta name="twitter:image" content="'. $img .'" />'."\r\n";	
 			}
