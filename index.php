@@ -136,6 +136,8 @@ if (!class_exists("WPAudioPlayerCBHDMK")) {
 			$facebook_app_id = esc_attr( get_option('facebook_app_id') );	
 			if($facebook_app_id){
 
+				echo '<meta property="fb:app_id" content="'.$facebook_app_id.'" />';
+				
 				echo <<<EOF
 
 <script>
