@@ -104,7 +104,6 @@ if (!class_exists("WPAudioPlayerCBHDMK")) {
 					}				
 					echo '<meta property="og:audio" content="'.$matches[0].'" />'."\r\n";
 					echo '<meta property="og:audio:type" content="audio/mpeg" />'."\r\n";			
-					echo '<meta property="og:music:musician" content="dreaddymck"/>'."\r\n";			
 					$ogtype	= "music.song";
 				}
 			}
