@@ -102,8 +102,12 @@ if (!class_exists("WPAudioPlayerCBHDMK")) {
 						$matches[0] = preg_replace("/^http:/i", "https:", $matches[0]);
 						echo '<meta property="og:audio:secure_url" content="'. $matches[0] .'" />'."\r\n";
 					}				
-					echo '<meta property="og:audio" content="'.$matches[0].'" />'."\r\n";
-					echo '<meta property="og:audio:type" content="audio/mpeg" />'."\r\n";			
+					echo '<meta property="og:audio" 		content="'.$matches[0].'" />'."\r\n";
+					echo '<meta property="og:audio:type" 	content="audio/mpeg" />'."\r\n";
+					echo '<meta property="og:audio:title" 	content="'.$title.'" />'."\r\n";
+					echo '<meta property="og:audio:artist" 	content="DreaddyMck" />'."\r\n";
+					echo '<meta property="og:audio:album" 	content="Projects" />'."\r\n";
+
 					$ogtype	= "music.song";
 				}
 			}
@@ -114,30 +118,30 @@ if (!class_exists("WPAudioPlayerCBHDMK")) {
 				$ogtype		= "blog.archive";
 			}
 
-			echo '<meta property="og:title" content="' . $title . '"/>'."\r\n";
-			echo '<meta property="og:type" content="'.$ogtype.'"/>'."\r\n";
-			echo '<meta property="og:url" content="' . $url . '"/>'."\r\n";
-			echo '<meta property="og:site_name" content="' . get_bloginfo( 'name' ) . '"/>'."\r\n";
-			echo '<meta property="og:description" content="'.$desc.'" />'."\r\n";
+			echo '<meta property="og:title" 		content="' . $title . '"/>'."\r\n";
+			echo '<meta property="og:type" 			content="'.$ogtype.'"/>'."\r\n";
+			echo '<meta property="og:url" 			content="' . $url . '"/>'."\r\n";
+			echo '<meta property="og:site_name" 	content="' . get_bloginfo( 'name' ) . '"/>'."\r\n";
+			echo '<meta property="og:description" 	content="'.$desc.'" />'."\r\n";
 
 			$img = $this->fetch_the_post_thumbnail_src( get_the_post_thumbnail($post->ID, "medium") );
 			if($img){
 				$img = esc_url( $img );
-				echo '<meta property="og:image" content="' . $img . '"/>'."\r\n";
-				echo '<meta name="twitter:image" content="'. $img .'" />'."\r\n";	
+				echo '<meta property="og:image" 	content="' . $img . '"/>'."\r\n";
+				echo '<meta name="twitter:image" 	content="'. $img .'" />'."\r\n";	
 			}
 
-			echo '<meta name="twitter:title" content="' . $title . '"/>'."\r\n";
-			echo '<meta name="twitter:card" content="summary" />'."\r\n";
-			echo '<meta name="twitter:site" content="@dreaddymck" />'."\r\n";
-			echo '<meta name="twitter:creator" content="@dreaddymck" />'."\r\n";
-			echo '<meta name="twitter:description" content="'.$desc.'" />'."\r\n";
+			echo '<meta name="twitter:title" 		content="' . $title . '"/>'."\r\n";
+			echo '<meta name="twitter:card" 		content="summary" />'."\r\n";
+			echo '<meta name="twitter:site" 		content="@dreaddymck" />'."\r\n";
+			echo '<meta name="twitter:creator" 		content="@dreaddymck" />'."\r\n";
+			echo '<meta name="twitter:description" 	content="'.$desc.'" />'."\r\n";
 
 			$facebook_app_id = esc_attr( get_option('facebook_app_id') );	
 			if($facebook_app_id){
 
 				echo '<meta property="fb:app_id" content="'.$facebook_app_id.'" />';
-				
+
 				echo <<<EOF
 
 <script>
