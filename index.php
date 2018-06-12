@@ -58,8 +58,6 @@ if (!class_exists("WPAudioPlayerCBHDMK")) {
 			add_action( 'login_head', array($this, 'head_hook') );
 			add_action( 'admin_head', array($this, 'head_hook') );
 			
-
-			
 			add_filter('get_the_excerpt', array($this,'the_exerpt_filter'));
 			add_filter('the_content', array($this,'content_toggle_https'));
 			add_filter('language_attributes', array($this,'add_opengraph_doctype'));
@@ -107,10 +105,11 @@ if (!class_exists("WPAudioPlayerCBHDMK")) {
 				return
 
 
-			$text = $this->excerpt($post->post_content);	
+			$text 	= $this->excerpt($post->post_content);	
+			$title 	= get_the_title();
 
 			//echo '<meta property="fb:admins" content="dreaddymck"/>'."\r\n";
-			echo '<meta property="og:title" content="' . get_the_title() . '"/>'."\r\n";
+			echo '<meta property="og:title" content="' . $title . '"/>'."\r\n";
 			echo '<meta property="og:type" content="music.song"/>'."\r\n";
 			echo '<meta property="og:url" content="' . get_permalink() . '"/>'."\r\n";
 			echo '<meta property="og:site_name" content="' . get_bloginfo( 'name' ) . '"/>'."\r\n";
@@ -122,43 +121,53 @@ if (!class_exists("WPAudioPlayerCBHDMK")) {
 			
 			echo '<meta property="og:audio" content="'.$matches[0].'" />'."\r\n";
 			echo '<meta property="og:description" content="'.$text.'" />'."\r\n";
-			echo '<meta property="og:audio:type" content="audio/mpeg" />'."\r\n";	
-			
+			echo '<meta property="og:audio:type" content="audio/mpeg" />'."\r\n";			
 			echo '<meta property="og:music:musician" content="dreaddymck"/>'."\r\n";			
 
+			$img = "";
 			if(!has_post_thumbnail( $post->ID )) { //the post does not have featured image, use a default image
-				$default_image = $this->fetch_the_post_thumbnail_src( get_the_post_thumbnail($post->ID, "thumbnail") );
-				echo '<meta property="og:image" content="' . $default_image . '"/>'."\r\n";
+				$img = $this->fetch_the_post_thumbnail_src( get_the_post_thumbnail($post->ID, "medium") );
 			}
 			else{
-				$thumbnail_src = wp_get_attachment_image_src( get_post_thumbnail_id( $post->ID ), 'medium' );
-				echo '<meta property="og:image" content="' . esc_attr( $thumbnail_src[0] ) . '"/>'."\r\n";
+				$img = wp_get_attachment_image_src( get_post_thumbnail_id( $post->ID ), 'medium' );
+			}
+			if($img){
+
+				$img = esc_attr( $thumbnail_src[0] );
+
+				echo '<meta property="og:image" content="' . $img . '"/>'."\r\n";
+				echo '<meta name="twitter:image" content="'. $img .'" />'."\r\n";
+	
 			}
 
-			
+			echo '<meta name="twitter:title" content="' . $title . '"/>'."\r\n";
+			echo '<meta name="twitter:card" content="summary" />'."\r\n";
+			echo '<meta name="twitter:site" content="@dreaddymck" />'."\r\n";
+			echo '<meta name="twitter:creator" content="@dreaddymck" />'."\r\n";
+			echo '<meta name="twitter:description" content="'.$text.'" />'."\r\n";
 
 			echo <<<EOF
 
-			<script>
-			window.fbAsyncInit = function() {
-			  FB.init({
-				appId      : '$facebook_app_id',
-				xfbml      : true,
-				version    : 'v3.0'
-			  });
-			
-			  FB.AppEvents.logPageView();
-			
-			};
-		  
-			(function(d, s, id){
-			   var js, fjs = d.getElementsByTagName(s)[0];
-			   if (d.getElementById(id)) {return;}
-			   js = d.createElement(s); js.id = id;
-			   js.src = "https://connect.facebook.net/en_US/sdk.js";
-			   fjs.parentNode.insertBefore(js, fjs);
-			 }(document, 'script', 'facebook-jssdk'));
-		  </script>	
+<script>
+window.fbAsyncInit = function() {
+	FB.init({
+	appId      : '$facebook_app_id',
+	xfbml      : true,
+	version    : 'v3.0'
+	});
+
+	FB.AppEvents.logPageView();
+
+};
+
+(function(d, s, id){
+	var js, fjs = d.getElementsByTagName(s)[0];
+	if (d.getElementById(id)) {return;}
+	js = d.createElement(s); js.id = id;
+	js.src = "https://connect.facebook.net/en_US/sdk.js";
+	fjs.parentNode.insertBefore(js, fjs);
+	}(document, 'script', 'facebook-jssdk'));
+</script>	
 		  		
 EOF;
 
