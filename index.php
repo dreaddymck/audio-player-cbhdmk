@@ -54,7 +54,7 @@ if (!class_exists("WPAudioPlayerCBHDMK")) {
 			add_action( 'wp_enqueue_scripts', array($this, 'user_scripts') );
 			
 			add_action( 'wp_head', array($this, 'head_hook') );
-			add_action( 'wp_head', array($this,'insert_fb_in_head'), 5 );
+			add_action( 'wp_head', array($this,'insert_meta_to_head'), 5 );
 			add_action( 'login_head', array($this, 'head_hook') );
 			add_action( 'admin_head', array($this, 'head_hook') );
 			
@@ -92,9 +92,9 @@ if (!class_exists("WPAudioPlayerCBHDMK")) {
 		}
 		
 
-		function insert_fb_in_head() {
+		function insert_meta_to_head() {
 
-			global $post;
+			global $post;			
 
 			$matches = $this->opengraph_condition();
 			if(!$matches[0])
@@ -104,9 +104,11 @@ if (!class_exists("WPAudioPlayerCBHDMK")) {
 			if(!$facebook_app_id)
 				return
 
+			$title 	= get_the_title();	
 
-			$text 	= $this->excerpt($post->post_content);	
-			$title 	= get_the_title();
+			
+
+			$text 	= $this->excerpt($post->post_content);
 
 			//echo '<meta property="fb:admins" content="dreaddymck"/>'."\r\n";
 			echo '<meta property="og:title" content="' . $title . '"/>'."\r\n";
