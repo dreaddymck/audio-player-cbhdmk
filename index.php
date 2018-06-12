@@ -60,74 +60,67 @@ if (!class_exists("WPAudioPlayerCBHDMK")) {
 			
 			add_filter('get_the_excerpt', array($this,'the_exerpt_filter'));
 			add_filter('the_content', array($this,'content_toggle_https'));
-			add_filter('language_attributes', array($this,'add_opengraph_doctype'));
+			add_filter('language_attributes', array($this,'set_doctype'));
 
 			
-
-		}
-
-		function opengraph_condition(){
-
-			global $post;
-
-			if ( !is_singular()) //if it is not a post or a page
-				return false;
-
-			$matches = $this->fetch_audio_from_string( $post->post_content );
-
-			if(!$matches[0])
-				return false;
-				
-			return $matches;	
 
 		}
 
 		//Adding the Open Graph in the Language Attributes
-		function add_opengraph_doctype( $output ) {
+		function set_doctype( $output ) {
 
-			if( ! $this->opengraph_condition() )
-				return;		
+			$output .= ' xmlns:og="http://opengraphprotocol.org/schema/" ';
 
-			return $output . ' xmlns:og="http://opengraphprotocol.org/schema/" xmlns:fb="http://www.facebook.com/2008/fbml"';
-		}
-		
+			$facebook_app_id = esc_attr( get_option('facebook_app_id') );	
+			if($facebook_app_id){
+				$output .= '  xmlns:fb="http://www.facebook.com/2008/fbml"';
+			}
+
+			return $output;
+		}		
 
 		function insert_meta_to_head() {
 
-			global $post;			
+			global $post, $wp;			
 
-			$matches = $this->opengraph_condition();
-			if(!$matches[0])
-				return;
+			$title 		= $post->post_title;
+			$desc 		= get_bloginfo('description');			
+			$ogtype		= "article";
+			$url		= home_url( $wp->request );
 
-			$title 	= get_the_title();	
-			$text 	= $this->excerpt($post->post_content);
+			if ( is_singular() ) //if it is not a post or a page
+			{
+				$matches 	= $this->fetch_audio_from_string( $post->post_content );
+				$url		= get_permalink();
+				$desc 		= $this->excerpt($post->post_content);
 
-			//echo '<meta property="fb:admins" content="dreaddymck"/>'."\r\n";
+				if($matches[0]){
+					if($this->isSecure()){
+						$matches[0] = preg_replace("/^http:/i", "https:", $matches[0]);
+						echo '<meta property="og:audio:secure_url" content="'. $matches[0] .'" />'."\r\n";
+					}				
+					echo '<meta property="og:audio" content="'.$matches[0].'" />'."\r\n";
+					echo '<meta property="og:audio:type" content="audio/mpeg" />'."\r\n";			
+					echo '<meta property="og:music:musician" content="dreaddymck"/>'."\r\n";			
+					$ogtype	= "music.song";
+				}
+			}
+			if( is_archive()  ){
+				$tmp		= get_the_archive_description();
+				$desc		= $tmp ? $tmp : $desc;
+				$title		= get_the_archive_title();
+				$ogtype		= "blog.archive";
+			}
+
 			echo '<meta property="og:title" content="' . $title . '"/>'."\r\n";
-			echo '<meta property="og:type" content="music.song"/>'."\r\n";
-			echo '<meta property="og:url" content="' . get_permalink() . '"/>'."\r\n";
+			echo '<meta property="og:type" content="'.$ogtype.'"/>'."\r\n";
+			echo '<meta property="og:url" content="' . $url . '"/>'."\r\n";
 			echo '<meta property="og:site_name" content="' . get_bloginfo( 'name' ) . '"/>'."\r\n";
+			echo '<meta property="og:description" content="'.$desc.'" />'."\r\n";
 
-			if($this->isSecure()){
-				$matches[0] = preg_replace("/^http:/i", "https:", $matches[0]);
-				echo '<meta property="og:audio:secure_url" content="'. $matches[0] .'" />'."\r\n";
-			}				
-			
-			echo '<meta property="og:audio" content="'.$matches[0].'" />'."\r\n";
-			echo '<meta property="og:description" content="'.$text.'" />'."\r\n";
-			echo '<meta property="og:audio:type" content="audio/mpeg" />'."\r\n";			
-			echo '<meta property="og:music:musician" content="dreaddymck"/>'."\r\n";			
-
-			$img = "";
-			if(!has_post_thumbnail( $post->ID )) { //the post does not have featured image, use a default image
-				$img = $this->fetch_the_post_thumbnail_src( get_the_post_thumbnail($post->ID, "medium") );
-			}
-			else{
-				$img = wp_get_attachment_image_src( get_post_thumbnail_id( $post->ID ), 'medium' );
-			}
+			$img = $this->fetch_the_post_thumbnail_src( get_the_post_thumbnail($post->ID, "medium") );
 			if($img){
-				$img = esc_attr( $thumbnail_src[0] );
+				$img = esc_attr( $img );
 				echo '<meta property="og:image" content="' . $img . '"/>'."\r\n";
 				echo '<meta name="twitter:image" content="'. $img .'" />'."\r\n";	
 			}
@@ -136,7 +129,7 @@ if (!class_exists("WPAudioPlayerCBHDMK")) {
 			echo '<meta name="twitter:card" content="summary" />'."\r\n";
 			echo '<meta name="twitter:site" content="@dreaddymck" />'."\r\n";
 			echo '<meta name="twitter:creator" content="@dreaddymck" />'."\r\n";
-			echo '<meta name="twitter:description" content="'.$text.'" />'."\r\n";
+			echo '<meta name="twitter:description" content="'.$desc.'" />'."\r\n";
 
 			$facebook_app_id = esc_attr( get_option('facebook_app_id') );	
 			if($facebook_app_id){
