@@ -111,8 +111,8 @@ if (!class_exists("WPAudioPlayerCBHDMK")) {
 		allowtransparency="true" 
 		style="
 			background-image:url('$img');
+			background-size:100% auto;
 			background-repeat: no-repeat;
-			background-attachment: fixed;
 			background-position: center;
 		">
 </iframe>
