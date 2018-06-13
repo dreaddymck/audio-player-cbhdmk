@@ -41,10 +41,6 @@ if (!class_exists("WPAudioPlayerCBHDMK")) {
 			$this->plugin_url 	= plugins_url("/",__FILE__);
 			$this->theme_url	= dirname( get_bloginfo('stylesheet_url') );
 
-			if($this->autoplay()){
-				return false;
-			}
-
 			register_activation_hook( __FILE__, array($this, 'register_activation' ) );
 
 			add_action( 'init', array( $this, 'autoplay'));
