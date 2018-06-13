@@ -81,7 +81,7 @@ if (!class_exists("WPAudioPlayerCBHDMK")) {
 					$this->relatedposts		= isset($_GET["relatedposts"]) ? htmlspecialchars($_GET["relatedposts"] ) : "";					
 				}
 
-				if($this->autoplay){
+				if($this->autoplay || $this->auto_play){
 
 					list($path, $qs) = explode("?", $_SERVER["REQUEST_URI"], 2);
 
