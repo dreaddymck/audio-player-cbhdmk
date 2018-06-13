@@ -96,12 +96,26 @@ if (!class_exists("WPAudioPlayerCBHDMK")) {
 					$post 		= $this->get_post_by_slug($slug);
 
 					$img 		= $this->fetch_the_post_thumbnail_src( get_the_post_thumbnail($post->ID, "large") );
+					
 					$matches 	= $this->fetch_audio_from_string( $post->post_content );
+					if($this->isSecure()){
+						$matches[0] = preg_replace("/^http:/i", "https:", $matches[0]);
+					}
 
 					$html 		= <<<EOF
 
 <!DOCTYPE html><html><body>
-<iframe src="{$matches[0]}" height="auto" width="100%" allowtransparency="true" style="background-image:url('$img');background-size:100% 100%"></iframe>
+<iframe src="{$matches[0]}" 
+		height="100%" 
+		width="100%" 
+		allowtransparency="true" 
+		style="
+			background-image:url('$img');
+			background-repeat: no-repeat;
+			background-attachment: fixed;
+			background-position: center;
+		">
+</iframe>
 </body></html>
 
 EOF;
