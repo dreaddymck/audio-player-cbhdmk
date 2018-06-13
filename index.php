@@ -113,6 +113,7 @@ if (!class_exists("WPAudioPlayerCBHDMK")) {
 					$twitter_type	= "player";
 
 					echo '<meta name="twitter:player" content="'.$url.'" />'."\r\n";
+					echo '<meta name="twitter:player:streamr" content="'.$matches[0].'" />'."\r\n";
 				}
 			}
 			if( is_archive()  ){
