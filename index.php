@@ -114,6 +114,7 @@ if (!class_exists("WPAudioPlayerCBHDMK")) {
 
 					echo '<meta name="twitter:player" content="'.$url.'" />'."\r\n";
 					echo '<meta name="twitter:player:stream" content="'.$matches[0].'" />'."\r\n";
+					echo '<meta name="twitter:player:stream:content_type" content="audio/mpeg"/>'."\r\n";;
 					echo '<meta name="twitter:player:width" content="100%" />'."\r\n";
 					echo '<meta name="twitter:player:height" content="auto" />'."\r\n";
 				}
