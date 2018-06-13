@@ -41,8 +41,13 @@ if (!class_exists("WPAudioPlayerCBHDMK")) {
 			$this->plugin_url 	= plugins_url("/",__FILE__);
 			$this->theme_url	= dirname( get_bloginfo('stylesheet_url') );
 
+			if($this->autoplay()){
+				return false;
+			}
+
 			register_activation_hook( __FILE__, array($this, 'register_activation' ) );
 
+			add_action( 'init', array( $this, 'autoplay'));
 			add_action( 'init', array( $this, 'register_shortcodes'));
 			add_action( 'admin_init', array( $this, 'register_settings') );
 			add_action( 'admin_menu', array( $this, 'admin_menu' ));
@@ -64,6 +69,59 @@ if (!class_exists("WPAudioPlayerCBHDMK")) {
 
 			
 
+		}
+		function autoplay()
+		{
+			
+			if( isset( $_SERVER['REQUEST_METHOD'] ) ){
+	
+				if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+					$this->autoplay			= isset($_POST["autoplay"]) ? htmlspecialchars($_POST["autoplay"] ) : "";
+					$this->auto_play		= isset($_POST["auto_play"]) ? htmlspecialchars($_POST["auto_play"] ) : "";
+					$this->relatedposts		= isset($_POST["relatedposts"]) ? htmlspecialchars($_POST["relatedposts"] ) : "";
+				}else{
+					$this->autoplay			= isset($_GET["autoplay"]) ? htmlspecialchars($_GET["autoplay"] ) : "";
+					$this->auto_play		= isset($_GET["auto_play"]) ? htmlspecialchars($_GET["auto_play"] ) : "";
+					$this->relatedposts		= isset($_GET["relatedposts"]) ? htmlspecialchars($_GET["relatedposts"] ) : "";					
+				}
+
+				if($this->autoplay){
+
+					list($path, $qs) = explode("?", $_SERVER["REQUEST_URI"], 2);
+
+					$path		= trim($path, "/");
+					$the_array 	= explode('/', $path);
+					$slug 		= $the_array[ count($the_array) - 1 ];					
+
+					$post 		= $this->get_post_by_slug($slug);
+
+					$img 		= $this->fetch_the_post_thumbnail_src( get_the_post_thumbnail($post->ID, "large") );
+					$matches 	= $this->fetch_audio_from_string( $post->post_content );
+
+					$html 		= <<<EOF
+
+<!DOCTYPE html><html><body>
+<iframe src="{$matches[0]}" height="auto" width="100%" allowtransparency="true" style="background-image:url('$img');background-size:100% 100%"></iframe>
+</body></html>
+
+EOF;
+					exit($html);
+				}
+			}
+			return;	
+		}		
+
+		function get_post_by_slug($slug){
+
+			$posts = get_posts(array(
+					'name' => $slug,
+					'post_type'   => 'post',
+					'post_status' => 'publish',
+					'numberposts' => 1
+			));
+			
+	
+			return $posts[0];
 		}
 
 		//Adding the Open Graph in the Language Attributes
@@ -150,30 +208,6 @@ if (!class_exists("WPAudioPlayerCBHDMK")) {
 
 				echo '<meta property="fb:app_id" content="'.$facebook_app_id.'" />';
 
-// 				echo <<<EOF
-
-// <script>
-// window.fbAsyncInit = function() {
-// 	FB.init({
-// 	appId      : '$facebook_app_id',
-// 	xfbml      : true,
-// 	version    : 'v3.0'
-// 	});
-
-// 	FB.AppEvents.logPageView();
-
-// };
-
-// (function(d, s, id){
-// 	var js, fjs = d.getElementsByTagName(s)[0];
-// 	if (d.getElementById(id)) {return;}
-// 	js = d.createElement(s); js.id = id;
-// 	js.src = "https://connect.facebook.net/en_US/sdk.js";
-// 	fjs.parentNode.insertBefore(js, fjs);
-// 	}(document, 'script', 'facebook-jssdk'));
-// </script>	
-		  		
-// EOF;
 			}
 			
 		}
@@ -358,6 +392,15 @@ if (!class_exists("WPAudioPlayerCBHDMK")) {
 			ob_end_clean();                // end capture
 			error_log( $contents );        // log contents of the result of var_dump( $object )
 		}
+		function _log($obj = '') {
+			error_log ( print_r ( $obj, 1 ) );
+		}
+		function _dump($obj = '') {
+			var_dump( print_r( $obj,1 ) );
+		}	
+		function _echo($obj = '') {
+			echo "<pre>" . ( print_r ( $obj, 1 ) ) . "</pre>";
+		}		
 
 
 	}
