@@ -83,10 +83,11 @@ if (!class_exists("WPAudioPlayerCBHDMK")) {
 
 			global $post, $wp;			
 
-			$title 		= $post->post_title;
-			$desc 		= get_bloginfo('description');			
-			$ogtype		= "article";
-			$url		= home_url( $wp->request );
+			$title 			= $post->post_title;
+			$desc 			= get_bloginfo('description');			
+			$ogtype			= "article";
+			$twitter_type	= "summary";
+			$url			= home_url( $wp->request );
 
 			if ( is_singular() ) //if it is not a post or a page
 			{
@@ -108,7 +109,10 @@ if (!class_exists("WPAudioPlayerCBHDMK")) {
 					echo '<meta property="og:audio:artist" 	content="DreaddyMck" />'."\r\n";
 					echo '<meta property="og:audio:album" 	content="Projects" />'."\r\n";
 
-					$ogtype	= "music.song";
+					$ogtype			= "music.song";
+					$twitter_type	= "player";
+
+					echo '<meta name="twitter:player" content="'.$url.'" />'."\r\n";
 				}
 			}
 			if( is_archive()  ){
@@ -132,7 +136,7 @@ if (!class_exists("WPAudioPlayerCBHDMK")) {
 			}
 
 			echo '<meta name="twitter:title" 		content="' . $title . '"/>'."\r\n";
-			echo '<meta name="twitter:card" 		content="summary" />'."\r\n";
+			echo '<meta name="twitter:card" 		content="' .$twitter_type.'" />'."\r\n";
 			echo '<meta name="twitter:site" 		content="@dreaddymck" />'."\r\n";
 			echo '<meta name="twitter:creator" 		content="@dreaddymck" />'."\r\n";
 			echo '<meta name="twitter:description" 	content="'.$desc.'" />'."\r\n";
