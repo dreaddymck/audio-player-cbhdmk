@@ -109,6 +109,7 @@ if (!class_exists("WPAudioPlayerCBHDMK")) {
 	.container {
 		width		: 400px; 
 		height		: 640px;
+		margin		: auto;
 		text-align	: center;
 	}
 	</style>
