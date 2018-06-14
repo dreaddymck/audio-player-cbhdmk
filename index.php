@@ -102,28 +102,30 @@ if (!class_exists("WPAudioPlayerCBHDMK")) {
 
 <!DOCTYPE html><html>
 <head>
-<title>{$post->post_title}</title>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<style>
-.container {
-	width		: 100%; 
-	height		: 640px;
-	text-align	: center;
-	background-image: url({$img}); 
-	background-repeat: no-repeat;
-	background-size: auto;
-	background-position: center;
-}
-</style>
+	<title>{$post->post_title}</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<style>
+	.container {
+		width		: 100%; 
+		height		: 640px;
+		text-align	: center;
+	}
+	</style>
 </head>
 <body>
 <div class="container">
+
 	<h2>DreaddyMck</h2>
+	
 	<h1>{$post->post_title}</h1>
-	<audio preload="auto" controls="controls" autoplay>
+	
+	<audio preload="auto" controls="controls" autoplay="autoplay">
 		<source src="{$matches[0]}" type="audio/mpeg" />
 	</audio>
+	
+	<p><img src="{$img}" width="100%" height="auto"></p>
+	
 </div>
 </body></html>
 
