@@ -43,7 +43,7 @@ if (!class_exists("WPAudioPlayerCBHDMK")) {
 
 			register_activation_hook( __FILE__, array($this, 'register_activation' ) );
 
-			add_action( 'init', array( $this, 'autoplay'));
+			//add_action( 'init', array( $this, 'autoplay'));
 			add_action( 'init', array( $this, 'register_shortcodes'));
 			add_action( 'admin_init', array( $this, 'register_settings') );
 			add_action( 'admin_menu', array( $this, 'admin_menu' ));
@@ -66,76 +66,76 @@ if (!class_exists("WPAudioPlayerCBHDMK")) {
 			
 
 		}
-		function autoplay()
-		{
+// 		function autoplay()
+// 		{
 			
-			if( isset( $_SERVER['REQUEST_METHOD'] ) ){
+// 			if( isset( $_SERVER['REQUEST_METHOD'] ) ){
 	
-				if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-					$this->autoplay			= isset($_POST["autoplay"]) ? htmlspecialchars($_POST["autoplay"] ) : "";
-					$this->auto_play		= isset($_POST["auto_play"]) ? htmlspecialchars($_POST["auto_play"] ) : "";
-					$this->relatedposts		= isset($_POST["relatedposts"]) ? htmlspecialchars($_POST["relatedposts"] ) : "";
-				}else{
-					$this->autoplay			= isset($_GET["autoplay"]) ? htmlspecialchars($_GET["autoplay"] ) : "";
-					$this->auto_play		= isset($_GET["auto_play"]) ? htmlspecialchars($_GET["auto_play"] ) : "";
-					$this->relatedposts		= isset($_GET["relatedposts"]) ? htmlspecialchars($_GET["relatedposts"] ) : "";					
-				}
+// 				if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+// 					$this->autoplay			= isset($_POST["autoplay"]) ? htmlspecialchars($_POST["autoplay"] ) : "";
+// 					$this->auto_play		= isset($_POST["auto_play"]) ? htmlspecialchars($_POST["auto_play"] ) : "";
+// 					$this->relatedposts		= isset($_POST["relatedposts"]) ? htmlspecialchars($_POST["relatedposts"] ) : "";
+// 				}else{
+// 					$this->autoplay			= isset($_GET["autoplay"]) ? htmlspecialchars($_GET["autoplay"] ) : "";
+// 					$this->auto_play		= isset($_GET["auto_play"]) ? htmlspecialchars($_GET["auto_play"] ) : "";
+// 					$this->relatedposts		= isset($_GET["relatedposts"]) ? htmlspecialchars($_GET["relatedposts"] ) : "";					
+// 				}
 
-				if($this->autoplay || $this->auto_play){
+// 				if($this->autoplay || $this->auto_play){
 
-					list($path, $qs) = explode("?", $_SERVER["REQUEST_URI"], 2);
+// 					list($path, $qs) = explode("?", $_SERVER["REQUEST_URI"], 2);
 
-					$path		= trim($path, "/");
-					$the_array 	= explode('/', $path);
-					$slug 		= $the_array[ count($the_array) - 1 ];					
+// 					$path		= trim($path, "/");
+// 					$the_array 	= explode('/', $path);
+// 					$slug 		= $the_array[ count($the_array) - 1 ];					
 
-					$post 		= $this->get_post_by_slug($slug);
-					$img 		= $this->fetch_the_post_thumbnail_src( get_the_post_thumbnail($post->ID, "large") );
-					$desc 		= $this->excerpt($post->post_content);
+// 					$post 		= $this->get_post_by_slug($slug);
+// 					$img 		= $this->fetch_the_post_thumbnail_src( get_the_post_thumbnail($post->ID, "large") );
+// 					$desc 		= $this->excerpt($post->post_content);
 					
-					$matches 	= $this->fetch_audio_from_string( $post->post_content );
-					if($this->isSecure()){
-						$matches[0] = preg_replace("/^http:/i", "https:", $matches[0]);
-					}
+// 					$matches 	= $this->fetch_audio_from_string( $post->post_content );
+// 					if($this->isSecure()){
+// 						$matches[0] = preg_replace("/^http:/i", "https:", $matches[0]);
+// 					}
 
-					$html 		= <<<EOF
+// 					$html 		= <<<EOF
 
-<!DOCTYPE html><html>
-<head>
-	<title>{$post->post_title}</title>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<style>
-	.container {
-		width		: 400px; 
-		height		: 640px;
-		margin		: auto;
-		text-align	: center;
-	}
-	</style>
-</head>
-<body>
-<div class="container">
+// <!DOCTYPE html><html>
+// <head>
+// 	<title>{$post->post_title}</title>
+// 	<meta charset="UTF-8">
+// 	<meta name="viewport" content="width=device-width, initial-scale=1">
+// 	<style>
+// 	.container {
+// 		width		: 400px; 
+// 		height		: 640px;
+// 		margin		: auto;
+// 		text-align	: center;
+// 	}
+// 	</style>
+// </head>
+// <body>
+// <div class="container">
 
-	<h2>DreaddyMck</h2>
+// 	<h2>DreaddyMck</h2>
 	
-	<h1>{$post->post_title}</h1>
+// 	<h1>{$post->post_title}</h1>
 	
-	<audio preload="auto" controls autoplay>
-		<source src="{$matches[0]}" type="audio/mpeg" />
-	</audio>
+// 	<audio preload="auto" controls autoplay>
+// 		<source src="{$matches[0]}" type="audio/mpeg" />
+// 	</audio>
 	
-	<p><img src="{$img}" width="100%" height="auto"></p>
+// 	<p><img src="{$img}" width="100%" height="auto"></p>
 	
-</div>
-</body></html>
+// </div>
+// </body></html>
 
-EOF;
-					exit($html);
-				}
-			}
-			return;	
-		}		
+// EOF;
+// 					exit($html);
+// 				}
+// 			}
+// 			return;	
+// 		}		
 
 		function get_post_by_slug($slug){
 
@@ -341,7 +341,17 @@ EOF;
 			
 		}
 		function localize_vars(){
-			
+
+			if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+				$this->autoplay			= isset($_POST["autoplay"]) ? htmlspecialchars($_POST["autoplay"] ) : "";
+				$this->auto_play		= isset($_POST["auto_play"]) ? htmlspecialchars($_POST["auto_play"] ) : "";
+				$this->relatedposts		= isset($_POST["relatedposts"]) ? htmlspecialchars($_POST["relatedposts"] ) : "";
+			}else{
+				$this->autoplay			= isset($_GET["autoplay"]) ? htmlspecialchars($_GET["autoplay"] ) : "";
+				$this->auto_play		= isset($_GET["auto_play"]) ? htmlspecialchars($_GET["auto_play"] ) : "";
+				$this->relatedposts		= isset($_GET["relatedposts"]) ? htmlspecialchars($_GET["relatedposts"] ) : "";					
+			}
+
 			$local = array(
 					'plugin_url' => $this->plugin_url,
 					'is_front_page' => is_front_page(),
@@ -351,7 +361,8 @@ EOF;
 					'plugin_title' => $this->plugin_title,
 					'github_url' => $this->github_url,
 					'has_shortcode' => $this->has_shortcode($this->shortcode),
-			        'stylesheet_url' => dirname( get_bloginfo('stylesheet_url') )."/",
+					'stylesheet_url' => dirname( get_bloginfo('stylesheet_url') )."/",
+					'autoplay'	=> ($this->autoplay || $this->auto_play)
 			);
 				
 			wp_localize_script( 'functions.js', $this->plugin_slug, $local);
