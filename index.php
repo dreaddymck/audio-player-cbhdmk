@@ -90,8 +90,8 @@ if (!class_exists("WPAudioPlayerCBHDMK")) {
 					$slug 		= $the_array[ count($the_array) - 1 ];					
 
 					$post 		= $this->get_post_by_slug($slug);
-
 					$img 		= $this->fetch_the_post_thumbnail_src( get_the_post_thumbnail($post->ID, "large") );
+					$desc 		= $this->excerpt($post->post_content);
 					
 					$matches 	= $this->fetch_audio_from_string( $post->post_content );
 					if($this->isSecure()){
@@ -100,18 +100,31 @@ if (!class_exists("WPAudioPlayerCBHDMK")) {
 
 					$html 		= <<<EOF
 
-<!DOCTYPE html><html><body>
-<iframe src="{$matches[0]}" 
-		height="100%" 
-		width="100%" 
-		allowtransparency="true" 
-		style="
-			background-image:url('$img');
-			background-size:100% auto;
-			background-repeat: no-repeat;
-			background-position: center;
-		">
-</iframe>
+<!DOCTYPE html><html>
+<head>
+<title>{$post->post_title}</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+.container {
+	width		: 100%; 
+	height		: 640px;
+	text-align	: center;
+	background-image: url({$img}); 
+	background-repeat: no-repeat;
+	background-size: auto;
+	background-position: center;
+}
+</style>
+</head>
+<body>
+<div class="container">
+	<h2>DreaddyMck</h2>
+	<h1>{$post->post_title}</h1>
+	<audio preload="auto" controls="controls" autoplay>
+		<source src="{$matches[0]}" type="audio/mpeg" />
+	</audio>
+</div>
 </body></html>
 
 EOF;
