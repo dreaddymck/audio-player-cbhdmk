@@ -107,7 +107,7 @@ if (!class_exists("WPAudioPlayerCBHDMK")) {
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<style>
 	.container {
-		width		: 100%; 
+		width		: 400px; 
 		height		: 640px;
 		text-align	: center;
 	}
