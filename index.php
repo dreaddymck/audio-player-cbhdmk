@@ -121,7 +121,7 @@ if (!class_exists("WPAudioPlayerCBHDMK")) {
 	
 	<h1>{$post->post_title}</h1>
 	
-	<audio preload="auto" controls="controls" autoplay="autoplay">
+	<audio preload="auto" controls autoplay>
 		<source src="{$matches[0]}" type="audio/mpeg" />
 	</audio>
 	
