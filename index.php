@@ -43,7 +43,6 @@ if (!class_exists("WPAudioPlayerCBHDMK")) {
 
 			register_activation_hook( __FILE__, array($this, 'register_activation' ) );
 
-			//add_action( 'init', array( $this, 'autoplay'));
 			add_action( 'init', array( $this, 'register_shortcodes'));
 			add_action( 'admin_init', array( $this, 'register_settings') );
 			add_action( 'admin_menu', array( $this, 'admin_menu' ));
@@ -55,7 +54,6 @@ if (!class_exists("WPAudioPlayerCBHDMK")) {
 			add_action( 'wp_enqueue_scripts', array($this, 'user_scripts') );
 			
 			add_action( 'wp_head', array($this, 'head_hook') );
-			add_action( 'wp_head', array($this,'insert_meta_to_head'), 5 );
 			add_action( 'login_head', array($this, 'head_hook') );
 			add_action( 'admin_head', array($this, 'head_hook') );
 			
@@ -66,77 +64,6 @@ if (!class_exists("WPAudioPlayerCBHDMK")) {
 			
 
 		}
-// 		function autoplay()
-// 		{
-			
-// 			if( isset( $_SERVER['REQUEST_METHOD'] ) ){
-	
-// 				if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-// 					$this->autoplay			= isset($_POST["autoplay"]) ? htmlspecialchars($_POST["autoplay"] ) : "";
-// 					$this->auto_play		= isset($_POST["auto_play"]) ? htmlspecialchars($_POST["auto_play"] ) : "";
-// 					$this->relatedposts		= isset($_POST["relatedposts"]) ? htmlspecialchars($_POST["relatedposts"] ) : "";
-// 				}else{
-// 					$this->autoplay			= isset($_GET["autoplay"]) ? htmlspecialchars($_GET["autoplay"] ) : "";
-// 					$this->auto_play		= isset($_GET["auto_play"]) ? htmlspecialchars($_GET["auto_play"] ) : "";
-// 					$this->relatedposts		= isset($_GET["relatedposts"]) ? htmlspecialchars($_GET["relatedposts"] ) : "";					
-// 				}
-
-// 				if($this->autoplay || $this->auto_play){
-
-// 					list($path, $qs) = explode("?", $_SERVER["REQUEST_URI"], 2);
-
-// 					$path		= trim($path, "/");
-// 					$the_array 	= explode('/', $path);
-// 					$slug 		= $the_array[ count($the_array) - 1 ];					
-
-// 					$post 		= $this->get_post_by_slug($slug);
-// 					$img 		= $this->fetch_the_post_thumbnail_src( get_the_post_thumbnail($post->ID, "large") );
-// 					$desc 		= $this->excerpt($post->post_content);
-					
-// 					$matches 	= $this->fetch_audio_from_string( $post->post_content );
-// 					if($this->isSecure()){
-// 						$matches[0] = preg_replace("/^http:/i", "https:", $matches[0]);
-// 					}
-
-// 					$html 		= <<<EOF
-
-// <!DOCTYPE html><html>
-// <head>
-// 	<title>{$post->post_title}</title>
-// 	<meta charset="UTF-8">
-// 	<meta name="viewport" content="width=device-width, initial-scale=1">
-// 	<style>
-// 	.container {
-// 		width		: 400px; 
-// 		height		: 640px;
-// 		margin		: auto;
-// 		text-align	: center;
-// 	}
-// 	</style>
-// </head>
-// <body>
-// <div class="container">
-
-// 	<h2>DreaddyMck</h2>
-	
-// 	<h1>{$post->post_title}</h1>
-	
-// 	<audio preload="auto" controls autoplay>
-// 		<source src="{$matches[0]}" type="audio/mpeg" />
-// 	</audio>
-	
-// 	<p><img src="{$img}" width="100%" height="auto"></p>
-	
-// </div>
-// </body></html>
-
-// EOF;
-// 					exit($html);
-// 				}
-// 			}
-// 			return;	
-// 		}		
-
 		function get_post_by_slug($slug){
 
 			$posts = get_posts(array(
@@ -162,81 +89,6 @@ if (!class_exists("WPAudioPlayerCBHDMK")) {
 
 			return $output;
 		}		
-
-		function insert_meta_to_head() {
-
-			global $post, $wp;			
-
-			$title 			= $post->post_title;
-			$desc 			= get_bloginfo('description');			
-			$ogtype			= "article";
-			$twitter_type	= "summary";
-			$url			= home_url( $wp->request );
-
-			if ( is_singular() ) //if it is not a post or a page
-			{
-				$matches 	= $this->fetch_audio_from_string( $post->post_content );
-				$url		= get_permalink();
-				$desc 		= $this->excerpt($post->post_content);
-
-				if($matches[0]){
-
-					$matches[0] = esc_url( $matches[0] );
-
-					if($this->isSecure()){
-						$matches[0] = preg_replace("/^http:/i", "https:", $matches[0]);
-						echo '<meta property="og:audio:secure_url" content="'. $matches[0] .'" />'."\r\n";
-					}				
-					echo '<meta property="og:audio" 		content="'.$matches[0].'" />'."\r\n";
-					echo '<meta property="og:audio:type" 	content="audio/mpeg" />'."\r\n";
-					echo '<meta property="og:audio:title" 	content="'.$title.'" />'."\r\n";
-					echo '<meta property="og:audio:artist" 	content="DreaddyMck" />'."\r\n";
-					echo '<meta property="og:audio:album" 	content="Projects" />'."\r\n";
-
-					$ogtype			= "music.song";
-					$twitter_type	= "player";
-
-					echo '<meta name="twitter:player" content="'.$url.'" />'."\r\n";
-					echo '<meta name="twitter:player:stream" content="'.$matches[0].'" />'."\r\n";
-					echo '<meta name="twitter:player:stream:content_type" content="audio/mpeg"/>'."\r\n";;
-					echo '<meta name="twitter:player:width" content="100%" />'."\r\n";
-					echo '<meta name="twitter:player:height" content="auto" />'."\r\n";
-				}
-			}
-			if( is_archive()  ){
-				$tmp		= get_the_archive_description();
-				$desc		= $tmp ? $tmp : $desc;
-				$title		= get_the_archive_title();
-				$ogtype		= "blog.archive";
-			}
-
-			echo '<meta property="og:title" 		content="' . $title . '"/>'."\r\n";
-			echo '<meta property="og:type" 			content="'.$ogtype.'"/>'."\r\n";
-			echo '<meta property="og:url" 			content="' . $url . '"/>'."\r\n";
-			echo '<meta property="og:site_name" 	content="' . get_bloginfo( 'name' ) . '"/>'."\r\n";
-			echo '<meta property="og:description" 	content="'.$desc.'" />'."\r\n";
-
-			$img = $this->fetch_the_post_thumbnail_src( get_the_post_thumbnail($post->ID, "medium") );
-			if($img){
-				$img = esc_url( $img );
-				echo '<meta property="og:image" 	content="' . $img . '"/>'."\r\n";
-				echo '<meta name="twitter:image" 	content="'. $img .'" />'."\r\n";	
-			}
-
-			echo '<meta name="twitter:title" 		content="' . $title . '"/>'."\r\n";
-			echo '<meta name="twitter:card" 		content="' .$twitter_type.'" />'."\r\n";
-			echo '<meta name="twitter:site" 		content="@dreaddymck" />'."\r\n";
-			echo '<meta name="twitter:creator" 		content="@dreaddymck" />'."\r\n";
-			echo '<meta name="twitter:description" 	content="'.$desc.'" />'."\r\n";
-
-			$facebook_app_id = esc_attr( get_option('facebook_app_id') );	
-			if($facebook_app_id){
-
-				echo '<meta property="fb:app_id" content="'.$facebook_app_id.'" />';
-
-			}
-			
-		}
 
 		function excerpt($text){
 
