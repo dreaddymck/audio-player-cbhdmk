@@ -115,6 +115,9 @@ if (!class_exists("playlist_utilities_class")) {
 			$regex   = '~(https?://.+/.+\.(' . $formats . '))(([^"\'])|$)?~imUx';
 		
 			preg_match_all( $regex, $str, $matches, PREG_PATTERN_ORDER );
+
+			// error_log("*******************************");
+			// error_log(var_export($matches, TRUE));			
 		
 			return $matches[0];
 		

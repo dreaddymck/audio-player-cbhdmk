@@ -30,14 +30,18 @@ if (!class_exists("PlayListElement")) {
 		}
 		function fetch() {
 			
+			global $wpdb;
+			
 			$args = array(
 					'numberposts' 		=> -1,
-					'post_status'      	=> 'publish',
+					'post_status'      	=> 'publish'
 			);
 			
 			$posts 	    = get_posts( $args );
 			
-			//error_log(print_r($posts,1));
+			// error_log(print_r($posts,1));
+			// error_log("*******************************");
+			// error_log(var_export($wpdb->last_query, TRUE));			
 
 			$response   = $this->render_elements($posts);
 			

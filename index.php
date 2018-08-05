@@ -292,6 +292,7 @@ if (!class_exists("WPAudioPlayerCBHDMK")) {
 		}
 		function include_file($options) {			
 		
+			update_option( 'tag', $options['tag']);
 			update_option( 'tag_in', $options['tag_in']);
 			update_option( 'tag_not_in', $options['tag_not_in']);
 						
