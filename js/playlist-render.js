@@ -55,24 +55,25 @@ const playlist_render = {
 			// })
 			.appendTo(jQuery('.playlist'))
 
-        let div = jQuery('<div>').addClass('track-content').appendTo(li);
+		let div 	= jQuery('<div>').addClass('track-content row').appendTo(li);
+		let divleft = jQuery('<div>').addClass('col-lg-10').appendTo(div);
+		let divright = jQuery('<div>').addClass('col-lg-2').appendTo(div);
 
-		jQuery('<img>').addClass('ui-li-img').attr('src', item.cover).attr(
-			'height', '50px').attr('width', '50px').appendTo(div)
+		jQuery('<img>').addClass('ui-li-img').attr('src', item.cover).attr({'height':'auto','width':'auto'}).appendTo(divright)
 
-		jQuery('<div>').addClass('ui-li-title').text(title).appendTo(div)
+		jQuery('<h5>').addClass('ui-li-title').text(title).appendTo(divleft)
 		//jQuery('<small>').addClass('ui-li-excerpt').text(excerpt).appendTo(div)
 		//jQuery('<br>').addClass('ui-li-br').appendTo(div)
-		jQuery('<small>').addClass('ui-li-tags').text(tags).appendTo(div)
+		jQuery('<span>').addClass('ui-li-tags').text(tags).appendTo(divleft)
 		//jQuery('<br>').addClass('ui-li-br').appendTo(div)
-        jQuery('<small>').addClass('ui-li-moreinfo')
+        jQuery('<span>').addClass('ui-li-moreinfo')
             .attr("title", "more information")
 			.attr('permalink', permalink).click(function (e) {
 			e.preventDefault()
 			e.stopPropagation()
 			var permalink = jQuery(this).attr('permalink')
 			window.open(permalink, '_top', '')
-		}).text(moreinfo).appendTo(div)
+		}).text(moreinfo).appendTo(divleft)
 
 		jQuery('<br>').addClass('ui-li-br').appendTo(div)
 	},
