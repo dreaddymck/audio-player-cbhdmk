@@ -38,7 +38,7 @@
 		
 		<div class="duration">
 			
-			<h1 class="artist text-muted"></h1>
+			<h3 class="artist text-muted"></h3>
 		
 		</div>
 		
