@@ -3,9 +3,7 @@
 playlist.init();
 access_log.init();
 
-jQuery(function() {
-
-    jQuery(".cc-block").detach().appendTo('.site-content .wrap').css({"width":"100%"});
+jQuery(function() {    
 
     if(dmck_audioplayer.autoplay){
      
