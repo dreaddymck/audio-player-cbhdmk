@@ -42,13 +42,15 @@ const access_log = {
                         } 
                         else 
                         {                        
-    
-                            jQuery(".info-tabs").append(`
-<li><a data-toggle="tab" href="#tab-top-request" id="#tab-top-request">Today's Top 10</a></li>
+//<li><a data-toggle="tab" href="#tab-top-request" id="#tab-top-request">Today's Top 10</a></li>    
+                            jQuery("#info-tabs").append(`
+<li class="nav-item">
+<a class="nav-link" id="top-10-tab" data-toggle="tab" href="#top-10" role="tab" aria-controls="top-10" aria-selected="false">Today's Top 10</a>
+</li>
                             `);
-                            
+//<div id="tab-top-request" class="tab-pane fade top-requests"></div>                              
                             jQuery(".tab-content").append(`
-<div id="tab-top-request" class="tab-pane fade top-requests"></div>                        
+<div class="tab-pane top-requests container" id="top-10" role="tabpanel" aria-labelledby="top-10-tab"></div>                      
                             `); 
 
                             response = JSON.parse(response)
@@ -61,7 +63,7 @@ const access_log = {
                                 return b[1].count - a[1].count;
                             });                            
 
-                            jQuery('.top-requests').append( access_log.widget( sorted.slice(0,10) ) ).find(".top-requests-data i").each(function(e){
+                            jQuery('.top-requests').html("").append( access_log.widget( sorted.slice(0,10) ) ).find(".top-requests-data i").each(function(e){
                                 return jQuery(this).addClass("btn-xs");
                             });
     
@@ -173,12 +175,12 @@ const access_log = {
     widget: function(obj){
 
         let str     = `
-<table class="top-requests-data">
+<table class="table table-responsive-lg top-requests-data">
 <thead>
 <tr>
-  <th class="col-sm-9">Track</th>
-  <th class="col-sm-1">Requests</th>
-  <th class="col-sm-2">Time</th>
+  <th>Track</th>
+  <th>Requests</th>
+  <th>Time</th>
 </tr>
 </thead>
 <tbody>
@@ -193,19 +195,19 @@ const access_log = {
             str += `
 <tr class="top-played-track" audiourl="Public/MUSIC/FEATURING/`+ obj[x][0] +`">
     <td>
-        <small>
+        <span>
             `+ obj[x][0] +`
-        </small>    
+        </span>    
     </td>
     <td>
-        <small>
+        <span>
             `+ obj[x][1].count +`
-        </small>
+        </span>
     </td>
     <td>
-        <small>
+        <span>
             `+ date +`
-        </small> 
+        </span> 
     </td> 
 </tr>
             `;

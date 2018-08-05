@@ -50,7 +50,6 @@ if (!class_exists("WPAudioPlayerCBHDMK")) {
 			add_action( 'admin_enqueue_scripts', array($this, 'admin_scripts') );
 			add_action( 'admin_bar_menu', array( $this, 'admin_bar_setup'), 999);
 
-			add_action( 'wp_enqueue_scripts', array( $this, 'register_plugin_styles' ) );
 			add_action( 'wp_enqueue_scripts', array($this, 'user_scripts') );
 			
 			add_action( 'wp_head', array($this, 'head_hook') );
@@ -150,17 +149,10 @@ if (!class_exists("WPAudioPlayerCBHDMK")) {
 					array( $this, 'admin_menu_include')
 			);
 		}
-		public function register_plugin_styles() {
-			wp_register_style( 'bootstrap.min.css',  $this->plugin_url . "css/bootstrap.min.css");
-			wp_enqueue_style( 'bootstrap.min.css' );
-			wp_register_style( 'jquery-ui.min.css',  $this->plugin_url . "plugins/jquery-ui-1.12.1/jquery-ui.min.css");
-			wp_enqueue_style( 'jquery-ui.min.css' );
-		}			
 		function admin_scripts($hook_suffix) {
 			
 			if ( $this->settings_page == $hook_suffix ) {
 				
-				$this->register_plugin_styles();
 				$this->shared_scripts();
 				$this->localize_vars();
 
@@ -174,6 +166,8 @@ if (!class_exists("WPAudioPlayerCBHDMK")) {
 		
 			$this->shared_scripts();	
 			$this->localize_vars();
+
+			
 			
 			wp_enqueue_script( 'jquery-ui.min.js', $this->plugin_url . 'plugins/jquery-ui-1.12.1/jquery-ui.js', array( 'jquery' ), '1.12.1', true );
 			wp_enqueue_style( 'playlist.css',  $this->plugin_url . "playlist.css");
@@ -186,13 +180,35 @@ if (!class_exists("WPAudioPlayerCBHDMK")) {
 
 		}
 		function shared_scripts(){
-
+			wp_register_style( 'jquery-ui.min.css',  $this->plugin_url . "plugins/jquery-ui-1.12.1/jquery-ui.min.css");
+			wp_enqueue_style( 'jquery-ui.min.css' );
 			wp_enqueue_script( 'functions.js', $this->plugin_url . 'js/functions.js', array( 'jquery' ), '1.0.1', true );			
-			wp_enqueue_script( 'bootstrap.js', $this->plugin_url . 'js/bootstrap.min.js', array( 'jquery' ), '', true );
+			// wp_enqueue_script( 'bootstrap.js', $this->plugin_url . 'js/bootstrap.min.js', array( 'jquery' ), '', true );
 			wp_enqueue_script( 'access_log.js', $this->plugin_url . 'js/access_log.js', array( 'jquery' ), '1.0.0', true );
 			
 		}
 		function localize_vars(){
+
+			global $post,$wp_query;
+
+			$tags = "";
+			$category = "";
+
+			if($post){
+				$tags = wp_get_post_terms( $post->ID,'post_tag',array( 'fields' => 'names') );
+				if($tags){
+					$tags = implode("|", $tags);
+				}
+				$category = wp_get_post_terms( $post->ID,'category',array( 'fields' => 'names') );
+				if($category){
+					$category = implode("|", $category);
+				}				
+			}
+
+			
+			$page 	= get_query_var ( 'paged' ) ? get_query_var ( 'paged' ) : 1;
+			$limit	= $wp_query->post_count ? $wp_query->post_count : 1;
+			$offset = ($page - 1) * $limit;			
 
 			if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 				$this->autoplay			= isset($_POST["autoplay"]) ? htmlspecialchars($_POST["autoplay"] ) : "";
@@ -204,19 +220,41 @@ if (!class_exists("WPAudioPlayerCBHDMK")) {
 				$this->relatedposts		= isset($_GET["relatedposts"]) ? htmlspecialchars($_GET["relatedposts"] ) : "";					
 			}
 
+
+
 			$local = array(
-					'plugin_url' => $this->plugin_url,
-					'is_front_page' => is_front_page(),
-					'is_single' => is_single(),
-					'is_page' => is_page(),
-					'plugin_slug' => $this->plugin_slug,
-					'plugin_title' => $this->plugin_title,
-					'github_url' => $this->github_url,
-					'has_shortcode' => $this->has_shortcode($this->shortcode),
-					'stylesheet_url' => dirname( get_bloginfo('stylesheet_url') )."/",
-					'autoplay'	=> ($this->autoplay || $this->auto_play)
-			);
-				
+
+				'is_home' => is_home(),
+				'is_front_page' => is_front_page(),
+				'is_single' => is_single(),
+				'is_attachment' => is_attachment(),
+				'is_search' => is_search(),  
+				'is_page' => is_page(),
+				'is_paged' => is_paged(), 
+				'is_archive' => is_archive(),
+				'is_tag' => is_tag(),
+				'is_tax' => is_tax(),
+				'is_author' => is_author(),					
+				'page'	=> $page,
+				'limit' => $limit,
+				'offset' => $offset,
+				'post_name' => $post ? $post->post_name : "",
+				'tags' =>  $tags,
+				'category' => $category,
+
+				'plugin_url' => $this->plugin_url,
+				'plugin_slug' => $this->plugin_slug,
+				'plugin_title' => $this->plugin_title,
+				'github_url' => $this->github_url,
+				'has_shortcode' => $this->has_shortcode($this->shortcode),
+				'stylesheet_url' => dirname( get_bloginfo('stylesheet_url') )."/",
+				'autoplay'	=> ($this->autoplay || $this->auto_play),
+
+
+		);			
+
+
+
 			wp_localize_script( 'functions.js', $this->plugin_slug, $local);
 		}
 		function has_shortcode($shortcode = '') {

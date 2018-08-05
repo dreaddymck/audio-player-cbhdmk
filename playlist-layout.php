@@ -46,20 +46,32 @@
 	</div>
 
 </div>
-<div class="row">
 
-	<ul class="nav nav-tabs info-tabs">
-		<li class="active"><a data-toggle="tab" href="#tab-home" id="tab-playlist">Playlist</a></li>	
 
-	</ul>
+<ul class="nav nav-tabs" id="info-tabs" role="tablist">
+	<li class="nav-item">
+		<a class="nav-link active" id="tab-playlist" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Playlist</a>
+	</li>
+</ul>
 
-	<div class="tab-content">
-		<div id="tab-home" class="tab-pane fade in active">
-			<ul class="playlist ">
-				<li audiourl="*.mp3" cover="cover1.jpg" artist="Artist 1">*.mp3</li>
-			</ul>
-		</div>
-			
-	</div>	
-
+<div class="tab-content">
+	<div class="tab-pane active playlist" id="home" role="tabpanel" aria-labelledby="tab-playlist">resasdfasdfasd</div>	
 </div>
+
+
+
+<!-- <ul class="nav nav-tabs info-tabs">
+	<li class="active"><a data-toggle="tab" href="#tab-home" id="tab-playlist">Playlist</a></li>	
+
+</ul>
+
+<div class="tab-content">
+	<div id="tab-home" class="tab-pane fade in active">
+		<ul class="playlist ">
+			<li audiourl="*.mp3" cover="cover1.jpg" artist="Artist 1">*.mp3</li>
+		</ul>
+	</div>
+		
+</div>	 -->
+
+
