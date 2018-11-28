@@ -137,7 +137,9 @@ EOF;
         
         $logarray = array(
             '/var/log/apache2/access.log', 
-            '/usr/local/apache/logs/access_log'
+            '/usr/local/apache/logs/access_log',
+            'access-logs/dreaddymck.com',
+            'access-logs/dreaddymck.com-ssl_log'
         );
 
         foreach ($logarray as $value) {
