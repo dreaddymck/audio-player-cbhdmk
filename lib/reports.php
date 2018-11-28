@@ -10,6 +10,7 @@ class dreaddymck_com_accesslog {
 
     public $debug;
     public $options;
+    public $accesslog;
 
     function __construct() {
         $this::parameters();
@@ -22,14 +23,17 @@ class dreaddymck_com_accesslog {
             if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $this->debug			= isset($_POST["debug"]) ? htmlspecialchars($_POST["debug"] ) : false;
                 $this->options			= isset($_POST["options"]) ? htmlspecialchars($_POST["options"] ) : "";
+                $this->accesslog		= isset($_POST["accesslog"]) ? htmlspecialchars($_POST["accesslog"] ) : "";
             }else{
                 $this->debug			= isset($_GET["debug"]) ? htmlspecialchars($_GET["debug"] ) : false;
                 $this->options			= isset($_GET["options"]) ? htmlspecialchars($_GET["options"] ) : "";
+                $this->accesslog			= isset($_GET["accesslog"]) ? htmlspecialchars($_GET["accesslog"] ) : "";
             }
             return true;
         }
         if( isset( $_SERVER['argv'] ) ){
             $this->options = $_SERVER['argv'][1];
+            $this->accesslog = $_SERVER['argv'][2];
         }
 
     }
@@ -133,104 +137,94 @@ EOF;
 
     }    
     function put()
-    {   /// usr/local/apache/logs/access_log
+    {           
+        if ( file_exists( $this->accesslog ) ) {
         
-        $logarray = array(            
-            '~/access-logs/dreaddymck.com',
-            '~/access-logs/dreaddymck.com-ssl_log',
-            '/var/log/apache2/access.log',
-            '/usr/local/apache/logs/access_log',
-        );
-
-        foreach ($logarray as $value) {
-
-            if ( file_exists( $value ) ) {
-
-                $handle         = "";
-           
-                try{
-                    
-                    // $handle         = fopen('/var/log/apache2/access.log','r') or die ('File opening failed');            
-                    $handle         = fopen($value,'r'); 
-                   
-                    if ( !$handle ) {
-
-                        throw new Exception('File open failed: ' . $value);
-                    }                     
-                   
-                }
-                catch (Exception $e) {
-
-                    echo 'Caught exception: ', $e->getMessage(), "\n";
-                    
-                    continue;
-                }               
-
-                $requestsCount  = 0;
+            try{
                 
-                $data   = "";
-                $cnt    = 0;
-                $arr    = array();        
-            
-                try {
-            
-                    while (!feof($handle)) {
-            
-                        $dd = fgets($handle);
-              
-                        $parts = explode('"', $dd);            
-                
-                        if( isset($parts[1]) ) {
-            
-                            $str = $parts[1];
-            
-                            if ( preg_match('/((\/Public\/MUSIC\/FEATURING.*mp3))/i', $str)){   
-            
-                                preg_match('/\[(.*)\]/', $parts[0], $date_array);
-            
-                                $date       = $date_array[1]; 
-                                $new_date   = strtotime( $date );                    
-            
-                                $str = preg_replace('/GET/', "", $str);
-                                $str = preg_replace('/HTTP.*/', "", $str);                   
-                                $str = trim($str);
-            
-                                $tmparray = explode("/", $str );
-            
-                                $str = $tmparray[ count($tmparray) - 1 ];
-                                
-                                if( isset( $arr[$str] ) )
-                                {                            
-                                    $arr[$str]["count"] += 1;
-        
-                                    $old_date           = $arr[$str]["time"];
-                                    $arr[$str]["time"]  = $old_date > $new_date ? $old_date : $new_date;
-                                }
-                                else
-                                {
-                                    $arr[$str] = array( "count" => 1, "time" => $new_date, "name" => $str );
-                                }
-                            }
-                        } 
-                    }        
-            
-                    fclose($handle);
-            
-                    $json = json_encode($arr,JSON_FORCE_OBJECT);
-            
-                    $query = "insert into dmck_audio_log_reports (data) values ( '" . $json . "' )";
-            
-                    $results = $this->query( $query );
+                // $handle         = fopen('/var/log/apache2/access.log','r') or die ('File opening failed');                   
+                $handle         = fopen($this->accesslog,'r'); 
 
-                    return;
-            
-                } catch (Exception $e) {
-                    echo 'Caught exception: ', $e->getMessage(), "\n";
-                } 
-            
+                // echo "got here: " . $this->accesslog ."\n";
+                // echo "got here: " . $handle ."\n";
+                
+                if ( !$handle ) {                   
+
+                    throw new Exception('File open failed: ' . $this->accesslog);
+                }                     
+                
             }
+            catch (Exception $e) {
 
+                echo 'Caught exception: ', $e->getMessage(), "\n";
+                return;
+            }               
+
+            $requestsCount  = 0;
             
+            $data   = "";
+            $cnt    = 0;
+            $arr    = array();        
+        
+            try {
+        
+                while (!feof($handle)) {
+        
+                    $dd = fgets($handle);
+            
+                    $parts = explode('"', $dd);            
+            
+                    if( isset($parts[1]) ) {
+        
+                        $str = $parts[1];
+        
+                        if ( preg_match('/((\/Public\/MUSIC\/FEATURING.*mp3))/i', $str)){   
+        
+                            preg_match('/\[(.*)\]/', $parts[0], $date_array);
+        
+                            $date       = $date_array[1]; 
+                            $new_date   = strtotime( $date );                    
+        
+                            $str = preg_replace('/GET/', "", $str);
+                            $str = preg_replace('/HTTP.*/', "", $str);                   
+                            $str = trim($str);
+        
+                            $tmparray = explode("/", $str );
+        
+                            $str = $tmparray[ count($tmparray) - 1 ];
+                            
+                            if( isset( $arr[$str] ) )
+                            {                            
+                                $arr[$str]["count"] += 1;
+    
+                                $old_date           = $arr[$str]["time"];
+                                $arr[$str]["time"]  = $old_date > $new_date ? $old_date : $new_date;
+                            }
+                            else
+                            {
+                                $arr[$str] = array( "count" => 1, "time" => $new_date, "name" => $str );
+                            }
+                        }
+                    } 
+                }        
+        
+                fclose($handle);
+        
+                $json = json_encode($arr,JSON_FORCE_OBJECT);
+        
+                $query = "insert into dmck_audio_log_reports (data) values ( '" . $json . "' )";
+        
+                $results = $this->query( $query );
+
+                return;
+        
+            } catch (Exception $e) {
+                echo 'Caught exception: ', $e->getMessage(), "\n";
+            } 
+        
+        }
+        else{
+            echo 'File does not exist: ' . $this->accesslog ."\n";
         }
 
         return;
