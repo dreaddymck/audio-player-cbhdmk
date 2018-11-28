@@ -200,22 +200,16 @@ EOF;
                     $query = "insert into dmck_audio_log_reports (data) values ( '" . $json . "' )";
             
                     $results = $this->query( $query );
-        
-                    //return $json;
+
                     return;
             
                 } catch (Exception $e) {
                     echo 'Caught exception: ', $e->getMessage(), "\n";
-                }       
+                } 
             
-                return 0;
-            
-            }
-            else{
-                echo 'Access log not found' . "\n";
-                return 0;
             }
 
+            return;
         }
 
     }
