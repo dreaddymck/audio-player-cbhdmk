@@ -150,7 +150,8 @@ EOF;
            
                 try{
                     
-                    $handle         = fopen('/var/log/apache2/access.log','r') or die ('File opening failed');            
+                   // $handle         = fopen('/var/log/apache2/access.log','r') or die ('File opening failed');            
+                   $handle         = fopen('/var/log/apache2/access.log','r');            
                 }
                 catch (Exception $e) {
 
