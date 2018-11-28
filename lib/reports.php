@@ -136,17 +136,29 @@ EOF;
     {   /// usr/local/apache/logs/access_log
         
         $logarray = array(
-            '/var/log/apache2/access.log', 
             '/usr/local/apache/logs/access_log',
-            'access-logs/dreaddymck.com',
-            'access-logs/dreaddymck.com-ssl_log'
+            '~/access-logs/dreaddymck.com',
+            '~/access-logs/dreaddymck.com-ssl_log',
+            '/var/log/apache2/access.log',
         );
 
         foreach ($logarray as $value) {
 
             if ( file_exists( $value ) ) {
 
-                $handle         = fopen('/var/log/apache2/access.log','r') or die ('File opening failed');
+                $handle         = "";
+           
+                try{
+                    
+                    $handle         = fopen('/var/log/apache2/access.log','r') or die ('File opening failed');            
+                }
+                catch (Exception $e) {
+
+                    echo 'Caught exception: ', $e->getMessage(), "\n";
+                    
+                    continue;
+                }               
+
                 $requestsCount  = 0;
                 
                 $data   = "";
