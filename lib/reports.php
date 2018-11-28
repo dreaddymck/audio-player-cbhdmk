@@ -209,8 +209,10 @@ EOF;
             
             }
 
-            return;
+            
         }
+
+        return;
 
     }
     function query($sql){
