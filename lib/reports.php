@@ -133,72 +133,91 @@ EOF;
 
     }    
     function put()
-    {
-        $handle         = fopen('/var/log/apache2/access.log','r') or die ('File opening failed');
-        $requestsCount  = 0;
+    {   /// usr/local/apache/logs/access_log
         
-        $data   = "";
-        $cnt    = 0;
-        $arr    = array();        
-    
-        try {
-    
-            while (!feof($handle)) {
-    
-                $dd = fgets($handle);
-      
-                $parts = explode('"', $dd);            
+        $logarray = array(
+            '/var/log/apache2/access.log', 
+            'usr/local/apache/logs/access_log'
+        );
+
+        foreach ($logarray as $value) {
+
+            if ( file_exists( $value ) ) {
+
+                $handle         = fopen('/var/log/apache2/access.log','r') or die ('File opening failed');
+                $requestsCount  = 0;
+                
+                $data   = "";
+                $cnt    = 0;
+                $arr    = array();        
+            
+                try {
+            
+                    while (!feof($handle)) {
+            
+                        $dd = fgets($handle);
+              
+                        $parts = explode('"', $dd);            
+                
+                        if( isset($parts[1]) ) {
+            
+                            $str = $parts[1];
+            
+                            if ( preg_match('/((\/Public\/MUSIC\/FEATURING.*mp3))/i', $str)){   
+            
+                                preg_match('/\[(.*)\]/', $parts[0], $date_array);
+            
+                                $date       = $date_array[1]; 
+                                $new_date   = strtotime( $date );                    
+            
+                                $str = preg_replace('/GET/', "", $str);
+                                $str = preg_replace('/HTTP.*/', "", $str);                   
+                                $str = trim($str);
+            
+                                $tmparray = explode("/", $str );
+            
+                                $str = $tmparray[ count($tmparray) - 1 ];
+                                
+                                if( isset( $arr[$str] ) )
+                                {                            
+                                    $arr[$str]["count"] += 1;
         
-                if( isset($parts[1]) ) {
-    
-                    $str = $parts[1];
-    
-                    if ( preg_match('/((\/Public\/MUSIC\/FEATURING.*mp3))/i', $str)){   
-    
-                        preg_match('/\[(.*)\]/', $parts[0], $date_array);
-    
-                        $date       = $date_array[1]; 
-                        $new_date   = strtotime( $date );                    
-    
-                        $str = preg_replace('/GET/', "", $str);
-                        $str = preg_replace('/HTTP.*/', "", $str);                   
-                        $str = trim($str);
-    
-                        $tmparray = explode("/", $str );
-    
-                        $str = $tmparray[ count($tmparray) - 1 ];
-                        
-                        if( isset( $arr[$str] ) )
-                        {                            
-                            $arr[$str]["count"] += 1;
+                                    $old_date           = $arr[$str]["time"];
+                                    $arr[$str]["time"]  = $old_date > $new_date ? $old_date : $new_date;
+                                }
+                                else
+                                {
+                                    $arr[$str] = array( "count" => 1, "time" => $new_date, "name" => $str );
+                                }
+                            }
+                        } 
+                    }        
+            
+                    fclose($handle);
+            
+                    $json = json_encode($arr,JSON_FORCE_OBJECT);
+            
+                    $query = "insert into dmck_audio_log_reports (data) values ( '" . $json . "' )";
+            
+                    $results = $this->query( $query );
+        
+                    //return $json;
+                    return;
+            
+                } catch (Exception $e) {
+                    echo 'Caught exception: ', $e->getMessage(), "\n";
+                }       
+            
+                return 0;
+            
+            }
+            else{
+                echo 'Access log not found' . "\n";
+                return 0;
+            }
 
-                            $old_date           = $arr[$str]["time"];
-                            $arr[$str]["time"]  = $old_date > $new_date ? $old_date : $new_date;
-                        }
-                        else
-                        {
-                            $arr[$str] = array( "count" => 1, "time" => $new_date, "name" => $str );
-                        }
-                    }
-                } 
-            }        
-    
-            fclose($handle);
-    
-            $json = json_encode($arr,JSON_FORCE_OBJECT);
-    
-            $query = "insert into dmck_audio_log_reports (data) values ( '" . $json . "' )";
-    
-            $results = $this->query( $query );
+        }
 
-            //return $json;
-            return;
-    
-        } catch (Exception $e) {
-            echo 'Caught exception: ', $e->getMessage(), "\n";
-        }       
-    
-        return 0;
     }
     function query($sql){
     
