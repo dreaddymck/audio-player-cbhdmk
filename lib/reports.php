@@ -135,11 +135,11 @@ EOF;
     function put()
     {   /// usr/local/apache/logs/access_log
         
-        $logarray = array(
-            '/usr/local/apache/logs/access_log',
+        $logarray = array(            
             '~/access-logs/dreaddymck.com',
             '~/access-logs/dreaddymck.com-ssl_log',
             '/var/log/apache2/access.log',
+            '/usr/local/apache/logs/access_log',
         );
 
         foreach ($logarray as $value) {
@@ -150,8 +150,14 @@ EOF;
            
                 try{
                     
-                   // $handle         = fopen('/var/log/apache2/access.log','r') or die ('File opening failed');            
-                   $handle         = fopen('/var/log/apache2/access.log','r');            
+                    // $handle         = fopen('/var/log/apache2/access.log','r') or die ('File opening failed');            
+                    $handle         = fopen($value,'r'); 
+                   
+                    if ( !$handle ) {
+
+                        throw new Exception('File open failed: ' . $value);
+                    }                     
+                   
                 }
                 catch (Exception $e) {
 
