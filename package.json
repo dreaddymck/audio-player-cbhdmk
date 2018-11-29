@@ -15,5 +15,7 @@
   "devDependencies": {
     "eslint-config-google": "^0.9.1"
   },
-  "dependencies": {}
+  "dependencies": {
+    "font-awesome": "^4.7.0"
+  }
 }

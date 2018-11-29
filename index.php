@@ -180,6 +180,7 @@ if (!class_exists("WPAudioPlayerCBHDMK")) {
 
 		}
 		function shared_scripts(){
+			wp_register_style( 'font-awesome.min.css',  $this->plugin_url . "/node_modules/font-awesome/css/font-awesome.min.css");
 			wp_register_style( 'jquery-ui.min.css',  $this->plugin_url . "plugins/jquery-ui-1.12.1/jquery-ui.min.css");
 			wp_enqueue_style( 'jquery-ui.min.css' );
 			wp_enqueue_script( 'functions.js', $this->plugin_url . 'js/functions.js', array( 'jquery' ), '1.0.1', true );			

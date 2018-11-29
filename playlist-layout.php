@@ -1,6 +1,6 @@
 <div class="player row">
 
-	<div class="col-md-4">
+	<div class="col-lg-4">
 
 		<div class="panel panel-box box-background">
 			<div class="panel-body">
@@ -12,15 +12,14 @@
 
 					<div class="controls-centered">
 
-						<i class="btn btn-default play fa fa-play-circle"  aria-hidden="true" title="Play"></i>
-						<i class="btn btn-default pause fa fa-pause hidden"  aria-hidden="true" title="Pause"></i>							
+						<i class="play fa fa-play-circle fa-2x"  aria-hidden="true" title="Play"></i>
 
-						<i class="btn btn-default rew fa fa-step-backward" aria-hidden="true" title="Back"></i>							
+						<i class="pause fa fa-pause fa-2x"  aria-hidden="true" title="Pause"></i>							
 
-						<i class="btn btn-default fwd fa fa-step-forward"  aria-hidden="true" title="Forward"></i>							
-					<!-- 
-						<i class="btn btn-default showlist fa fa-list"  aria-hidden="true"  title="Tone Deaf Playlist"> </i> 	
-					-->							
+						<i class="rew fa fa-step-backward fa-2x" aria-hidden="true" title="Back"></i>							
+
+						<i class="fwd fa fa-step-forward fa-2x"  aria-hidden="true" title="Forward"></i>							
+				
 					</div>			 
 				</div> 
 
@@ -30,7 +29,7 @@
 		</div>	
 
 	</div>
-	<div class="col-md-8">
+	<div class="col-lg-8">
 		
 		<h1 class="title" title="click for more information"></h1>
 

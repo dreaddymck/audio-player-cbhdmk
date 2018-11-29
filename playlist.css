@@ -88,3 +88,8 @@ img.ui-li-img {
     margin-right: 6px;
     margin-left: 6px;
 }
+.controls-centered i {
+    padding: 18px;
+    cursor:pointer;
+    text-shadow: 2px 2px #ced4da;
+}
