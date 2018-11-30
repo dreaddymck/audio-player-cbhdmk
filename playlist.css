@@ -79,17 +79,14 @@ img.ui-li-img {
 }
 /* .playlist li.active, .top-requests-data tbody tr.active {} */
 .artist { float: right }
-.controls-centered{
+
+.controls div{
     float: none;
     margin: 0 auto;
     text-align: center;
-}
-.controls-centered i{
-    margin-right: 6px;
-    margin-left: 6px;
-}
-.controls-centered i {
-    padding: 18px;
+    padding-top: 24px;
+    padding-bottom: 24px;
     cursor:pointer;
-    text-shadow: 2px 2px #ced4da;
+    text-shadow: 2px 2px #ced4da;    
 }
+

@@ -10,17 +10,14 @@
 
 				<div class="controls row ">
 
-					<div class="controls-centered">
+						<div class="play fa fa-play-circle fa-4x col-xs-3"  aria-hidden="true" title="Play"></div>
 
-						<i class="play fa fa-play-circle fa-2x"  aria-hidden="true" title="Play"></i>
+						<div class="pause fa fa-pause fa-4x col-xs-3"  aria-hidden="true" title="Pause"></div>							
 
-						<i class="pause fa fa-pause fa-2x"  aria-hidden="true" title="Pause"></i>							
+						<div class="rew fa fa-step-backward fa-4x col-xs-3" aria-hidden="true" title="Back"></div>							
 
-						<i class="rew fa fa-step-backward fa-2x" aria-hidden="true" title="Back"></i>							
-
-						<i class="fwd fa fa-step-forward fa-2x"  aria-hidden="true" title="Forward"></i>							
-				
-					</div>			 
+						<div class="fwd fa fa-step-forward fa-4x col-xs-3"  aria-hidden="true" title="Forward"></div>							
+							 
 				</div> 
 
 			</div>
