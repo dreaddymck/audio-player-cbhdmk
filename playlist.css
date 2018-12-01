@@ -90,3 +90,6 @@ img.ui-li-img {
     text-shadow: 2px 2px #ced4da;    
 }
 
+.controls div:active:hover{
+    color: black;
+ }
