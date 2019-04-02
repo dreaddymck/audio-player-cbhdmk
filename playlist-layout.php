@@ -56,7 +56,7 @@
 
 
 
-<!-- <ul class="nav nav-tabs info-tabs">
+<ul class="nav nav-tabs info-tabs">
 	<li class="active"><a data-toggle="tab" href="#tab-home" id="tab-playlist">Playlist</a></li>	
 
 </ul>
@@ -68,6 +68,6 @@
 		</ul>
 	</div>
 		
-</div>	 -->
+</div>	
 
 
