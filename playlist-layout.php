@@ -51,7 +51,7 @@
 </ul>
 
 <div class="tab-content">
-	<div class="tab-pane active playlist" id="home" role="tabpanel" aria-labelledby="tab-playlist">resasdfasdfasd</div>	
+	<div class="tab-pane active playlist" id="home" role="tabpanel" aria-labelledby="tab-playlist"></div>	
 </div>
 
 
