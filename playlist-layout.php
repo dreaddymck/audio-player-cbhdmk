@@ -56,9 +56,8 @@
 
 
 
-<ul class="nav nav-tabs info-tabs">
-	<li class="active"><a data-toggle="tab" href="#tab-home" id="tab-playlist">Playlist</a></li>	
-
+<!-- <ul class="nav nav-tabs info-tabs">
+	<li class="active"><a data-toggle="tab" href="#tab-home" id="tab-playlist">Playlist</a></li>
 </ul>
 
 <div class="tab-content">
@@ -66,8 +65,7 @@
 		<ul class="playlist ">
 			<li audiourl="*.mp3" cover="cover1.jpg" artist="Artist 1">*.mp3</li>
 		</ul>
-	</div>
-		
-</div>	
+	</div>		
+</div>	 -->
 
 
