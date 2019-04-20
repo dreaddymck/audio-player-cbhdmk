@@ -70,13 +70,7 @@ img.ui-li-img {
     background-color: rgba(0, 0, 0, 0.384); 
     color: white;  
 }
-.playlist li:hover, .top-requests-data tbody tr:hover{ 
-    font-weight: bolder;
-    /* background-color: rgba(0, 0, 0, 0.384); 
-    color: white;
-    filter:saturate(2);
-    box-shadow: 0 0 0 4px inherit, 2px 1px 6px 4px rgba(10, 10, 0, 0.5);     */
-}
+
 /* .playlist li.active, .top-requests-data tbody tr.active {} */
 .artist { float: right }
 
