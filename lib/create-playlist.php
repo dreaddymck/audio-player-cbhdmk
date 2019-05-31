@@ -114,12 +114,16 @@ EOF;
         $tmp    = "";
         
         $fn = fopen($input,"r");
-  
+        $count = 0;
         while(! feof($fn))  {
             $line = fgets($fn);            
             foreach( $res as $r ){
-                if (strpos($line, $r) !== false) { $tmp = $tmp . $line; }
-            }          
+                if (strpos($line, $r) !== false) { 
+                    $tmp = $tmp . $line;
+                    $count++; 
+                }
+            }
+            if($count >= 10){break;}          
         }      
         fclose($fn);    
         
