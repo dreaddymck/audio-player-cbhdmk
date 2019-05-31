@@ -15,7 +15,8 @@ class dmck_create_playlist  extends playlist_utilities_class {
 
     function __construct() {
         $this::parameters();
-        exit($this::run());
+        $this::run();
+        exit();
     }
     function parameters()
     {
@@ -40,17 +41,15 @@ class dmck_create_playlist  extends playlist_utilities_class {
     }
     function run(){
 
-        $response = "";
         switch ($this->option) {
             case "tag":
-                $response = $this->tag();
+                $this->tag();
                 break;
             case "top10":
-                $response = $this->top10();
+                $this->top10();
                 break;
             default:
         }
-        return $response;        
 
     }
     function tag(){
@@ -79,7 +78,7 @@ class dmck_create_playlist  extends playlist_utilities_class {
         if (!copy($tmp, $file)) {
             echo "failed to copy $tmp to $file...\n";
         }
-        return null;      
+        return;      
     }
     function top10() {
 
