@@ -99,22 +99,36 @@ EOF;
 
         $conn = new mysqli(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME );
 
-        if ($conn->connect_error) {
-            die("Connection failed: " . $conn->connect_error);
-        } 
+        if ($conn->connect_error) { die("Connection failed: " . $conn->connect_error); } 
 
         $resp       = $conn->query($query);
         $results    = array();        
 
-        if( $resp instanceof mysqli_result )
-        {
-            $results = mysqli_fetch_all($resp);  
-        }     
+        if( $resp instanceof mysqli_result ){ $results = mysqli_fetch_all($resp); }     
 
         $conn->close();
+                       
+        $res    = json_decode($results[0][0]);    
+        $file   = dirname(__FILE__) . "/../../../../Public/MUSIC/FEATURING/top10.m3u";
+        $input  = dirname(__FILE__) . "/../../../../Public/MUSIC/FEATURING/play.m3u";
+        $tmp    = "";
+        
+        $fn = fopen($input,"r");
+  
+        while(! feof($fn))  {
+            $line = fgets($fn);            
+            foreach( $res as $r ){
+                if (strpos($line, $r) !== false) { $tmp = $tmp . $line; }
+            }          
+        }      
+        fclose($fn);    
+        
+        if($tmp){
 
-        return json_encode($results);
-
+            $fp = fopen( $file , 'w');
+            fwrite($fp, $tmp);
+            fclose($fp); 
+        }
     }    
 
     function query($sql){
