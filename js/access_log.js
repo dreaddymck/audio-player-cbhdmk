@@ -45,9 +45,12 @@ const access_log = {
 //<li><a data-toggle="tab" href="#tab-top-request" id="#tab-top-request">Today's Top 10</a></li>    
                             jQuery("#info-tabs").append(`
 <li class="nav-item">
-<a class="nav-link" id="top-10-tab" data-toggle="tab" href="#top-10" role="tab" aria-controls="top-10" aria-selected="false">Today's Top 10</a>
+    <a class="nav-link" id="top-10-tab" data-toggle="tab" href="#top-10" role="tab" aria-controls="top-10" aria-selected="false">
+        Today's Top 10 >
+    </a>
 </li>
                             `);
+// <i class="fa fa-download todays-top-10-m3u"  title="download m3u playlist" aria-hidden="true"></i                            
 //<div id="tab-top-request" class="tab-pane fade top-requests"></div>                              
                             jQuery(".tab-content").append(`
 <div class="tab-pane top-requests container" id="top-10" role="tabpanel" aria-labelledby="top-10-tab"></div>                      

@@ -46,10 +46,11 @@
 
 <ul class="nav nav-tabs" id="info-tabs" role="tablist">
 	<li class="nav-item">
-		<a class="nav-link active" id="tab-playlist" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Playlist</a>
+		<a class="nav-link active" id="tab-playlist" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">
+			Playlist <i class="fa fa-download"  title="download m3u playlist" aria-hidden="true"></i>
+		</a>
 	</li>
 </ul>
-
 <div class="tab-content">
 	<div class="tab-pane active playlist" id="home" role="tabpanel" aria-labelledby="tab-playlist"></div>	
 </div>
