@@ -60,7 +60,7 @@ class dmck_create_playlist  extends playlist_utilities_class {
             'post_type' => '',
             'tag' => $this->value, // Here is where is being filtered by the tag you want
             'orderby' => 'id',
-            'order' => 'ASC'
+            'order' => 'DESC'
         );        
 
         $posts = get_posts( $args );
