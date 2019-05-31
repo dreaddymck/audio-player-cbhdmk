@@ -56,6 +56,7 @@ class dmck_create_playlist  extends playlist_utilities_class {
     function tag(){
 
         $args = array(
+            'numberposts' => -1,
             'post_type' => '',
             'tag' => $this->value, // Here is where is being filtered by the tag you want
             'orderby' => 'id',
