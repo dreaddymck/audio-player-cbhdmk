@@ -46,7 +46,7 @@ const access_log = {
                             jQuery("#info-tabs").append(`
 <li class="nav-item">
     <a class="nav-link" id="top-10-tab" data-toggle="tab" href="#top-10" role="tab" aria-controls="top-10" aria-selected="false">
-        Today's Top 10 >
+        Today's Top 10
     </a>
 </li>
                             `);

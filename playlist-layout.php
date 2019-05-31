@@ -47,7 +47,7 @@
 <ul class="nav nav-tabs" id="info-tabs" role="tablist">
 	<li class="nav-item">
 		<a class="nav-link active" id="tab-playlist" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">
-			Playlist 
+			Featured 
 		</a>
 	</li>
 </ul>
