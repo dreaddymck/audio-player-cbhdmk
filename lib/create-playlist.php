@@ -16,7 +16,7 @@ class dmck_create_playlist  extends playlist_utilities_class {
     function __construct() {
         $this::parameters();
         $this::run();
-        exit();
+        exit;
     }
     function parameters()
     {
