@@ -145,7 +145,7 @@ const access_log = {
                         label: '# of Requests',
                         data: data,
                         borderWidth: 1,
-                        backgroundColor: ["#ffffff","#ffffff","#ffffff","#ffffff","#ffffff","#ffffff","#ffffff","#ffffff","#ffffff","#ffffff","#ffffff"],
+                        backgroundColor: ["#ffffff","#F0F0F0","#E0E0E0","#D0D0D0","#C0C0C0","#B0B0B0","#A0A0A0","#909090","#808080","#707070"],
                     }]
                 },
                 options: {
