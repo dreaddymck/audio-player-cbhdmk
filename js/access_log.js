@@ -139,6 +139,7 @@ const access_log = {
 
             let top_requests_chart = new Chart(ctx, {
                 type: 'horizontalBar',
+                theme: "dark1",
                 data: {
                     labels: labels,
                     datasets: [{

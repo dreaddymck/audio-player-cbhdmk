@@ -108,31 +108,39 @@ EOF;
 
         $conn->close();
                        
-        $res    = json_decode($results[0][0]);    
-        $file   = dirname(__FILE__) . "/../../../../Public/MUSIC/FEATURING/top10.m3u";
-        $input  = dirname(__FILE__) . "/../../../../Public/MUSIC/FEATURING/play.m3u";
-        $tmp    = "";
+
+        error_log(print_r($results[0],1));
+
+
+        $names      = json_decode($results[0][0]);
+        $time       = json_decode($results[0][1]);
+        $rank       = json_decode($results[0][2]);
+
+        $file       = dirname(__FILE__) . "/../../../../Public/MUSIC/FEATURING/top10.m3u";
+        $input      = dirname(__FILE__) . "/../../../../Public/MUSIC/FEATURING/play.m3u";
+        $tmparry    = array();
         
         $fn = fopen($input,"r");
         $count = 0;
+        
         while(! feof($fn))  {
             $line = fgets($fn);            
-            foreach( $res as $r ){
-                if (strpos($line, $r) !== false) { 
-                    $tmp = $tmp . $line;
+            foreach( $names as $n ){
+                if (strpos($line, $n) !== false) { 
+                    $tmparry[ $rank[$count] ] = $line;
                     $count++; 
                 }
-            }
-            if($count >= 10){break;}          
+            }         
         }      
         fclose($fn);    
         
-        if($tmp){
+        error_log(print_r($tmparry,1));
 
-            $fp = fopen( $file , 'w');
-            fwrite($fp, $tmp);
-            fclose($fp); 
-        }
+        // if($tmp){
+        //     $fp = fopen( $file , 'w');
+        //     fwrite($fp, $tmp);
+        //     fclose($fp); 
+        // }
     }    
 
     function query($sql){
