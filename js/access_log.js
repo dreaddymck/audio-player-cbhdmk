@@ -150,10 +150,16 @@ const access_log = {
                 },
                 options: {
                     responsive: true,
+                    legend: {
+                        labels: {
+                            fontColor: "#ffffff",
+                        }
+                    },                    
                     scales: {
                         yAxes: [{
                             ticks: {
-                                beginAtZero:true
+                                beginAtZero:true,
+                                fontColor: "#ffffff",
                             }
                         }],
                       
