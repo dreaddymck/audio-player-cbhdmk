@@ -67,7 +67,7 @@ img.ui-li-img {
     padding-right: 3px;    
 }
 .playlist li.active, .top-requests-data tbody tr.active{ 
-    background-color: rgba(0, 0, 0, 0.384); 
+    background-color: rgba(87, 87, 87, 0.384); 
     color: white;  
 }
 
@@ -85,5 +85,5 @@ img.ui-li-img {
 }
 
 .controls div:active:hover{
-    color: black;
+    color: rgb(8, 8, 8);
  }
