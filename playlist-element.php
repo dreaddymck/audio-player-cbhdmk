@@ -34,6 +34,7 @@ if (!class_exists("PlayListElement")) {
 			
 			$args = array(
 					'numberposts' 		=> -1,
+					's' => $this->path,
 					'post_status'      	=> 'publish'
 			);
 			
