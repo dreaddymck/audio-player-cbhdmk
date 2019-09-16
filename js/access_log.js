@@ -172,7 +172,9 @@ const access_log = {
     active: function(url){
 
         jQuery(".top-requests-data tr").each(function(){
-                                
+
+            if(typeof jQuery(this).attr('audiourl') === "undefined" ){return}   
+                                         
             if( url.includes(jQuery(this).attr('audiourl')) )
             {
                 jQuery(this).addClass('active');
