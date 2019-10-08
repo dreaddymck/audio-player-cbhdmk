@@ -32,15 +32,15 @@
 			<h3>Featured</h3> 
 		</a>
 	</li>
-	<li class="nav-item">
+	<!-- <li class="nav-item">
 		<a class="nav-link" id="tab-playlist" data-toggle="tab" href="#rebrixed" role="tab" aria-controls="rebrixed" aria-selected="true">
 		<h3>Rebrixed</h3> 
 		</a>
-	</li>	
+	</li>	 -->
 </ul>
 <div class="tab-content">
 	<div class="tab-pane active playlist" id="home" role="tabpanel" aria-labelledby="tab-playlist"></div>
-	<div class="tab-pane" id="rebrixed" role="tabpanel" aria-labelledby="tab-playlist"></div>	
+	<!-- <div class="tab-pane" id="rebrixed" role="tabpanel" aria-labelledby="tab-playlist"></div>	 -->
 </div>
 
 
