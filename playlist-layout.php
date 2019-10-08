@@ -10,8 +10,8 @@
 					<div class="h-100">
 						<div class="volume" style="display:none"></div>						
 						<div class="duration h-100">							
-							<h3 class="artist text-muted"></h3>	
-							<div class="tracktime text-muted"> 0 / 0</div>					
+							<h3 class="artist"></h3>	
+							<div class="tracktime"> 0 / 0</div>					
 						</div>						
 					</div>
 				</div>

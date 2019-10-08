@@ -21,6 +21,7 @@
 }
 .tracktime {
     height: 25px;
+    padding: 12px;
 }
 img.ui-li-img {
     float: right;
@@ -72,7 +73,7 @@ img.ui-li-img {
 }
 
 /* .playlist li.active, .top-requests-data tbody tr.active {} */
-.artist { float: right }
+.artist { float: right; padding: 12px; }
 
 .controls div{
     float: none;

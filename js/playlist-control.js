@@ -169,7 +169,8 @@ const playlist_control = {
 	set_cover_background: function (img) {
 		jQuery('.player .cover').css({
 			'background-image': 'url(' + img + ')',
-			'background-size': '100% auto'
+			'background-size': '100% auto',
+			'opacity': 0.8
 		})
 	},
 	set_cover_click: function (str) {
