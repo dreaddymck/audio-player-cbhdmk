@@ -252,11 +252,12 @@ const playlist_control = {
 		dmck_audioplayer.song.addEventListener('ended', function (e) {
 			playlist_control.stopAudio()
 	
-			var next = playlist_control.playlist.find('li.active').next()
+			var next = playlist_control.playlist.find('li.active').nextAll().filter(function(){
+				return jQuery(this).attr('audiourl').length > 0
+			})
 			if (next.length == 0) {
 				next = playlist_control.playlist.find('li:first-child')
-			}
-	
+			}	
 			playlist_control.initAudio(next)
 		});
 	
