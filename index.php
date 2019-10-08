@@ -3,7 +3,7 @@
 Plugin Name: (DMCK) audio player
 Plugin URI: dreaddymck.com
 Description: Just another Wordpress audio player. This plugin will add the first mp3 link embedded in each active post content into a playlist. shortcode [dmck-audioplayer]
-Version: 1.0
+Version: 1.0.1
 Author: dreaddymck
 Author URI: dreaddymck.com
 License: MIT
@@ -156,8 +156,8 @@ if (!class_exists("WPAudioPlayerCBHDMK")) {
 				$this->shared_scripts();
 				$this->localize_vars();
 
-				wp_enqueue_style( 'admin.css',  $this->plugin_url . "admin/admin.css");
-				wp_enqueue_script( 'admin.js', $this->plugin_url . 'admin/admin.js', array( 'jquery' ), '1.0.0', true );
+				wp_enqueue_style( 'admin.css',  $this->plugin_url . "admin/admin.css", array(), $this->plugin_version);
+				wp_enqueue_script( 'admin.js', $this->plugin_url . 'admin/admin.js', array('jquery'), $this->plugin_version, true );
 			}
 		}
 		function user_scripts() {
@@ -166,26 +166,24 @@ if (!class_exists("WPAudioPlayerCBHDMK")) {
 		
 			$this->shared_scripts();	
 			$this->localize_vars();
-
 			
-			
-			wp_enqueue_script( 'jquery-ui.min.js', $this->plugin_url . 'plugins/jquery-ui-1.12.1/jquery-ui.js', array( 'jquery' ), '1.12.1', true );
+			wp_enqueue_script( 'jquery-ui.min.js', $this->plugin_url . 'plugins/jquery-ui-1.12.1/jquery-ui.js', array('jquery'), $this->plugin_version, true );
 			wp_enqueue_style( 'playlist.css',  $this->plugin_url . "playlist.css");
-			wp_enqueue_script( 'playlist-render.js', $this->plugin_url . 'js/playlist-render.js', array( 'jquery' ), '1.0.0', true );
-			wp_enqueue_script( 'playlist-control.js', $this->plugin_url . 'js/playlist-control.js', array( 'jquery' ), '1.0.3', true );
-			wp_enqueue_script( 'playlist-element.js', $this->plugin_url . 'js/playlist-element.js', array( 'jquery' ), '1.0.0', true );
-			wp_enqueue_script( 'playlist.js', $this->plugin_url . 'js/playlist.js', array( 'jquery' ), '1.0.1', true );
-			wp_enqueue_script( 'Chart.bundle.js', $this->plugin_url . 'js/Chart.bundle.js', array( 'jquery' ), '1.0.1', true );
-			wp_enqueue_script( 'index.js', $this->plugin_url . 'js/index.js', array( 'jquery' ), '1.0.0', true );
+			wp_enqueue_script( 'playlist-render.js', $this->plugin_url . 'js/playlist-render.js', array('jquery'), $this->plugin_version, true );
+			wp_enqueue_script( 'playlist-control.js', $this->plugin_url . 'js/playlist-control.js', array('jquery'), $this->plugin_version, true );
+			wp_enqueue_script( 'playlist-element.js', $this->plugin_url . 'js/playlist-element.js', array('jquery'), $this->plugin_version, true );
+			wp_enqueue_script( 'playlist.js', $this->plugin_url . 'js/playlist.js', array('jquery'), $this->plugin_version, true );
+			wp_enqueue_script( 'Chart.bundle.js', $this->plugin_url . 'js/Chart.bundle.js', array('jquery'), $this->plugin_version, true );
+			wp_enqueue_script( 'index.js', $this->plugin_url . 'js/index.js', array('jquery'), $this->plugin_version, true );
 
 		}
 		function shared_scripts(){
-			wp_register_style( 'font-awesome.min.css',  $this->plugin_url . "/node_modules/font-awesome/css/font-awesome.min.css");
-			wp_register_style( 'jquery-ui.min.css',  $this->plugin_url . "plugins/jquery-ui-1.12.1/jquery-ui.min.css");
+			wp_register_style( 'font-awesome.min.css',  $this->plugin_url . "/node_modules/font-awesome/css/font-awesome.min.css", array(), $this->plugin_version);
+			wp_register_style( 'jquery-ui.min.css',  $this->plugin_url . "plugins/jquery-ui-1.12.1/jquery-ui.min.css", array(), $this->plugin_version);
 			wp_enqueue_style( 'jquery-ui.min.css' );
-			wp_enqueue_script( 'functions.js', $this->plugin_url . 'js/functions.js', array( 'jquery' ), '1.0.1', true );			
+			wp_enqueue_script( 'functions.js', $this->plugin_url . 'js/functions.js', array('jquery'), $this->plugin_version, true );			
 			// wp_enqueue_script( 'bootstrap.js', $this->plugin_url . 'js/bootstrap.min.js', array( 'jquery' ), '', true );
-			wp_enqueue_script( 'access_log.js', $this->plugin_url . 'js/access_log.js', array( 'jquery' ), '1.0.0', true );
+			wp_enqueue_script( 'access_log.js', $this->plugin_url . 'js/access_log.js', array('jquery'), $this->plugin_version, true );
 			
 		}
 		function localize_vars(){
