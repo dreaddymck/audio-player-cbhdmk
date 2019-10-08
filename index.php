@@ -23,21 +23,17 @@ if (!class_exists("WPAudioPlayerCBHDMK")) {
 		public $plugin_settings_group 	= 'dmck-audioplayer-settings-group';
 		public $shortcode				= "dmck-audioplayer";
 		public $adminpreferences 		= array('adminpreferences','favicon','default_album_cover', 'moreinfo', 'facebook_app_id	');
-		public $userpreferences 		= array('userpreferences');
-		
+		public $userpreferences 		= array('userpreferences');		
+		public $plugin_version;
 		public $plugin_url;
 		public $theme_url;
 		public $github_url				= "https://github.com/dreaddy/audio-player-cbhdmk";
-		public $wpdb;
 		
 		public $tag_in	= null;
 		public $tag_not_in	= null;
 		
 		function __construct() {
-			
-			global $wpdb;
-			$this->wpdb = $wpdb;
-			
+		
 			$this->plugin_url 	= plugins_url("/",__FILE__);
 			$this->theme_url	= dirname( get_bloginfo('stylesheet_url') );
 
@@ -45,24 +41,28 @@ if (!class_exists("WPAudioPlayerCBHDMK")) {
 
 			add_action( 'init', array( $this, 'register_shortcodes'));
 			add_action( 'admin_init', array( $this, 'register_settings') );
-			add_action( 'admin_menu', array( $this, 'admin_menu' ));
-			
+			add_action( 'admin_menu', array( $this, 'admin_menu' ));			
 			add_action( 'admin_enqueue_scripts', array($this, 'admin_scripts') );
 			add_action( 'admin_bar_menu', array( $this, 'admin_bar_setup'), 999);
-
-			add_action( 'wp_enqueue_scripts', array($this, 'user_scripts') );
-			
+			add_action( 'wp_enqueue_scripts', array($this, 'user_scripts') );			
 			add_action( 'wp_head', array($this, 'head_hook') );
 			add_action( 'login_head', array($this, 'head_hook') );
-			add_action( 'admin_head', array($this, 'head_hook') );
-			
+			add_action( 'admin_head', array($this, 'head_hook') );			
 			add_filter('get_the_excerpt', array($this,'the_exerpt_filter'));
 			add_filter('the_content', array($this,'content_toggle_https'));
 			add_filter('language_attributes', array($this,'set_doctype'));
 
-			
+			require_once ( plugin_dir_path(__FILE__).'playlist-object.php' );
 
 		}
+
+		function set_plugin_version(){
+			// error_log( preg_match('/version:[\s\t]+?([0-9.]+)/i',file_get_contents( __FILE__ ) ));
+			if(preg_match('/version:[\s\t]+?([0-9.]+)/i',file_get_contents( __FILE__ ), $v)){
+				$this->plugin_version = $v[1];
+			}
+			return $this->plugin_version;								
+		}		
 		function get_post_by_slug($slug){
 
 			$posts = get_posts(array(
@@ -242,6 +242,7 @@ if (!class_exists("WPAudioPlayerCBHDMK")) {
 				'post_name' => $post ? $post->post_name : "",
 				'tags' =>  $tags,
 				'category' => $category,
+				'plugin_version' => $this->set_plugin_version(),
 
 				'plugin_url' => $this->plugin_url,
 				'plugin_slug' => $this->plugin_slug,

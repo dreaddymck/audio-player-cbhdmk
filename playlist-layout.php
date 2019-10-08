@@ -1,46 +1,31 @@
 <div class="player row">
 
-	<div class="col-lg-4">
-
+	<div class="col-lg-12">
 		<div class="panel panel-box box-background">
-			<div class="panel-body">
-				<div class="cover"></div>
+			<div class="panel-heading">
+			<h1 class="title" title="click for more information"></h1>
 			</div>
-			<div class="panel-heading options">			
-
+			<div class="panel-body">				
+				<div class="cover">
+					<div class="h-100">
+						<div class="volume" style="display:none"></div>						
+						<div class="duration h-100">							
+							<h3 class="artist text-muted"></h3>	
+							<div class="tracktime text-muted"> 0 / 0</div>					
+						</div>						
+					</div>
+				</div>
+			</div>
+			<div class="panel-heading options">
 				<div class="controls row ">
-
-						<div class="play fa fa-play-circle fa-4x col-xs-3"  aria-hidden="true" title="Play"></div>
-
-						<div class="pause fa fa-pause fa-4x col-xs-3"  aria-hidden="true" title="Pause"></div>							
-
-						<div class="rew fa fa-step-backward fa-4x col-xs-3" aria-hidden="true" title="Back"></div>							
-
-						<div class="fwd fa fa-step-forward fa-4x col-xs-3"  aria-hidden="true" title="Forward"></div>							
-							 
+						<div class="play fa fa-play-circle fa-3x col-xs-3"  aria-hidden="true" title="Play"></div>
+						<div class="pause fa fa-pause fa-3x col-xs-3"  aria-hidden="true" title="Pause"></div>	
+						<div class="rew fa fa-step-backward fa-3x col-xs-3" aria-hidden="true" title="Back"></div>
+						<div class="fwd fa fa-step-forward fa-3x col-xs-3"  aria-hidden="true" title="Forward"></div>
 				</div> 
-
-			</div>
-
-			
-		</div>	
-
-	</div>
-	<div class="col-lg-8">
-		
-		<h1 class="title" title="click for more information"></h1>
-
-		<div class="volume" style="display:none"></div>
-		
-		<div class="duration">
-			
-			<h3 class="artist text-muted"></h3>
-		
+			</div>			
 		</div>
-		
-		<div class="tracktime">0 / 0</div>
 	</div>
-
 </div>
 
 
