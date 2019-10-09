@@ -46,9 +46,9 @@ const playlist_render = {
 
 		let div 	= jQuery('<div>').addClass('track-content row').appendTo(li);
 		let divleft = jQuery('<div>').addClass('col-lg-10').appendTo(div);
-		let divright = jQuery('<div>').addClass('col-lg-2').appendTo(div);
+		let divright = jQuery('<div>').addClass('col-lg-2 text-center').appendTo(div);
 
-		jQuery('<img>').addClass('ui-li-img').attr('src', item.cover).attr({'height':'auto','width':'auto'}).appendTo(divright)
+		jQuery('<img>').addClass('ui-li-img').attr('src', item.cover).attr({'height':'100','width':'100'}).appendTo(divright)
 
 		jQuery('<h5>').addClass('ui-li-title').text(title).appendTo(divleft)
 		//jQuery('<small>').addClass('ui-li-excerpt').text(excerpt).appendTo(div)

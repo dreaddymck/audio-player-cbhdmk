@@ -24,8 +24,7 @@
     padding: 12px;
 }
 img.ui-li-img {
-    float: right;
-    margin: 2px;
+    margin: 6px;
 }
 .ui-icon {
     -ms-transform: scale(1.0);
@@ -86,4 +85,6 @@ img.ui-li-img {
 
 .controls div:active:hover{
     color: rgb(8, 8, 8);
- }
+}
+
+@media only screen and (max-width: 600px) {}
