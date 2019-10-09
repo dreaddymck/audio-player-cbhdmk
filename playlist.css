@@ -53,19 +53,15 @@ img.ui-li-img {
 }
 .featured-track {
     list-style-type: none;
-    margin: -1px 0 0 0px;
-    padding-bottom: 10px;
-    padding-top: 15px;
+    /* margin: -1px 0 0 0px; */
+    padding: 6px;       
     position: relative;
     width: 100%;
-}
-.featured-track li {
     cursor: pointer;
-    padding-top: 12px;
-    padding-bottom: 12px;
-    padding-left: 3px;
-    padding-right: 3px;    
 }
+.top-10-track {
+    cursor: pointer;
+}   
 .featured-track.active, .top-requests-data tbody tr.active{ 
     background-color: rgba(87, 87, 87, 0.384); 
     color: white;  
