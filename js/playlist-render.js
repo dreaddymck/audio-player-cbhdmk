@@ -4,29 +4,21 @@ const playlist_render = {
 
 	init: function  (response) {
 	
-		var json = jQuery.parseJSON(response)
-	
-		var description = 'originals and rebrixes. Listen, enjoy'
-	
-		jQuery('.playlist').html('')
-	
-		// console.log(json)
-	
+		let json = jQuery.parseJSON(response)
+		let container = jQuery('#playlist'); 
+		let target = ".featured-track";
+
+		container.html('')	
 		jQuery.each(json, function (i) {
 			playlist_render.element(json[i]);
 		})
 	
-		// playlist elements - click
-		playlist_control.playlist.find('li').click(function () {
-			playlist_control.stopAudio()
-	
+		container.find( target ).click(function () {
+			playlist_control.container = container;
+			playlist_control.target = target;
+			playlist_control.stopAudio()	
 			playlist_control.duration.slider('option', 'min', 0)
-	
-			var id_old = jQuery('.player .title').attr('ID')
-			var id_new = jQuery(this).attr('ID')
-	
 			playlist_control.initAudio(jQuery(this))
-			// play = true
 			dmck_audioplayer.playing = true
 		})
 	},
@@ -41,7 +33,8 @@ const playlist_render = {
 		var id = item.ID
 		var moreinfo = item.moreinfo
 
-		var li = jQuery('<li/>').addClass('ui-li-item')
+		var li = jQuery('<li/>')
+			.addClass('ui-li-item featured-track')
 			.attr('audiourl', decodeURIComponent(item.mp3))
 			.attr('cover', item.cover)
 			.attr('artist', item.artist)
@@ -49,11 +42,7 @@ const playlist_render = {
 			.attr('permalink', permalink)
 			.attr('wavformpng', wavformpng)
 			.attr('id', id)
-			// .css({
-			// 	'background-image': 'url("' + wavformpng + '")',
-			// 	'background-size': '100% 100%'
-			// })
-			.appendTo(jQuery('.playlist'))
+			.appendTo(jQuery('#playlist'))
 
 		let div 	= jQuery('<div>').addClass('track-content row').appendTo(li);
 		let divleft = jQuery('<div>').addClass('col-lg-10').appendTo(div);

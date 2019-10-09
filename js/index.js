@@ -1,9 +1,9 @@
 "use strict";
 
-playlist.init();
-access_log.init();
-
 jQuery(function() {    
+
+    playlist.init();
+    access_log.init();    
 
     if(dmck_audioplayer.autoplay){
      

@@ -49,10 +49,10 @@ img.ui-li-img {
 }
 .volume .ui-slider-handle, .duration .ui-slider-handle {
     background: rgba(0, 0, 0, 0.10);
-    height: 30px;
-    width: 30px;
+    height: 100px;
+    width: 50px;
 }
-.playlist {
+.featured-track {
     list-style-type: none;
     margin: -1px 0 0 0px;
     padding-bottom: 10px;
@@ -60,14 +60,14 @@ img.ui-li-img {
     position: relative;
     width: 100%;
 }
-.playlist li {
+.featured-track li {
     cursor: pointer;
     padding-top: 12px;
     padding-bottom: 12px;
     padding-left: 3px;
     padding-right: 3px;    
 }
-.playlist li.active, .top-requests-data tbody tr.active{ 
+.featured-track.active, .top-requests-data tbody tr.active{ 
     background-color: rgba(87, 87, 87, 0.384); 
     color: white;  
 }

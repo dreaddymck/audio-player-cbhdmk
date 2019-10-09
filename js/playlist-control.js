@@ -2,13 +2,10 @@
 
 const playlist_control = {
 	
-	// var play = false
-	duration: jQuery('.duration'),
-	
-	volume: jQuery('.volume'),
-	
-	playlist:jQuery('.playlist'),
-	
+	duration: jQuery('.duration'),	
+	volume: jQuery('.volume'),	
+	container:jQuery('#playlist'),
+	target:".featured-track",
 	init: function(){
 
 		dmck_audioplayer.playing = false;
@@ -43,8 +40,7 @@ const playlist_control = {
 
 		jQuery('body').css('cursor', 'progress')
 		jQuery('.controls button').prop('disabled', 'disabled')
-		jQuery('.sort button').prop('disabled', 'disabled')
-	
+		jQuery('.sort button').prop('disabled', 'disabled')		
 		jQuery('.title').html('loading...')
 	
 		jQuery.get(dmck_audioplayer.plugin_url + 'playlist-functions.php', {
@@ -55,9 +51,9 @@ const playlist_control = {
 			playlist_render.init(data)
 	
 			// initialization - first element in playlist
-			playlist_control.initAudio(playlist_control.playlist.find('li:first-child'));
+			playlist_control.initAudio(playlist_control.container.find( playlist_control.target + ':first-child'));
 
-			access_log.active( playlist_control.playlist.find('li:first-child').attr("audiourl") );
+			access_log.active( playlist_control.container.find( playlist_control.target + ':first-child').attr("audiourl") );
 	
 			if (!orderby) {
 				playlist_control.player_events()
@@ -104,9 +100,11 @@ const playlist_control = {
 	
 			playlist_control.stopAudio()
 	
-			var next = playlist_control.playlist.find('li.active').next()
+			var next = playlist_control.container.find( playlist_control.target + '.active').nextAll().filter(function(){
+				return jQuery(this).attr('audiourl').length > 0
+			})
 			if (next.length == 0) {
-				next = playlist_control.playlist.find('li:first-child')
+				next = playlist_control.container.find( playlist_control.target + ':first-child')
 			}
 	
 			playlist_control.initAudio(next)
@@ -121,9 +119,11 @@ const playlist_control = {
 	
 			playlist_control.stopAudio()
 	
-			var prev = playlist_control.playlist.find('li.active').prev()
+			var prev = playlist_control.container.find( playlist_control.target + '.active').prevAll().filter(function(){
+				return jQuery(this).attr('audiourl').length > 0
+			})
 			if (prev.length == 0) {
-				prev = playlist_control.playlist.find('li:last-child')
+				prev = playlist_control.container.find( playlist_control.target + ':last-child')
 			}
 			playlist_control.initAudio(prev)
 			// play = true
@@ -187,7 +187,7 @@ const playlist_control = {
 	},
 	initAudio: function (elem) {
 
-		if(!elem.attr){return}
+		if( !elem.attr('audiourl') ){return;}
 
 		var url = elem.attr('audiourl')
 		
@@ -210,25 +210,8 @@ const playlist_control = {
 		playlist_control.set_cover_background(cover)
 		playlist_control.set_cover_click(permalink)
 		playlist_control.set_duration_background(wavformpng)
-	
-		// playlist_control.visu(dmck_audioplayer)
-		// var ctx = new AudioContext()
-		// dmck_audioplayer.audioSrc = ctx.destination
-		// dmck_audioplayer.analyser = ctx.createAnalyser()
-		// we have to connect the MediaElementSource with the analyser
-		// dmck_audioplayer.audioSrc.connect(dmck_audioplayer.analyser)
-		// we could configure the analyser: e.g. analyser.fftSize (for further
-		// infos read the spec)
-	
-		// song = new Audio('data/' + url)
+
 		dmck_audioplayer.song = new Audio(url)
-	
-		// frequencyBinCount tells you how many values you'll receive from the
-		// analyser
-		// var frequencyData = new
-		// Uint8Array(dmck_audioplayer.analyser.frequencyBinCount)
-		//
-		// console.log(frequencyData)
 	
 		// timeupdate event listener
 		dmck_audioplayer.song
@@ -252,11 +235,11 @@ const playlist_control = {
 		dmck_audioplayer.song.addEventListener('ended', function (e) {
 			playlist_control.stopAudio()
 	
-			var next = playlist_control.playlist.find('li.active').nextAll().filter(function(){
+			var next = playlist_control.container.find( playlist_control.target + '.active').nextAll().filter(function(){
 				return jQuery(this).attr('audiourl').length > 0
 			})
 			if (next.length == 0) {
-				next = playlist_control.playlist.find('li:first-child')
+				next = playlist_control.container.find( playlist_control.target + ':first-child')
 			}	
 			playlist_control.initAudio(next)
 		});
@@ -273,7 +256,7 @@ const playlist_control = {
 			}
 		});
 	
-		playlist_control.playlist.find('li').removeClass('active');
+		playlist_control.container.find( playlist_control.target ).removeClass('active');
 	
 		elem.addClass('active');
 		
@@ -288,61 +271,8 @@ const playlist_control = {
 		jQuery('.play').addClass('hidden')
 		jQuery('.pause').removeClass('hidden')
 	
-		// setTimeout(function() {
-		// playlist_control.visu(dmck_audioplayer)
-		// }, 1000)
-	
 	},
-	
-	visu: function (dmck_audioplayer) {
-		var ctx = new AudioContext()
-	
-		// console.log(ctx.state)
-		//
-		// return
-	
-		if (ctx.state == 'running') {
-	
-			// var audioSrc = ctx.destination
-			// var analyser = ctx.createAnalyser()
-			// we have to connect the MediaElementSource with the analyser
-			// audioSrc.connect(analyser)
-			// we could configure the analyser: e.g. analyser.fftSize (for further
-			// infos read the spec)
-	
-			// frequencyBinCount tells you how many values you'll receive from the
-			// analyser
-			// var frequencyData = new
-			// Uint8Array(dmck_audioplayer.analyser.frequencyBinCount)
-	
-			// console.log(frequencyData)
-	
-			// we're ready to receive some data!
-			// loop
-			function renderFrame () {
-				requestAnimationFrame(renderFrame)
-				// update data in frequencyData
-				dmck_audioplayer.analyser.getByteFrequencyData(frequencyData)
-				// render frame based on values in frequencyData
-	
-				renderer = renderers['r0']
-	
-				renderer.init({
-					count: dmck_audioplayer.analyser.frequencyBinCount,
-					width: 250,
-					height: 250
-				})
-	
-				console.log(frequencyData)
-	
-				renderer.renderFrame(frequencyData)
-	
-				requestAnimationFrame(renderFrame)
-			}
-	
-		// renderFrame()
-		}
-	},
+
 	stopAudio: function () {
 		dmck_audioplayer.song.pause()
 	

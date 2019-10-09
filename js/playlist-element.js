@@ -63,5 +63,15 @@ const playlist_element = {
 
             })            
         })
-    }   
+    },
+    get_obj: function(obj){
+        jQuery.get(dmck_audioplayer.plugin_url + 'playlist-element.php', {
+            debug: 'false',
+            path: obj.path 
+        }).done(function (data) {
+            var json    = jQuery.parseJSON(data);
+            obj.callback(json);
+            return json           
+        })
+    }       
 }

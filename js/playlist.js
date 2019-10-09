@@ -44,13 +44,13 @@ const playlist = {
             return false
         }
 
-		playlist.offscreen();
+		// playlist.offscreen();
 
 		jQuery('.entry-header').hide();
 		jQuery( "button" ).button();
 		jQuery( ".site-info" ).append( playlist.powered_by );
 
-		if( jQuery('.playlist').length ){
+		if( jQuery('#playlist').length ){
 			playlist_control.fetch_playlist();
 			let player_secondary = `<div id="menu-item-controls" class="menu-item controls hidden">
 										<div class="col-lg-4 col-lg-offset-4">` + 
@@ -63,30 +63,30 @@ const playlist = {
 			dmck_audioplayer.has_shortcode = true;
 		}
 
-		playlist.observe({ 
-			targetNodes : 	playlist.target.nav,
-			callback	: 	playlist.callback.nav,
-			config		: 	{ 
-								childList: false, 
-								characterData: false, 
-								attributes: true, 
-								subtree: false 
-							} 
-		});
-		playlist.observe({ 
-			targetNodes : playlist.target.list,
-			callback	: playlist.callback.list,
-			config		: 	{ 
-								childList: false, 
-								characterData: false, 
-								attributes: true, 
-								subtree: false 
-							} 
-		});					
+		// playlist.observe({ 
+		// 	targetNodes : 	playlist.target.nav,
+		// 	callback	: 	playlist.callback.nav,
+		// 	config		: 	{ 
+		// 						childList: false, 
+		// 						characterData: false, 
+		// 						attributes: true, 
+		// 						subtree: false 
+		// 					} 
+		// });
+		// playlist.observe({ 
+		// 	targetNodes : playlist.target.list,
+		// 	callback	: playlist.callback.list,
+		// 	config		: 	{ 
+		// 						childList: false, 
+		// 						characterData: false, 
+		// 						attributes: true, 
+		// 						subtree: false 
+		// 					} 
+		// });					
 	},
 	target: {
 		nav: jQuery(".navigation-top, .navigation-top .wrap, .navigation-wrapper"),
-		list: jQuery("body.home .playlist")
+		list: jQuery("body.home #playlist")
 	},
 
 	timerId:"",
@@ -151,7 +151,7 @@ const playlist = {
 	toggle: function(opt){
 		
 		if(opt){
-			if( ! jQuery("body.home .playlist").hasClass("hidden") ){
+			if( ! jQuery("body.home #playlist").hasClass("hidden") ){
 				jQuery(playlist.target.nav).find("#menu-item-controls").removeClass("hidden")
 			}
 		}

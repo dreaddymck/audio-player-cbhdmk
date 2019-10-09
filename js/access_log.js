@@ -53,7 +53,7 @@ const access_log = {
 // <i class="fa fa-download todays-top-10-m3u"  title="download m3u playlist" aria-hidden="true"></i                            
 //<div id="tab-top-request" class="tab-pane fade top-requests"></div>                              
                             jQuery(".tab-content").append(`
-<div class="tab-pane top-requests container" id="top-10" role="tabpanel" aria-labelledby="top-10-tab"></div>                      
+<div class="tab-pane" id="top-10" role="tabpanel" aria-labelledby="top-10-tab"></div>                      
                             `); 
 
                             response = JSON.parse(response)
@@ -64,60 +64,82 @@ const access_log = {
                             }
                             sorted.sort(function(a, b) {
                                 return b[1].count - a[1].count;
-                            });                            
-
-                            jQuery('.top-requests').html("").append( access_log.widget( sorted.slice(0,10) ) ).find(".top-requests-data i").each(function(e){
-                                return jQuery(this).addClass("btn-xs");
                             });
-    
-                            access_log.reports.top_requests_chart(sorted.slice(0,10));
                             
-                            jQuery('.top-played-track').click(function(e){
-                                
-                                let url = jQuery(this).attr("audiourl");
-    
-                                let track = "";
+                            let container = jQuery('#top-10'); 
+                            let target = ".top-10-track"; 
+                            let widget = function(obj){
 
-                                let callback = function(track){
-
-                                    playlist_control.stopAudio()
-    
-                                    playlist_control.duration.slider('option', 'min', 0)                        
-        
-                                    playlist_control.initAudio( track );
+                                let str     = `
+<table class="table table-responsive-lg top-requests-data"><thead><tr><th>Track</th><th>Requests</th><th>Time</th></tr></thead>
+<tbody>
+                                `;
+                                for(var x in obj ){
+                                    
+                                    let date = new Date(obj[x][1].time*1000 ).toLocaleString();
                         
-                                    dmck_audioplayer.playing = true  
-                                    
-                                    access_log.active( track );
+                                    str += `
+<tr class="top-10-track" audiourl="Public/MUSIC/FEATURING/`+ obj[x][0] +`">
+    <td><span> `+ obj[x][0] +` </span></td>
+    <td><span> `+ obj[x][1].count + `</span></td>
+    <td><span> `+ date + `</span></td> 
+</tr>
+                                    `;
+                                   ;     
                                 }
+                                str += `
+</tbody></table>        
+                                `;
+                                return str;
+                            }                           
+
+                            let s10 = sorted.slice(0,10);
+                            let html = widget( s10 );
+                            container.html( html );
+                            container.find( target ).each( function(){
+                                
+                                let callback = function(track){
+                                    this.target.attr({
+                                        'cover':track[0].cover,
+                                        'artist': track[0].artist,
+                                        'title': track[0].title,
+                                        'permalink': track[0].permalink,
+                                        'wavformpng': track[0].wavformpng,
+                                        'id': track[0].id,
+                                    })
+                                    this.target.click(function(e){                                    
+                                        playlist_control.container = container;
+                                        playlist_control.target = target;                                     
     
-                                playlist_control.playlist.find('li').each(function(){
-                                    
-                                    if( jQuery(this).attr('audiourl').includes(url) )
-                                    {
-                                        jQuery(this).trigger("click");
-                                        
-                                        track =  jQuery(this).attr('audiourl');
+                                        playlist_control.stopAudio()    
+                                        playlist_control.duration.slider('option', 'min', 0)
+                                        playlist_control.initAudio(jQuery(this))
+                                        dmck_audioplayer.playing = true    
+                                        return;                            
+                                    })
+                                }
+                                playlist_element.get_obj({ 
+                                    path : jQuery(this).attr("audiourl"),
+                                    callback: callback,
+                                    target:jQuery(this)
+                                });
+                            })                            
     
-                                        return;
-                                    }
-                                })
-                              
-                                if(! track ){
-                                    playlist_element.get({ 
-                                        path : jQuery(this).attr("audiourl"),
-                                        callback: callback
-                                    });
-                                }else{
-                                    callback(track);
-                                }  
-                               
-                                return;
+                            access_log.reports.top_requests_chart(s10);
                             
-                            })                        
-             
+                            // container.find( target ).click(function(e){
+                                    
+                            //         playlist_control.container = container;
+                            //         playlist_control.target = target;                                     
+
+                            //         playlist_control.stopAudio()    
+                            //         playlist_control.duration.slider('option', 'min', 0)
+                            //         playlist_control.initAudio(jQuery(this))
+                            //         dmck_audioplayer.playing = true
+
+                            //     return;                            
+                            // })         
                         }
-    
                     });
 
         },
@@ -131,7 +153,7 @@ const access_log = {
                 data.push(arr[x][1].count)
             }
 
-            jQuery(".top-requests").append(`
+            jQuery("#top-10").append(`
 <canvas id="top-requests-chart" width="auto" height="auto"></canvas>
             `);
             
@@ -185,55 +207,6 @@ const access_log = {
             }
         })
 
-    },
-    widget: function(obj){
-
-        let str     = `
-<table class="table table-responsive-lg top-requests-data">
-<thead>
-<tr>
-  <th>Track</th>
-  <th>Requests</th>
-  <th>Time</th>
-</tr>
-</thead>
-<tbody>
- 
-        `;
-        
-
-        for(var x in obj ){
-            
-            let date = new Date(obj[x][1].time*1000 ).toLocaleString();
-
-            str += `
-<tr class="top-played-track" audiourl="Public/MUSIC/FEATURING/`+ obj[x][0] +`">
-    <td>
-        <span>
-            `+ obj[x][0] +`
-        </span>    
-    </td>
-    <td>
-        <span>
-            `+ obj[x][1].count +`
-        </span>
-    </td>
-    <td>
-        <span>
-            `+ date +`
-        </span> 
-    </td> 
-</tr>
-            `;
-           ;     
-        }
-
-        
-        str += `
-</tbody>
-</table>        
-        `;
-        return str;
     },
     player_control: function(){
 

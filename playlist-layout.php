@@ -28,7 +28,7 @@
 </div>
 <ul class="nav nav-tabs" id="info-tabs" role="tablist">
 	<li class="nav-item">
-		<a class="nav-link active" id="tab-playlist" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">
+		<a class="nav-link active" id="tab-playlist" data-toggle="tab" href="#playlist" role="tab" aria-controls="playlist" aria-selected="true">
 			<h3>Featured</h3> 
 		</a>
 	</li>
@@ -39,7 +39,7 @@
 	</li>	 -->
 </ul>
 <div class="tab-content">
-	<div class="tab-pane active playlist" id="home" role="tabpanel" aria-labelledby="tab-playlist"></div>
+	<div class="tab-pane active" id="playlist" role="tabpanel" aria-labelledby="tab-playlist"></div>
 	<!-- <div class="tab-pane" id="rebrixed" role="tabpanel" aria-labelledby="tab-playlist"></div>	 -->
 </div>
 
