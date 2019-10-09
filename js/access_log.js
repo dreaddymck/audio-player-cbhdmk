@@ -105,7 +105,7 @@ const access_log = {
                                         'title': track[0].title,
                                         'permalink': track[0].permalink,
                                         'wavformpng': track[0].wavformpng,
-                                        'id': track[0].id,
+                                        'id': track[0].ID,
                                     })
                                     this.target.click(function(e){                                    
                                         playlist_control.container = container;

@@ -199,10 +199,9 @@ const playlist_control = {
 		var wavformpng = elem.attr('wavformpng')
 		var artist = elem.attr('artist')	
 		var permalink = elem.attr('permalink')
-		var id = elem.attr('ID')
+		var id = elem.attr('id')
 	
-		jQuery('.player .title').html(title).attr('permalink', permalink).attr(
-			'ID', id)
+		jQuery('.player .title').html(title).attr('permalink', permalink).attr('ID', id)
 		jQuery('.player .artist').text(artist)
 		// jQuery('.player .cover').css('background-image','url(' + cover + ')' )
 		// jQuery('.this_excerpt').text(elem.find('.ui-li-excerpt')[0].innerHTML)
@@ -245,22 +244,16 @@ const playlist_control = {
 		});
 	
 		dmck_audioplayer.song.addEventListener('canplay', function (e) {
-			playlist_control.duration.slider('value',
-				parseInt(dmck_audioplayer.song.currentTime, 10))
-	
-			// if(play) {
-			// playlist_control.playAudio()
-			// }
+			playlist_control.duration.slider('value', parseInt(dmck_audioplayer.song.currentTime, 10))
 			if (dmck_audioplayer.playing) {
 				playlist_control.playAudio()
 			}
 		});
 	
 		playlist_control.container.find( playlist_control.target ).removeClass('active');
-	
-		elem.addClass('active');
-		
-		access_log.active(url);
+		playlist_control.container.find( playlist_control.target ).filter(function(){
+			return jQuery(this).attr("id") == id
+		}).addClass('active');
 	},	
 
 	playAudio: function () {
