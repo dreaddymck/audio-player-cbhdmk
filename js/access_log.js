@@ -80,7 +80,7 @@ const access_log = {
                         
                                     str += `
 <tr class="top-10-track" audiourl="Public/MUSIC/FEATURING/`+ obj[x][0] +`">
-    <td><span> `+ obj[x][0] +` </span></td>
+    <td><span><h5>`+ obj[x][0] +`</h5></span></td>
     <td><span> `+ obj[x][1].count + `</span></td>
     <td><span> `+ date + `</span></td> 
 </tr>
@@ -107,6 +107,11 @@ const access_log = {
                                         'wavformpng': track[0].wavformpng,
                                         'id': track[0].ID,
                                     })
+                                    this.target.find("h5").text( playlist_control.DecodeEntities(track[0].title) )
+                                        .after(`
+                                            <span class="ui-li-tags">` + playlist_control.DecodeEntities(track[0].tags.toLowerCase()) + `
+                                                <a class="ui-li-moreinfo" title="more info" href="` + track[0].permalink + `" target="_top"> ... </a></span>`
+                                        )
                                     this.target.click(function(e){                                    
                                         playlist_control.container = container;
                                         playlist_control.target = target;                                     
