@@ -250,10 +250,10 @@ const playlist_control = {
 			}
 		});
 	
-		playlist_control.container.find( playlist_control.target ).removeClass('active');
+		playlist_control.container.find( playlist_control.target ).removeClass('active').removeClass('pulse');
 		playlist_control.container.find( playlist_control.target ).filter(function(){
 			return jQuery(this).attr("id") == id
-		}).addClass('active');
+		}).addClass('active pulse');
 	},	
 
 	playAudio: function () {
