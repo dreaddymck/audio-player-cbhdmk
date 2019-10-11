@@ -131,7 +131,7 @@ const access_log = {
                                 });
                             })                            
     
-                            access_log.active( container.find( target + ':first-child').attr("audiourl") ); 
+                            access_log.active( container.find( target + ':first-child') ); 
                             access_log.reports.top_requests_chart(s10);
                             
                                   
