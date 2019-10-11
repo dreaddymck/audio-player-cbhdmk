@@ -131,7 +131,7 @@ const access_log = {
                                 });
                             })                            
     
-                            access_log.active( container.find( target + ':first-child') ); 
+                            access_log.active( container.find( target + ':first-child').attr("audiourl") ); 
                             access_log.reports.top_requests_chart(s10);
                             
                                   
@@ -195,11 +195,10 @@ const access_log = {
 
             if(typeof url !== "string" ){return} 
 
-            if( url.includes(jQuery(this).attr('audiourl')) )
-            {
-                jQuery(this).addClass('active');
+            if( url.includes(jQuery(this).attr('audiourl')) ) {
+                jQuery(this).addClass('active').addClass('pulse');
             }else{
-                jQuery(this).removeClass('active');
+                jQuery(this).removeClass('active').removeClass('pulse');
             }
         })
 
