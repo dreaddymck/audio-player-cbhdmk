@@ -9,7 +9,7 @@ const playlist = {
 			setTimeout(function() { this.defer(method) }, 500);
 		}
 	},
-	powered_by: ` and a <a href="https://github.com/dreaddymck/audio-player-cbhdmk" target="_blank">DreaddyMck Plugin WIP</a>`,
+	
 	offscreen: function(){
 
 		//Filter Expression
@@ -25,16 +25,24 @@ const playlist = {
 
 		jQuery(window).scroll( function(){
 
-			if( jQuery(window).width() < 768 ){
+			if( jQuery('.controls').is(':offscreen') ){
+				jQuery('.navigation-top').addClass('site-navigation-fixed');//    padding-top: 24px;
+			}							
+			else
+			{
+				jQuery('.navigation-top').removeClass('site-navigation-fixed').css({"padding-top":"auto"})						
+			}			
 
-				if( jQuery('.site-branding').is(':offscreen') ){
-					jQuery('.navigation-top').addClass('site-navigation-fixed');//    padding-top: 24px;
-				}							
-				else
-				{
-					jQuery('.navigation-top').removeClass('site-navigation-fixed').css({"padding-top":"auto"})						
-				}
-			}
+			// if( jQuery(window).width() < 768 ){
+
+			// 	if( jQuery('.controls').is(':offscreen') ){
+			// 		jQuery('.navigation-top').addClass('site-navigation-fixed');//    padding-top: 24px;
+			// 	}							
+			// 	else
+			// 	{
+			// 		jQuery('.navigation-top').removeClass('site-navigation-fixed').css({"padding-top":"auto"})						
+			// 	}
+			// }
 		}) 
 
 	},	
@@ -44,14 +52,38 @@ const playlist = {
             return false
         }
 
-		// playlist.offscreen();
+		playlist.offscreen();
 
 		jQuery('.entry-header').hide();
 		jQuery( "button" ).button();
 		jQuery( ".site-info" ).append( playlist.powered_by );
 
-		if( jQuery('#playlist').length ){
-			playlist_control.fetch_playlist();
+		playlist_control.container = jQuery('#playlist'); 
+		playlist_control.target = ".featured-track";			
+
+		if( playlist_control.container.length ){
+
+			jQuery('body').css('cursor', 'progress')
+			jQuery('.controls button').prop('disabled', 'disabled')
+			jQuery('.sort button').prop('disabled', 'disabled')		
+			jQuery('.title').html('loading...')
+
+			playlist_control.container.find( playlist_control.target ).click(function () {
+				playlist_control.stopAudio()	
+				playlist_control.duration.slider('option', 'min', 0)
+				playlist_control.initAudio(jQuery(this))
+				dmck_audioplayer.playing = true
+			})			
+		
+			// initialization - first element in playlist
+			playlist_control.initAudio(playlist_control.container.find( playlist_control.target + ':first-child'));			
+			playlist_control.player_events();
+
+			jQuery('body').css('cursor', 'default')
+			jQuery('.controls button').prop('disabled', '')
+			jQuery('.sort button').prop('disabled', '')		
+
+
 			let player_secondary = `<div id="menu-item-controls" class="menu-item controls hidden">
 										<div class="col-lg-4 col-lg-offset-4">` + 
 										jQuery('body.home .controls').html() + 
@@ -61,31 +93,33 @@ const playlist = {
 			jQuery(playlist.target.nav).append(player_secondary)
 
 			dmck_audioplayer.has_shortcode = true;
+
+		
 		}
 
-		// playlist.observe({ 
-		// 	targetNodes : 	playlist.target.nav,
-		// 	callback	: 	playlist.callback.nav,
-		// 	config		: 	{ 
-		// 						childList: false, 
-		// 						characterData: false, 
-		// 						attributes: true, 
-		// 						subtree: false 
-		// 					} 
-		// });
-		// playlist.observe({ 
-		// 	targetNodes : playlist.target.list,
-		// 	callback	: playlist.callback.list,
-		// 	config		: 	{ 
-		// 						childList: false, 
-		// 						characterData: false, 
-		// 						attributes: true, 
-		// 						subtree: false 
-		// 					} 
-		// });					
+		playlist.observe({ 
+			targetNodes : 	playlist.target.nav,
+			callback	: 	playlist.callback.nav,
+			config		: 	{ 
+								childList: false, 
+								characterData: false, 
+								attributes: true, 
+								subtree: false 
+							} 
+		});
+		playlist.observe({ 
+			targetNodes : playlist.target.list,
+			callback	: playlist.callback.list,
+			config		: 	{ 
+								childList: false, 
+								characterData: false, 
+								attributes: true, 
+								subtree: false 
+							} 
+		});					
 	},
 	target: {
-		nav: jQuery(".navigation-top, .navigation-top .wrap, .navigation-wrapper"),
+		nav: jQuery(".navigation-top, .wrap, .navigation-wrapper"),
 		list: jQuery("body.home #playlist")
 	},
 
@@ -159,7 +193,8 @@ const playlist = {
 		{
 			jQuery(playlist.target.nav).find("#menu-item-controls").addClass("hidden")			
 		}
-	}
+	},
+	powered_by: ` and a <a href="https://github.com/dreaddymck/audio-player-cbhdmk" target="_blank">DreaddyMck Plugin WIP</a>`,
 }
 
 	

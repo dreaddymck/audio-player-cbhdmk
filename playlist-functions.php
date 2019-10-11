@@ -16,7 +16,8 @@ if (!class_exists("PlayListFromPostCls")) {
 		function __construct()
 		{
 			$this->get_request();
-			$this->fetch_playList_from_posts();
+			exit( $this->fetch_playList_from_posts() );
+			
 		}
 		function get_request()
 		{
@@ -30,39 +31,7 @@ if (!class_exists("PlayListFromPostCls")) {
 				$this->order			= isset($_GET["order"]) ? htmlspecialchars($_GET["order"] ) : "DESC";
 			}
 		}
-		function fetch_playList_from_posts() {
-			global $wpdb;
-						
-			$tag 	= get_option( 'tag') ? array( get_option( 'tag') ) : null;
-			$tag_in 	= get_option( 'tag_in') ? array( get_option( 'tag_in') ) : null;
-			$tag_not_in = get_option( 'tag_not_in') ? array( get_option( 'tag_not_in')): null;
-			
-			//$this->_log($tag_in);
-			
-			$args = array(
-					'numberposts' 		=> -1,
-					'orderby'          	=> $this->orderby,
-					'order'            	=> $this->order,
-					'post_status'      	=> 'publish',
-					'no_found_rows' 	=> true,
-					'tag'				=> $tag,
-					'tag__in' 			=> $tag_in,
-					'tag__not_in'		=> $tag_not_in,	
-			);
-			
-			
-			$posts 	= get_posts( $args );
 
-			// error_log(print_r($posts,1));
-			// error_log("*******************************");
-			// error_log(var_export($wpdb->last_query, TRUE));
-			
-			$response   = $this->render_elements($posts);
-			
-			wp_reset_postdata();
-		
-			exit( $response ) ;		
-		}
 	}
 	new PlayListFromPostCls();
 	

@@ -35,41 +35,12 @@ const playlist_control = {
 			},
 			stop: function (event, ui) {}
 		});		
-	},
-	fetch_playlist: function (orderby, order) {
-
-		jQuery('body').css('cursor', 'progress')
-		jQuery('.controls button').prop('disabled', 'disabled')
-		jQuery('.sort button').prop('disabled', 'disabled')		
-		jQuery('.title').html('loading...')
-	
-		jQuery.get(dmck_audioplayer.plugin_url + 'playlist-functions.php', {
-			debug: 'false',
-			orderby: orderby ? orderby : 'date',
-			order: order ? order : 'DESC'
-		}).done(function (data) {
-			playlist_render.init(data)
-	
-			// initialization - first element in playlist
-			playlist_control.initAudio(playlist_control.container.find( playlist_control.target + ':first-child'));
-
-			access_log.active( playlist_control.container.find( playlist_control.target + ':first-child').attr("audiourl") );
-	
-			if (!orderby) {
-				playlist_control.player_events()
-			}
-	
-			jQuery('body').css('cursor', 'default')
-			jQuery('.controls button').prop('disabled', '')
-			jQuery('.sort button').prop('disabled', '')
-		})
-	},
-	
+	},	
 
 	player_events: function  () {
 
 		// set volume
-		dmck_audioplayer.song.volume = 1.0;
+		// dmck_audioplayer.song.volume = 1.0;
 	
 		// play click
 		jQuery('.play').click(function (e) {

@@ -102,7 +102,7 @@ const access_log = {
                                     this.target.attr({
                                         'cover':track[0].cover,
                                         'artist': track[0].artist,
-                                        'title': track[0].title,
+                                        // 'title': track[0].title,
                                         'permalink': track[0].permalink,
                                         'wavformpng': track[0].wavformpng,
                                         'id': track[0].ID,
@@ -122,6 +122,7 @@ const access_log = {
                                         dmck_audioplayer.playing = true    
                                         return;                            
                                     })
+                                                                        
                                 }
                                 playlist_element.get_obj({ 
                                     path : jQuery(this).attr("audiourl"),
@@ -130,20 +131,10 @@ const access_log = {
                                 });
                             })                            
     
+                            access_log.active( container.find( target + ':first-child').attr("audiourl") ); 
                             access_log.reports.top_requests_chart(s10);
                             
-                            // container.find( target ).click(function(e){
-                                    
-                            //         playlist_control.container = container;
-                            //         playlist_control.target = target;                                     
-
-                            //         playlist_control.stopAudio()    
-                            //         playlist_control.duration.slider('option', 'min', 0)
-                            //         playlist_control.initAudio(jQuery(this))
-                            //         dmck_audioplayer.playing = true
-
-                            //     return;                            
-                            // })         
+                                  
                         }
                     });
 
