@@ -79,7 +79,14 @@ img.ui-li-img {
 .controls div:active:hover{
     color: rgb(8, 8, 8);
 }
-
+.circle { 
+  width: auto;
+  height: auto;
+  background: red; 
+  -moz-border-radius: 70px; 
+  -webkit-border-radius: 70px; 
+  border-radius: 70px;
+}
 .pulse {
     animation: pulse 6s infinite;
     /* margin: 0 auto; */

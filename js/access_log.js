@@ -71,7 +71,7 @@ const access_log = {
                             let widget = function(obj){
 
                                 let str     = `
-<table class="table table-responsive-lg top-requests-data"><thead><tr><th>Track</th><th>Requests</th><th>Time</th></tr></thead>
+<table class="table table-responsive-lg top-requests-data"><thead><tr><th>Track</th><th class="text-center">Requests</th></tr></thead>
 <tbody>
                                 `;
                                 for(var x in obj ){
@@ -80,9 +80,10 @@ const access_log = {
                         
                                     str += `
 <tr class="top-10-track" audiourl="Public/MUSIC/FEATURING/`+ obj[x][0] +`">
-    <td><span><h5>`+ obj[x][0] +`</h5></span></td>
-    <td><span> `+ obj[x][1].count + `</span></td>
-    <td><span> `+ date + `</span></td> 
+    <td><h5>`+ obj[x][0] +`</h5></td>
+    <td class="text-center" title=" `+ date + `">
+        <h1> `+ obj[x][1].count + `</h1>
+    </td> 
 </tr>
                                     `;
                                    ;     
