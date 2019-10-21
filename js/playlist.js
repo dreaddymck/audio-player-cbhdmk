@@ -86,7 +86,7 @@ const playlist = {
 
 			let player_secondary = `<div id="menu-item-controls" class="menu-item controls hidden">
 										<div class="col-lg-4 col-lg-offset-4">` + 
-										jQuery('body.home .controls').html() + 
+										jQuery('.controls').html() + 
 									`	</div>
 									</div>`;
 			

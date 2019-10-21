@@ -16,7 +16,7 @@ if (!class_exists("dmck_audioplayer")) {
 
 	class dmck_audioplayer extends playlist_utilities_class {
 
-		public $plugin_title 			= '(DMCK) audio player';
+		public $plugin_title;
 		public $plugin_slug				= 'dmck_audioplayer';
 		public $plugin_settings_group 	= 'dmck-audioplayer-settings-group';
 		public $shortcode				= "dmck-audioplayer";
@@ -36,6 +36,7 @@ if (!class_exists("dmck_audioplayer")) {
 		function __construct() {
 		
 			$this->set_plugin_version();
+			$this->plugin_title = '(DMCK)Audio-ver:' . $this->plugin_version;
 			$this->plugin_url 	= plugins_url("/",__FILE__);
 			$this->theme_url	= dirname( get_bloginfo('stylesheet_url') );
 			$this->cron_name 	= $this->plugin_slug . "_cronjob";
