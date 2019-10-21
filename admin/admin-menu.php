@@ -27,7 +27,7 @@
 	        <input type="text" name="moreinfo"  class="form-control" value="<?php echo esc_attr( get_option('moreinfo') ); ?>">
         </div>
 		<div>	
-			<label><?php _e('Access Log for "Top 10 requests"<br />Add the following to cron: <small>$(which php) '. plugin_dir_path(__FILE__) .'lib/reports.php put</small>'); ?></label>
+			<label><?php _e('Access Log for "Top 10 requests"<br />Add the following to cron: <code>$(which php) '. plugin_dir_path(__DIR__) .'lib/reports.php put</code>'); ?></label>
 	        <input type="text" name="access_log"  class="form-control" value="<?php echo esc_attr( get_option('access_log') ); ?>">
 		</div>		
 		<div>	
