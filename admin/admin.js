@@ -14,7 +14,9 @@ jQuery(document).ready(function(){
 	})
 	
 	jQuery.get( dmck_audioplayer.plugin_url + 'README.md',function(data){
-		jQuery('#tab-2').html( data.replace(/(?:\r\n|\r|\n)/g, '<br />') );
+		// let content = data.replace(/(?:\r\n|\r|\n)/g, '<br />');
+		let content = marked(data);
+		jQuery('#tab-2').html( content );
 	});
 
 })

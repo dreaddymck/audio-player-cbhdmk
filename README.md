@@ -7,7 +7,8 @@ https://www.script-tutorials.com/html5-audio-player-with-playlist/
 
 This plugin will extract the first mp3 link in each post then add to playlist.
 
-shortcode: [dmck-audioplayer]
+shortcode example: 
+[dmck-audioplayer tag="in-playlist"]
 
 == Installation ==
 
@@ -15,7 +16,6 @@ shortcode: [dmck-audioplayer]
 2. Activate the plugin through the 'Plugins' menu in WordPress
 3. Add shortcode to pages or posts as needed.
 4. something something work in progress
-
 
 == screenshot ==
 

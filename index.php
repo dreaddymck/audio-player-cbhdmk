@@ -180,7 +180,8 @@ if (!class_exists("dmck_audioplayer")) {
 				$this->shared_scripts();
 				wp_enqueue_style( 'bootstrap.css',  $this->plugin_url . "css/bootstrap.css", array(), $this->plugin_version);
 				wp_enqueue_style( 'admin.css',  $this->plugin_url . "admin/admin.css", array(), $this->plugin_version);
-				wp_enqueue_script( 'admin.js', $this->plugin_url . 'admin/admin.js', array('jquery'), $this->plugin_version, true );
+				wp_enqueue_script( 'marked.min.js', $this->plugin_url . 'js/marked.min.js', array('jquery'), $this->plugin_version, true );
+				wp_enqueue_script( 'admin.js', $this->plugin_url . 'admin/admin.js', array('jquery'), $this->plugin_version, true );				
 				$this->localize_vars();
 			}
 		}
@@ -194,6 +195,7 @@ if (!class_exists("dmck_audioplayer")) {
 			wp_enqueue_script( 'playlist.js', $this->plugin_url . 'js/playlist.js', array('jquery'), $this->plugin_version, true );
 			wp_enqueue_script( 'Chart.bundle.js', $this->plugin_url . 'js/Chart.bundle.js', array('jquery'), $this->plugin_version, true );
 			wp_enqueue_script( 'index.js', $this->plugin_url . 'js/index.js', array('jquery'), $this->plugin_version, true );
+			
 			$this->localize_vars();
 		}
 		function shared_scripts(){
