@@ -14,6 +14,7 @@ shortcode: [dmck-audioplayer]
 1. Upload plugin folder to `/wp-content/plugins/` directory
 2. Activate the plugin through the 'Plugins' menu in WordPress
 3. Add shortcode to pages or posts as needed.
+4. something something work in progress
 
 
 == screenshot ==
@@ -22,5 +23,18 @@ shortcode: [dmck-audioplayer]
 
 == notes ==
 
-The following wrapper used to pre-generate the wav form images. Dependencies listed:
-https://github.com/dreaddymck/wavformgen.php
+The following bash script can be used with ffmpeg to generate wav images:
+
+```bash
+#!/bin/bash
+echo "*******************************"
+echo "Begin render wavform";
+echo "*******************************"
+cd /home/user/path/to/mp3/
+for i in *.mp3; do
+ ffmpeg -y -i "$i" -filter_complex "compand,showwavespic=s=1200x120:colors=b2b2b2ff:" -frames:v 1  "${i%.mp3}.wavform.png";
+ sleep 1;
+done
+echo "end"
+exit
+```

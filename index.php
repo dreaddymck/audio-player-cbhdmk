@@ -3,41 +3,45 @@
 Plugin Name: (DMCK) audio player
 Plugin URI: dreaddymck.com
 Description: Just another Wordpress audio player. This plugin will add the first mp3 link embedded in each active post content into a playlist. shortcode [dmck-audioplayer]
-Version: 1.0.10
+Version: 1.0.11
 Author: dreaddymck
 Author URI: dreaddymck.com
 License: MIT
 */
-
 // error_reporting(E_ALL);
 // ini_set("display_errors","On");
+require_once(plugin_dir_path(__FILE__)."playlist_utilities_class.php");
 
-require_once( "playlist_utilities_class.php");
+if (!class_exists("dmck_audioplayer")) {
 
-if (!class_exists("WPAudioPlayerCBHDMK")) {
-
-	class WPAudioPlayerCBHDMK  extends playlist_utilities_class {
+	class dmck_audioplayer extends playlist_utilities_class {
 
 		public $plugin_title 			= '(DMCK) audio player';
 		public $plugin_slug				= 'dmck_audioplayer';
 		public $plugin_settings_group 	= 'dmck-audioplayer-settings-group';
 		public $shortcode				= "dmck-audioplayer";
-		public $adminpreferences 		= array('adminpreferences','favicon','default_album_cover', 'moreinfo', 'facebook_app_id	');
+		public $adminpreferences 		= array('adminpreferences','favicon','default_album_cover', 'moreinfo', 'facebook_app_id','access_log');
 		public $userpreferences 		= array('userpreferences');		
 		public $plugin_version;
 		public $plugin_url;
 		public $theme_url;
 		public $github_url				= "https://github.com/dreaddy/audio-player-cbhdmk";
+
+		public $cron_name;
+		public $cron_jobs;
 		
 		public $tag_in	= null;
 		public $tag_not_in	= null;
 		
 		function __construct() {
 		
+			$this->set_plugin_version();
 			$this->plugin_url 	= plugins_url("/",__FILE__);
 			$this->theme_url	= dirname( get_bloginfo('stylesheet_url') );
+			$this->cron_name 	= $this->plugin_slug . "_cronjob";
 
 			register_activation_hook( __FILE__, array($this, 'register_activation' ) );
+			register_deactivation_hook (__FILE__, 'cronstarter_deactivate');
 
 			add_action( 'init', array( $this, 'register_shortcodes'));
 			add_action( 'admin_init', array( $this, 'register_settings') );
@@ -47,21 +51,42 @@ if (!class_exists("WPAudioPlayerCBHDMK")) {
 			add_action( 'wp_enqueue_scripts', array($this, 'user_scripts') );			
 			add_action( 'wp_head', array($this, 'head_hook') );
 			add_action( 'login_head', array($this, 'head_hook') );
-			add_action( 'admin_head', array($this, 'head_hook') );			
-			add_filter('get_the_excerpt', array($this,'the_exerpt_filter'));
-			add_filter('the_content', array($this,'content_toggle_https'));
-			add_filter('language_attributes', array($this,'set_doctype'));
+			add_action( 'admin_head', array($this, 'head_hook') );	
+			add_action( 'wp', array($this, 'cronstarter_activation'));
+			// add_action( $this->cron_name, array($this, 'wp_cron_functions')); 
 
-			require_once ( plugin_dir_path(__FILE__).'playlist-object.php' );
+			add_filter( 'get_the_excerpt', array($this,'the_exerpt_filter'));
+			add_filter( 'the_content', array($this,'content_toggle_https'));
+			add_filter( 'language_attributes', array($this,'set_doctype'));
+			add_filter( 'cron_schedules', array($this, 'cron_add_minute'));
 
+			require_once( plugin_dir_path(__FILE__).'playlist-api.php' );
 		}
-
+		// here's the function we'd like to call with our cron job
+		function wp_cron_functions() {
+			//cron activities here
+		}
+		function cronstarter_deactivate() {	
+			// find out when the last event was scheduled
+			$timestamp = wp_next_scheduled ($this->cron_name);			
+			// unschedule previous event if any
+			wp_unschedule_event ($timestamp, $this->cron_name);
+		} 				
+		function cronstarter_activation() {
+			if( !wp_next_scheduled( $this->cron_name ) ) {  
+			   wp_schedule_event( time(), 'everyminute', $this->cron_name );  
+			}
+		}
+		function cron_add_minute( $schedules ) { // Adds once every minute to the existing schedules. 
+			$schedules['everyminute'] = array( 'interval' => 60, 'display' => __( 'Once Every Minute' ) ); 
+			return $schedules; 
+		}		
 		function set_plugin_version(){
 			// error_log( preg_match('/version:[\s\t]+?([0-9.]+)/i',file_get_contents( __FILE__ ) ));
+			// $this->plugin_version = "";
 			if(preg_match('/version:[\s\t]+?([0-9.]+)/i',file_get_contents( __FILE__ ), $v)){
 				$this->plugin_version = $v[1];
-			}
-			return $this->plugin_version;								
+			}								
 		}		
 		function get_post_by_slug($slug){
 
@@ -152,30 +177,24 @@ if (!class_exists("WPAudioPlayerCBHDMK")) {
 		function admin_scripts($hook_suffix) {
 			
 			if ( $this->settings_page == $hook_suffix ) {
-				
 				$this->shared_scripts();
-				$this->localize_vars();
-
+				wp_enqueue_style( 'bootstrap.css',  $this->plugin_url . "css/bootstrap.css", array(), $this->plugin_version);
 				wp_enqueue_style( 'admin.css',  $this->plugin_url . "admin/admin.css", array(), $this->plugin_version);
 				wp_enqueue_script( 'admin.js', $this->plugin_url . 'admin/admin.js', array('jquery'), $this->plugin_version, true );
+				$this->localize_vars();
 			}
 		}
 		function user_scripts() {
 			
 			if( $this->has_shortcode( $this->shortcode ) ) {}
-		
 			$this->shared_scripts();	
-			$this->localize_vars();
-			
 			wp_enqueue_script( 'jquery-ui.min.js', $this->plugin_url . 'plugins/jquery-ui-1.12.1/jquery-ui.js', array('jquery'), $this->plugin_version, true );
 			wp_enqueue_style( 'playlist.css',  $this->plugin_url . "playlist.css");
-			wp_enqueue_script( 'playlist-render.js', $this->plugin_url . 'js/playlist-render.js', array('jquery'), $this->plugin_version, true );
 			wp_enqueue_script( 'playlist-control.js', $this->plugin_url . 'js/playlist-control.js', array('jquery'), $this->plugin_version, true );
-			wp_enqueue_script( 'playlist-element.js', $this->plugin_url . 'js/playlist-element.js', array('jquery'), $this->plugin_version, true );
 			wp_enqueue_script( 'playlist.js', $this->plugin_url . 'js/playlist.js', array('jquery'), $this->plugin_version, true );
 			wp_enqueue_script( 'Chart.bundle.js', $this->plugin_url . 'js/Chart.bundle.js', array('jquery'), $this->plugin_version, true );
 			wp_enqueue_script( 'index.js', $this->plugin_url . 'js/index.js', array('jquery'), $this->plugin_version, true );
-
+			$this->localize_vars();
 		}
 		function shared_scripts(){
 			wp_register_style( 'font-awesome.min.css',  $this->plugin_url . "/node_modules/font-awesome/css/font-awesome.min.css", array(), $this->plugin_version);
@@ -220,8 +239,6 @@ if (!class_exists("WPAudioPlayerCBHDMK")) {
 				$this->relatedposts		= isset($_GET["relatedposts"]) ? htmlspecialchars($_GET["relatedposts"] ) : "";					
 			}
 
-
-
 			$local = array(
 
 				'is_home' => is_home(),
@@ -241,20 +258,16 @@ if (!class_exists("WPAudioPlayerCBHDMK")) {
 				'post_name' => $post ? $post->post_name : "",
 				'tags' =>  $tags,
 				'category' => $category,
-				'plugin_version' => $this->set_plugin_version(),
-
+				'plugin_version' => $this->plugin_version,
 				'plugin_url' => $this->plugin_url,
 				'plugin_slug' => $this->plugin_slug,
 				'plugin_title' => $this->plugin_title,
 				'github_url' => $this->github_url,
+				'blog_url' => get_bloginfo('url'),
 				'has_shortcode' => $this->has_shortcode($this->shortcode),
 				'stylesheet_url' => dirname( get_bloginfo('stylesheet_url') )."/",
 				'autoplay'	=> ($this->autoplay || $this->auto_play),
-
-
-		);			
-
-
+			);
 
 			wp_localize_script( 'functions.js', $this->plugin_slug, $local);
 		}
@@ -293,12 +306,11 @@ if (!class_exists("WPAudioPlayerCBHDMK")) {
 		}
 		function include_file($options) {			
 		
-			update_option( 'tag', $options['tag']);
-			update_option( 'tag_in', $options['tag_in']);
-			update_option( 'tag_not_in', $options['tag_not_in']);
+			update_option( 'tag', isset($options['tag']) ? $options['tag'] : "");
+			update_option( 'tag_in', isset($options['tag_in']) ? $options['tag_in'] : "");
+			update_option( 'tag_not_in', isset($options['tag_not_in']) ? $options['tag_not_in'] : "");
 						
 			include (plugin_dir_path(__FILE__).'playlist-layout.php');			
-			// return file_get_contents(plugin_dir_path(__FILE__).'playlist-layout.php');
 		}
 
 		function admin_menu_include() {
@@ -332,7 +344,7 @@ if (!class_exists("WPAudioPlayerCBHDMK")) {
 
 
 	}
-	new WPAudioPlayerCBHDMK;
+	new dmck_audioplayer;
 }
 
 ?>

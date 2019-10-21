@@ -62,7 +62,7 @@
 </div>		
 EOF;
 
-	}
+}
 ?>	
 	</div>
 	<!-- <div class="tab-pane" id="rebrixed" role="tabpanel" aria-labelledby="tab-playlist"></div>	 -->

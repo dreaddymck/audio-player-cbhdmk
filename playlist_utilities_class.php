@@ -5,9 +5,13 @@
 if (!class_exists("playlist_utilities_class")) {
 
 	class playlist_utilities_class {
+
+		public $orderby;
+		public $order;
+		public $path;
+		public $accesslog;		
 		
-        function __construct(){}
-            
+        function __construct(){}            
 		function render_elements($posts) {
 			
             $response 	= [];
@@ -23,28 +27,21 @@ if (!class_exists("playlist_utilities_class")) {
 				* playlist_elements call
 				* we should be extracting a single element that matches
 				*/
-				if($this->path) {
-					
+				if($this->path) {					
 					if (strpos(  urldecode($audio[0]), $this->path) === false) {
 						continue;
-					}
-				
-				}
-				
+					}				
+				}				
 				$object->ID		        = $post->ID;
-
 				$object->mp3		    = $audio[0];				
 				$object->wavformpng	    = $this->waveformpng($audio[0]);
 				$object->wavformjson	= $this->waveformjson($audio[0]);
 				
 				if($this->isSecure()){
-
 					$object->mp3		    = preg_replace("/^http:/i", "https:", $object->mp3);
 					$object->wavformpng	    = preg_replace("/^http:/i", "https:", $object->wavformpng);
-					$object->wavformjson	= preg_replace("/^http:/i", "https:", $object->wavformjson);
-	
+					$object->wavformjson	= preg_replace("/^http:/i", "https:", $object->wavformjson);	
 				}				
-				
 				$object->title		= esc_attr($post->post_title);
 				$object->artist		= "dreaddymck";
 				$object->rating		= 0;
@@ -86,8 +83,7 @@ if (!class_exists("playlist_utilities_class")) {
 		{
 			return (preg_match('~\bsrc="([^"]++)"~', $img, $matches)) ? $matches[1] : esc_attr( get_option('default_album_cover') ); //'https://dl.dropboxusercontent.com/u/1273929/MUSIC/FEATURING/photo.jpg';
 		}
-		function fetch_audio_from_string($str) {
-		
+		function fetch_audio_from_string($str) {		
 			# See http://en.wikipedia.org/wiki/Audio_file_format
 			# Adjust the list to your needs
 			// 	$suffixes = array (
@@ -95,32 +91,24 @@ if (!class_exists("playlist_utilities_class")) {
 			// 		'm4p', 'm4r', 'm4v', 'mpc',  'mp3', 'mp4', 'mpp', 'oga',  'ogg', 'oma',
 			// 		'pcm', 'tta', 'wav', 'wma',  'wv',
 			// 	);
-		
 			//	$formats = join( '|', $suffixes );
-		
-			// 	$regex   = '~
-			//     (([^"\'])|^)            # start of string or attribute delimiter -> match 1
-			//     (https?                 # http or https
-			//         ://                 # separator
-			//         .+/                 # domain plus /
-			//         .+                  # file name at least one character
-			//         \.                  # a dot
-			//         (' . $formats . ')  # file suffixes
-			//     )                       # complete URL -> match 3
-			//     (([^"\'])|$)?           # end of string or attribute delimiter -> match 5
-			//     ~imUx';                 # case insensitive, multi-line, ungreedy, commented
-		
-			$formats = "mp3";
-		
+			$formats = "mp3";		
+			// $regex   = '~
+			// (([^"\'])|^)            # start of string or attribute delimiter -> match 1
+			// (https?                 # http or https
+			//     ://                 # separator
+			//     .+/                 # domain plus /
+			//     .+                  # file name at least one character
+			//     \.                  # a dot
+			//     (' . $formats . ')  # file suffixes
+			// )                       # complete URL -> match 3
+			// (([^"\'])|$)?           # end of string or attribute delimiter -> match 5
+			// ~imUx';                 # case insensitive, multi-line, ungreedy, commented
 			$regex   = '~(https?://.+/.+\.(' . $formats . '))(([^"\'])|$)?~imUx';
-		
 			preg_match_all( $regex, $str, $matches, PREG_PATTERN_ORDER );
-
 			// error_log("*******************************");
 			// error_log(var_export($matches, TRUE));			
-		
 			return $matches[0];
-		
 		}
 		function fetch_playList_from_posts() {
 			global $wpdb;
@@ -152,9 +140,185 @@ if (!class_exists("playlist_utilities_class")) {
 			wp_reset_postdata();
 			// var_dump($_SERVER['REQUEST_METHOD']);			
 			return $response;					
-		}		
-		function _log($obj = '') {
+		}
+		function accesslog_activity_purge(){        
+			$query = "DELETE FROM dmck_audio_log_reports where UNIX_TIMESTAMP( updated ) <  UNIX_TIMESTAMP( DATE_SUB(NOW(), INTERVAL 30 DAY) )";
+			$results = $this->query( $query );        
+			return;        
+		}
+		function accesslog_activity_get() {
+	
+			$query = <<<EOF
+SELECT 
+	data 
+FROM 
+	dmck_audio_log_reports 
+WHERE 
+	DATE(`updated`) = CURDATE() 
+ORDER BY 
+	updated 
+DESC 
+	LIMIT 1
+EOF;
+			
+			$conn = new mysqli(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME );
+	
+			if ($conn->connect_error) {
+				die("Connection failed: " . $conn->connect_error);
+			} 
+			$resp       = $conn->query($query);
+			if( $resp instanceof mysqli_result ) {
+				$results = mysqli_fetch_assoc($resp);  
+			} 
+			$conn->close();
+			return $results['data'];
+		}
+		function accesslog_activity_get_today() {
+	
+			$query = <<<EOF
+SELECT
+	json_unquote(data->'$.*.name') as name,
+	json_unquote(data->'$.*.time') as time,
+	json_unquote(data->'$.*.count') as count    
+FROM 
+	dmck_audio_log_reports 
+WHERE 
+	DATE(`updated`) = CURDATE()    
+order by 
+	updated 
+desc
+	LIMIT 1        
+EOF;
+	
+			$conn = new mysqli(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME );
+	
+			if ($conn->connect_error) {
+				die("Connection failed: " . $conn->connect_error);
+			} 
+	
+			$resp       = $conn->query($query);
+			$results    = array();    
+	
+			if( $resp instanceof mysqli_result )
+			{
+				$results = mysqli_fetch_all($resp);  
+			}     
+	
+			$conn->close();
+	
+			return json_encode($results);
+	
+		}    
+		function accesslog_activity_put()
+		{ 
+			
+			if(!$this->accesslog){ die("Missing access log location"); }
+	
+			if ( file_exists( $this->accesslog ) ) {
+			
+				try{   
+					$handle         = fopen($this->accesslog,'r');
+					if ( !$handle ) { 
+						throw new Exception('File open failed: ' . $this->accesslog);
+					} 
+				}
+				catch (Exception $e) {
+					echo 'Caught exception: ', $e->getMessage(), "\n";
+					return;
+				}               
+	
+				$requestsCount  = 0;
+				
+				$data   = "";
+				$cnt    = 0;
+				$arr    = array();        
+			
+				try {
+			
+					while (!feof($handle)) {
+			
+						$dd = fgets($handle);
+				
+						$parts = explode('"', $dd);            
+				
+						if( isset($parts[1]) ) {
+			
+							$str = $parts[1];
+			
+							if ( preg_match('/((\/Public\/MUSIC\/FEATURING.*mp3))/i', $str)){   
+			
+								preg_match('/\[(.*)\]/', $parts[0], $date_array);
+			
+								$date       = $date_array[1]; 
+								$new_date   = strtotime( $date );                    
+			
+								$str = preg_replace('/GET/', "", $str);
+								$str = preg_replace('/HTTP.*/', "", $str);                   
+								$str = trim($str);
+			
+								$tmparray = explode("/", $str );
+			
+								$str = $tmparray[ count($tmparray) - 1 ];
+								
+								if( isset( $arr[$str] ) )
+								{                            
+									$arr[$str]["count"] += 1;
 		
+									$old_date           = $arr[$str]["time"];
+									$arr[$str]["time"]  = $old_date > $new_date ? $old_date : $new_date;
+								}
+								else
+								{
+									$arr[$str] = array( "count" => 1, "time" => $new_date, "name" => $str );
+								}
+							}
+						} 
+					}        
+			
+					fclose($handle);
+			
+					$json = json_encode($arr,JSON_FORCE_OBJECT);
+			
+					$query = "insert into dmck_audio_log_reports (data) values ( '" . $json . "' )";
+			
+					$results = $this->query( $query );
+	
+					return;
+			
+				} catch (Exception $e) {
+					echo 'Caught exception: ', $e->getMessage(), "\n";
+				} 
+			
+			}
+			else{
+				echo 'File does not exist: ' . $this->accesslog ."\n";
+			}
+	
+			return;
+	
+		}
+		function query($sql){
+		
+			$conn = new mysqli(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME );
+	
+			if ($conn->connect_error) {
+				die("Connection failed: " . $conn->connect_error);
+			} 
+	
+			$resp       = $conn->query($sql);
+			$results    = array();        
+	
+			if( $resp instanceof mysqli_result )
+			{
+				$results = mysqli_fetch_all($resp);  
+			}     
+			
+			$conn->close();
+	
+			return ($results);
+		
+		}    				
+		function _log($obj = '') {		
 			error_log( print_r($obj,1));
 		}
 	}
