@@ -72,11 +72,10 @@ const playlist = {
 				if( dmck_audioplayer.playing ){
 					playlist_control.stopAudio();	
 					playlist_control.duration.slider('option', 'min', 0)
-				}else
-				{
-					playlist_control.initAudio(jQuery(this))
-					dmck_audioplayer.playing = true
 				}
+				playlist_control.initAudio(jQuery(this))
+				dmck_audioplayer.playing = true
+				
 			})			
 		
 			// initialization - first element in playlist
