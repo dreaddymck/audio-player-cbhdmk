@@ -86,7 +86,7 @@ jQuery("#info-tabs").append(`
                                 this.target.attr({
                                     'cover':track[0].cover,
                                     'artist': track[0].artist,
-                                    // 'title': track[0].title,
+                                    'title': track[0].title,
                                     'permalink': track[0].permalink,
                                     'wavformpng': track[0].wavformpng,
                                     'id': track[0].ID,

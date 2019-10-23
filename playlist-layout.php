@@ -47,7 +47,7 @@
 
 		echo <<<EOF
 
-<div  id="{$p->ID}" class="ui-li-item featured-track" audiourl="{$p->mp3}" cover="{$p->cover}" artist="{$p->artist}"  permalink="{$p->permalink}" wavformpng="{$p->wavformpng}">
+<div  id="{$p->ID}" class="ui-li-item featured-track" audiourl="{$p->mp3}" cover="{$p->cover}" artist="{$p->artist}" title="{$p->title}" permalink="{$p->permalink}" wavformpng="{$p->wavformpng}">
 	<div class="track-content row">
 		<div class="col-lg-10">
 			<h5 class="ui-li-title">$p->title</h5>

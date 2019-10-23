@@ -72,15 +72,17 @@ const playlist_control = {
 			playlist_control.stopAudio()
 	
 			var next = playlist_control.container.find( playlist_control.target + '.active').nextAll().filter(function(){
-				return jQuery(this).attr('audiourl').length > 0
-			})
+				if(jQuery(this).attr('audiourl').length > 0){
+					return this;
+				} 
+			}).first();
 			if (next.length == 0) {
 				next = playlist_control.container.find( playlist_control.target + ':first-child')
 			}
 	
 			playlist_control.initAudio(next)
 			// play = true
-			//dmck_audioplayer.playing = true
+			dmck_audioplayer.playing = true
 		});
 	
 		// rewind click
@@ -91,14 +93,16 @@ const playlist_control = {
 			playlist_control.stopAudio()
 	
 			var prev = playlist_control.container.find( playlist_control.target + '.active').prevAll().filter(function(){
-				return jQuery(this).attr('audiourl').length > 0
-			})
+				if(jQuery(this).attr('audiourl').length > 0){
+					return this;
+				}
+			}).first();
 			if (prev.length == 0) {
 				prev = playlist_control.container.find( playlist_control.target + ':last-child')
 			}
 			playlist_control.initAudio(prev)
 			// play = true
-			//dmck_audioplayer.playing = true
+			dmck_audioplayer.playing = true
 		});	
 		// show playlist
 		jQuery('.showlist').click(function (e) {
@@ -163,8 +167,7 @@ const playlist_control = {
 		var url = elem.attr('audiourl')
 		
 		var title = playlist_control.DecodeEntities(elem.attr('artist')) + ' - ' + 
-					playlist_control.DecodeEntities(elem.attr('title')) + '<br><small>' + 
-					playlist_control.DecodeEntities(elem.find('.ui-li-excerpt').text()) + '</small>'
+					playlist_control.DecodeEntities(elem.attr('title'))
 	
 		var cover = elem.attr('cover')
 		var wavformpng = elem.attr('wavformpng')
