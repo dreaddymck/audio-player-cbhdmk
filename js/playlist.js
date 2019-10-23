@@ -69,13 +69,10 @@ const playlist = {
 			jQuery('.title').html('loading...')
 
 			playlist_control.container.find( playlist_control.target ).click(function () {
-				if( dmck_audioplayer.playing ){
-					playlist_control.stopAudio();	
-					playlist_control.duration.slider('option', 'min', 0)
-				}
+				playlist_control.stopAudio();	
+				playlist_control.duration.slider('option', 'min', 0)
 				playlist_control.initAudio(jQuery(this))
 				dmck_audioplayer.playing = true
-				
 			})			
 		
 			// initialization - first element in playlist
