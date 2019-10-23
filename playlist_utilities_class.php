@@ -6,6 +6,7 @@ if (!class_exists("playlist_utilities_class")) {
 
 	class playlist_utilities_class {
 
+		public $debug;
 		public $orderby;
 		public $order;
 		public $path;
@@ -246,6 +247,8 @@ EOF;
 							$str = $parts[1];
 			
 							if ( preg_match('/((\/Public\/MUSIC\/FEATURING.*mp3))/i', $str)){   
+
+								// error_log($str);
 			
 								preg_match('/\[(.*)\]/', $parts[0], $date_array);
 			

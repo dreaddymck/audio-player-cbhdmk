@@ -7,6 +7,10 @@ Version: 1.0.13
 Author: dreaddymck
 Author URI: dreaddymck.com
 License: MIT
+
+TODO: socache nav should not appear in dmck_audioplayer
+TODO: need path to mp3 folder in admin options.
+
 */
 // error_reporting(E_ALL);
 // ini_set("display_errors","On");

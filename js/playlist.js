@@ -25,13 +25,13 @@ const playlist = {
 
 		jQuery(window).scroll( function(){
 
-			if( jQuery('.controls').is(':offscreen') ){
-				jQuery('.navigation-top').addClass('site-navigation-fixed');//    padding-top: 24px;
-			}							
-			else
-			{
-				jQuery('.navigation-top').removeClass('site-navigation-fixed').css({"padding-top":"auto"})						
-			}			
+			// if( jQuery('.controls').is(':offscreen') ){
+			// 	jQuery('.navigation-top').addClass('site-navigation-fixed');//    padding-top: 24px;
+			// }							
+			// else
+			// {
+			// 	jQuery('.navigation-top').removeClass('site-navigation-fixed').css({"padding-top":"auto"})						
+			// }			
 
 			// if( jQuery(window).width() < 768 ){
 
@@ -48,25 +48,20 @@ const playlist = {
 	},	
 	setup: function(){
 
-        if( ! dmck_audioplayer.is_front_page){
-            return false
-        }
-
-		playlist.offscreen();
-
-		jQuery('.entry-header').hide();
-		jQuery( "button" ).button();
+		// playlist.offscreen();
+		// jQuery('.entry-header').hide();
+		// jQuery( "button" ).button();
 		jQuery( ".site-info" ).append( playlist.powered_by );
 
-		playlist_control.container = jQuery('#playlist'); 
+		playlist_control.container = jQuery("." + dmck_audioplayer.plugin_slug + ' #playlist'); 
 		playlist_control.target = ".featured-track";			
 
 		if( playlist_control.container.length ){
 
 			jQuery('body').css('cursor', 'progress')
-			jQuery('.controls button').prop('disabled', 'disabled')
-			jQuery('.sort button').prop('disabled', 'disabled')		
-			jQuery('.title').html('loading...')
+			jQuery("." + dmck_audioplayer.plugin_slug + ' .controls button').prop('disabled', 'disabled')
+			jQuery("." + dmck_audioplayer.plugin_slug + ' .sort button').prop('disabled', 'disabled')		
+			jQuery("." + dmck_audioplayer.plugin_slug + ' .title').html('loading...')
 
 			playlist_control.container.find( playlist_control.target ).click(function () {
 				playlist_control.stopAudio();	
@@ -80,8 +75,8 @@ const playlist = {
 			playlist_control.player_events();
 
 			jQuery('body').css('cursor', 'default')
-			jQuery('.controls button').prop('disabled', '')
-			jQuery('.sort button').prop('disabled', '')		
+			jQuery("." + dmck_audioplayer.plugin_slug + ' .controls button').prop('disabled', '')
+			jQuery("." + dmck_audioplayer.plugin_slug + ' .sort button').prop('disabled', '')		
 
 
 			let player_secondary = `<div id="menu-item-controls" class="menu-item controls hidden">
@@ -97,26 +92,26 @@ const playlist = {
 		
 		}
 
-		playlist.observe({ 
-			targetNodes : 	playlist.target.nav,
-			callback	: 	playlist.callback.nav,
-			config		: 	{ 
-								childList: false, 
-								characterData: false, 
-								attributes: true, 
-								subtree: false 
-							} 
-		});
-		playlist.observe({ 
-			targetNodes : playlist.target.list,
-			callback	: playlist.callback.list,
-			config		: 	{ 
-								childList: false, 
-								characterData: false, 
-								attributes: true, 
-								subtree: false 
-							} 
-		});					
+		// playlist.observe({ 
+		// 	targetNodes : 	playlist.target.nav,
+		// 	callback	: 	playlist.callback.nav,
+		// 	config		: 	{ 
+		// 						childList: false, 
+		// 						characterData: false, 
+		// 						attributes: true, 
+		// 						subtree: false 
+		// 					} 
+		// });
+		// playlist.observe({ 
+		// 	targetNodes : playlist.target.list,
+		// 	callback	: playlist.callback.list,
+		// 	config		: 	{ 
+		// 						childList: false, 
+		// 						characterData: false, 
+		// 						attributes: true, 
+		// 						subtree: false 
+		// 					} 
+		// });					
 	},
 	target: {
 		nav: jQuery(".navigation-top, .wrap, .navigation-wrapper"),
@@ -128,35 +123,29 @@ const playlist = {
 	callback: {
 		nav:function(type){
 			if(type == "attributes"){
-				if( jQuery(playlist.target.nav).hasClass("site-navigation-fixed") ){
-					playlist.toggle(true)
-				}
-				else
-				{
-					playlist.toggle(false)
-				}
+				// if( jQuery(playlist.target.nav).hasClass("site-navigation-fixed") ){
+				// 	playlist.toggle(true)
+				// }
+				// else
+				// {
+				// 	playlist.toggle(false)
+				// }
 			}
 		},
 		list:function(type){
-
 			if(type == "attributes"){
-
-				clearTimeout( playlist.timerId );
-				
-				playlist.timerId = setTimeout(function(){
-
-					let menu_fixed 		= jQuery(playlist.target.nav).hasClass("site-navigation-fixed"); 
-					let is_list_hidden 	= jQuery(playlist.target.list).hasClass("hidden"); 
-
-					if( menu_fixed && ! is_list_hidden){
-						playlist.toggle(true)
-					}
-					else
-					{
-						playlist.toggle(false)
-					}					
-
-				}, 200);
+				// clearTimeout( playlist.timerId );				
+				// playlist.timerId = setTimeout(function(){
+				// 	let menu_fixed 		= jQuery(playlist.target.nav).hasClass("site-navigation-fixed"); 
+				// 	let is_list_hidden 	= jQuery(playlist.target.list).hasClass("hidden"); 
+				// 	if( menu_fixed && ! is_list_hidden){
+				// 		playlist.toggle(true)
+				// 	}
+				// 	else
+				// 	{
+				// 		playlist.toggle(false)
+				// 	}
+				// }, 200);
 			}
 		}
 	},
