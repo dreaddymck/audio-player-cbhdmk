@@ -2,6 +2,10 @@
 // error_reporting(E_ALL);
 // ini_set('display_errors', true);
 
+require_once __DIR__ . '/vendor/autoload.php';
+
+use maximal\audio\Waveform;
+
 if (!class_exists("playlist_utilities_class")) {
 
 	class playlist_utilities_class {
@@ -320,7 +324,35 @@ EOF;
 	
 			return ($results);
 		
-		}    				
+		}
+/*
+wavform render
+*/
+		function wavform(){			
+			
+			if(!get_option('path_to_media')){
+				return;
+			}
+			foreach (new DirectoryIterator(get_option('path_to_media')) as $fileInfo) {
+				
+				if($fileInfo->isDir() && !$fileInfo->isDot()) {
+					// Do whatever
+				}
+				if($fileInfo->getExtension() == "mp3"){
+					$pathname = $fileInfo->getPathname(); 
+					$basename = $fileInfo->getBasename(".mp3");
+					$path = $fileInfo->getPath();
+					$png = 	$path.'/'.$basename.'.wavform.png';  
+					// var_dump( $path.'/'.$basename.'.wavform.png' );
+					$waveform = new Waveform($pathname);
+					Waveform::$color = [95, 95, 95, 0.5];
+					Waveform::$backgroundColor = [0, 0, 0, 0];					
+					$success = $waveform->getWaveform( $png, 1200, 600);
+					var_dump("Writing: ".$path.'/'.$basename.'.wavform.png');
+				}
+			}
+		}  
+
 		function _log($obj = '') {		
 			error_log( print_r($obj,1));
 		}

@@ -35,7 +35,10 @@ if (!class_exists("dmck_playlist_api")) {
 					break;
 				case "get-today":
 					$response = $this->accesslog_activity_get_today();
-					break;                
+					break;
+				case "wavform":
+					$response = $this->wavform();
+					break; 					                
 				default:
 			}
 			return $response;

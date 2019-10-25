@@ -29,7 +29,12 @@
 		<div>	
 			<label><?php _e('Access Log for "Top 10 requests"<br />Add the following to cron: <code>$(which php) '. plugin_dir_path(__DIR__) .'lib/reports.php put</code>'); ?></label>
 	        <input type="text" name="access_log"  class="form-control" value="<?php echo esc_attr( get_option('access_log') ); ?>">
-		</div>		
+		</div>
+		<div>	
+			<label><?php _e('Path to media folder'); ?></label>
+	        <input type="text" name="path_to_media"  class="form-control" value="<?php echo esc_attr( get_option('path_to_media') ); ?>">
+			<a class="btn btn-info">Generate Wavform</a>
+		</div>				
 		<div>	
 			<label><?php _e('Facebook App ID (not functional)'); ?></label>
 	        <input type="text" name="facebook_app_id"  class="form-control" value="<?php echo esc_attr( get_option('facebook_app_id') ); ?>">

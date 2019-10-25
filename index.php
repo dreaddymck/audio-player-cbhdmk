@@ -3,14 +3,14 @@
 Plugin Name: (DMCK) audio player
 Plugin URI: dreaddymck.com
 Description: Just another Wordpress audio player. This plugin will add the first mp3 link embedded in each active post content into a playlist. shortcode [dmck-audioplayer]
-Version: 1.0.13
+Version: 1.0.14
 Author: dreaddymck
 Author URI: dreaddymck.com
 License: MIT
 
 TODO: socache nav should not appear in dmck_audioplayer
 TODO: need path to mp3 folder in admin options.
-
+TODO: Use wp-cron to create / update playlists
 */
 // error_reporting(E_ALL);
 // ini_set("display_errors","On");
@@ -24,7 +24,7 @@ if (!class_exists("dmck_audioplayer")) {
 		public $plugin_slug				= 'dmck_audioplayer';
 		public $plugin_settings_group 	= 'dmck-audioplayer-settings-group';
 		public $shortcode				= "dmck-audioplayer";
-		public $adminpreferences 		= array('adminpreferences','favicon','default_album_cover', 'moreinfo', 'facebook_app_id','access_log');
+		public $adminpreferences 		= array('adminpreferences','favicon','default_album_cover', 'moreinfo', 'facebook_app_id','access_log','path_to_media');
 		public $userpreferences 		= array('userpreferences');		
 		public $plugin_version;
 		public $plugin_url;

@@ -3,8 +3,8 @@
     Manage acces_log activities.
     Command line support for cron calls.
 */
-// error_reporting(E_ALL);
-// ini_set("display_errors","On");
+error_reporting(E_ALL);
+ini_set("display_errors","On");
 try{
     require_once dirname(__FILE__) . '/../../../../wp-load.php';
     require_once dirname(__FILE__) . "/../playlist_utilities_class.php";
@@ -51,7 +51,7 @@ class dreaddymck_com_accesslog extends playlist_utilities_class{
     }
     function run(){
 
-        $response = "";
+        $response = "{}";
 
         switch ($this->options) {
             case "put":
@@ -66,7 +66,10 @@ class dreaddymck_com_accesslog extends playlist_utilities_class{
                 break;                
             case "purge":
                 $response = $this->accesslog_activity_purge();
-                break;                
+                break;  
+            case "wavform":
+                $response = $this->wavform();
+                break;                                
             default:
         }
         return $response;
