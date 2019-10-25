@@ -1,0 +1,7 @@
+{
+    "name": "dreaddy/audio-player-cbhdmk",
+    "description": "mp3 audio player app",
+    "require": {
+        "maximal/audio-waveform": "~1.0"
+    }
+}
