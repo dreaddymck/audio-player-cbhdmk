@@ -69,7 +69,7 @@ const playlist_control = {
 	
 			playlist_control.stopAudio();	
 			var next = playlist_control.container.find( playlist_control.target + '.active').nextAll().filter(function(){
-				if(jQuery(this).attr('ID')){
+				if(jQuery(this).attr('id')){
 					return this;
 				} 
 			}).first();
@@ -87,7 +87,7 @@ const playlist_control = {
 	
 			playlist_control.stopAudio();	
 			var prev = playlist_control.container.find( playlist_control.target + '.active').prevAll().filter(function(){
-				if(jQuery(this).attr('audiourl').length > 0){
+				if(jQuery(this).attr('id')){
 					return this;
 				}
 			}).first();
@@ -202,7 +202,7 @@ const playlist_control = {
 			playlist_control.stopAudio()
 	
 			var next = playlist_control.container.find( playlist_control.target + '.active').nextAll().filter(function(){
-				return jQuery(this).attr('ID')
+				return jQuery(this).attr('id')
 			})
 			if (next.length == 0) {
 				next = playlist_control.container.find( playlist_control.target + ':first-child')
