@@ -202,8 +202,10 @@ const playlist_control = {
 			playlist_control.stopAudio()
 	
 			var next = playlist_control.container.find( playlist_control.target + '.active').nextAll().filter(function(){
-				return jQuery(this).attr('id')
-			})
+				if(jQuery(this).attr('id')){
+					return this;
+				}
+			}).first();
 			if (next.length == 0) {
 				next = playlist_control.container.find( playlist_control.target + ':first-child')
 			}	
