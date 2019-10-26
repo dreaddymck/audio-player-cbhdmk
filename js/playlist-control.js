@@ -241,7 +241,7 @@ const playlist_control = {
 		jQuery("." + dmck_audioplayer.plugin_slug + ' .play').removeClass('hidden')
 		jQuery("." + dmck_audioplayer.plugin_slug + ' .pause').addClass('hidden')
 
-		dmck_audioplayer.playing = false
+		// dmck_audioplayer.playing = false
 	},
 	
 	formatSecondsAsTime: function  (secs, format) {
