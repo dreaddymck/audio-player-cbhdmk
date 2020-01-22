@@ -9,6 +9,7 @@ try{
 catch (Exception $e) { exit($e); }
 if(!$root_path) { exit("Path to media folder not set"); }
 if(!is_super_admin()) exit("Invalid credentials");
+
 /**
  * dmck_audioplayer restrictions implementation 
  */

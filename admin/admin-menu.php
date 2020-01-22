@@ -12,7 +12,7 @@
 		<li class="tab-link" data-tab="tab-3">About</li>		
 	</ul>
 	<div id="tab-1" class="tab-content current">		
-		<form name="admin-settings-form" method="post" action="options.php">
+		<form name="admin-settings-form" name="admin-settings-form" method="post" action="options.php">
 		<?php settings_fields( $this->plugin_settings_group ); ?>
 		<?php do_settings_sections( $this->plugin_settings_group ); ?>
 	
@@ -45,7 +45,8 @@
 	        <input type="text" name="facebook_app_id"  class="form-control" value="<?php echo esc_attr( get_option('facebook_app_id') ); ?>">
 		</div>
 		<div>	
-			<a href="#" id="admin-settings-button" class="btn btn-default">Submit</a>		
+			<!-- <a href="#" id="admin-settings-button" class="btn btn-default">Submit</a>		 -->
+			<?php submit_button( __( 'Submit', 'Submit' ), 'default' ); ?>	
 		</div>		
 		</form>		
 	</div>

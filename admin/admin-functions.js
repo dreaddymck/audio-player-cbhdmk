@@ -5,8 +5,12 @@ const admin_functions = {
         /**
          * events
          */
-        jQuery('body').bind('beforeunload',function(){
-            jQuery("#tiny-file-manager").detach();
+        jQuery('<iframe id="tiny-file-manager" style="width:100%;height:auto;" />')
+            .attr("src", dmck_audioplayer.plugin_url + "/lib/tiny-file-manager.php")
+            .appendTo('.tab-files')
+            .load(function () {
+                let $contents = jQuery(this).contents();
+                jQuery("#tiny-file-manager").height( $contents.height() + "px")
         });        
         jQuery('ul.tabs li').click(function(){
             var tab_id = jQuery(this).attr('data-tab');
@@ -17,7 +21,12 @@ const admin_functions = {
             jQuery(this).addClass('current');
             jQuery("#"+tab_id).addClass('current');
     
-            admin_functions.cookie.set({"tab": tab_id});		
+            if(jQuery("#"+tab_id).hasClass('tab-files')){
+                let $contents = jQuery("#tiny-file-manager").contents();
+                jQuery("#tiny-file-manager").height( $contents.height() + "px")
+            }
+            admin_functions.cookie.set({"tab": tab_id});
+            		
         });	
         jQuery('#admin-settings-button').click(function (e) {
 
@@ -68,14 +77,7 @@ const admin_functions = {
             }		
             admin_functions.upload(callback);
         });
-        jQuery('<iframe id="tiny-file-manager" style="width:100%;height:auto;" />')
-            .attr("src", dmck_audioplayer.plugin_url + "/lib/tiny-file-manager.php")
-            .appendTo('.tab-files')
-            .load(function () {
-                var $contents = jQuery(this).contents();
-                // $contents.scrollTop($contents.height());
-                jQuery("#tiny-file-manager").height( $contents.height() + "px")
-            });
+
         /**
          * Tabs
          */
