@@ -179,7 +179,7 @@ if (!class_exists("dmck_audioplayer")) {
 			
 			if ( $this->settings_page == $hook_suffix ) {
 				$this->shared_scripts();
-				wp_enqueue_style( 'bootstrap.css',  $this->plugin_url . "css/bootstrap.css", array(), $this->plugin_version);
+				
 				wp_enqueue_style( 'admin.css',  $this->plugin_url . "admin/admin.css", array(), $this->plugin_version);
 				wp_enqueue_script( 'marked.min.js', $this->plugin_url . 'js/marked.min.js', array('jquery'), $this->plugin_version, true );
 				wp_enqueue_script( 'jquery.cookie.js', $this->plugin_url . 'node_modules/jquery.cookie/jquery.cookie.js', array('jquery'), $this->plugin_version, true );
@@ -191,8 +191,10 @@ if (!class_exists("dmck_audioplayer")) {
 		function user_scripts() {
 			
 			if( $this->has_shortcode( $this->shortcode ) ) {}
-			$this->shared_scripts();	
+			$this->shared_scripts();
 			wp_enqueue_script( 'jquery-ui.min.js', $this->plugin_url . 'plugins/jquery-ui-1.12.1/jquery-ui.js', array('jquery'), $this->plugin_version, true );
+			wp_register_style( 'jquery-ui.min.css',  $this->plugin_url . "plugins/jquery-ui-1.12.1/jquery-ui.min.css", array(), $this->plugin_version);
+			wp_enqueue_style( 'jquery-ui.min.css' );			
 			wp_enqueue_style( 'playlist.css',  $this->plugin_url . "playlist.css");
 			wp_enqueue_script( 'playlist-control.js', $this->plugin_url . 'js/playlist-control.js', array('jquery'), $this->plugin_version, true );
 			wp_enqueue_script( 'playlist.js', $this->plugin_url . 'js/playlist.js', array('jquery'), $this->plugin_version, true );
@@ -204,10 +206,9 @@ if (!class_exists("dmck_audioplayer")) {
 		function shared_scripts(){
 			wp_register_style( 'font-awesome.min.css',  $this->plugin_url . "/node_modules/font-awesome/css/font-awesome.min.css", array(), $this->plugin_version);
 			wp_enqueue_style( 'font-awesome.min.css' );
-			wp_register_style( 'jquery-ui.min.css',  $this->plugin_url . "plugins/jquery-ui-1.12.1/jquery-ui.min.css", array(), $this->plugin_version);
-			wp_enqueue_style( 'jquery-ui.min.css' );
-			wp_enqueue_script( 'functions.js', $this->plugin_url . 'js/functions.js', array('jquery'), $this->plugin_version, true );			
-			// wp_enqueue_script( 'bootstrap.js', $this->plugin_url . 'js/bootstrap.min.js', array( 'jquery' ), '', true );
+			wp_enqueue_script( 'functions.js', $this->plugin_url . 'js/functions.js', array('jquery'), $this->plugin_version, true );	
+			wp_enqueue_style( 'bootstrap.css',  $this->plugin_url . "node_modules/bootstrap/dist/css/bootstrap.min.css", array(), $this->plugin_version);		
+			wp_enqueue_script( 'bootstrap.js', $this->plugin_url . 'node_modules/bootstrap/dist/js/bootstrap.min.js', array( 'jquery' ), '', true );
 			wp_enqueue_script( 'access_log.js', $this->plugin_url . 'js/access_log.js', array('jquery'), $this->plugin_version, true );
 			
 		}

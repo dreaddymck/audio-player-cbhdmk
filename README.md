@@ -19,9 +19,14 @@ shortcode example:
 
 == screenshot ==
 
-![alt tag](https://github.com/dreaddymck/audio-player-cbhdmk/blob/master/screenshot.png)
+![alt tag](https://github.com/dreaddymck/audio-player-cbhdmk/blob/master/screenshot.png?raw=true)
 
 == notes ==
+
+Built in routine to create wavforms. Requires server ffmpeg Installation (Unfinished)
+```bash
+ $(which php) /home/user/site.com/wp-content/plugins/audio-player-cbhdmk/lib/reports.php wavform "" "file.mp3"
+```
 
 The following bash script can be used with ffmpeg to generate wav images:
 
