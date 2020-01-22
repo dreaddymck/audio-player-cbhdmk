@@ -83,6 +83,9 @@ jQuery("#info-tabs").append(`
                         container.html( content( access_log.reports.global.sorted.slice(0,10) ) );
                         container.find( target ).each( function(){                            
                             let callback = function(track){
+                                if( typeof track[0] === 'undefined' ){
+                                    return;
+                                }
                                 this.target.attr({
                                     'cover':track[0].cover,
                                     'artist': track[0].artist,

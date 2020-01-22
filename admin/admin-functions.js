@@ -1,6 +1,103 @@
 "use strict";
 
 const admin_functions = {
+    onload : function(){
+        /**
+         * events
+         */
+        jQuery('body').bind('beforeunload',function(){
+            jQuery("#tiny-file-manager").detach();
+        });        
+        jQuery('ul.tabs li').click(function(){
+            var tab_id = jQuery(this).attr('data-tab');
+    
+            jQuery('ul.tabs li').removeClass('current');
+            jQuery('.tab-content').removeClass('current');
+    
+            jQuery(this).addClass('current');
+            jQuery("#"+tab_id).addClass('current');
+    
+            admin_functions.cookie.set({"tab": tab_id});		
+        });	
+        jQuery('#admin-settings-button').click(function (e) {
+
+            e.preventDefault();
+            if (!confirm('Please confirm')) { return false; }
+
+            let url     = "options.php"
+            let data    = jQuery('form[name*="admin-settings-form"]').serializeArray();
+            
+            let render = function (res) {
+                // res = JSON.parse(res);
+                jQuery("#message").text(res);
+            }
+            new Promise(function (resolve, reject) {
+                jQuery.ajax({
+                        type: "POST",
+                        url: url,
+                        data: data,
+                        beforeSend: function (xhr) {
+                            xhr.setRequestHeader('X-WP-Nonce', dmck_audioplayer.nonce);
+                        },
+                })
+                .done(function (data) {
+                    resolve(data);
+                })
+                .fail(function (xhr, textStatus, errorThrown) {
+                    console.log(errorThrown);
+                    reject(false);
+                });
+            })
+            .then(
+                function (results) {
+                    render(results);
+                },
+                function (error) {
+                    console.log(error);
+                }
+            );
+            return;
+        });        
+        jQuery('#admin-upload-action').click(function (e) {
+            e.preventDefault();
+            if (!confirm('Please confirm')) { return false; }
+            let callback = function(resp){
+                resp = JSON.parse(resp);
+                console.log(resp);
+                return;	
+            }		
+            admin_functions.upload(callback);
+        });
+        jQuery('<iframe id="tiny-file-manager" style="width:100%;height:auto;" />')
+            .attr("src", dmck_audioplayer.plugin_url + "/lib/tiny-file-manager.php")
+            .appendTo('.tab-files')
+            .load(function () {
+                var $contents = jQuery(this).contents();
+                // $contents.scrollTop($contents.height());
+                jQuery("#tiny-file-manager").height( $contents.height() + "px")
+            });
+        /**
+         * Tabs
+         */
+        let cookie = admin_functions.cookie.get();
+        if(cookie){
+            cookie = JSON.parse(cookie);
+            if(typeof cookie.tab !== 'undefined'){
+                jQuery(".tabs > li").removeClass('current');
+                jQuery(".tab-content").removeClass('current');
+                jQuery(".tabs > li[data-tab*='"+cookie.tab+"']").addClass('current');
+                jQuery("#"+cookie.tab).addClass('current');
+            }
+        } 
+        /**
+         * ReadME
+         */        
+        jQuery.get( dmck_audioplayer.plugin_url + 'README.md',function(data){
+            // let content = data.replace(/(?:\r\n|\r|\n)/g, '<br />');
+            let content = marked(data);
+            jQuery('.tab-about').html( content );
+        });               
+    },
 	cookie : {
 		set : function(obj){
 			let cookie = admin_functions.cookie.get()
@@ -12,24 +109,7 @@ const admin_functions = {
             jQuery.cookie(dmck_audioplayer.plugin_slug, JSON.stringify(cookie), { expires: 30 })
 		},
 		get : function(){ return jQuery.cookie(dmck_audioplayer.plugin_slug); }
-    },
-    onload : function(){
-        let cookie = admin_functions.cookie.get();
-        if(cookie){
-            cookie = JSON.parse(cookie);
-            if(typeof cookie.tab !== 'undefined'){
-                jQuery(".tabs > li").removeClass('current');
-                jQuery(".tab-content").removeClass('current');
-                jQuery(".tabs > li[data-tab*='"+cookie.tab+"']").addClass('current');
-                jQuery("#"+cookie.tab).addClass('current');
-            }
-        } 
-        jQuery.get( dmck_audioplayer.plugin_url + 'README.md',function(data){
-            // let content = data.replace(/(?:\r\n|\r|\n)/g, '<br />');
-            let content = marked(data);
-            jQuery('.tab-about').html( content );
-        });               
-    },
+    },    
     upload : function(callback){
 
         jQuery("body").css("cursor", "progress");

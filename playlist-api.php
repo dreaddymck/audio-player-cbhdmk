@@ -78,7 +78,7 @@ if (!class_exists("dmck_playlist_api")) {
 			// var_dump($_FILES);
 			$response = array();
 			foreach($_FILES as $file){
-				$path = esc_attr( get_option('path_to_media') );
+				$path = esc_attr( get_option('media_root_path') );
 				$path = preg_replace('{/$}', '', $path);
 				array_push($response, move_uploaded_file($file['tmp_name'], $path."/".basename($file['name'])));
 			}

@@ -354,8 +354,8 @@ wavform render
 					var_dump("Writing: ".$path.'/'.$basename.'.wavform.png');
 				}				
 			}
-			if(get_option('path_to_media')){
-				foreach (new DirectoryIterator(get_option('path_to_media')) as $fileInfo) {				
+			if(get_option('media_root_path')){
+				foreach (new DirectoryIterator(get_option('media_root_path')) as $fileInfo) {				
 					if($fileInfo->isDir() && !$fileInfo->isDot()) {
 						// Do whatever
 					}
