@@ -14,7 +14,7 @@ if (!class_exists("playlist_utilities_class")) {
 		public $orderby;
 		public $order;
 		public $path;
-		public $accesslog;		
+		public $filepath;		
 		
         function __construct(){}            
 		function render_elements($posts) {
@@ -116,32 +116,26 @@ if (!class_exists("playlist_utilities_class")) {
 			return $matches[0];
 		}
 		function fetch_playList_from_posts() {
-			global $wpdb;
-						
-			$tag 	= get_option( 'tag') ? array( get_option( 'tag') ) : null;
-			$tag_in 	= get_option( 'tag_in') ? array( get_option( 'tag_in') ) : null;
-			$tag_not_in = get_option( 'tag_not_in') ? array( get_option( 'tag_not_in')): null;
-			
-			//$this->_log($tag_in);
-			
+			global $wpdb;						
+			$tag = get_option( 'tag') ? array( get_option( 'tag') ) : null;
+			$tag_in = get_option( 'tag_in') ? array( get_option( 'tag_in') ) : null;
+			$tag_not_in = get_option( 'tag_not_in') ? array( get_option( 'tag_not_in')): null;			
+			//$this->_log($tag_in);			
 			$args = array(
-					'numberposts' 		=> -1,
-					'orderby'          	=> $this->orderby,
-					'order'            	=> $this->order,
-					'post_status'      	=> 'publish',
-					'no_found_rows' 	=> true,
-					'tag'				=> $tag,
-					'tag__in' 			=> $tag_in,
-					'tag__not_in'		=> $tag_not_in,	
+				'numberposts' 		=> -1,
+				'orderby'          	=> $this->orderby,
+				'order'            	=> $this->order,
+				'post_status'      	=> 'publish',
+				'no_found_rows' 	=> true,
+				'tag'				=> $tag,
+				'tag__in' 			=> $tag_in,
+				'tag__not_in'		=> $tag_not_in,	
 			);
 			$posts 	= get_posts( $args );
-
 			// error_log(print_r($posts,1));
 			// error_log("*******************************");
-			// error_log(var_export($wpdb->last_query, TRUE));
-			
-			$response   = $this->render_elements($posts);
-			
+			// error_log(var_export($wpdb->last_query, TRUE));			
+			$response   = $this->render_elements($posts);			
 			wp_reset_postdata();
 			// var_dump($_SERVER['REQUEST_METHOD']);			
 			return $response;					
@@ -199,78 +193,57 @@ EOF;
 	
 			if ($conn->connect_error) {
 				die("Connection failed: " . $conn->connect_error);
-			} 
-	
+			} 	
 			$resp       = $conn->query($query);
-			$results    = array();    
-	
+			$results    = array();
 			if( $resp instanceof mysqli_result )
 			{
 				$results = mysqli_fetch_all($resp);  
-			}     
+			} 
 	
-			$conn->close();
-	
-			return json_encode($results);
-	
+			$conn->close();	
+			return json_encode($results);	
 		}    
 		function accesslog_activity_put()
-		{ 
-			
-			if(!$this->accesslog){ die("Missing access log location"); }
-	
-			if ( file_exists( $this->accesslog ) ) {
-			
+		{			
+			if(!$this->filepath){ die("Missing access log location"); }	
+			if ( file_exists( $this->filepath ) ) {			
 				try{   
-					$handle         = fopen($this->accesslog,'r');
+					$handle         = fopen($this->filepath,'r');
 					if ( !$handle ) { 
-						throw new Exception('File open failed: ' . $this->accesslog);
+						throw new Exception('File open failed: ' . $this->filepath);
 					} 
 				}
 				catch (Exception $e) {
 					echo 'Caught exception: ', $e->getMessage(), "\n";
 					return;
-				}               
-	
+				}
 				$requestsCount  = 0;
-				
 				$data   = "";
 				$cnt    = 0;
-				$arr    = array();        
-			
+				$arr    = array();
 				try {
-			
 					while (!feof($handle)) {
 			
-						$dd = fgets($handle);
-				
-						$parts = explode('"', $dd);            
-				
+						$dd = fgets($handle);				
+						$parts = explode('"', $dd);
 						if( isset($parts[1]) ) {
-			
 							$str = $parts[1];
-			
-							if ( preg_match('/((\/Public\/MUSIC\/FEATURING.*mp3))/i', $str)){   
-
+							//TODO: match from admin settings.
+							if ( preg_match('/((\/Public\/MUSIC\/FEATURING.*mp3))/i', $str)){
 								// error_log($str);
-			
 								preg_match('/\[(.*)\]/', $parts[0], $date_array);
-			
 								$date       = $date_array[1]; 
-								$new_date   = strtotime( $date );                    
-			
+								$new_date   = strtotime( $date ); 
 								$str = preg_replace('/GET/', "", $str);
 								$str = preg_replace('/HTTP.*/', "", $str);                   
-								$str = trim($str);
-			
-								$tmparray = explode("/", $str );
-			
+								$str = trim($str);			
+								$tmparray = explode("/", $str );			
 								$str = $tmparray[ count($tmparray) - 1 ];
 								
 								if( isset( $arr[$str] ) )
 								{                            
-									$arr[$str]["count"] += 1;
-		
+									$arr[$str]["count"] += 1;		
 									$old_date           = $arr[$str]["time"];
 									$arr[$str]["time"]  = $old_date > $new_date ? $old_date : $new_date;
 								}
@@ -282,23 +255,18 @@ EOF;
 						} 
 					}        
 			
-					fclose($handle);
-			
-					$json = json_encode($arr,JSON_FORCE_OBJECT);
-			
-					$query = "insert into dmck_audio_log_reports (data) values ( '" . $json . "' )";
-			
-					$results = $this->query( $query );
-	
+					fclose($handle);			
+					$json = json_encode($arr,JSON_FORCE_OBJECT);			
+					$query = "insert into dmck_audio_log_reports (data) values ( '" . $json . "' )";			
+					$results = $this->query( $query );	
 					return;
 			
 				} catch (Exception $e) {
 					echo 'Caught exception: ', $e->getMessage(), "\n";
-				} 
-			
+				} 			
 			}
 			else{
-				echo 'File does not exist: ' . $this->accesslog ."\n";
+				echo 'File does not exist: ' . $this->filepath ."\n";
 			}
 	
 			return;
@@ -325,37 +293,88 @@ EOF;
 			return ($results);
 		
 		}
+		function respond_ok($response){
+
+			// check if fastcgi_finish_request is callable
+			if (is_callable('fastcgi_finish_request')) {
+				echo $response;
+				/*
+				* http://stackoverflow.com/a/38918192
+				* This works in Nginx but the next approach not
+				*/
+				session_write_close();
+				fastcgi_finish_request();
+		
+				return;
+			}			
+
+			ignore_user_abort(true);
+ 
+			ob_start();
+		 
+			echo $response;
+		 
+			$serverProtocol = filter_input(INPUT_SERVER, 'SERVER_PROTOCOL', FILTER_SANITIZE_STRING);
+			header($serverProtocol . ' 200 OK');
+			// Disable compression (in case content length is compressed).
+			header('Content-Encoding: none');
+			header('Content-Length: ' . ob_get_length());
+		 
+			// Close the connection.
+			header('Connection: close');
+		 
+			ob_end_flush();
+			ob_flush();
+			flush();		
+		}
+		function remove_session_lock(){
+			//Closing the PHP session lock: PHP 5.x and PHP 7
+			session_start();
+			session_write_close();	
+		}		
 /*
 wavform render
 */
-		function wavform(){			
-			
-			if(!get_option('path_to_media')){
+		function wavform($data){
+			// set_time_limit(120);
+			// var_dump($data);
+			$params = $data->get_params();
+			$name	= isset($params["name"]) ? htmlspecialchars($params["name"] ) : "";
+			function do_wavform($fileInfo){
+				$pathname = $fileInfo->getPathname(); 
+				$basename = $fileInfo->getBasename(".mp3");
+				$path = $fileInfo->getPath();
+				$png = 	$path.'/'.$basename.'.wavform.png';  
+				// var_dump( $path.'/'.$basename.'.wavform.png' );
+				$waveform = new Waveform($pathname);
+				Waveform::$color = [95, 95, 95, 0.5];
+				Waveform::$backgroundColor = [0, 0, 0, 0];					
+				$success = $waveform->getWaveform( $png, 1200, 600);
+				if($success){
+					var_dump("Writing: ".$path.'/'.$basename.'.wavform.png');
+				}				
+			}
+			if(get_option('path_to_media')){
+				foreach (new DirectoryIterator(get_option('path_to_media')) as $fileInfo) {				
+					if($fileInfo->isDir() && !$fileInfo->isDot()) {
+						// Do whatever
+					}
+					// var_dump($fileInfo->getBasename(".mp3"));
+					if($fileInfo->getExtension() == "mp3"){
+						if($name){
+							// var_dump($name . "  ".$fileInfo->getBasename());
+							if($name == $fileInfo->getBasename()){
+								do_wavform($fileInfo);
+							}
+							continue;
+						}else{
+							do_wavform($fileInfo);
+						}
+					}
+				}				
 				return;
 			}
-			foreach (new DirectoryIterator(get_option('path_to_media')) as $fileInfo) {
-				
-				if($fileInfo->isDir() && !$fileInfo->isDot()) {
-					// Do whatever
-				}
-				if($fileInfo->getExtension() == "mp3"){
-					$pathname = $fileInfo->getPathname(); 
-					$basename = $fileInfo->getBasename(".mp3");
-					$path = $fileInfo->getPath();
-					$png = 	$path.'/'.$basename.'.wavform.png';  
-					// var_dump( $path.'/'.$basename.'.wavform.png' );
-					$waveform = new Waveform($pathname);
-					Waveform::$color = [95, 95, 95, 0.5];
-					Waveform::$backgroundColor = [0, 0, 0, 0];					
-					$success = $waveform->getWaveform( $png, 1200, 600);
-					var_dump("Writing: ".$path.'/'.$basename.'.wavform.png');
-				}
-			}
 		}  
-
-		function _log($obj = '') {		
-			error_log( print_r($obj,1));
-		}
 	}
 	new playlist_utilities_class();
 	

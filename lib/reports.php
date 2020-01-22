@@ -6,17 +6,17 @@
 error_reporting(E_ALL);
 ini_set("display_errors","On");
 try{
-    require_once dirname(__FILE__) . '/../../../../wp-load.php';
+    require_once dirname(__FILE__) . "/../../../../wp-load.php";
     require_once dirname(__FILE__) . "/../playlist_utilities_class.php";
 }
 catch (Exception $e) { exit($e); }
 
-class dreaddymck_com_accesslog extends playlist_utilities_class{
+class dmck_audio_player_activity extends playlist_utilities_class{
 
     public $debug;
     public $options;
-    public $accesslog;
-
+    public $filepath;
+    public $filename;
     function __construct() {
         if($this::parameters()) {
             exit($this::run());
@@ -24,35 +24,36 @@ class dreaddymck_com_accesslog extends playlist_utilities_class{
     }
     function parameters()
     {
-        if( isset( $_SERVER['REQUEST_METHOD'] ) ){
-            if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        if( isset( $_SERVER["REQUEST_METHOD"] ) ){
+            if ($_SERVER["REQUEST_METHOD"] === "POST") {
                 $this->debug			= isset($_POST["debug"]) ? htmlspecialchars($_POST["debug"] ) : false;
                 $this->options			= isset($_POST["options"]) ? htmlspecialchars($_POST["options"] ) : "";
-                $this->accesslog		= isset($_POST["accesslog"]) ? htmlspecialchars($_POST["accesslog"] ) : "";
+                $this->filepath		    = isset($_POST["accesslog"]) ? htmlspecialchars($_POST["accesslog"] ) : "";
+                $this->filename		    = isset($_POST["filename"]) ? htmlspecialchars($_POST["filename"] ) : "";
             }else{
                 $this->debug			= isset($_GET["debug"]) ? htmlspecialchars($_GET["debug"] ) : false;
                 $this->options			= isset($_GET["options"]) ? htmlspecialchars($_GET["options"] ) : "";
-                $this->accesslog		= isset($_GET["accesslog"]) ? htmlspecialchars($_GET["accesslog"] ) : "";
+                $this->filepath		    = isset($_GET["accesslog"]) ? htmlspecialchars($_GET["accesslog"] ) : "";
+                $this->filename		    = isset($_GET["filename"]) ? htmlspecialchars($_GET["filename"] ) : "";
             }
-            if( get_option('access_log') ){ 
-                $this->accesslog = get_option('access_log');
+            if( get_option("access_log") ){ 
+                $this->filepath = get_option("access_log");
             }
             return true;
         }else
-        if( isset( $_SERVER['argv'] ) ){
-            $this->options = isset($_SERVER['argv'][1]) ? $_SERVER['argv'][1] : "";
-            $this->accesslog = isset($_SERVER['argv'][2]) ? $_SERVER['argv'][2] : "" ;
-            if( get_option('access_log') ){ 
-                $this->accesslog = get_option('access_log');
+        if( isset( $_SERVER["argv"] ) ){
+            $this->options = isset($_SERVER["argv"][1]) ? $_SERVER["argv"][1] : "";
+            $this->filepath = isset($_SERVER["argv"][2]) ? $_SERVER["argv"][2] : "" ;
+            $this->filename = isset($_SERVER["argv"][3]) ? $_SERVER["argv"][3] : "" ;
+            if( get_option("access_log") ){ 
+                $this->filepath = get_option("access_log");
             }
             return true;
         }                    
         return false;
     }
     function run(){
-
         $response = "{}";
-
         switch ($this->options) {
             case "put":
                 $this->accesslog_activity_purge();
@@ -68,13 +69,14 @@ class dreaddymck_com_accesslog extends playlist_utilities_class{
                 $response = $this->accesslog_activity_purge();
                 break;  
             case "wavform":
-                $response = $this->wavform();
+                $request = new WP_REST_Request();
+                $request->set_query_params(array( 'name' => $this->filename ));
+                $response = $this->wavform($request);        
                 break;                                
             default:
         }
         return $response;
     }
 }
-
-new dreaddymck_com_accesslog;
+new dmck_audio_player_activity();
 

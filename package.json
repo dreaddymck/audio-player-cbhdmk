@@ -16,6 +16,7 @@
     "eslint-config-google": "^0.9.1"
   },
   "dependencies": {
-    "font-awesome": "^4.7.0"
+    "font-awesome": "^4.7.0",
+    "jquery.cookie": "^1.4.1"
   }
 }

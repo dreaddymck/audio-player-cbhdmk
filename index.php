@@ -3,14 +3,15 @@
 Plugin Name: (DMCK) audio player
 Plugin URI: dreaddymck.com
 Description: Just another Wordpress audio player. This plugin will add the first mp3 link embedded in each active post content into a playlist. shortcode [dmck-audioplayer]
-Version: 1.0.14
+Version: 1.0.16
 Author: dreaddymck
 Author URI: dreaddymck.com
 License: MIT
 
-TODO: socache nav should not appear in dmck_audioplayer
-TODO: need path to mp3 folder in admin options.
 TODO: Use wp-cron to create / update playlists
+TODO: multiple file upload
+TODO: wavform generator action
+TODO: List of uploaded files
 */
 // error_reporting(E_ALL);
 // ini_set("display_errors","On");
@@ -115,7 +116,6 @@ if (!class_exists("dmck_audioplayer")) {
 			if($facebook_app_id){
 				$output .= '  xmlns:fb="http://www.facebook.com/2008/fbml"';
 			}
-
 			return $output;
 		}		
 
@@ -136,15 +136,13 @@ if (!class_exists("dmck_audioplayer")) {
 			
 			$site_url = get_site_url();
 			
-			if( $this->isSecure() ){			
-				
+			if( $this->isSecure() ){				
 				$secure_url		= preg_replace( "/^http:/i", "https:", $site_url );
 				$insecure_url	= preg_replace( "/^https:/i", "http:", $site_url );
 	
 				$pattern 		= "/" .preg_quote($insecure_url, '/') . "/i";
 	
 				$content 	= preg_replace( $pattern, $secure_url, $content );
-
 			}
 
 			return $content;
@@ -153,7 +151,6 @@ if (!class_exists("dmck_audioplayer")) {
 			
 			$param = preg_replace('/(\[.*\])/', "", $param);
 			$param = preg_replace('/(Sorry, your browser doesn\'t support HTML5 audio\.|Sorry, your browser doesn&#8217;t support HTML5 audio.)/i', "", $param);
-			
 			return $param;
 		}
 		function register_activation($options){}
@@ -168,7 +165,6 @@ if (!class_exists("dmck_audioplayer")) {
 				register_setting( $this->plugin_settings_group, $settings );
 			}
 		}
-
 		function admin_menu()
 		{
 			$this->settings_page = add_options_page(
@@ -186,6 +182,8 @@ if (!class_exists("dmck_audioplayer")) {
 				wp_enqueue_style( 'bootstrap.css',  $this->plugin_url . "css/bootstrap.css", array(), $this->plugin_version);
 				wp_enqueue_style( 'admin.css',  $this->plugin_url . "admin/admin.css", array(), $this->plugin_version);
 				wp_enqueue_script( 'marked.min.js', $this->plugin_url . 'js/marked.min.js', array('jquery'), $this->plugin_version, true );
+				wp_enqueue_script( 'jquery.cookie.js', $this->plugin_url . 'node_modules/jquery.cookie/jquery.cookie.js', array('jquery'), $this->plugin_version, true );
+				wp_enqueue_script( 'admin-functions.js', $this->plugin_url . 'admin/admin-functions.js', array('jquery'), $this->plugin_version, true );
 				wp_enqueue_script( 'admin.js', $this->plugin_url . 'admin/admin.js', array('jquery'), $this->plugin_version, true );				
 				$this->localize_vars();
 			}
@@ -247,7 +245,7 @@ if (!class_exists("dmck_audioplayer")) {
 			}
 
 			$local = array(
-
+				'nonce' => wp_create_nonce( 'wp_rest' ),
 				'is_home' => is_home(),
 				'is_front_page' => is_front_page(),
 				'is_single' => is_single(),
@@ -271,6 +269,7 @@ if (!class_exists("dmck_audioplayer")) {
 				'plugin_title' => $this->plugin_title,
 				'github_url' => $this->github_url,
 				'blog_url' => get_bloginfo('url'),
+				'site_url' => get_site_url(),
 				'has_shortcode' => $this->has_shortcode($this->shortcode),
 				'stylesheet_url' => dirname( get_bloginfo('stylesheet_url') )."/",
 				'autoplay'	=> ($this->autoplay || $this->auto_play),

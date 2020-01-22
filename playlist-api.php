@@ -16,14 +16,17 @@ if (!class_exists("dmck_playlist_api")) {
 				register_rest_route( $this->plugin_slug.'/v'.$this->plugin_version,'activity/(?P<option>[\w]+)' ,array(
 					'methods'   =>  WP_REST_Server::READABLE,
 					'callback'  =>  array($this, 'activity'),
-					'args' => [
-						'option'
-					],										
+					'args' => [ 'option' ],										
 				));	
 				register_rest_route( $this->plugin_slug.'/v'.$this->plugin_version,'playlist' ,array(
 					'methods'   =>  WP_REST_Server::READABLE,
 					'callback'  =>  array($this, 'playlist'),					
 				));							
+				register_rest_route( $this->plugin_slug.'/v'.$this->plugin_version,'upload' ,array(
+					'methods'   =>  WP_REST_Server::CREATABLE,
+					'callback'  =>  array($this, 'upload'),
+					'permission_callback' => function() { return current_user_can('edit_posts'); }						
+				));						
 			});
 	
 		}
@@ -37,7 +40,7 @@ if (!class_exists("dmck_playlist_api")) {
 					$response = $this->accesslog_activity_get_today();
 					break;
 				case "wavform":
-					$response = $this->wavform();
+					$response = $this->wavform($data);
 					break; 					                
 				default:
 			}
@@ -71,6 +74,16 @@ if (!class_exists("dmck_playlist_api")) {
 			wp_reset_postdata();
 			return($response);
 		}
+		function upload(){
+			// var_dump($_FILES);
+			$response = array();
+			foreach($_FILES as $file){
+				$path = esc_attr( get_option('path_to_media') );
+				$path = preg_replace('{/$}', '', $path);
+				array_push($response, move_uploaded_file($file['tmp_name'], $path."/".basename($file['name'])));
+			}
+			return $response;
+		}		
 	}
 	new dmck_playlist_api();	
 }
