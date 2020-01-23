@@ -17,7 +17,7 @@ const access_log = {
             sorted:[],
         },
         get_obj: function(obj){
-            jQuery.get(access_log.reports.global.base_url + "/playlist/", {
+            jQuery.get(access_log.reports.global.base_url + "/api/search/", {
                 s: obj.path 
             }).done(function (data) {
                 var json    = jQuery.parseJSON(data);
@@ -27,7 +27,7 @@ const access_log = {
         },
         top_requests: function(){
             jQuery
-            .get( access_log.reports.global.base_url + '/activity/get/'  )
+            .get( access_log.reports.global.base_url + '/api/get/'  )
             .done(
                     function(response) {
                         /*
@@ -96,8 +96,8 @@ jQuery("#info-tabs").append(`
                                 })
                                 this.target.find("h5").text( playlist_control.DecodeEntities(track[0].title) )
                                     .after(`
-                                        <span class="ui-li-tags">` + playlist_control.DecodeEntities(track[0].tags.toLowerCase()) + `
-                                            <a class="ui-li-moreinfo" title="more info" href="` + track[0].permalink + `" target="_top"> ... </a></span>`
+                                        <span class="">` + playlist_control.DecodeEntities(track[0].tags.toLowerCase()) + `
+                                            <a class="moreinfo" title="more info" href="` + track[0].permalink + `" target="_top">` + track[0].moreinfo + `</a></span>`
                                     )
                                 this.target.click(function(e){                                    
                                     playlist_control.container = container;

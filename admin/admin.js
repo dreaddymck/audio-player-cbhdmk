@@ -1,6 +1,6 @@
 "use strict";
 jQuery(document).ready(function(){	
 	jQuery('.loading').hide();
-	jQuery('.container').show();
+	jQuery('.admin-container').show();
 	admin_functions.onload();
 });

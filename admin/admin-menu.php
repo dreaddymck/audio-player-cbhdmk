@@ -5,7 +5,7 @@
 
 
 	
-<div class="container table" style="display:none;">
+<div class="admin-container" style="display:none;">
 	<ul class="tabs">
 		<li class="tab-link current" data-tab="tab-1">Settings</li>
 		<li class="tab-link" data-tab="tab-2">Tiny File Manager</li>
@@ -37,7 +37,7 @@
 	        <input type="text" name="media_root_path"  class="form-control" value="<?php echo esc_attr( get_option('media_root_path') ); ?>">
 		</div>
 		<div>	
-			<label><?php _e('Media folder url path (Path after site/blog url that leads to media folder)'); ?></label>
+			<label><?php _e('Media folder url path ( <small>Path after <code>'.get_site_url().'</code> that leads to media folder</small> )'); ?></label>
 	        <input type="text" name="media_root_url"  class="form-control" value="<?php echo esc_attr( get_option('media_root_url') ); ?>">
 		</div>					
 		<div>	

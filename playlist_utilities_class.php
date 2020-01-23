@@ -16,7 +16,8 @@ if (!class_exists("playlist_utilities_class")) {
 		public $path;
 		public $filepath;		
 		
-        function __construct(){}            
+		function __construct(){}  
+		          
 		function render_elements($posts) {
 			
             $response 	= [];
@@ -52,7 +53,7 @@ if (!class_exists("playlist_utilities_class")) {
 				$object->rating		= 0;
 				$object->cover		= $this->fetch_the_post_thumbnail_src( get_the_post_thumbnail($post->ID, "thumbnail") );
 				$object->permalink	= get_permalink( $post->ID );
-				$object->moreinfo	= get_option('moreinfo') ? esc_attr( get_option('moreinfo') ) : "permalink";
+				$object->moreinfo	= get_option('moreinfo') ? get_option('moreinfo') : "";
 				$object->playlist_thumb = $object->cover;
 				$object->tags 		=  implode( ', ', wp_get_post_tags( $post->ID, array( 'fields' => 'names' )) );
 			
@@ -115,7 +116,7 @@ if (!class_exists("playlist_utilities_class")) {
 			// error_log(var_export($matches, TRUE));			
 			return $matches[0];
 		}
-		function fetch_playList_from_posts() {
+		function shortcode_playlist() {
 			global $wpdb;						
 			$tag = get_option( 'tag') ? array( get_option( 'tag') ) : null;
 			$tag_in = get_option( 'tag_in') ? array( get_option( 'tag_in') ) : null;
@@ -132,14 +133,29 @@ if (!class_exists("playlist_utilities_class")) {
 				'tag__not_in'		=> $tag_not_in,	
 			);
 			$posts 	= get_posts( $args );
-			// error_log(print_r($posts,1));
-			// error_log("*******************************");
-			// error_log(var_export($wpdb->last_query, TRUE));			
 			$response   = $this->render_elements($posts);			
 			wp_reset_postdata();
-			// var_dump($_SERVER['REQUEST_METHOD']);			
 			return $response;					
 		}
+		function search($data){
+			global $wpdb;
+			$params 				= $data->get_params();
+			$args = array(
+				's'					=> isset($params["s"]) ? htmlspecialchars($params["s"] ) : "",
+                'posts_per_page' 	=> isset($params["posts_per_page"]) ? htmlspecialchars($params["posts_per_page"] ) : 1,
+				'post_status'   	=> isset($params["post_status"]) ? htmlspecialchars($params["post_status"] ) : "published",
+				'tag'           	=> isset($params["tag"]) ? htmlspecialchars($params["tag"] ) : "",
+				'orderby'          	=> isset($params["orderby"]) ? htmlspecialchars($params["orderby"] ) : "",
+				'order'            	=> isset($params["order"]) ? htmlspecialchars($params["order"] ) : "",
+				'tag'				=> isset($params["tag"]) ? htmlspecialchars($params["tag"] ) : "",
+				'tag__in' 			=> isset($params["tag_in"]) ? htmlspecialchars($params["tag_in"] ) : "",
+				'tag__not_in'		=> isset($params["tag_not_in"]) ? htmlspecialchars($params["tag_not_in"] ) : "",					
+			);			
+			$posts 	    = get_posts( $args );
+			$response   = $this->render_elements($posts);
+			wp_reset_postdata();
+			return($response);
+		}		
 		function accesslog_activity_purge(){        
 			$query = "DELETE FROM dmck_audio_log_reports where UNIX_TIMESTAMP( updated ) <  UNIX_TIMESTAMP( DATE_SUB(NOW(), INTERVAL 30 DAY) )";
 			$results = $this->query( $query );        
@@ -207,6 +223,8 @@ EOF;
 		function accesslog_activity_put()
 		{			
 			if(!$this->filepath){ die("Missing access log location"); }	
+			$media_root_url = get_option('media_root_url') ? get_option('media_root_url') : die("Missing media_root_url option");
+
 			if ( file_exists( $this->filepath ) ) {			
 				try{   
 					$handle         = fopen($this->filepath,'r');
@@ -229,8 +247,10 @@ EOF;
 						$parts = explode('"', $dd);
 						if( isset($parts[1]) ) {
 							$str = $parts[1];
-							//TODO: match from admin settings.
-							if ( preg_match('/((\/Public\/MUSIC\/FEATURING.*mp3))/i', $str)){
+							//TODO: if match filter vs published post.
+							//TODO: match from admin settings -- testing
+							// if ( preg_match('/((\/Public\/MUSIC\/FEATURING.*mp3))/i', $str)){							
+							if ( preg_match('/(('. preg_quote($media_root_url, '/').'.*mp3))/i', $str)){	
 								// error_log($str);
 								preg_match('/\[(.*)\]/', $parts[0], $date_array);
 								$date       = $date_array[1]; 
@@ -335,11 +355,13 @@ EOF;
 /*
 wavform render
 */
-		function wavform($data){
+		function wavform(){
 			// set_time_limit(120);
 			// var_dump($data);
-			$params = $data->get_params();
-			$name	= isset($params["name"]) ? htmlspecialchars($params["name"] ) : "";
+			// $params = $data->get_params();
+			$name	= isset( $_SERVER["argv"][3]) ? htmlspecialchars( $_SERVER["argv"][3] ) : "";
+			$folder   = isset($_SERVER["argv"][2]) ? $_SERVER["argv"][2] : get_option('media_root_path') ;
+
 			function do_wavform($fileInfo){
 				$pathname = $fileInfo->getPathname(); 
 				$basename = $fileInfo->getBasename(".mp3");
@@ -354,8 +376,8 @@ wavform render
 					var_dump("Writing: ".$path.'/'.$basename.'.wavform.png');
 				}				
 			}
-			if(get_option('media_root_path')){
-				foreach (new DirectoryIterator(get_option('media_root_path')) as $fileInfo) {				
+			if($folder){
+				foreach (new DirectoryIterator($folder) as $fileInfo) {				
 					if($fileInfo->isDir() && !$fileInfo->isDot()) {
 						// Do whatever
 					}
@@ -374,6 +396,9 @@ wavform render
 				}				
 				return;
 			}
+		}
+		function playlist_create(){
+			error_log("success");
 		}  
 	}
 	new playlist_utilities_class();

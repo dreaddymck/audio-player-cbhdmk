@@ -4,9 +4,10 @@
  */
 try{
     require_once dirname(__FILE__) . "/../../../../wp-load.php";
-    $root_path = esc_attr( get_option('media_root_path') );
 }
 catch (Exception $e) { exit($e); }
+
+$root_path = esc_attr( get_option('media_root_path') );
 if(!$root_path) { exit("Path to media folder not set"); }
 if(!is_super_admin()) exit("Invalid credentials");
 
@@ -75,7 +76,7 @@ $default_timezone = 'Etc/UTC'; // UTC
 // Root url for links in file manager.Relative to $http_host. Variants: '', 'path/to/subfolder'
 // Will not working if $root_path will be outside of server document root
 // $root_url = '';
-$root_url = esc_attr( get_option('media_root_url') );
+$root_url = get_site_url() . esc_attr( get_option('media_root_url') );
 
 // Server hostname. Can set manually if wrong
 $http_host = $_SERVER['HTTP_HOST'];
@@ -197,9 +198,9 @@ if (defined('FM_EMBED')) {
         mb_regex_encoding('UTF-8');
     }
 
-    session_cache_limiter('');
-    session_name(FM_SESSION_ID );
-    @session_start();
+    // session_cache_limiter('');
+    // session_name(FM_SESSION_ID );
+    // @session_start();
 }
 
 if (empty($auth_users)) {
@@ -215,10 +216,11 @@ if (isset($_SESSION[FM_SESSION_ID]['logged']) && !empty($directories_users[$_SES
     $root_url =  $root_url.$wd.DIRECTORY_SEPARATOR.$directories_users[$_SESSION[FM_SESSION_ID]['logged']];
 }
 // clean $root_url
-$root_url = fm_clean_path($root_url);
-
+// $root_url = fm_clean_path($root_url);
 // abs path for site
-defined('FM_ROOT_URL') || define('FM_ROOT_URL', ($is_https ? 'https' : 'http') . '://' . $http_host . (!empty($root_url) ? '/' . $root_url : ''));
+// defined('FM_ROOT_URL') || define('FM_ROOT_URL', ($is_https ? 'https' : 'http') . '://' . $http_host . (!empty($root_url) ? '/' . $root_url : ''));
+$fm_root_url = !empty($root_url) ?  ($is_https ? preg_replace("/^http:/i", "https:", $root_url) : $root_url) : $http_host;
+defined('FM_ROOT_URL') || define('FM_ROOT_URL', ( $fm_root_url ) );
 defined('FM_SELF_URL') || define('FM_SELF_URL', ($is_https ? 'https' : 'http') . '://' . $http_host . $_SERVER['PHP_SELF']);
 
 // logout

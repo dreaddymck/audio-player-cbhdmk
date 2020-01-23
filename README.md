@@ -1,13 +1,14 @@
 # (DMCK) audio player
 
-Work In Progress.
+== Work In Progress ==
 
 Just another html5 mp3 audio player based on html5 audio playlist tutorial:
 https://www.script-tutorials.com/html5-audio-player-with-playlist/
 
-This plugin will extract the first mp3 link in each post then add to playlist.
+This plugin will generate a playlist from the the first mp3 link found in public posts.
+Filter by tags availble.
 
-shortcode example: 
+shortcode example:
 [dmck-audioplayer tag="in-playlist"]
 
 == Installation ==
@@ -17,20 +18,34 @@ shortcode example:
 3. Add shortcode to pages or posts as needed.
 4. something something work in progress
 
-== screenshot ==
+== Resources public ==
 
-![alt tag](https://github.com/dreaddymck/audio-player-cbhdmk/blob/master/screenshot.png?raw=true)
-
-== notes ==
-
-Built in routine to create wavforms. Requires server ffmpeg Installation (Unfinished)
 ```bash
- $(which php) /home/user/site.com/wp-content/plugins/audio-player-cbhdmk/lib/reports.php wavform "" "file.mp3"
+
+MIT License
+Copyright (c) 2016 MaximAL
 ```
 
-The following bash script can be used with ffmpeg to generate wav images:
+```bash
+
+* H3K | Tiny File Manager V2.4.1
+* CCP Programmers | ccpprogrammers@gmail.com
+* https://tinyfilemanager.github.io
+```
+
+== Notes ==
+
+Native create wavforms script (Requires ffmpeg Installation on server).
 
 ```bash
+
+ $(which php) /home/user/site.com/wp-content/plugins/audio-player-cbhdmk/lib/reports.php wavform "" "filename.mp3"
+```
+
+The following bash script generates wavform (Requires ffmpeg Installation on server).
+
+```bash
+
 #!/bin/bash
 echo "*******************************"
 echo "Begin render wavform";
@@ -43,3 +58,7 @@ done
 echo "end"
 exit
 ```
+
+== screenshot ==
+
+![alt tag](https://github.com/dreaddymck/audio-player-cbhdmk/blob/master/screenshot.png?raw=true)

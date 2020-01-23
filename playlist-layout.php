@@ -42,22 +42,21 @@
 	<div class="tab-content">
 		<div class="tab-pane active" id="playlist" role="tabpanel" aria-labelledby="tab-playlist">
 	<?php
-
-		$playlist = json_decode($this->fetch_playList_from_posts());
+		
+		$playlist = json_decode($this->shortcode_playlist());
 		foreach($playlist as $p) { 
-
 			echo <<<EOF
 
-	<div  id="{$p->ID}" class="ui-li-item featured-track" audiourl="{$p->mp3}" cover="{$p->cover}" artist="{$p->artist}" title="{$p->title}" permalink="{$p->permalink}" wavformpng="{$p->wavformpng}">
+	<div  id="{$p->ID}" class="featured-track" audiourl="{$p->mp3}" cover="{$p->cover}" artist="{$p->artist}" title="{$p->title}" permalink="{$p->permalink}" wavformpng="{$p->wavformpng}">
 		<div class="track-content row">
 			<div class="col-lg-10">
-				<h5 class="ui-li-title">$p->title</h5>
-				<span class="ui-li-tags">
-				{$p->tags} <a class="ui-li-moreinfo" title="more info" href="{$p->permalink}" target="_top"> {$p->moreinfo} </a>
+				<h5 class="">$p->title</h5>
+				<span class="">
+				{$p->tags} <a class="" title="more info" href="{$p->permalink}" target="_top"> {$p->moreinfo} </a>
 				</span>
 			</div>
 			<div class="col-lg-2 text-center">
-				<img class="ui-li-img" src="{$p->cover}" height="100" width="100">
+				<img class="" src="{$p->cover}" height="100" width="100">
 			</div>
 		</div>
 	</div>		

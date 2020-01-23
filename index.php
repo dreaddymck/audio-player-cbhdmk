@@ -3,15 +3,15 @@
 Plugin Name: (DMCK) audio player
 Plugin URI: dreaddymck.com
 Description: Just another Wordpress audio player. This plugin will add the first mp3 link embedded in each active post content into a playlist. shortcode [dmck-audioplayer]
-Version: 1.0.16
+Version: 1.0.17
 Author: dreaddymck
 Author URI: dreaddymck.com
 License: MIT
 
 TODO: Use wp-cron to create / update playlists
-TODO: multiple file upload
 TODO: wavform generator action
-TODO: List of uploaded files
+TODO: Dynamic m3u playlist generate
+
 */
 // error_reporting(E_ALL);
 // ini_set("display_errors","On");
@@ -34,7 +34,7 @@ if (!class_exists("dmck_audioplayer")) {
 
 		public $cron_name;
 		public $cron_jobs;
-		
+		public $site_url;
 		public $tag_in	= null;
 		public $tag_not_in	= null;
 		
@@ -45,6 +45,7 @@ if (!class_exists("dmck_audioplayer")) {
 			$this->plugin_url 	= plugins_url("/",__FILE__);
 			$this->theme_url	= dirname( get_bloginfo('stylesheet_url') );
 			$this->cron_name 	= $this->plugin_slug . "_cronjob";
+			$this->site_url     = get_site_url();
 
 			register_activation_hook( __FILE__, array($this, 'register_activation' ) );
 			register_deactivation_hook (__FILE__, 'cronstarter_deactivate');
@@ -270,7 +271,7 @@ if (!class_exists("dmck_audioplayer")) {
 				'plugin_title' => $this->plugin_title,
 				'github_url' => $this->github_url,
 				'blog_url' => get_bloginfo('url'),
-				'site_url' => get_site_url(),
+				'site_url' => $this->site_url,
 				'has_shortcode' => $this->has_shortcode($this->shortcode),
 				'stylesheet_url' => dirname( get_bloginfo('stylesheet_url') )."/",
 				'autoplay'	=> ($this->autoplay || $this->auto_play),

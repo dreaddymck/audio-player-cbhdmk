@@ -67,7 +67,10 @@ class dmck_audio_player_activity extends playlist_utilities_class{
                 break;                
             case "purge":
                 $response = $this->accesslog_activity_purge();
-                break;  
+                break;
+            case "playlist-create":
+                $response = $this->playlist_create();
+                break;
             case "wavform":
                 $request = new WP_REST_Request();
                 $request->set_query_params(array( 'name' => $this->filename ));
