@@ -52,11 +52,12 @@
 			<div class="col-lg-10">
 				<h5 class="">$p->title</h5>
 				<span class="">
-				{$p->tags} <a class="" title="more info" href="{$p->permalink}" target="_top"> {$p->moreinfo} </a>
+					{$p->tags} <a class="" style="z-index:10" title="more info" href="{$p->permalink}" target="_blank"> {$p->moreinfo} </a>
 				</span>
 			</div>
 			<div class="col-lg-2 text-center">
-				<img class="" src="{$p->cover}" height="100" width="100">
+				<a class="" style="z-index:10" title="more info" href="{$p->permalink}" target="_blank">
+					<img class="" src="{$p->cover}" height="100" width="100"></a>
 			</div>
 		</div>
 	</div>		
