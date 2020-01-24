@@ -2,10 +2,6 @@
 // error_reporting(E_ALL);
 // ini_set('display_errors', true);
 
-require_once __DIR__ . '/vendor/autoload.php';
-
-use maximal\audio\Waveform;
-
 if (!class_exists("playlist_utilities_class")) {
 
 	class playlist_utilities_class {
@@ -156,142 +152,7 @@ if (!class_exists("playlist_utilities_class")) {
 			wp_reset_postdata();
 			return($response);
 		}		
-		function accesslog_activity_purge(){        
-			$query = "DELETE FROM dmck_audio_log_reports where UNIX_TIMESTAMP( updated ) <  UNIX_TIMESTAMP( DATE_SUB(NOW(), INTERVAL 30 DAY) )";
-			$results = $this->query( $query );        
-			return;        
-		}
-		function accesslog_activity_get() {
-	
-			$query = <<<EOF
-SELECT 
-	data 
-FROM 
-	dmck_audio_log_reports 
-WHERE 
-	DATE(`updated`) = CURDATE() 
-ORDER BY 
-	updated 
-DESC 
-	LIMIT 1
-EOF;
-			
-			$conn = new mysqli(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME );
-	
-			if ($conn->connect_error) {
-				die("Connection failed: " . $conn->connect_error);
-			} 
-			$resp       = $conn->query($query);
-			if( $resp instanceof mysqli_result ) {
-				$results = mysqli_fetch_assoc($resp);  
-			} 
-			$conn->close();
-			return $results['data'];
-		}
-		function accesslog_activity_get_today() {
-	
-			$query = <<<EOF
-SELECT
-	json_unquote(data->'$.*.name') as name,
-	json_unquote(data->'$.*.time') as time,
-	json_unquote(data->'$.*.count') as count    
-FROM 
-	dmck_audio_log_reports 
-WHERE 
-	DATE(`updated`) = CURDATE()    
-order by 
-	updated 
-desc
-	LIMIT 1        
-EOF;
-	
-			$conn = new mysqli(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME );
-	
-			if ($conn->connect_error) {
-				die("Connection failed: " . $conn->connect_error);
-			} 	
-			$resp       = $conn->query($query);
-			$results    = array();
-			if( $resp instanceof mysqli_result )
-			{
-				$results = mysqli_fetch_all($resp);  
-			} 
-	
-			$conn->close();	
-			return json_encode($results);	
-		}    
-		function accesslog_activity_put()
-		{			
-			if(!$this->filepath){ die("Missing access log location"); }	
-			$media_root_url = get_option('media_root_url') ? get_option('media_root_url') : die("Missing media_root_url option");
 
-			if ( file_exists( $this->filepath ) ) {			
-				try{   
-					$handle         = fopen($this->filepath,'r');
-					if ( !$handle ) { 
-						throw new Exception('File open failed: ' . $this->filepath);
-					} 
-				}
-				catch (Exception $e) {
-					echo 'Caught exception: ', $e->getMessage(), "\n";
-					return;
-				}
-				$requestsCount  = 0;
-				$data   = "";
-				$cnt    = 0;
-				$arr    = array();
-				try {
-					while (!feof($handle)) {
-			
-						$dd = fgets($handle);				
-						$parts = explode('"', $dd);
-						if( isset($parts[1]) ) {
-							$str = $parts[1];
-							//TODO: if match filter vs published post.
-							//TODO: match from admin settings -- testing
-							// if ( preg_match('/((\/Public\/MUSIC\/FEATURING.*mp3))/i', $str)){							
-							if ( preg_match('/(('. preg_quote($media_root_url, '/').'.*mp3))/i', $str)){	
-								// error_log($str);
-								preg_match('/\[(.*)\]/', $parts[0], $date_array);
-								$date       = $date_array[1]; 
-								$new_date   = strtotime( $date ); 
-								$str = preg_replace('/GET/', "", $str);
-								$str = preg_replace('/HTTP.*/', "", $str);                   
-								$str = trim($str);			
-								$tmparray = explode("/", $str );			
-								$str = $tmparray[ count($tmparray) - 1 ];
-								
-								if( isset( $arr[$str] ) )
-								{                            
-									$arr[$str]["count"] += 1;		
-									$old_date           = $arr[$str]["time"];
-									$arr[$str]["time"]  = $old_date > $new_date ? $old_date : $new_date;
-								}
-								else
-								{
-									$arr[$str] = array( "count" => 1, "time" => $new_date, "name" => $str );
-								}
-							}
-						} 
-					}        
-			
-					fclose($handle);			
-					$json = json_encode($arr,JSON_FORCE_OBJECT);			
-					$query = "insert into dmck_audio_log_reports (data) values ( '" . $json . "' )";			
-					$results = $this->query( $query );	
-					return;
-			
-				} catch (Exception $e) {
-					echo 'Caught exception: ', $e->getMessage(), "\n";
-				} 			
-			}
-			else{
-				echo 'File does not exist: ' . $this->filepath ."\n";
-			}
-	
-			return;
-	
-		}
 		function query($sql){
 		
 			$conn = new mysqli(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME );
@@ -352,51 +213,6 @@ EOF;
 			session_start();
 			session_write_close();	
 		}		
-/*
-wavform render
-*/
-		function wavform(){
-			// set_time_limit(120);
-			// var_dump($data);
-			// $params = $data->get_params();
-			$name	= isset( $_SERVER["argv"][3]) ? htmlspecialchars( $_SERVER["argv"][3] ) : "";
-			$folder   = isset($_SERVER["argv"][2]) ? $_SERVER["argv"][2] : get_option('media_root_path') ;
-
-			function do_wavform($fileInfo){
-				$pathname = $fileInfo->getPathname(); 
-				$basename = $fileInfo->getBasename(".mp3");
-				$path = $fileInfo->getPath();
-				$png = 	$path.'/'.$basename.'.wavform.png';  
-				// var_dump( $path.'/'.$basename.'.wavform.png' );
-				$waveform = new Waveform($pathname);
-				Waveform::$color = [95, 95, 95, 0.5];
-				Waveform::$backgroundColor = [0, 0, 0, 0];					
-				$success = $waveform->getWaveform( $png, 1200, 600);
-				if($success){
-					var_dump("Writing: ".$path.'/'.$basename.'.wavform.png');
-				}				
-			}
-			if($folder){
-				foreach (new DirectoryIterator($folder) as $fileInfo) {				
-					if($fileInfo->isDir() && !$fileInfo->isDot()) {
-						// Do whatever
-					}
-					// var_dump($fileInfo->getBasename(".mp3"));
-					if($fileInfo->getExtension() == "mp3"){
-						if($name){
-							// var_dump($name . "  ".$fileInfo->getBasename());
-							if($name == $fileInfo->getBasename()){
-								do_wavform($fileInfo);
-							}
-							continue;
-						}else{
-							do_wavform($fileInfo);
-						}
-					}
-				}				
-				return;
-			}
-		}
 		function playlist_create(){
 			error_log("success");
 		}  

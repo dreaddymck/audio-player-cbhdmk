@@ -8,18 +8,25 @@ Author: dreaddymck
 Author URI: dreaddymck.com
 License: MIT
 
-TODO: Use wp-cron to create / update playlists
+TODO: Use wp-cron to create / update playlists, remove crontab entry
 TODO: wavform generator action
 TODO: Dynamic m3u playlist generate
 
 */
 // error_reporting(E_ALL);
 // ini_set("display_errors","On");
-require_once(plugin_dir_path(__FILE__)."playlist_utilities_class.php");
+
 
 if (!class_exists("dmck_audioplayer")) {
 
+	require_once(plugin_dir_path(__FILE__)."playlist_accesslog_class.php");
+	require_once(plugin_dir_path(__FILE__)."playlist_wavform_class.php");
+	require_once(plugin_dir_path(__FILE__)."playlist_utilities_class.php");
+
 	class dmck_audioplayer extends playlist_utilities_class {
+
+		use playlist_accesslog_class;
+		use playlist_wavform_class;
 
 		public $plugin_title;
 		public $plugin_slug				= 'dmck_audioplayer';
@@ -66,8 +73,7 @@ if (!class_exists("dmck_audioplayer")) {
 			add_filter( 'the_content', array($this,'content_toggle_https'));
 			add_filter( 'language_attributes', array($this,'set_doctype'));
 			add_filter( 'cron_schedules', array($this, 'cron_add_minute'));
-
-			require_once( plugin_dir_path(__FILE__).'playlist-api.php' );
+			require_once(plugin_dir_path(__FILE__).'playlist-api.php' );
 		}
 		// here's the function we'd like to call with our cron job
 		function wp_cron_functions() {

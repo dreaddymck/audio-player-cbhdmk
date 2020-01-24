@@ -8,11 +8,13 @@ ini_set("display_errors","On");
 try{
     require_once dirname(__FILE__) . "/../../../../wp-load.php";
     require_once dirname(__FILE__) . "/../playlist_utilities_class.php";
+    require_once dirname(__FILE__) . "/../playlist_wavform_class.php";
 }
 catch (Exception $e) { exit($e); }
 
 class dmck_audio_player_activity extends playlist_utilities_class{
 
+    use playlist_wavform_class;
     public $debug;
     public $options;
     public $filepath;

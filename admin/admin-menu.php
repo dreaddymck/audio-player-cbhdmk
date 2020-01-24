@@ -2,8 +2,6 @@
 
 <div class="loading" style="text-align: center; width: 100%;">
 	<img src="<?php echo plugins_url( 'images/loading-nerd.gif', dirname(__FILE__) )?>" /></div>
-
-
 	
 <div class="admin-container" style="display:none;">
 	<ul class="tabs">
@@ -25,7 +23,7 @@
 	        <input type="text" name="default_album_cover"  class="form-control" value="<?php echo esc_attr( get_option('default_album_cover') ); ?>">
         </div>
 		<div>
-			<label><?php _e('More info text (Not sure if being used)'); ?></label>
+			<label><?php _e('More info HTML/TEXT'); ?></label>
 	        <input type="text" name="moreinfo"  class="form-control" value="<?php echo esc_attr( get_option('moreinfo') ); ?>">
         </div>
 		<div>	
