@@ -183,6 +183,19 @@ const playlist = {
 			jQuery(playlist.target.nav).find("#menu-item-controls").addClass("hidden")			
 		}
 	},
+	cookie : {
+		name: dmck_audioplayer.plugin_slug + "-cookie",
+		set : function(obj){
+			let cookie = playlist.cookie.get() 
+			if(cookie){
+                cookie = JSON.parse(cookie);
+                let keys = Object.keys(obj);                
+                keys.forEach(key => { cookie[key] = obj[key]; });				
+			}else{ cookie = obj; }
+            jQuery.cookie( playlist.cookie.name, JSON.stringify(cookie), { expires: 30 })
+		},
+		get : function(){ return jQuery.cookie(playlist.cookie.name); }
+    }, 	
 	powered_by: ` and a <a href="https://github.com/dreaddymck/audio-player-cbhdmk" target="_blank">DreaddyMck Plugin WIP</a>`,
 }
 

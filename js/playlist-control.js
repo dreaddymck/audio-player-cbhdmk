@@ -97,43 +97,26 @@ const playlist_control = {
 			playlist_control.initAudio(prev)
 			dmck_audioplayer.playing = true
 		});	
-		// show playlist
-		// jQuery('.showlist').click(function (e) {
-		// 	e.preventDefault()
-		// 	e.stopPropagation()
-		// 	playlist_control.show_playlist();
-		// });	
-		// jQuery('.sortdef').on('click', function (e) {
-		// 	e.preventDefault()
-		// 	playlist_control.stopAudio()
-		// 	playlist_control.fetch_playlist('rand', 'DESC')
-		// });
-		// jQuery('.sortnew').on('click', function (e) {
-		// 	e.preventDefault()
-		// 	playlist_control.stopAudio()
-		// 	playlist_control.fetch_playlist('date', 'DESC')
-		// });
-		// jQuery('.sortold').on('click', function (e) {
-		// 	e.preventDefault()
-		// 	playlist_control.stopAudio()
-		// 	playlist_control.fetch_playlist('date', 'ASC')
-		// });
-	},
-	show_playlist: function(){
-		// if (jQuery('.playlist').hasClass('hidden')) {
-		// 	jQuery('.playlist').fadeIn(300).removeClass('hidden')
-		// 	jQuery('.sort').fadeIn(300).removeClass('hidden')
 
-		// 	jQuery('.showlistIcon').removeClass('ui-icon-plusthick')
-		// 	jQuery('.showlistIcon').addClass('ui-icon-minusthick')
-		// } else {
-		// 	jQuery('.playlist').fadeOut(300).addClass('hidden')
-		// 	jQuery('.sort').fadeOut(300).removeClass('hidden')
+		jQuery('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+			var target = jQuery(e.target).attr("href") // activated tab
+			playlist.cookie.set({"tab": target});
+		});
 
-		// 	jQuery('.showlistIcon').removeClass('ui-icon-minusthick')
-		// 	jQuery('.showlistIcon').addClass('ui-icon-plusthick')
-		// }
+		playlist_control.set_tab();
+		
 	},
+	set_tab: function(){
+        let cookie = playlist.cookie.get();
+        if(cookie){
+            cookie = JSON.parse(cookie);
+            if(typeof cookie.tab !== 'undefined'){
+				console.log(cookie);
+                jQuery('#info-tabs a[href="' + cookie["tab"] + '"]').tab('show');
+            }
+        } 
+	},
+	show_playlist: function(){},
 	set_cover_background: function (img) {
 		jQuery("." + dmck_audioplayer.plugin_slug + ' .cover').css({
 			'background-image': 'url(' + img + ')',

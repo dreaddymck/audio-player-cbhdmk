@@ -15,11 +15,11 @@
 		<?php do_settings_sections( $this->plugin_settings_group ); ?>
 	
 		<div>	
-			<label><?php _e('Favicon'); ?></label>
+			<label for="favicon" ><?php _e('Favicon'); ?></label>
 	        <textarea  name="favicon" class="form-control"><?php echo esc_attr( get_option('favicon') ); ?></textarea>
 		</div>
 		<div>
-			<label><?php _e('Default Album Cover'); ?></label>
+			<label for="default_album_cover"><?php _e('Default Album Cover'); ?></label>
 	        <input type="text" name="default_album_cover"  class="form-control" value="<?php echo esc_attr( get_option('default_album_cover') ); ?>">
         </div>
 		<div>
@@ -27,7 +27,7 @@
 	        <input type="text" name="moreinfo"  class="form-control" value="<?php echo esc_attr( get_option('moreinfo') ); ?>">
         </div>
 		<div>	
-			<label><?php _e('Access Log for "Top 10 requests"<br />Add the following to cron: <code>$(which php) '. plugin_dir_path(__DIR__) .'lib/reports.php put</code>'); ?></label>
+			<label><?php _e('Access Log for "Top 10 requests"<br /><small>Add the following to cron: <code>$(which php) '. plugin_dir_path(__DIR__) .'lib/reports.php put</code>'); ?></small></label>
 	        <input type="text" name="access_log"  class="form-control" value="<?php echo esc_attr( get_option('access_log') ); ?>">
 		</div>
 		<div>	

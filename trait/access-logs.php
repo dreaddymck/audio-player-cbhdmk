@@ -1,6 +1,6 @@
 <?php
 
-trait playlist_accesslog_class {
+trait _accesslog {
 
     public $filepath;		
     
@@ -101,7 +101,7 @@ EOF;
                         //TODO: match from admin settings -- testing
                         // if ( preg_match('/((\/Public\/MUSIC\/FEATURING.*mp3))/i', $str)){							
                         if ( preg_match('/(('. preg_quote($media_root_url, '/').'.*mp3))/i', $str)){	
-                            // error_log($str);
+                            echo($str);
                             preg_match('/\[(.*)\]/', $parts[0], $date_array);
                             $date       = $date_array[1]; 
                             $new_date   = strtotime( $date ); 

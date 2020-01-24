@@ -3,10 +3,10 @@
 Plugin Name: (DMCK) audio player
 Plugin URI: dreaddymck.com
 Description: Just another Wordpress audio player. This plugin will add the first mp3 link embedded in each active post content into a playlist. shortcode [dmck-audioplayer]
-Version: 1.0.19
+Version: 1.0.21
 Author: dreaddymck
 Author URI: dreaddymck.com
-License: MIT
+License: GPL2
 
 TODO: Use wp-cron to create / update playlists, remove crontab entry
 TODO: wavform generator action
@@ -19,14 +19,13 @@ TODO: Dynamic m3u playlist generate
 
 if (!class_exists("dmck_audioplayer")) {
 
-	require_once(plugin_dir_path(__FILE__)."playlist_accesslog_class.php");
-	require_once(plugin_dir_path(__FILE__)."playlist_wavform_class.php");
-	require_once(plugin_dir_path(__FILE__)."playlist_utilities_class.php");
+	require_once(plugin_dir_path(__FILE__)."trait/utilities.php");
+	require_once(plugin_dir_path(__FILE__)."trait/cron.php");
 
-	class dmck_audioplayer extends playlist_utilities_class {
+	class dmck_audioplayer {
 
-		use playlist_accesslog_class;
-		use playlist_wavform_class;
+		use _utilities;
+		use _cron;
 
 		public $plugin_title;
 		public $plugin_slug				= 'dmck_audioplayer';
@@ -57,7 +56,7 @@ if (!class_exists("dmck_audioplayer")) {
 			register_activation_hook( __FILE__, array($this, 'register_activation' ) );
 			register_deactivation_hook (__FILE__, 'cronstarter_deactivate');
 
-			add_action( 'init', array( $this, 'register_shortcodes'));
+			add_action( 'init', array( $this, '_init_actions'));
 			add_action( 'admin_init', array( $this, 'register_settings') );
 			add_action( 'admin_menu', array( $this, 'admin_menu' ));			
 			add_action( 'admin_enqueue_scripts', array($this, 'admin_scripts') );
@@ -67,7 +66,7 @@ if (!class_exists("dmck_audioplayer")) {
 			add_action( 'login_head', array($this, 'head_hook') );
 			add_action( 'admin_head', array($this, 'head_hook') );	
 			add_action( 'wp', array($this, 'cronstarter_activation'));
-			// add_action( $this->cron_name, array($this, 'wp_cron_functions')); 
+			add_action( $this->cron_name, array($this, 'wp_cron_functions')); 
 
 			add_filter( 'get_the_excerpt', array($this,'the_exerpt_filter'));
 			add_filter( 'the_content', array($this,'content_toggle_https'));
@@ -75,25 +74,10 @@ if (!class_exists("dmck_audioplayer")) {
 			add_filter( 'cron_schedules', array($this, 'cron_add_minute'));
 			require_once(plugin_dir_path(__FILE__).'playlist-api.php' );
 		}
-		// here's the function we'd like to call with our cron job
-		function wp_cron_functions() {
-			//cron activities here
+		function _init_actions(){
+			add_shortcode( $this->shortcode, array( $this, 'include_file') );
+			// $this->cronstarter_activation(); //www-data does not have access to perform this task.
 		}
-		function cronstarter_deactivate() {	
-			// find out when the last event was scheduled
-			$timestamp = wp_next_scheduled ($this->cron_name);			
-			// unschedule previous event if any
-			wp_unschedule_event ($timestamp, $this->cron_name);
-		} 				
-		function cronstarter_activation() {
-			if( !wp_next_scheduled( $this->cron_name ) ) {  
-			   wp_schedule_event( time(), 'everyminute', $this->cron_name );  
-			}
-		}
-		function cron_add_minute( $schedules ) { // Adds once every minute to the existing schedules. 
-			$schedules['everyminute'] = array( 'interval' => 60, 'display' => __( 'Once Every Minute' ) ); 
-			return $schedules; 
-		}		
 		function set_plugin_version(){
 			// error_log( preg_match('/version:[\s\t]+?([0-9.]+)/i',file_get_contents( __FILE__ ) ));
 			// $this->plugin_version = "";
@@ -161,9 +145,7 @@ if (!class_exists("dmck_audioplayer")) {
 			return $param;
 		}
 		function register_activation($options){}
-		function register_shortcodes(){
-			add_shortcode( $this->shortcode, array( $this, 'include_file') );
-		}
+
 		function register_settings() {
 			foreach($this->adminpreferences as $settings ) {
 				register_setting( $this->plugin_settings_group, $settings );
@@ -189,7 +171,7 @@ if (!class_exists("dmck_audioplayer")) {
 				
 				wp_enqueue_style( 'admin.css',  $this->plugin_url . "admin/admin.css", array(), $this->plugin_version);
 				wp_enqueue_script( 'marked.min.js', $this->plugin_url . 'js/marked.min.js', array('jquery'), $this->plugin_version, true );
-				wp_enqueue_script( 'jquery.cookie.js', $this->plugin_url . 'node_modules/jquery.cookie/jquery.cookie.js', array('jquery'), $this->plugin_version, true );
+				
 				wp_enqueue_script( 'admin-functions.js', $this->plugin_url . 'admin/admin-functions.js', array('jquery'), $this->plugin_version, true );
 				wp_enqueue_script( 'admin.js', $this->plugin_url . 'admin/admin.js', array('jquery'), $this->plugin_version, true );				
 				$this->localize_vars();
@@ -198,10 +180,12 @@ if (!class_exists("dmck_audioplayer")) {
 		function user_scripts() {
 			
 			if( $this->has_shortcode( $this->shortcode ) ) {}
+			
 			$this->shared_scripts();
-			wp_enqueue_script( 'jquery-ui.min.js', $this->plugin_url . 'plugins/jquery-ui-1.12.1/jquery-ui.js', array('jquery'), $this->plugin_version, true );
-			wp_register_style( 'jquery-ui.min.css',  $this->plugin_url . "plugins/jquery-ui-1.12.1/jquery-ui.min.css", array(), $this->plugin_version);
-			wp_enqueue_style( 'jquery-ui.min.css' );			
+			
+			wp_enqueue_script( 'jquery-ui.min.js', $this->plugin_url . 'js/jquery-ui-1.12.1/jquery-ui.js', array('jquery'), $this->plugin_version, true );
+			wp_enqueue_style( 'jquery-ui.min.css',  $this->plugin_url . "js/jquery-ui-1.12.1/jquery-ui.min.css", array(), $this->plugin_version);
+
 			wp_enqueue_style( 'playlist.css',  $this->plugin_url . "playlist.css");
 			wp_enqueue_script( 'playlist-control.js', $this->plugin_url . 'js/playlist-control.js', array('jquery'), $this->plugin_version, true );
 			wp_enqueue_script( 'playlist.js', $this->plugin_url . 'js/playlist.js', array('jquery'), $this->plugin_version, true );
@@ -211,8 +195,8 @@ if (!class_exists("dmck_audioplayer")) {
 			$this->localize_vars();
 		}
 		function shared_scripts(){
-			wp_register_style( 'font-awesome.min.css',  $this->plugin_url . "/node_modules/font-awesome/css/font-awesome.min.css", array(), $this->plugin_version);
-			wp_enqueue_style( 'font-awesome.min.css' );
+			wp_enqueue_script( 'jquery.cookie.js', $this->plugin_url . 'node_modules/jquery.cookie/jquery.cookie.js', array('jquery'), $this->plugin_version, true );
+			wp_enqueue_style( 'font-awesome.min.css',  $this->plugin_url . "/node_modules/font-awesome/css/font-awesome.min.css", array(), $this->plugin_version);
 			wp_enqueue_script( 'functions.js', $this->plugin_url . 'js/functions.js', array('jquery'), $this->plugin_version, true );	
 			wp_enqueue_style( 'bootstrap.css',  $this->plugin_url . "node_modules/bootstrap/dist/css/bootstrap.min.css", array(), $this->plugin_version);		
 			wp_enqueue_script( 'bootstrap.js', $this->plugin_url . 'node_modules/bootstrap/dist/js/bootstrap.min.js', array( 'jquery' ), '', true );

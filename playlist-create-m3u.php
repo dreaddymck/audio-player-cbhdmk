@@ -2,13 +2,15 @@
 
 try{
     require_once dirname(__FILE__) . "/../../../../wp-config.php";
-    require_once dirname(__FILE__) . "/../playlist_utilities_class.php";
+    require_once(plugin_dir_path(__FILE__)."trait/utilities.php");
 }
 catch (Exception $e) { exit($e); }
 
 
-class dmck_create_playlist  extends playlist_utilities_class {
+class dmck_create_playlist {
 
+    use _utilities;
+    
     public $debug;
     public $option;
     public $value;

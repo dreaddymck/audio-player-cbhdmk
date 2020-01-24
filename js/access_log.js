@@ -32,8 +32,7 @@ const access_log = {
                     function(response) {
                         /*
                          * response is a php urlencode string
-                         */
-                                               
+                         */                                               
                         if(!response){ return; }
                         if (response.errors) { console.log(response.errors); return; }                        
                         response = JSON.parse(response);
@@ -41,17 +40,6 @@ const access_log = {
                         access_log.reports.global.sorted = [];
                         for(var x in response ){ access_log.reports.global.sorted.push([ decodeURIComponent(x), response[x]]); }
                         access_log.reports.global.sorted.sort(function(a, b) { return b[1].count - a[1].count; }); 
-jQuery("#info-tabs").append(`
-<li class="nav-item">
-<a class="nav-link" id="top-10-tab" data-toggle="tab" href="#top-10" role="tab" aria-controls="top-10" aria-selected="false">
-    <h3>Today's Top 10</h3>
-</a>
-</li>
-                        `);
-// <i class="fa fa-download todays-top-10-m3u"  title="download m3u playlist" aria-hidden="true"></i                            
-                        jQuery(".tab-content").append(`
-<div class="tab-pane" id="top-10" role="tabpanel" aria-labelledby="top-10-tab"></div>                      
-                        `);
                         
                         let container   = jQuery('#top-10'); 
                         let target      = ".top-10-track";

@@ -4,7 +4,15 @@
 */
 
 if (!class_exists("dmck_playlist_api")) {
+
+	require_once(plugin_dir_path(__FILE__)."trait/access-logs.php");
+	require_once(plugin_dir_path(__FILE__)."trait/wavform.php");	
+
 	class dmck_playlist_api extends dmck_audioplayer {
+
+		use _accesslog;
+		use _wavform;
+				
 		public $debug;
 		public $posts_per_page;
 		public $tag;		

@@ -6,16 +6,17 @@
 
 try{
     require_once dirname(__FILE__) . "/../../../../wp-load.php";
-    require_once dirname(__FILE__) . "/../playlist_accesslog_class.php";
-    require_once dirname(__FILE__) . "/../playlist_utilities_class.php";
-    require_once dirname(__FILE__) . "/../playlist_wavform_class.php";
+    require_once(dirname(__FILE__) . "/../trait/access-logs.php");
+	require_once(dirname(__FILE__) . "/../trait/wavform.php");
+	require_once(dirname(__FILE__) . "/../trait/utilities.php");    
 }
 catch (Exception $e) { exit($e); }
 
-class dmck_audio_player_activity extends playlist_utilities_class{
+class dmck_audio_player_activity{
 
-    use playlist_accesslog_class;
-    use playlist_wavform_class;
+    use _accesslog;
+    use _wavform;
+    use _utilities;
     public $debug;
     public $options;
     public $filepath;
@@ -75,9 +76,7 @@ class dmck_audio_player_activity extends playlist_utilities_class{
                 $response = $this->playlist_create();
                 break;
             case "wavform":
-                $request = new WP_REST_Request();
-                $request->set_query_params(array( 'name' => $this->filename ));
-                $response = $this->wavform($request);        
+                $response = _wavform::wavform();        
                 break;                                
             default:
         }

@@ -33,11 +33,11 @@
 				<h3>Featured</h3> 
 			</a>
 		</li>
-		<!-- <li class="nav-item">
-			<a class="nav-link" id="tab-playlist" data-toggle="tab" href="#rebrixed" role="tab" aria-controls="rebrixed" aria-selected="true">
-			<h3>Rebrixed</h3> 
+		<li class="nav-item">
+			<a class="nav-link" id="top-10-tab" data-toggle="tab" href="#top-10" role="tab" aria-controls="top-10" aria-selected="true">
+				<h3>Today's Top 10</h3>
 			</a>
-		</li>	 -->
+		</li>		
 	</ul>
 	<div class="tab-content">
 		<div class="tab-pane active" id="playlist" role="tabpanel" aria-labelledby="tab-playlist">
@@ -66,7 +66,7 @@ EOF;
 }
 	?>	
 		</div>
-		<!-- <div class="tab-pane" id="rebrixed" role="tabpanel" aria-labelledby="tab-playlist"></div>	 -->
+		<div class="tab-pane" id="top-10" role="tabpanel" aria-labelledby="top-10-tab"></div>  
 	</div>
 </div>
 

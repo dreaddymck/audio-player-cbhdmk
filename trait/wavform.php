@@ -1,10 +1,10 @@
 <?php
 
-require_once __DIR__ . '/vendor/autoload.php';
+require_once __DIR__ . '/../vendor/autoload.php';
 
 use maximal\audio\Waveform;
 
-trait playlist_wavform_class {
+trait _wavform {
     
     function __construct(){} 
     function wavform(){
