@@ -2,8 +2,7 @@
 /*
 	Extract custom information from posts
 */
-error_reporting(E_ALL);
-ini_set("display_errors","On");
+
 if (!class_exists("dmck_playlist_api")) {
 	class dmck_playlist_api extends dmck_audioplayer {
 		public $debug;

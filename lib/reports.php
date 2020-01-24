@@ -3,8 +3,7 @@
     Manage acces_log activities.
     Command line support for cron calls.
 */
-error_reporting(E_ALL);
-ini_set("display_errors","On");
+
 try{
     require_once dirname(__FILE__) . "/../../../../wp-load.php";
     require_once dirname(__FILE__) . "/../playlist_utilities_class.php";
