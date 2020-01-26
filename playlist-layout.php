@@ -41,7 +41,7 @@
 	</ul>
 	<div class="tab-content">
 		<div class="tab-pane active" id="playlist" role="tabpanel" aria-labelledby="tab-playlist">
-	<?php
+		<?php
 		
 		$playlist = json_decode($this->shortcode_playlist());
 		foreach($playlist as $p) { 
@@ -64,7 +64,7 @@
 EOF;
 
 }
-	?>	
+		?>	
 		</div>
 		<div class="tab-pane" id="top-10" role="tabpanel" aria-labelledby="top-10-tab"></div>  
 	</div>

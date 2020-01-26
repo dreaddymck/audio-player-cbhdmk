@@ -8,8 +8,7 @@ Author: dreaddymck
 Author URI: dreaddymck.com
 License: GPL2
 
-TODO: Use wp-cron to create / update playlists, remove crontab entry
-TODO: wavform generator action
+TODO: fix featured tracks navigation
 TODO: Dynamic m3u playlist generate
 
 */
