@@ -1,4 +1,6 @@
-.hidden { display: none; }
+.hidden {
+  display: none;
+}
 .title, .top-played-track { cursor: pointer; }
 .this_excerpt { word-wrap: break-word; }
 .cover { height: 300px; }

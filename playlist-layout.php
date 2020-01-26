@@ -1,4 +1,4 @@
-<div class="<?php echo $this->plugin_slug ?>">
+<div id="<?php echo $this->plugin_slug ?>">
 	<div class="row">
 		<div class="col-lg-12">
 			<div class="panel panel-box box-background">
@@ -19,7 +19,7 @@
 				<div class="panel-heading options">
 					<div class="controls row ">
 						<div class="play fa fa-play-circle fa-3x col-xs-3"  aria-hidden="true" title="Play"></div>
-						<div class="pause fa fa-pause fa-3x col-xs-3"  aria-hidden="true" title="Pause"></div>	
+						<div class="pause fa fa-pause fa-3x col-xs-3 hidden"  aria-hidden="true" title="Pause"></div>	
 						<div class="rew fa fa-step-backward fa-3x col-xs-3" aria-hidden="true" title="Back"></div>
 						<div class="fwd fa fa-step-forward fa-3x col-xs-3"  aria-hidden="true" title="Forward"></div>
 					</div> 
@@ -47,7 +47,7 @@
 		foreach($playlist as $p) { 
 			echo <<<EOF
 
-	<div  id="{$p->ID}" class="featured-track" audiourl="{$p->mp3}" cover="{$p->cover}" artist="{$p->artist}" title="{$p->title}" permalink="{$p->permalink}" wavformpng="{$p->wavformpng}">
+	<div  id="{$p->ID}" class="featured-track testname" audiourl="{$p->mp3}" cover="{$p->cover}" artist="{$p->artist}" title="{$p->title}" permalink="{$p->permalink}" wavformpng="{$p->wavformpng}">
 		<div class="track-content row">
 			<div class="col-lg-10">
 				<h5 class="">$p->title</h5>

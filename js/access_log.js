@@ -87,14 +87,11 @@ const access_log = {
                                         <span class="">` + playlist_control.DecodeEntities(track[0].tags.toLowerCase()) + `
                                             <a class="moreinfo" title="more info" href="` + track[0].permalink + `" target="_top">` + track[0].moreinfo + `</a></span>`
                                     )
-                                this.target.click(function(e){                                    
-                                    playlist_control.container = container;
-                                    playlist_control.target = target;                                    
-
-                                    playlist_control.stopAudio()    
-                                    playlist_control.duration.slider('option', 'min', 0)
-                                    playlist_control.initAudio(jQuery(this))
-                                    dmck_audioplayer.playing = true    
+                                this.target.click(function(e){
+                                    playlist_control.stopAudio();	
+                                    jQuery(playlist_control.globals.cfg.duration).slider('option', 'min', 0);
+                                    playlist_control.initAudio(jQuery(this));
+                                    playlist_control.globals.cfg.playing = true;
                                     return;                            
                                 })
                                                                     
