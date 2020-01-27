@@ -27,7 +27,7 @@ const access_log = {
         },
         top_requests: function(){
             jQuery
-            .get( access_log.reports.global.base_url + '/api/get/'  )
+            .get( access_log.reports.global.base_url + '/api/get/' + "?v=" + Math.random()  )
             .done(
                     function(response) {
                         /*
