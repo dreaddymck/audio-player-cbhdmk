@@ -26,6 +26,9 @@ const access_log = {
             })
         },
         top_requests: function(){
+
+            if(!jQuery("#top-10").length){return;}
+            
             jQuery
             .get( access_log.reports.global.base_url + '/api/get/' + "?v=" + Math.random()  )
             .done(
