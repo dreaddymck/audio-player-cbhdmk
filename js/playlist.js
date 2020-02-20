@@ -11,19 +11,30 @@ const playlist = {
 	},
 	setup: function(){
 		// jQuery(playlist_control.globals.cfg.title).html('loading...')
-		let container = "#" + dmck_audioplayer.plugin_slug + " #playlist";
-		let target = ".featured-track";		
+		
+		if(!dmck_audioplayer){return;}
 
-		if( jQuery( target ).length ){
-			jQuery( container ).find( target ).click(function () {
-				playlist_control.stopAudio();	
-				jQuery(playlist_control.globals.cfg.duration).slider('option', 'min', 0);
-				playlist_control.initAudio(jQuery(this));
-				playlist_control.globals.cfg.playing = true;
-			})
-			// initialization - first element in playlist
-			playlist_control.initAudio( jQuery( container ).find( target + ':first-child') );		
-		}				
+		let playlist_config = dmck_audioplayer.playlist_config ? JSON.parse(dmck_audioplayer.playlist_config) : "";
+
+		let targets = function(elem){
+			let container 	= "#" + dmck_audioplayer.plugin_slug + " #" + elem.id;
+			let target 		= "." + elem.id + "-track";
+			if( jQuery( target ).length ){
+				jQuery( container ).find( target ).click(function () {
+					playlist_control.stopAudio();	
+					jQuery(playlist_control.globals.cfg.duration).slider('option', 'min', 0);
+					playlist_control.initAudio(jQuery(this));
+					playlist_control.globals.cfg.playing = true;
+				})
+				// initialization - first element in playlist
+				jQuery( container ).find( target + ':first-child').addClass("active");
+				playlist_control.initAudio( jQuery( container ).find( target + ':first-child') );		
+			}
+		}
+
+		playlist_config.forEach(elem => {
+			targets(elem);	
+		});				
 	},
 	cookie : {
 		name: dmck_audioplayer.plugin_slug + "-cookie",

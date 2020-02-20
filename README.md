@@ -9,14 +9,17 @@ This plugin will generate a playlist from the the first mp3 link found in public
 Filter by tags availble.
 
 shortcode example:
-[dmck-audioplayer tag="in-playlist"]
+[dmck-audioplayer]
+
+playlists will be generated from the json structure created in the admin playlist tab.
 
 == Installation ==
 
 1. Upload plugin folder to `/wp-content/plugins/` directory
 2. Activate the plugin through the 'Plugins' menu in WordPress
-3. Add shortcode to pages or posts as needed.
-4. something something work in progress
+3. Configure plugin admin settings
+4. Add shortcode to pages or posts as needed.
+5. something something work in progress
 
 == Resources public ==
 

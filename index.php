@@ -3,7 +3,7 @@
 Plugin Name: (DMCK) audio player
 Plugin URI: dreaddymck.com
 Description: Just another Wordpress audio player. This plugin will add the first mp3 link embedded in each active post content into a playlist. shortcode [dmck-audioplayer]
-Version: 1.0.24
+Version: 1.0.25
 Author: dreaddymck
 Author URI: dreaddymck.com
 License: GPL2
@@ -29,7 +29,7 @@ if (!class_exists("dmck_audioplayer")) {
 		public $plugin_slug				= 'dmck_audioplayer';
 		public $plugin_settings_group 	= 'dmck-audioplayer-settings-group';
 		public $shortcode				= "dmck-audioplayer";
-		public $adminpreferences 		= array('adminpreferences','favicon','default_album_cover', 'moreinfo', 'facebook_app_id','access_log','media_root_path','media_root_url');
+		public $adminpreferences 		= array('adminpreferences','favicon','default_album_cover', 'moreinfo', 'facebook_app_id','access_log','media_root_path','media_root_url','playlist_config');
 		public $userpreferences 		= array('userpreferences');		
 		public $plugin_version;
 		public $plugin_url;
@@ -39,20 +39,18 @@ if (!class_exists("dmck_audioplayer")) {
 		public $cron_name;
 		public $cron_jobs;
 		public $site_url;
-		public $tag_in	= null;
-		public $tag_not_in	= null;
 		
 		function __construct() {
 		
 			$this->set_plugin_version();
 			$this->plugin_title = '(DMCK)Audio-ver:' . $this->plugin_version;
 			$this->plugin_url 	= plugins_url("/",__FILE__);
-			$this->theme_url	= dirname( get_bloginfo('stylesheet_url') );
-			$this->cron_name 	= $this->plugin_slug . "_cronjob";
+			$this->theme_url	= dirname( get_bloginfo('stylesheet_url') );			
 			$this->site_url     = get_site_url();
+			$this->cron_name 	= $this->plugin_slug . "_cronjob";
 
 			register_activation_hook( __FILE__, array($this, 'register_activation' ) );
-			register_deactivation_hook (__FILE__, 'cronstarter_deactivate');
+			register_deactivation_hook (__FILE__, array($this, 'cronstarter_deactivate'));
 
 			add_action( 'init', array( $this, '_init_actions'));
 			add_action( 'admin_init', array( $this, 'register_settings') );
@@ -62,37 +60,34 @@ if (!class_exists("dmck_audioplayer")) {
 			add_action( 'wp_enqueue_scripts', array($this, 'user_scripts') );			
 			add_action( 'wp_head', array($this, 'head_hook') );
 			add_action( 'login_head', array($this, 'head_hook') );
-			add_action( 'admin_head', array($this, 'head_hook') );	
-			add_action( 'wp', array($this, 'cronstarter_activation'));
-			add_action( $this->cron_name, array($this, 'wp_cron_functions')); 
+			add_action( 'admin_head', array($this, 'head_hook') );
+
+			// add_action( 'wp', array($this, 'cronstarter_activation'));
+			// add_action( $this->cron_name, array($this, 'wp_cron_functions')); 
 
 			add_filter( 'get_the_excerpt', array($this,'the_exerpt_filter'));
 			add_filter( 'the_content', array($this,'content_toggle_https'));
 			add_filter( 'language_attributes', array($this,'set_doctype'));
+			
 			add_filter( 'cron_schedules', array($this, 'cron_add_minute'));
+			
 			require_once(plugin_dir_path(__FILE__).'playlist-api.php' );
 		}
 		function _init_actions(){
 			add_shortcode( $this->shortcode, array( $this, 'include_file') );
-			// $this->cronstarter_activation(); //www-data does not have access to perform this task.
 		}
 		function set_plugin_version(){
-			// error_log( preg_match('/version:[\s\t]+?([0-9.]+)/i',file_get_contents( __FILE__ ) ));
-			// $this->plugin_version = "";
 			if(preg_match('/version:[\s\t]+?([0-9.]+)/i',file_get_contents( __FILE__ ), $v)){
 				$this->plugin_version = $v[1];
 			}								
 		}		
 		function get_post_by_slug($slug){
-
 			$posts = get_posts(array(
 					'name' => $slug,
 					'post_type'   => 'post',
 					'post_status' => 'publish',
 					'numberposts' => 1
-			));
-			
-	
+			));	
 			return $posts[0];
 		}
 
@@ -257,6 +252,7 @@ if (!class_exists("dmck_audioplayer")) {
 				'plugin_url' => $this->plugin_url,
 				'plugin_slug' => $this->plugin_slug,
 				'plugin_title' => $this->plugin_title,
+				'playlist_config'=> get_option("playlist_config"),
 				'github_url' => $this->github_url,
 				'blog_url' => get_bloginfo('url'),
 				'site_url' => $this->site_url,

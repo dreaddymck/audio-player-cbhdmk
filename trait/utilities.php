@@ -8,8 +8,68 @@ trait _utilities {
 	public $path;
 	public $filepath;		
 	
-	function __construct(){}  
-				
+	function __construct(){} 
+
+	function search($data){
+		global $wpdb;
+		$params 				= $data->get_params();
+		$args = array(
+			's'					=> !empty($params["s"]) ? htmlspecialchars($params["s"] ) : "",
+			'posts_per_page' 	=> !empty($params["posts_per_page"]) ? htmlspecialchars($params["posts_per_page"] ) : 1,
+			'post_status'   	=> !empty($params["post_status"]) ? htmlspecialchars($params["post_status"] ) : "published",
+			'tag'           	=> !empty($params["tag"]) ? htmlspecialchars($params["tag"] ) : "",
+			'orderby'          	=> !empty($params["orderby"]) ? htmlspecialchars($params["orderby"] ) : "",
+			'order'            	=> !empty($params["order"]) ? htmlspecialchars($params["order"] ) : "",
+			'tag'				=> !empty($params["tag"]) ? htmlspecialchars($params["tag"] ) : "",
+			'tag__in' 			=> !empty($params["tag_in"]) ? htmlspecialchars($params["tag_in"] ) : "",
+			'tag__not_in'		=> !empty($params["tag_not_in"]) ? htmlspecialchars($params["tag_not_in"] ) : "",					
+		);			
+		$posts 	    = get_posts( $args );
+		$response   = $this->render_elements($posts);
+		wp_reset_postdata();
+		return($response);
+	}	
+	function _utilities_shortcode_playlist($obj) {
+		global $wpdb;						
+		$args = array(
+			'numberposts' 		=> -1,
+			'orderby'          	=> $this->orderby,
+			'order'            	=> $this->order,
+			'post_status'      	=> 'publish',
+			'no_found_rows' 	=> true,
+			'tag'				=> !empty($obj->tag) ? $obj->tag  : "",
+			'tag_id' 			=> !empty($obj->tag_id) ? $obj->tag_id  : "", // (int) - use tag id.
+			'tag__in' 			=> !empty($obj->tag_in) ? array( $obj->tag_in ) : "",
+			'tag__and' 			=> !empty($obj->tag__and) ? array($obj->tag__and)  : "", // (array) - use tag ids.
+			'tag__not_in'		=> !empty($obj->tag_not_in) ? array( $obj->tag_not_in ) : "",	
+			'tag_slug__and'		=> !empty($obj->tag_slug__and) ? array( $obj->tag_slug__and ) : "",				
+		);
+		$posts 	= get_posts( $args );
+		$response   = $this->render_elements($posts);			
+		wp_reset_postdata();
+		return $response;					
+	}	
+	function query($sql){
+	
+		$conn = new mysqli(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME );
+
+		if ($conn->connect_error) {
+			die("Connection failed: " . $conn->connect_error);
+		} 
+
+		$resp       = $conn->query($sql);
+		$results    = array();        
+
+		if( $resp instanceof mysqli_result )
+		{
+			$results = mysqli_fetch_all($resp);  
+		}     
+		
+		$conn->close();
+
+		return ($results);
+	
+	}				
 	function render_elements($posts) {
 		
 		$response 	= [];
@@ -19,7 +79,7 @@ trait _utilities {
 			$object 	= new stdClass();
 			$audio 		= $this->fetch_audio_from_string( $post->post_content );
 		
-			if(! isset($audio[0])) { continue; }
+			if(! !empty($audio[0])) { continue; }
 
 			/* If $this->path exist
 			* playlist_elements call
@@ -107,68 +167,6 @@ trait _utilities {
 		// error_log("*******************************");
 		// error_log(var_export($matches, TRUE));			
 		return $matches[0];
-	}
-	function shortcode_playlist() {
-		global $wpdb;						
-		$tag = get_option( 'tag') ? array( get_option( 'tag') ) : null;
-		$tag_in = get_option( 'tag_in') ? array( get_option( 'tag_in') ) : null;
-		$tag_not_in = get_option( 'tag_not_in') ? array( get_option( 'tag_not_in')): null;			
-		//$this->_log($tag_in);			
-		$args = array(
-			'numberposts' 		=> -1,
-			'orderby'          	=> $this->orderby,
-			'order'            	=> $this->order,
-			'post_status'      	=> 'publish',
-			'no_found_rows' 	=> true,
-			'tag'				=> $tag,
-			'tag__in' 			=> $tag_in,
-			'tag__not_in'		=> $tag_not_in,	
-		);
-		$posts 	= get_posts( $args );
-		$response   = $this->render_elements($posts);			
-		wp_reset_postdata();
-		return $response;					
-	}
-	function search($data){
-		global $wpdb;
-		$params 				= $data->get_params();
-		$args = array(
-			's'					=> isset($params["s"]) ? htmlspecialchars($params["s"] ) : "",
-			'posts_per_page' 	=> isset($params["posts_per_page"]) ? htmlspecialchars($params["posts_per_page"] ) : 1,
-			'post_status'   	=> isset($params["post_status"]) ? htmlspecialchars($params["post_status"] ) : "published",
-			'tag'           	=> isset($params["tag"]) ? htmlspecialchars($params["tag"] ) : "",
-			'orderby'          	=> isset($params["orderby"]) ? htmlspecialchars($params["orderby"] ) : "",
-			'order'            	=> isset($params["order"]) ? htmlspecialchars($params["order"] ) : "",
-			'tag'				=> isset($params["tag"]) ? htmlspecialchars($params["tag"] ) : "",
-			'tag__in' 			=> isset($params["tag_in"]) ? htmlspecialchars($params["tag_in"] ) : "",
-			'tag__not_in'		=> isset($params["tag_not_in"]) ? htmlspecialchars($params["tag_not_in"] ) : "",					
-		);			
-		$posts 	    = get_posts( $args );
-		$response   = $this->render_elements($posts);
-		wp_reset_postdata();
-		return($response);
-	}		
-
-	function query($sql){
-	
-		$conn = new mysqli(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME );
-
-		if ($conn->connect_error) {
-			die("Connection failed: " . $conn->connect_error);
-		} 
-
-		$resp       = $conn->query($sql);
-		$results    = array();        
-
-		if( $resp instanceof mysqli_result )
-		{
-			$results = mysqli_fetch_all($resp);  
-		}     
-		
-		$conn->close();
-
-		return ($results);
-	
 	}
 	function respond_ok($response){
 

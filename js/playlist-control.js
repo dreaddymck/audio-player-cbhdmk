@@ -192,8 +192,14 @@ const playlist_control = {
 			cookie = JSON.parse(cookie);
 			if (typeof cookie.tab !== 'undefined') {
 				jQuery('#info-tabs a[href="' + cookie["tab"] + '"]').tab('show');
+				return;
 			}
 		}
+		let playlist_config = dmck_audioplayer.playlist_config ? JSON.parse(dmck_audioplayer.playlist_config) : "";
+		if(playlist_config){
+			jQuery('#info-tabs a[href="#'+ playlist_config[0].id  +'"]').tab('show');
+		}
+		
 	},
 	set_cover_background: function (img) {
 		jQuery(playlist_control.globals.cfg.cover).css({

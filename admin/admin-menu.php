@@ -2,18 +2,19 @@
 
 <div class="loading" style="text-align: center; width: 100%;">
 	<img src="<?php echo plugins_url( 'images/loading-nerd.gif', dirname(__FILE__) )?>" /></div>
-	
+
+<form name="admin-settings-form" name="admin-settings-form" method="post" action="options.php">
+	<?php settings_fields( $this->plugin_settings_group ); ?>
+	<?php do_settings_sections( $this->plugin_settings_group ); ?>	
 <div class="admin-container" style="display:none;">
 	<ul class="tabs">
+		<li class="tab-link"><?php submit_button( __( 'Submit', 'Submit' ), 'default' ); ?></li>
 		<li class="tab-link current" data-tab="tab-1">Settings</li>
+		<li class="tab-link" data-tab="tab-4">Playlists</li>
 		<li class="tab-link" data-tab="tab-2">Tiny File Manager</li>
-		<li class="tab-link" data-tab="tab-3">About</li>		
+		<li class="tab-link" data-tab="tab-3">About</li>
 	</ul>
-	<div id="tab-1" class="tab-content current">		
-		<form name="admin-settings-form" name="admin-settings-form" method="post" action="options.php">
-		<?php settings_fields( $this->plugin_settings_group ); ?>
-		<?php do_settings_sections( $this->plugin_settings_group ); ?>
-	
+	<div id="tab-1" class="tab-content current">	
 		<div>	
 			<label for="favicon" ><?php _e('Favicon'); ?></label>
 	        <textarea  name="favicon" class="form-control"><?php echo esc_attr( get_option('favicon') ); ?></textarea>
@@ -42,14 +43,36 @@
 			<label><?php _e('Facebook App ID (not functional)'); ?></label>
 	        <input type="text" name="facebook_app_id"  class="form-control" value="<?php echo esc_attr( get_option('facebook_app_id') ); ?>">
 		</div>
-		<div>	
-			<!-- <a href="#" id="admin-settings-button" class="btn btn-default">Submit</a>		 -->
-			<?php submit_button( __( 'Submit', 'Submit' ), 'default' ); ?>	
-		</div>		
-		</form>		
 	</div>
 	<div id="tab-2" class="tab-content tab-files"></div>
 	<div id="tab-3" class="tab-content tab-about"></div>
+	<div id="tab-4" class="tab-content tab-playlists">
+		<h3>Playlists</h3>
 
+		<textarea name="playlist_config" class="form-control" rows="18"><?php echo playlist_config_default() ?></textarea>
+		
+	</div>
+	
 </div><!-- container -->	
+</form>
 
+<?php
+function playlist_config_default(){
+	$json = get_option("playlist_config");
+	if( !$json ){
+		$json = <<<EOF
+[
+	{
+		"id" : "demo",
+		"title" : "Demo",
+		"tag" : "featured",
+		"tag_slug__and" : ""
+	}	
+]
+EOF;
+
+		update_option("playlist_config", $json);				
+	} 
+	return $json;
+}  
+?>
