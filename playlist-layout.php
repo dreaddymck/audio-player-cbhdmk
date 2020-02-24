@@ -75,12 +75,11 @@ echo <<<EOF
 		<div class="col-lg-10">
 			<h5 class="">$p->title</h5>
 			<span class="">
-				{$p->tags} <a class="" style="z-index:10" title="more info" href="{$p->permalink}" target="_blank"> {$p->moreinfo} </a>
+				{$p->tags} {$p->moreinfo}
 			</span>
 		</div>
 		<div class="col-lg-2 text-center">
-			<a class="" style="z-index:10" title="more info" href="{$p->permalink}" target="_blank">
-				<img class="" src="{$p->cover}" height="100" width="100"></a>
+			<img class="" src="{$p->cover}" height="100" width="100">
 		</div>
 	</div>
 </div>
