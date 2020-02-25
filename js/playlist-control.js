@@ -21,6 +21,7 @@ const playlist_control = {
 	},
 	init: function () {
 
+		playlist_control.popupcontrol();
 		playlist_control.globals.cfg.playing = false;
 		playlist_control.globals.cfg.song = null;
 		// initialize the volume slider
@@ -30,9 +31,7 @@ const playlist_control = {
 			max: 100,
 			value: 100,
 			start: function (event, ui) {},
-			slide: function (event, ui) {
-				playlist_control.globals.cfg.song.volume = ui.value / 100
-			},
+			slide: function (event, ui) { playlist_control.globals.cfg.song.volume = ui.value / 100 },
 			stop: function (event, ui) {}
 		});
 
@@ -106,8 +105,50 @@ const playlist_control = {
 		playlist_control.set_tab();
 		jQuery(".site-info").append( playlist_control.powered_by );
 
-	},
+		
 
+	},
+	popupcontrol: function(){
+		
+		jQuery("#" + dmck_audioplayer.plugin_slug).prepend(
+			jQuery('<div id="fixed-controls" class="hidden"></div>').append( jQuery('#dmck_audioplayer .panel-heading.options').clone() )
+		);
+		jQuery('#fixed-controls .controls.row').children().removeClass('fa-3x').addClass('fa-2x'); 
+		jQuery('#fixed-controls').width( jQuery('#dmck_audioplayer .panel').width() ) 
+		jQuery( window ).resize(function() {
+			jQuery('#fixed-controls').width( jQuery('#dmck_audioplayer .panel').width() )
+		});	
+
+		jQuery.fn.isAboveScreen = function()
+		{
+			let win = jQuery(window);		
+			let viewport = { top : win.scrollTop(), left : win.scrollLeft() };
+			viewport.right = viewport.left + win.width();
+			viewport.bottom = viewport.top + win.height();	
+			let bounds = this.offset();
+			if(bounds){
+				bounds.right = bounds.left + this.outerWidth();
+				bounds.bottom = bounds.top + this.outerHeight();		
+				return (!(viewport.top > bounds.bottom));
+			}
+		};	
+		jQuery(document).scroll(function () {
+			if( jQuery('#dmck_audioplayer .panel').isAboveScreen() ){
+				setTimeout(function(){ 
+					// console.log("hide");
+					jQuery('#fixed-controls').addClass("hidden");  
+				}, 200);
+			} 
+			else { 
+				setTimeout(function(){ 
+					// console.log("show");
+					jQuery('#fixed-controls').removeClass("hidden"); 
+				}, 200);
+				
+			}		
+		});	
+
+	},
 	initAudio: function (elem) {
 
 		if (!elem.attr('audiourl')) { return; }

@@ -3,13 +3,13 @@
 }
 .title, .top-played-track { cursor: pointer; }
 .this_excerpt { word-wrap: break-word; }
-.cover { height: 300px; }
+.cover { height: 200px; }
 .top-played{
     list-style-type:none;
     padding-left:0;
 } 
 .duration {
-    height: 200px;
+    height: 100px;
     width: 100%;
     background-color: initial;
     border: 0px !important;
@@ -122,5 +122,12 @@ img.ui-li-img {
       transform: scale(1);
     }
   }
+ 
+#fixed-controls {
+  position: fixed;
+  top: 0px;
+  z-index: 10;
+  text-shadow: 5px 5px #000;
+}  
 
 @media only screen and (max-width: 600px) {}

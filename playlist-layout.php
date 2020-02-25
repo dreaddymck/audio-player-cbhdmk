@@ -17,7 +17,7 @@ $settings = json_decode(get_option("playlist_config"));
 						<div class="h-100">
 							<div class="volume" style="display:none"></div>						
 							<div class="duration h-100">							
-								<h3 class="artist"></h3>	
+								<h2 class="artist"></h2>	
 								<div class="tracktime"> 0 / 0</div>					
 							</div>						
 						</div>
