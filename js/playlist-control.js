@@ -102,11 +102,6 @@ const playlist_control = {
 				"tab": target
 			});
 		});
-		playlist_control.set_tab();
-		jQuery(".site-info").append( playlist_control.powered_by );
-
-		
-
 	},
 	popupcontrol: function(){
 		
@@ -284,7 +279,7 @@ const playlist_control = {
 	DecodeEntities: function (s) {
 		return jQuery('<div/>').html(s).text()
 	},
-	powered_by: `, some <a href="https://github.com/dreaddymck/audio-player-cbhdmk" target="_blank">dreaddymck plugin WIP</a>`,
+	powered_by: `, some <a href="https://github.com/dreaddymck/audio-player-cbhdmk" target="_blank">dreaddymck audio plugin</a>`,
 
 }
 
