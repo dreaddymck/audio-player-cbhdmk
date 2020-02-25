@@ -91,12 +91,12 @@ img.ui-li-img {
 }
 .pulse {
     animation: pulse 6s infinite;
-    /* margin: 0 auto; */
-    /* display: table; */
-    /* margin-top: 50px; */
     animation-direction: alternate;
-    -webkit-animation-name: pulse;
     animation-name: pulse;
+    -webkit-animation-name: pulse;
+    -moz-animation-name: pulse;
+    -ms-animation-name: pulse;
+    -o-animation-name: pulse;    
   }
   
   @-webkit-keyframes pulse {
