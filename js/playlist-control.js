@@ -218,25 +218,11 @@ const playlist_control = {
 		jQuery(playlist_control.globals.cfg.pause).removeClass('hidden')
 	},
 	stopAudio: function () {
-		playlist_control.globals.cfg.song.pause()
+		if(playlist_control.globals.cfg.song){ playlist_control.globals.cfg.song.pause(); }		
 		jQuery(playlist_control.globals.cfg.play).removeClass('hidden')
 		jQuery(playlist_control.globals.cfg.pause).addClass('hidden')
 	},
-	set_tab: function () {
-		let cookie = playlist.cookie.get();
-		if (cookie) {
-			cookie = JSON.parse(cookie);
-			if (typeof cookie.tab !== 'undefined') {
-				jQuery('#info-tabs a[href="' + cookie["tab"] + '"]').tab('show');
-				return;
-			}
-		}
-		let playlist_config = dmck_audioplayer.playlist_config ? JSON.parse(dmck_audioplayer.playlist_config) : "";
-		if(playlist_config){
-			jQuery('#info-tabs a[href="#'+ playlist_config[0].id  +'"]').tab('show');
-		}
-		
-	},
+
 	set_cover_background: function (img) {
 		jQuery(playlist_control.globals.cfg.cover).css({
 			'background-image': 'url(' + img + ')',
@@ -279,7 +265,7 @@ const playlist_control = {
 	DecodeEntities: function (s) {
 		return jQuery('<div/>').html(s).text()
 	},
-	powered_by: `, some <a href="https://github.com/dreaddymck/audio-player-cbhdmk" target="_blank">dreaddymck audio plugin</a>`,
+	
 
 }
 

@@ -104,9 +104,12 @@ const access_log = {
                                 callback: callback,
                                 target:jQuery(this)
                             });
+                        }).promise().done( function(){
+                            access_log.active( container.find( target + ':first-child').attr("audiourl") );
+                            access_log.reports.top_requests_chart(access_log.reports.global.sorted.slice(0,10));                            
+                            // playlist_control.initAudio( container.find( target + '.active') );
                         });
-                        access_log.active( container.find( target + ':first-child').attr("audiourl") ); 
-                        access_log.reports.top_requests_chart(access_log.reports.global.sorted.slice(0,10));
+
                     });
 
         },
@@ -159,7 +162,7 @@ const access_log = {
             if(typeof jQuery(this).attr('audiourl') === "undefined" ){return}
             if(typeof url !== "string" ){return}
             if( url.includes(jQuery(this).attr('audiourl')) ) {
-                jQuery(this).addClass('active').addClass('pulse');
+                jQuery(this).addClass('active').addClass('pulse');                                
             }else{
                 jQuery(this).removeClass('active').removeClass('pulse');
             }
