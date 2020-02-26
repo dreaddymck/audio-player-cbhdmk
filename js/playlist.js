@@ -26,7 +26,7 @@ const playlist = {
 					playlist_control.globals.cfg.playing = true;
 				})
 				// initialization - first element in playlist
-				jQuery( container ).find( target + ':first-child').addClass("active").addClass('pulse');	
+				jQuery( container ).find( target + ':first-child').removeClass("active").removeClass('pulse').addClass("active").addClass('pulse');	
 			}
 		}
 
