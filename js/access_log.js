@@ -106,8 +106,7 @@ const access_log = {
                             });
                         }).promise().done( function(){
                             access_log.active( container.find( target + ':first-child').attr("audiourl") );
-                            access_log.reports.top_requests_chart(access_log.reports.global.sorted.slice(0,10));                            
-                            // playlist_control.initAudio( container.find( target + '.active') );
+                            access_log.reports.top_requests_chart(access_log.reports.global.sorted.slice(0,10)); 
                         });
 
                     });

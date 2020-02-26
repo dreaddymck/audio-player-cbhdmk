@@ -11,8 +11,6 @@ const playlist = {
 		}
 	},
 	setup: function(){
-		// jQuery(playlist_control.globals.cfg.title).html('loading...')
-		
 		if(!dmck_audioplayer){return;}
 
 		let playlist_config = dmck_audioplayer.playlist_config ? JSON.parse(dmck_audioplayer.playlist_config) : "";
@@ -28,8 +26,7 @@ const playlist = {
 					playlist_control.globals.cfg.playing = true;
 				})
 				// initialization - first element in playlist
-				jQuery( container ).find( target + ':first-child').addClass("active");
-				// playlist_control.initAudio( jQuery( container ).find( target + ':first-child') );		
+				jQuery( container ).find( target + ':first-child').addClass("active").addClass('pulse');	
 			}
 		}
 
