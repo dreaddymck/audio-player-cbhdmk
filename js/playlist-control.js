@@ -207,7 +207,7 @@ const playlist_control = {
 
 		playlist_control.globals.container.children().filter(function(){
 			return( jQuery(this).hasClass(playlist_control.globals.target) && this.id == elem[0].id)
-		}).addClass('active').addClass('pulse');;
+		}).addClass('active').addClass('pulse');
 	},
 
 	playAudio: function () {
