@@ -9,7 +9,7 @@ trait _utilities {
 	function _utilities_playlist($obj) {
 		global $wpdb;		
 		$args = array(
-			's'					=> !empty($obj->s) ? urldecode($obj->s) : "",
+			's'					=> !empty($obj->s) ? urldecode($obj->s)  : "",
 			'posts_per_page' 	=> !empty($obj->posts_per_page) ? $obj->posts_per_page : -1,
 			'orderby'          	=> !empty($obj->orderby) ? $obj->orderby  : "",
 			'order'            	=> !empty($obj->order) ? $obj->order  : "",
