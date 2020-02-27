@@ -17,19 +17,25 @@ TODO: Dynamic m3u playlist generate
 
 if (!class_exists("dmck_audioplayer")) {
 
+	require_once(plugin_dir_path(__FILE__)."trait/access-logs.php");
+	require_once(plugin_dir_path(__FILE__)."trait/wavform.php");	
 	require_once(plugin_dir_path(__FILE__)."trait/utilities.php");
 	require_once(plugin_dir_path(__FILE__)."trait/cron.php");
+	require_once(plugin_dir_path(__FILE__)."trait/api.php");
 
 	class dmck_audioplayer {
 
+		use _accesslog;
+		use _wavform;
 		use _utilities;
 		use _cron;
+		use _api;
 
 		public $plugin_title;
 		public $plugin_slug				= 'dmck_audioplayer';
 		public $plugin_settings_group 	= 'dmck-audioplayer-settings-group';
 		public $shortcode				= "dmck-audioplayer";
-		public $adminpreferences 		= array('adminpreferences','favicon','default_album_cover', 'moreinfo', 'facebook_app_id','access_log','media_root_path','media_root_url','playlist_config');
+		public $adminpreferences 		= array('chart_colors','favicon','default_album_cover', 'moreinfo', 'facebook_app_id','access_log','media_root_path','media_root_url','playlist_config');
 		public $userpreferences 		= array('userpreferences');		
 		public $plugin_version;
 		public $plugin_url;
@@ -71,7 +77,7 @@ if (!class_exists("dmck_audioplayer")) {
 			
 			add_filter( 'cron_schedules', array($this, 'cron_add_minute'));
 			
-			require_once(plugin_dir_path(__FILE__).'playlist-api.php' );
+			// require_once(plugin_dir_path(__FILE__).'playlist-api.php' );
 		}
 		function _init_actions(){
 			add_shortcode( $this->shortcode, array( $this, 'include_file') );
@@ -90,7 +96,6 @@ if (!class_exists("dmck_audioplayer")) {
 			));	
 			return $posts[0];
 		}
-
 		//Adding the Open Graph in the Language Attributes
 		function set_doctype( $output ) {
 
@@ -101,8 +106,7 @@ if (!class_exists("dmck_audioplayer")) {
 				$output .= '  xmlns:fb="http://www.facebook.com/2008/fbml"';
 			}
 			return $output;
-		}		
-
+		}
 		function excerpt($text){
 
 			$text = strip_shortcodes( $text );
@@ -113,9 +117,7 @@ if (!class_exists("dmck_audioplayer")) {
 			$text = wp_trim_words( $text, $excerpt_length, $excerpt_more );	
 
 			return $text;
-		}
-				
-	
+		}	
 		function content_toggle_https($content){
 			
 			$site_url = get_site_url();
@@ -138,7 +140,6 @@ if (!class_exists("dmck_audioplayer")) {
 			return $param;
 		}
 		function register_activation($options){}
-
 		function register_settings() {
 			foreach($this->adminpreferences as $settings ) {
 				register_setting( $this->plugin_settings_group, $settings );
@@ -259,6 +260,7 @@ if (!class_exists("dmck_audioplayer")) {
 				'has_shortcode' => $this->has_shortcode($this->shortcode),
 				'stylesheet_url' => dirname( get_bloginfo('stylesheet_url') )."/",
 				'autoplay'	=> ($this->autoplay || $this->auto_play),
+				'chart_colors' => esc_attr( get_option('chart_colors') ),
 			);
 
 			wp_localize_script( 'functions.js', $this->plugin_slug, $local);

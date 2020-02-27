@@ -18,15 +18,21 @@ const playlist = {
 		let targets = function(elem){
 			let container 	= "#" + dmck_audioplayer.plugin_slug + " #" + elem.id;
 			let target 		= "." + elem.id + "-track";
+			let colors      = dmck_audioplayer.chart_colors ? JSON.parse(dmck_audioplayer.chart_colors) : [];
+
 			if( jQuery( target ).length ){
-				jQuery( container ).find( target ).click(function () {
+				jQuery( container ).find( target ).each(function(index){
+					jQuery(this).attr("style","color:" + (colors[index] ? colors[index] : "") ); 
+				 }).click(function () {
 					playlist_control.stopAudio();	
 					jQuery(playlist_control.globals.cfg.duration).slider('option', 'min', 0);
 					playlist_control.initAudio(jQuery(this));
 					playlist_control.globals.cfg.playing = true;
-				})
-				// initialization - first element in playlist
-				jQuery( container ).find( target + ':first-child').removeClass("active").removeClass('pulse').addClass("active").addClass('pulse');	
+				}).promise().done(function(){
+					// initialization - first element in playlist
+					jQuery( container ).find( target + ':first-child').removeClass("active").removeClass('pulse').addClass("active").addClass('pulse');	                 
+           		});
+
 			}
 		}
 

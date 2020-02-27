@@ -3,51 +3,45 @@
 trait _utilities {
 
 	public $debug;
-	public $orderby;
-	public $order;
-	public $path;
-	public $filepath;		
+	public $path;		
 	
-	function __construct(){} 
-
-	function search($data){
-		global $wpdb;
-		$params 				= $data->get_params();
+	function __construct(){}	
+	function _utilities_playlist($obj) {
+		global $wpdb;		
 		$args = array(
-			's'					=> !empty($params["s"]) ? htmlspecialchars($params["s"] ) : "",
-			'posts_per_page' 	=> !empty($params["posts_per_page"]) ? htmlspecialchars($params["posts_per_page"] ) : 1,
-			'post_status'   	=> !empty($params["post_status"]) ? htmlspecialchars($params["post_status"] ) : "published",
-			'tag'           	=> !empty($params["tag"]) ? htmlspecialchars($params["tag"] ) : "",
-			'orderby'          	=> !empty($params["orderby"]) ? htmlspecialchars($params["orderby"] ) : "",
-			'order'            	=> !empty($params["order"]) ? htmlspecialchars($params["order"] ) : "",
-			'tag'				=> !empty($params["tag"]) ? htmlspecialchars($params["tag"] ) : "",
-			'tag__in' 			=> !empty($params["tag_in"]) ? htmlspecialchars($params["tag_in"] ) : "",
-			'tag__not_in'		=> !empty($params["tag_not_in"]) ? htmlspecialchars($params["tag_not_in"] ) : "",					
-		);			
-		$posts 	    = get_posts( $args );
-		$response   = $this->render_elements($posts);
-		wp_reset_postdata();
-		return($response);
-	}	
-	function _utilities_shortcode_playlist($obj) {
-		global $wpdb;						
-		$args = array(
-			'numberposts' 		=> -1,
-			'orderby'          	=> $this->orderby,
-			'order'            	=> $this->order,
-			'post_status'      	=> 'publish',
-			'no_found_rows' 	=> true,
+			's'					=> !empty($obj->s) ? urldecode($obj->s) : "",
+			'posts_per_page' 	=> !empty($obj->posts_per_page) ? $obj->posts_per_page : -1,
+			'orderby'          	=> !empty($obj->orderby) ? $obj->orderby  : "",
+			'order'            	=> !empty($obj->order) ? $obj->order  : "",
+			'post_status'      	=> !empty($obj->publish) ? $obj->publish  : "publish",
 			'tag'				=> !empty($obj->tag) ? $obj->tag  : "",
-			'tag_id' 			=> !empty($obj->tag_id) ? $obj->tag_id  : "", // (int) - use tag id.
 			'tag__in' 			=> !empty($obj->tag_in) ? array( $obj->tag_in ) : "",
-			'tag__and' 			=> !empty($obj->tag__and) ? array($obj->tag__and)  : "", // (array) - use tag ids.
-			'tag__not_in'		=> !empty($obj->tag_not_in) ? array( $obj->tag_not_in ) : "",	
-			'tag_slug__and'		=> !empty($obj->tag_slug__and) ? array( $obj->tag_slug__and ) : "",				
+			'tag__not_in'		=> !empty($obj->tag_not_in) ? array( $obj->tag_not_in ) : "",
+			'tag_slug__and'		=> !empty($obj->tag_slug__and) ? array( $obj->tag_slug__and ) : "",	
 		);
 		$posts 	= get_posts( $args );
 		$response   = $this->render_elements($posts);			
 		wp_reset_postdata();
 		return $response;					
+	}
+	function _utilities_search($data){
+		global $wpdb;
+		$params 				= $data->get_params();
+		$args = array(
+			's'					=> !empty($params["s"]) ? urldecode($params["s"] ) : "",
+			'posts_per_page' 	=> !empty($params["posts_per_page"]) ? $params["posts_per_page"]  : -1,
+			'post_status'   	=> !empty($params["post_status"]) ? $params["post_status"] : "published",
+			'orderby'          	=> !empty($params["orderby"]) ? $params["orderby"] : "",
+			'order'            	=> !empty($params["order"]) ? $params["order"] : "",
+			'tag'				=> !empty($params["tag"]) ? $params["tag"] : "",
+			'tag__in' 			=> !empty($params["tag_in"]) ? $params["tag_in"] : "",
+			'tag__not_in'		=> !empty($params["tag_not_in"]) ? $params["tag_not_in"] : "",
+			'tag_slug__and'		=> !empty($params["tag_slug__and"]) ? $params["tag_slug__and"] : "",						
+		);			
+		$posts 	    = get_posts( $args );
+		$response   = $this->render_elements($posts);
+		wp_reset_postdata();
+		return($response);
 	}	
 	function query($sql){
 	
@@ -67,20 +61,15 @@ trait _utilities {
 		
 		$conn->close();
 
-		return ($results);
-	
+		return ($results);	
 	}				
 	function render_elements($posts) {
 		
-		$response 	= [];
-		
-		foreach ( $posts as $post ) : setup_postdata( $post );
-			
+		$response 	= [];		
+		foreach ( $posts as $post ) : setup_postdata( $post );			
 			$object 	= new stdClass();
-			$audio 		= $this->fetch_audio_from_string( $post->post_content );
-		
+			$audio 		= $this->fetch_audio_from_string( $post->post_content );		
 			if(! !empty($audio[0])) { continue; }
-
 			/* If $this->path exist
 			* playlist_elements call
 			* we should be extracting a single element that matches
@@ -123,8 +112,7 @@ trait _utilities {
 	
 		endforeach;			
 	
-		return json_encode($response);
-	
+		return json_encode($response);	
 	}
 	function isSecure() {
 		return

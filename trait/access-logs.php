@@ -15,14 +15,11 @@ trait _accesslog {
 
         $query = <<<EOF
 SELECT 
-data 
-FROM 
-dmck_audio_log_reports 
+    data FROM dmck_audio_log_reports 
 WHERE 
-DATE(`updated`) = CURDATE() 
+    DATE(`updated`) = CURDATE() 
 ORDER BY 
-updated 
-DESC 
+    updated DESC 
 LIMIT 1
 EOF;
         
@@ -42,16 +39,15 @@ EOF;
 
         $query = <<<EOF
 SELECT
-json_unquote(data->'$.*.name') as name,
-json_unquote(data->'$.*.time') as time,
-json_unquote(data->'$.*.count') as count    
+    json_unquote(data->'$.*.name') as name,
+    json_unquote(data->'$.*.time') as time,
+    json_unquote(data->'$.*.count') as count    
 FROM 
-dmck_audio_log_reports 
+    dmck_audio_log_reports 
 WHERE 
-DATE(`updated`) = CURDATE()    
+    DATE(`updated`) = CURDATE()    
 order by 
-updated 
-desc
+    updated DESC
 LIMIT 1        
 EOF;
 

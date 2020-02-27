@@ -1,6 +1,6 @@
 "use strict";
 
-jQuery(function() {    
+jQuery(document).ready(function () {  
 
     /**
      * 1st initialize playlist control

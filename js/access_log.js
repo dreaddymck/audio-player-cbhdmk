@@ -11,120 +11,39 @@ const access_log = {
     },   
     reports: 
     {
-        global: {
-            colors: ["#ffffff","#F0F0F0","#E0E0E0","#D0D0D0","#C0C0C0","#B0B0B0","#A0A0A0","#909090","#808080","#707070"],
-            base_url: dmck_audioplayer.blog_url + "/wp-json/" + dmck_audioplayer.plugin_slug + '/v' + dmck_audioplayer.plugin_version,
-            sorted:[],
-        },
-        get_obj: function(obj){
-            jQuery.get(access_log.reports.global.base_url + "/api/search/", {
-                s: obj.path 
-            }).done(function (data) {
-                var json    = jQuery.parseJSON(data);
-                obj.callback(json);
-                return json           
-            })
-        },
+        global: {},
         top_requests: function(){
-
             if(!jQuery("#top-10").length){return;}
+            let container   = jQuery('#top-10'); 
+            let target      = ".top-10-track";
+            let colors      = dmck_audioplayer.chart_colors ? JSON.parse(dmck_audioplayer.chart_colors) : [];
             
-            jQuery
-            .get( access_log.reports.global.base_url + '/api/get/' + "?v=" + Math.random()  )
-            .done(
-                    function(response) {
-                        /*
-                         * response is a php urlencode string
-                         */                                               
-                        if(!response){ return; }
-                        if (response.errors) { console.log(response.errors); return; }                        
-                        response = JSON.parse(response);
-
-                        access_log.reports.global.sorted = [];
-                        for(var x in response ){ access_log.reports.global.sorted.push([ decodeURIComponent(x), response[x]]); }
-                        access_log.reports.global.sorted.sort(function(a, b) { return b[1].count - a[1].count; }); 
-                        
-                        let container   = jQuery('#top-10'); 
-                        let target      = ".top-10-track";
-                        let date;  
-                        let content     = function(obj){
-
-                            let html     = `
-<table class="table table-responsive-lg top-requests-data"><thead><tr><th>Track</th><th class="text-center">Requests</th></tr></thead><tbody>
-                            `;
-                            for(let x in obj ){
-                                
-                                date = new Date(obj[x][1].time*1000 ).toLocaleString();
-                    
-                                html += `
-<tr class="top-10-track" audiourl="Public/MUSIC/FEATURING/`+ obj[x][0] +`" style="color:`+ access_log.reports.global.colors[x] +`">
-<td><h5>`+ obj[x][0] +`</h5></td>
-<td class="text-center" title=" `+ date + `">
-    <h1> `+ obj[x][1].count + `</h1>
-</td> 
-</tr>
-                                `;
-                            }
-                            html += `
-</tbody></table>        
-                            `;
-                            return html;
-                        }
-                        
-                        container.html( content( access_log.reports.global.sorted.slice(0,10) ) );
-                        container.find( target ).each( function(){                            
-                            let callback = function(track){
-                                if( typeof track[0] === 'undefined' ){
-                                    return;
-                                }
-                                this.target.attr({
-                                    'cover':track[0].cover,
-                                    'artist': track[0].artist,
-                                    'title': track[0].title,
-                                    'permalink': track[0].permalink,
-                                    'wavformpng': track[0].wavformpng,
-                                    'id': track[0].ID,
-                                })
-                                this.target.find("h5").text( playlist_control.DecodeEntities(track[0].title) )
-                                    .after(`
-                                        <span class="">` + playlist_control.DecodeEntities(track[0].tags.toLowerCase()) + `
-                                            <a class="moreinfo" title="more info" href="` + track[0].permalink + `" target="_top">` + track[0].moreinfo + `</a></span>`
-                                    )
-                                this.target.click(function(e){
-                                    playlist_control.stopAudio();	
-                                    jQuery(playlist_control.globals.cfg.duration).slider('option', 'min', 0);
-                                    playlist_control.initAudio(jQuery(this));
-                                    playlist_control.globals.cfg.playing = true;
-                                    return;                            
-                                })
-                                                                    
-                            }
-                            access_log.reports.get_obj({ 
-                                path : jQuery(this).attr("audiourl"),
-                                callback: callback,
-                                target:jQuery(this)
-                            });
-                        }).promise().done( function(){
-                            access_log.active( container.find( target + ':first-child').attr("audiourl") );
-                            access_log.reports.top_requests_chart(access_log.reports.global.sorted.slice(0,10)); 
-                        });
-
-                    });
-
+            container.find( target ).each(function(index){
+               jQuery(this).attr("style","color:" + (colors[index] ? colors[index] : "") ); 
+            }).click(function(e){
+                playlist_control.stopAudio();	
+                jQuery(playlist_control.globals.cfg.duration).slider('option', 'min', 0);
+                playlist_control.initAudio(jQuery(this));
+                playlist_control.globals.cfg.playing = true;
+                return;                            
+            }).promise().done(function(){
+                access_log.active( container.find( target + ':first-child').attr("audiourl") );
+                /**
+                 * top_10_json is currently embeded in html - playlist-layout.php
+                 */
+                access_log.reports.top_requests_chart(top_10_json);                 
+            });
         },
         top_requests_chart: function(arr){
             let labels = [];
             let data = [];
+            let colors = dmck_audioplayer.chart_colors ? JSON.parse(dmck_audioplayer.chart_colors) : [];
             for( let x in arr ){
-                labels.push(arr[x][0]);
-                data.push(arr[x][1].count)
+                labels.push( unescape(arr[x].name));
+                data.push(arr[x].count)                
             }
-            jQuery("#top-10").append(`
-<canvas id="top-requests-chart" width="auto" height="auto"></canvas>
-            `);
-            
+            jQuery("#top-10").append(`<canvas id="top-requests-chart" width="auto" height="auto"></canvas>`);            
             let ctx = jQuery("#top-requests-chart");
-
             let top_requests_chart = new Chart(ctx, {
                 type: 'horizontalBar',
                 data: {
@@ -133,7 +52,7 @@ const access_log = {
                         label: '# of Requests',
                         data: data,
                         borderWidth: 1,
-                        backgroundColor: access_log.reports.global.colors,
+                        backgroundColor: colors,
                     }]
                 },
                 options: {
@@ -149,8 +68,7 @@ const access_log = {
                                 beginAtZero:true,
                                 fontColor: "#ffffff",
                             }
-                        }],
-                      
+                        }],                      
                     }
                 }
             }); 
