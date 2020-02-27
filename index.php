@@ -332,6 +332,14 @@ if (!class_exists("dmck_audioplayer")) {
 					$timezone = file_get_contents('/etc/timezone');
 					$timezone = trim($timezone); //Remove an extra newline char.
 					break;
+
+				case(date_default_timezone_get()):
+					$timezone = date_default_timezone_get();
+					break;
+					
+				case(ini_get('date.timezone')):
+					$timezone =  ini_get('date.timezone');
+					break;
 		
 				//Windows (Untested) (Thanks @Mugoma J. Okomba!)
 				case(strtoupper(substr(PHP_OS, 0, 3)) === 'WIN'):
@@ -349,7 +357,7 @@ if (!class_exists("dmck_audioplayer")) {
 			}
 		
 			if(empty($timezone)){
-				error_log('setTimezone could not determine your timezone', E_USER_ERROR);
+				error_log('setTimezone could not determine your timezone');
 			} else {
 				date_default_timezone_set($timezone);
 			}
