@@ -349,7 +349,7 @@ if (!class_exists("dmck_audioplayer")) {
 			}
 		
 			if(empty($timezone)){
-				trigger_error('setTimezone could not determine your timezone', E_USER_ERROR);
+				error_log('setTimezone could not determine your timezone', E_USER_ERROR);
 			} else {
 				date_default_timezone_set($timezone);
 			}
