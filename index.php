@@ -357,6 +357,7 @@ if (!class_exists("dmck_audioplayer")) {
 			}
 		
 			if(empty($timezone)){
+				date_default_timezone_set(DateTimeZone::listIdentifiers(DateTimeZone::UTC)[0]);  // Foolproof
 				error_log('setTimezone could not determine your timezone');
 			} else {
 				date_default_timezone_set($timezone);
