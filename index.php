@@ -3,7 +3,7 @@
 Plugin Name: (DMCK) audio player
 Plugin URI: dreaddymck.com
 Description: Just another Wordpress audio player. This plugin will add the first mp3 link embedded in each active post content into a playlist. shortcode [dmck-audioplayer]
-Version: 1.0.30
+Version: 1.0.31
 Author: dreaddymck
 Author URI: dreaddymck.com
 License: GPL2
@@ -11,6 +11,7 @@ License: GPL2
 TODO: Dynamic m3u playlist generate
 TODO: fix top ten timestamp
 TODO: hide top 10 when empty
+TODO: check if I create the reports schema if not exist or install, remove on uninstall
 
 */
 // error_reporting(E_ALL);
@@ -48,8 +49,8 @@ if (!class_exists("dmck_audioplayer")) {
 		public $cron_jobs;
 		public $site_url;
 		
-		function __construct() {
-		
+		function __construct() {		
+			$this->setTimezone();
 			$this->set_plugin_version();
 			$this->plugin_title = '(DMCK)Audio-ver:' . $this->plugin_version;
 			$this->plugin_url 	= plugins_url("/",__FILE__);
@@ -322,6 +323,38 @@ if (!class_exists("dmck_audioplayer")) {
 			if( $favicon ){
 				echo  '<link href="'.$favicon.'" rel="icon" type="image/x-icon"></link>';
 			}
+		}
+		function setTimezone($OSXPassword = null){		
+			$timezone = null;
+			switch(true){
+				//Linux (Tested on Ubuntu 14.04)
+				case(file_exists('/etc/timezone')):
+					$timezone = file_get_contents('/etc/timezone');
+					$timezone = trim($timezone); //Remove an extra newline char.
+					break;
+		
+				//Windows (Untested) (Thanks @Mugoma J. Okomba!)
+				case(strtoupper(substr(PHP_OS, 0, 3)) === 'WIN'):
+					$timezone = exec('tzutil /g');
+					break;
+		
+				//OSX (Tested on OSX 10.11 - El Capitan)
+				case(file_exists('/usr/sbin/systemsetup')):
+					if(!isset($OSXPassword)){
+						$OSXPassword = readline('**WARNING your input will appear on screen!**  Password for sudo: ');
+					}
+					$timezone = exec("echo '" . $OSXPassword ."' | sudo -S systemsetup -gettimezone");
+					$timezone = substr($timezone, 11);
+					break;
+			}
+		
+			if(empty($timezone)){
+				trigger_error('setTimezone could not determine your timezone', E_USER_ERROR);
+			} else {
+				date_default_timezone_set($timezone);
+			}
+		
+			return $timezone;
 		}
 		function var_error_log( $object=null ){
 			ob_start();                    // start buffer capture
