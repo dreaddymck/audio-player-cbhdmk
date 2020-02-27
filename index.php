@@ -354,15 +354,10 @@ if (!class_exists("dmck_audioplayer")) {
 					$timezone = exec("echo '" . $OSXPassword ."' | sudo -S systemsetup -gettimezone");
 					$timezone = substr($timezone, 11);
 					break;
-			}
-		
-			if(empty($timezone)){
-				date_default_timezone_set(DateTimeZone::listIdentifiers(DateTimeZone::UTC)[0]);  // Foolproof
-				error_log('setTimezone could not determine your timezone');
-			} else {
+			}		
+			if(!empty($timezone)){
 				date_default_timezone_set($timezone);
-			}
-		
+			}		
 			return $timezone;
 		}
 		function var_error_log( $object=null ){
