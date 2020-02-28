@@ -207,9 +207,10 @@ const playlist_control = {
 				playlist_control.playAudio()
 			}
 		});
-		playlist_control.globals.container.children().filter(function(){
-			return( jQuery(this).hasClass(playlist_control.globals.target) && this.id !== elem[0].id)
-		}).removeClass('active');	
+		// playlist_control.globals.container.children().filter(function(){
+		// 	return( jQuery(this).hasClass(playlist_control.globals.target) && this.id !== elem[0].id)
+		// }).removeClass('active');
+		jQuery(".dmck-audio-playlist-track").removeClass('active');	
 
 		playlist_control.globals.container.children().filter(function(){
 			return( jQuery(this).hasClass(playlist_control.globals.target) && this.id == elem[0].id)

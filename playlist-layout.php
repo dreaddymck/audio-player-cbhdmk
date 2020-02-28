@@ -141,7 +141,7 @@ EOF;
 echo <<<EOF
 
 			<tr id="top-10-{$p[0]->ID}"
-				class="top-10-track" 
+				class="top-10-track dmck-audio-playlist-track" 
 				post-id="{$p[0]->ID}"
 				audiourl="{$p[0]->mp3}" 
 				cover="{$p[0]->cover}" 

@@ -74,24 +74,6 @@ const playlist = {
 		},
 		get : function(){ return jQuery.cookie(playlist.cookie.name); }
 	}, 
-	set_tab: function () {
-		let cookie = playlist.cookie.get();
-		if (cookie) {
-			cookie = JSON.parse(cookie);
-			if (typeof cookie.tab !== 'undefined') {
-				jQuery('#info-tabs a[href="' + cookie["tab"] + '"]').tab('show');
-				playlist_control.initAudio( jQuery("#dmck_audioplayer .tab-pane.active .active") );
-				return;
-			}
-		}
-		let playlist_config = dmck_audioplayer.playlist_config ? JSON.parse(dmck_audioplayer.playlist_config) : "";
-		if(playlist_config){
-			jQuery('#info-tabs a[href="#'+ playlist_config[0].id  +'"]').tab('show');
-			playlist_control.initAudio( jQuery("#dmck_audioplayer .tab-pane.active .active") );
-		}
-		
-	},		
-	
 }
 
 	
