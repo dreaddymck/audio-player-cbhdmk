@@ -3,7 +3,7 @@
 Plugin Name: (DMCK) audio player
 Plugin URI: dreaddymck.com
 Description: Just another Wordpress audio player. This plugin will add the first mp3 link embedded in each active post content into a playlist. shortcode [dmck-audioplayer]
-Version: 1.0.31
+Version: 1.0.32
 Author: dreaddymck
 Author URI: dreaddymck.com
 License: GPL2
@@ -23,6 +23,7 @@ if (!class_exists("dmck_audioplayer")) {
 	require_once(plugin_dir_path(__FILE__)."trait/access-logs.php");
 	require_once(plugin_dir_path(__FILE__)."trait/wavform.php");	
 	require_once(plugin_dir_path(__FILE__)."trait/utilities.php");
+	require_once(plugin_dir_path(__FILE__)."trait/tables.php");
 	require_once(plugin_dir_path(__FILE__)."trait/cron.php");
 	require_once(plugin_dir_path(__FILE__)."trait/api.php");
 
@@ -31,6 +32,7 @@ if (!class_exists("dmck_audioplayer")) {
 		use _accesslog;
 		use _wavform;
 		use _utilities;
+		use _tables;
 		use _cron;
 		use _api;
 
@@ -59,7 +61,7 @@ if (!class_exists("dmck_audioplayer")) {
 			$this->cron_name 	= $this->plugin_slug . "_cronjob";
 
 			register_activation_hook( __FILE__, array($this, 'register_activation' ) );
-			register_deactivation_hook (__FILE__, array($this, 'cronstarter_deactivate'));
+			register_deactivation_hook (__FILE__, array($this, 'register_deactivation'));
 
 			add_action( 'init', array( $this, '_init_actions'));
 			add_action( 'admin_init', array( $this, 'register_settings') );
@@ -76,7 +78,6 @@ if (!class_exists("dmck_audioplayer")) {
 
 			add_filter( 'get_the_excerpt', array($this,'the_exerpt_filter'));
 			add_filter( 'the_content', array($this,'content_toggle_https'));
-			add_filter( 'language_attributes', array($this,'set_doctype'));
 			
 			add_filter( 'cron_schedules', array($this, 'cron_add_minute'));
 			
@@ -98,17 +99,6 @@ if (!class_exists("dmck_audioplayer")) {
 					'numberposts' => 1
 			));	
 			return $posts[0];
-		}
-		//Adding the Open Graph in the Language Attributes
-		function set_doctype( $output ) {
-
-			$output .= ' xmlns:og="http://opengraphprotocol.org/schema/" ';
-
-			$facebook_app_id = esc_attr( get_option('facebook_app_id') );	
-			if($facebook_app_id){
-				$output .= '  xmlns:fb="http://www.facebook.com/2008/fbml"';
-			}
-			return $output;
 		}
 		function excerpt($text){
 
@@ -142,7 +132,13 @@ if (!class_exists("dmck_audioplayer")) {
 			$param = preg_replace('/(Sorry, your browser doesn\'t support HTML5 audio\.|Sorry, your browser doesn&#8217;t support HTML5 audio.)/i', "", $param);
 			return $param;
 		}
-		function register_activation($options){}
+		function register_activation($options){
+			$this->_tables_create();
+		}
+		function register_deactivation($options){
+			$this->cronstarter_deactivate();
+			$this->_tables_drop();
+		}
 		function register_settings() {
 			foreach($this->adminpreferences as $settings ) {
 				register_setting( $this->plugin_settings_group, $settings );

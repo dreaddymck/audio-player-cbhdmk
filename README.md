@@ -21,7 +21,7 @@ playlists will be generated from the json structure created in the admin playlis
 4. Add shortcode to pages or posts as needed.
 5. something something work in progress
 
-== Resources public ==
+== Public resources included  ==
 
 ```bash
 
@@ -37,6 +37,12 @@ Copyright (c) 2016 MaximAL
 ```
 
 == Notes ==
+
+This plugin creates table dmck_audio_log_reports upon activation.
+This plugin drops table dmck_audio_log_reports upon deactivation.
+table dmck_audio_log_reports stores the top 10 data extracted from the system access_log.
+A system cron task will be suggested in admin for manual setup.
+Please remember to remove the associated system cron task if enabled.
 
 Native create wavforms script (Requires ffmpeg Installation on server).
 
