@@ -52,6 +52,8 @@ const playlist_control = {
 		jQuery(playlist_control.globals.cfg.play).click(function (e) {
 			e.preventDefault()
 			playlist_control.playAudio()
+			let id = (jQuery(playlist_control.globals.container).attr("id") || jQuery(playlist_control.globals.container).parents(".tab-pane").attr("id"));
+			jQuery('#info-tabs a[href="#' + id + '"]').tab('show');
 			// play = true
 			playlist_control.globals.cfg.playing = true
 		});
@@ -79,6 +81,8 @@ const playlist_control = {
 				}).first();
 			}
 			playlist_control.initAudio(next)
+			let id = (jQuery(playlist_control.globals.container).attr("id") || jQuery(playlist_control.globals.container).parents(".tab-pane").attr("id"));
+			jQuery('#info-tabs a[href="#' + id + '"]').tab('show');
 			playlist_control.globals.cfg.playing = true
 		});
 		// rewind click
@@ -93,7 +97,9 @@ const playlist_control = {
 					return( jQuery(this).hasClass(playlist_control.globals.target) );
 				}).last();
 			}			
-			playlist_control.initAudio(next)
+			playlist_control.initAudio(next);
+			let id = (jQuery(playlist_control.globals.container).attr("id") || jQuery(playlist_control.globals.container).parents(".tab-pane").attr("id"));
+			jQuery('#info-tabs a[href="#' + id + '"]').tab('show');
 			playlist_control.globals.cfg.playing = true
 		});
 		jQuery('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
