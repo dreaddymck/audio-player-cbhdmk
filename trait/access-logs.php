@@ -28,7 +28,7 @@ EOF;
         if ($conn->connect_error) {
             die("Connection failed: " . $conn->connect_error);
         } 
-        $resp       = $conn->query($query);
+        $resp = $conn->query($query);
         if( $resp instanceof mysqli_result ) {
             $results = mysqli_fetch_assoc($resp);  
         } 
@@ -94,8 +94,6 @@ EOF;
                     if( isset($parts[1]) ) {
                         $str = $parts[1];
                         //TODO: if match filter vs published post.
-                        //TODO: match from admin settings -- testing
-                        // if ( preg_match('/((\/Public\/MUSIC\/FEATURING.*mp3))/i', $str)){							
                         if ( preg_match('/(('. preg_quote($media_root_url, '/').'.*mp3))/i', $str)){	
                             echo($str);
                             preg_match('/\[(.*)\]/', $parts[0], $date_array);

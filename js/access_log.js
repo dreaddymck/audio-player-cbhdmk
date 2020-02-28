@@ -86,9 +86,9 @@ const access_log = {
             if(typeof jQuery(this).attr('audiourl') === "undefined" ){return}
             if(typeof url !== "string" ){return}
             if( url.includes(jQuery(this).attr('audiourl')) ) {
-                jQuery(this).addClass('active').addClass('pulse');                                
+                jQuery(this).addClass('active');                                
             }else{
-                jQuery(this).removeClass('active').removeClass('pulse');
+                jQuery(this).removeClass('active');
             }
         })
     },
