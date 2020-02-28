@@ -20,6 +20,13 @@ const access_log = {
             
             container.find( target ).each(function(index){
                jQuery(this).attr("style","color:" + (colors[index] ? colors[index] : "") ); 
+                /**
+                 * top_10_json is currently embeded in html - playlist-layout.php
+                 * overriding date values with javascript created date value for reasons
+                 */
+                let date = new Date(top_10_json[index].time*1000 ).toLocaleString();
+                jQuery(this).find("td").next().attr("title",date);               
+               
             }).click(function(e){
                 playlist_control.stopAudio();	
                 jQuery(playlist_control.globals.cfg.duration).slider('option', 'min', 0);

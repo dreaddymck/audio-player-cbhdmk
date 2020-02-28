@@ -139,7 +139,7 @@ echo <<<EOF
 					</span>
 				</td>
 				<td class="text-center" title="$date">
-					<h1>{$t["count"]}</h1>
+					<h1 class="dmck_top10_count">{$t["count"]}</h1>
 				</td> 
 			</tr>
 
