@@ -19,10 +19,12 @@ const playlist = {
 			let container 	= "#" + dmck_audioplayer.plugin_slug + " #" + elem.id;
 			let target 		= "." + elem.id + "-track";
 			let colors      = dmck_audioplayer.chart_colors ? JSON.parse(dmck_audioplayer.chart_colors) : [];
-
+			let postids		= [];
 			if( jQuery( target ).length ){
+				
 				jQuery( container ).find( target ).each(function(index){
-					jQuery(this).attr("style","color:" + (colors[index] ? colors[index] : "") ); 
+					jQuery(this).attr("style","color:" + (colors[index] ? colors[index] : "") );
+					postids.push(jQuery(this).attr("post-id"));  
 				 }).click(function () {
 					playlist_control.stopAudio();	
 					jQuery(playlist_control.globals.cfg.duration).slider('option', 'min', 0);
@@ -30,10 +32,29 @@ const playlist = {
 					playlist_control.globals.cfg.playing = true;
 				}).promise().done(function(){
 					// initialization - first element in playlist
-					jQuery( container ).find( target + ':first-child').addClass("active");	                 
+					jQuery( container ).find( target + ':first-child').addClass("active");
+					
+					/**
+					 * add rss link for this list
+					 */
+					jQuery("<div />",{ class: "text-center" })
+					.append(
+						jQuery("<a />", {
+							"href": dmck_audioplayer.site_url + "/?s=&tag_in=" + postids.join() + "&feed=rss2",
+							"title": elem.title + " rss feed",
+							"target": "_blank"
+						})
+						.append(
+							jQuery("<img />", {
+								"src": dmck_audioplayer.site_url + "/wp-includes/images/rss-2x.png",
+								"vspace":"12"
+							})                
+						)
+					)
+					.appendTo( jQuery('#' + elem.id) );
            		});
-
 			}
+			// console.log(postids);
 		}
 
 		playlist_config.forEach(elem => {

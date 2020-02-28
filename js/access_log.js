@@ -17,9 +17,10 @@ const access_log = {
             let container   = jQuery('#top-10'); 
             let target      = ".top-10-track";
             let colors      = dmck_audioplayer.chart_colors ? JSON.parse(dmck_audioplayer.chart_colors) : [];
-            
+            let postids     = [];
             container.find( target ).each(function(index){
                jQuery(this).attr("style","color:" + (colors[index] ? colors[index] : "") ); 
+               postids.push(jQuery(this).attr("post-id"));
                 /**
                  * top_10_json is currently embeded in html - playlist-layout.php
                  * overriding date values with javascript created date value for reasons
@@ -36,10 +37,30 @@ const access_log = {
             }).promise().done(function(){
                 access_log.active( container.find( target + ':first-child').attr("audiourl") );
                 /**
+                 * add rss link for this list
+                 */
+                jQuery("<div />",{ class: "text-center" })
+                .append(
+                    jQuery("<a />", {
+                        "href": dmck_audioplayer.site_url + "/?s=&tag_in=" + postids.join() + "&feed=rss2",
+                        "title": "Todays top 10 rss feed",
+                        "target": "_blank"
+                    })
+                    .append(
+                        jQuery("<img />", {
+                            "src": dmck_audioplayer.site_url + "/wp-includes/images/rss-2x.png",
+                            "vspace":"12"                            
+                        })                
+                    )
+                )
+                .appendTo( jQuery('#top-10') ); 
+                /**
                  * top_10_json is currently embeded in html - playlist-layout.php
                  */
                 access_log.reports.top_requests_chart(top_10_json);                 
             });
+
+            
         },
         top_requests_chart: function(arr){
             let labels = [];

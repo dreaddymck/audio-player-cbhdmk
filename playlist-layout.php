@@ -54,16 +54,16 @@ echo <<<EOF
 
 		<li class="nav-item">
 			<a class="nav-link" id="tab-{$p->id}" data-toggle="tab" href="#{$p->id}" role="tab" aria-controls="{$p->id}" aria-selected="true">
-				<h3>{$p->title}</h3> 
-			</a>
+				<h4>{$p->title}</h4> 
+			</a>			
 		</li>
 EOF;
 
 }
 ?>		
 		<li class="nav-item">
-			<a class="nav-link" id="top-10-tab" data-toggle="tab" href="#top-10" role="tab" aria-controls="top-10" aria-selected="true">
-				<h3>Today's Top 10</h3>
+			<a class="nav-link" id="tab-top-10" data-toggle="tab" href="#top-10" role="tab" aria-controls="top-10" aria-selected="true">
+				<h4>Today's Top 10</h4>
 			</a>
 		</li>		
 	</ul>
@@ -75,13 +75,23 @@ EOF;
 
 echo <<<EOF
 		<div class="tab-pane" id="{$pj->id}" role="tabpanel" aria-labelledby="tab-{$pj->id}">
+		<div id=id="{$pj->id}-rss"></div>
 EOF;
 			$playlist = json_decode( $this->_utilities_playlist( $pj ) );
 
 			foreach($playlist as $p) { 
 
 echo <<<EOF
-			<div  id="{$pj->id}-{$p->ID}" class="{$pj->id}-track dmck-audio-playlist-track" audiourl="{$p->mp3}" cover="{$p->cover}" artist="{$p->artist}" title="{$p->title}" permalink="{$p->permalink}" wavformpng="{$p->wavformpng}">
+			<div  
+				id="{$pj->id}-{$p->ID}" 
+				class="{$pj->id}-track dmck-audio-playlist-track" 
+				post-id="{$p->ID}"
+				audiourl="{$p->mp3}" 
+				cover="{$p->cover}" 
+				artist="{$p->artist}" 
+				title="{$p->title}" 
+				permalink="{$p->permalink}" 
+				wavformpng="{$p->wavformpng}">
 				<div class="track-content row">
 					<div class="col-lg-10">
 						<h5 class="">$p->title</h5>
@@ -107,8 +117,15 @@ EOF;
 
 		<div class="tab-pane" id="top-10" role="tabpanel" aria-labelledby="top-10-tab">
 		<script>let top_10_json = <?php echo json_encode($top_10_json) ?></script>		
-		<table class="table table-responsive-lg top-requests-data"><thead><tr><th>Track</th><th class="text-center">Requests</th></tr></thead><tbody>
-
+		<table class="table table-responsive-lg top-requests-data">
+			<thead>
+				<tr>
+					<th>Track</th>
+					<th class="text-center">Requests</th>
+				</tr>
+			</thead>
+		<tbody>
+		
 <?php	
 
 		foreach($top_10_json as $t) { 
@@ -125,6 +142,7 @@ echo <<<EOF
 
 			<tr id="top-10-{$p[0]->ID}"
 				class="top-10-track" 
+				post-id="{$p[0]->ID}"
 				audiourl="{$p[0]->mp3}" 
 				cover="{$p[0]->cover}" 
 				artist="{$p[0]->artist}" 

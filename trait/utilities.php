@@ -1,5 +1,13 @@
 <?php
 
+// tag (string) – use tag slug.
+// tag_id (int) – use tag id.
+// tag__and (array) – use tag ids.
+// tag__in (array) – use tag ids.
+// tag__not_in (array) – use tag ids.
+// tag_slug__and (array) – use tag slugs.
+// tag_slug__in (array) – use tag slugs.
+
 trait _utilities {
 
 	public $debug;
@@ -14,9 +22,9 @@ trait _utilities {
 			'orderby'          	=> !empty($obj->orderby) ? $obj->orderby  : "",
 			'order'            	=> !empty($obj->order) ? $obj->order  : "",
 			'post_status'      	=> !empty($obj->publish) ? $obj->publish  : "publish",
-			'tag'				=> !empty($obj->tag) ? $obj->tag  : "",
-			'tag__in' 			=> !empty($obj->tag_in) ? array( $obj->tag_in ) : "",
-			'tag__not_in'		=> !empty($obj->tag_not_in) ? array( $obj->tag_not_in ) : "",
+			'tag'				=> !empty($obj->tag) ? $obj->tag  : "", 
+			'tag__in' 			=> !empty($obj->tag_in) ? array( $obj->tag_in ) : "", //array (id)
+			'tag__not_in'		=> !empty($obj->tag_not_in) ? array( $obj->tag_not_in ) : "", //array (id)
 			'tag_slug__and'		=> !empty($obj->tag_slug__and) ? array( $obj->tag_slug__and ) : "",	
 		);
 		$posts 	= get_posts( $args );
