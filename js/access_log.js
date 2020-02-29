@@ -42,7 +42,7 @@ const access_log = {
                 jQuery("<div />",{ class: "text-center" })
                 .append(
                     jQuery("<a />", {
-                        "href": dmck_audioplayer.site_url + "/?s=&tag_in=" + postids.join() + "&feed=rss2",
+                        "href": dmck_audioplayer.site_url + "/?s=&tag__in=" + postids.join() + "&feed=rss2",
                         "title": "Todays top 10 rss feed",
                         "target": "_blank"
                     })
@@ -53,7 +53,7 @@ const access_log = {
                         })                
                     )
                 )
-                .appendTo( jQuery('#top-10') ); 
+                // .appendTo( jQuery('#top-10') ); 
                 /**
                  * top_10_json is currently embeded in html - playlist-layout.php
                  */

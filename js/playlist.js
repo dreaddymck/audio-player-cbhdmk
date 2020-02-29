@@ -40,7 +40,7 @@ const playlist = {
 					jQuery("<div />",{ class: "text-center" })
 					.append(
 						jQuery("<a />", {
-							"href": dmck_audioplayer.site_url + "/?s=&tag_in=" + postids.join() + "&feed=rss2",
+							"href": dmck_audioplayer.site_url + "/?s=&tag__in=" + postids.join() + "&feed=rss2",
 							"title": elem.title + " rss feed",
 							"target": "_blank"
 						})
@@ -51,7 +51,7 @@ const playlist = {
 							})                
 						)
 					)
-					.appendTo( jQuery('#' + elem.id) );
+					// .appendTo( jQuery('#' + elem.id) );
            		});
 			}
 			// console.log(postids);
