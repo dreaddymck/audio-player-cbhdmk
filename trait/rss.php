@@ -15,7 +15,7 @@ trait _rss {
             $wp_rewrite->feeds[] = $feedname;
             flush_rewrite_rules( FALSE );
         }
-        add_feed( $feedname, function() use ($lang) {$this->_rss_render_feed();} );
+        add_feed( $feedname, function(){$this->_rss_render_feed();} );
     }    
     /**
      * Renders the feed.
