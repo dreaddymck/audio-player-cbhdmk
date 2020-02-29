@@ -3,7 +3,7 @@
 Plugin Name: (DMCK) audio player
 Plugin URI: dreaddymck.com
 Description: Just another Wordpress audio player. This plugin will add the first mp3 link embedded in each active post content into a playlist. shortcode [dmck-audioplayer]
-Version: 1.0.38
+Version: 1.0.39
 Author: dreaddymck
 Author URI: dreaddymck.com
 License: GPL2
@@ -11,10 +11,7 @@ License: GPL2
 */
 // error_reporting(E_ALL);
 // ini_set("display_errors","On");
-
-
 if (!class_exists("dmck_audioplayer")) {
-
 	require_once(plugin_dir_path(__FILE__)."trait/access-logs.php");
 	require_once(plugin_dir_path(__FILE__)."trait/wavform.php");	
 	require_once(plugin_dir_path(__FILE__)."trait/utilities.php");
@@ -24,7 +21,6 @@ if (!class_exists("dmck_audioplayer")) {
 	require_once(plugin_dir_path(__FILE__)."trait/rss.php");
 
 	class dmck_audioplayer {
-
 		use _accesslog;
 		use _wavform;
 		use _utilities;
@@ -69,15 +65,11 @@ if (!class_exists("dmck_audioplayer")) {
 			add_action( 'wp_head', array($this, 'head_hook') );
 			add_action( 'login_head', array($this, 'head_hook') );
 			add_action( 'admin_head', array($this, 'head_hook') );
-
 			// add_action( 'wp', array($this, 'cronstarter_activation'));
 			// add_action( $this->cron_name, array($this, 'wp_cron_functions')); 
-
 			add_filter( 'get_the_excerpt', array($this,'the_exerpt_filter'));
-			add_filter( 'the_content', array($this,'content_toggle_https'));
-			
-			add_filter( 'cron_schedules', array($this, 'cron_add_minute'));
-			
+			add_filter( 'the_content', array($this,'content_toggle_https'));			
+			add_filter( 'cron_schedules', array($this, 'cron_add_minute'));			
 			// require_once(plugin_dir_path(__FILE__).'playlist-api.php' );
 		}
 		function _init_actions(){
@@ -99,29 +91,23 @@ if (!class_exists("dmck_audioplayer")) {
 			return $posts[0];
 		}
 		function excerpt($text){
-
 			$text = strip_shortcodes( $text );
 			$text = apply_filters( 'the_content', $text );
 			$text = str_replace(']]>', ']]&gt;', $text);
 			$excerpt_length = apply_filters( 'excerpt_length', 55 );
 			$excerpt_more = apply_filters( 'excerpt_more', ' ' . '[&hellip;]' );
-			$text = wp_trim_words( $text, $excerpt_length, $excerpt_more );	
-
+			$text = wp_trim_words( $text, $excerpt_length, $excerpt_more );
 			return $text;
 		}	
 		function content_toggle_https($content){
 			
-			$site_url = get_site_url();
-			
+			$site_url = get_site_url();			
 			if( $this->isSecure() ){				
 				$secure_url		= preg_replace( "/^http:/i", "https:", $site_url );
-				$insecure_url	= preg_replace( "/^https:/i", "http:", $site_url );
-	
-				$pattern 		= "/" .preg_quote($insecure_url, '/') . "/i";
-	
+				$insecure_url	= preg_replace( "/^https:/i", "http:", $site_url );	
+				$pattern 		= "/" .preg_quote($insecure_url, '/') . "/i";	
 				$content 	= preg_replace( $pattern, $secure_url, $content );
 			}
-
 			return $content;
 		}
 		function the_exerpt_filter($param) {
@@ -155,8 +141,7 @@ if (!class_exists("dmck_audioplayer")) {
 					array( $this, 'admin_menu_include')
 			);
 		}
-		function admin_scripts($hook_suffix) {
-			
+		function admin_scripts($hook_suffix) {			
 			if ( $this->settings_page == $hook_suffix ) {
 				$this->shared_scripts();
 				
@@ -170,19 +155,15 @@ if (!class_exists("dmck_audioplayer")) {
 		}
 		function user_scripts() {
 			
-			if( $this->has_shortcode( $this->shortcode ) ) {}
-			
-			$this->shared_scripts();
-			
+			if( $this->has_shortcode( $this->shortcode ) ) {}			
+			$this->shared_scripts();			
 			wp_enqueue_script( 'jquery-ui.min.js', $this->plugin_url . 'js/jquery-ui-1.12.1/jquery-ui.js', array('jquery'), $this->plugin_version, true );
 			wp_enqueue_style( 'jquery-ui.min.css',  $this->plugin_url . "js/jquery-ui-1.12.1/jquery-ui.min.css", array(), $this->plugin_version);
-
 			wp_enqueue_style( 'playlist.css',  $this->plugin_url . "playlist.css", array(), $this->plugin_version);
 			wp_enqueue_script( 'playlist-control.js', $this->plugin_url . 'js/playlist-control.js', array('jquery'), $this->plugin_version, true );
 			wp_enqueue_script( 'playlist.js', $this->plugin_url . 'js/playlist.js', array('jquery'), $this->plugin_version, true );
 			wp_enqueue_script( 'Chart.bundle.js', $this->plugin_url . 'js/Chart.bundle.js', array('jquery'), $this->plugin_version, true );
-			wp_enqueue_script( 'index.js', $this->plugin_url . 'js/index.js', array('jquery'), $this->plugin_version, true );
-			
+			wp_enqueue_script( 'index.js', $this->plugin_url . 'js/index.js', array('jquery'), $this->plugin_version, true );			
 			$this->localize_vars();
 		}
 		function shared_scripts(){
@@ -191,16 +172,13 @@ if (!class_exists("dmck_audioplayer")) {
 			wp_enqueue_script( 'functions.js', $this->plugin_url . 'js/functions.js', array('jquery'), $this->plugin_version, true );	
 			wp_enqueue_style( 'bootstrap.css',  $this->plugin_url . "node_modules/bootstrap/dist/css/bootstrap.min.css", array(), $this->plugin_version);		
 			wp_enqueue_script( 'bootstrap.js', $this->plugin_url . 'node_modules/bootstrap/dist/js/bootstrap.min.js', array( 'jquery' ), '', true );
-			wp_enqueue_script( 'access_log.js', $this->plugin_url . 'js/access_log.js', array('jquery'), $this->plugin_version, true );
-			
+			wp_enqueue_script( 'access_log.js', $this->plugin_url . 'js/access_log.js', array('jquery'), $this->plugin_version, true );			
 		}
 		function localize_vars(){
 
 			global $post,$wp_query;
-
 			$tags = "";
 			$category = "";
-
 			if($post){
 				$tags = wp_get_post_terms( $post->ID,'post_tag',array( 'fields' => 'names') );
 				if($tags){
@@ -210,13 +188,10 @@ if (!class_exists("dmck_audioplayer")) {
 				if($category){
 					$category = implode("|", $category);
 				}				
-			}
-
-			
+			}			
 			$page 	= get_query_var ( 'paged' ) ? get_query_var ( 'paged' ) : 1;
 			$limit	= $wp_query->post_count ? $wp_query->post_count : 1;
-			$offset = ($page - 1) * $limit;			
-
+			$offset = ($page - 1) * $limit;	
 			if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 				$this->autoplay			= isset($_POST["autoplay"]) ? htmlspecialchars($_POST["autoplay"] ) : "";
 				$this->auto_play		= isset($_POST["auto_play"]) ? htmlspecialchars($_POST["auto_play"] ) : "";
@@ -226,7 +201,6 @@ if (!class_exists("dmck_audioplayer")) {
 				$this->auto_play		= isset($_GET["auto_play"]) ? htmlspecialchars($_GET["auto_play"] ) : "";
 				$this->relatedposts		= isset($_GET["relatedposts"]) ? htmlspecialchars($_GET["relatedposts"] ) : "";					
 			}
-
 			$local = array(
 				'nonce' => wp_create_nonce( 'wp_rest' ),
 				'is_home' => is_home(),
@@ -259,7 +233,6 @@ if (!class_exists("dmck_audioplayer")) {
 				'autoplay'	=> ($this->autoplay || $this->auto_play),
 				'chart_colors' => esc_attr( get_option('chart_colors') ),
 			);
-
 			wp_localize_script( 'functions.js', $this->plugin_slug, $local);
 		}
 		function has_shortcode($shortcode = '') {
@@ -277,11 +250,8 @@ if (!class_exists("dmck_audioplayer")) {
 		function admin_bar_setup(){
 
 			global $wp_admin_bar;
-
 			if ( !is_super_admin() || !is_admin_bar_showing() ) return;
-
-			$url_to = admin_url( 'options-general.php?page='.$this->plugin_slug);
-			
+			$url_to = admin_url( 'options-general.php?page='.$this->plugin_slug);			
 			$wp_admin_bar->add_menu(
 									array(
 											'id' => $this->plugin_slug,
@@ -369,9 +339,7 @@ if (!class_exists("dmck_audioplayer")) {
 		}	
 		function _echo($obj = '') {
 			echo "<pre>" . ( print_r ( $obj, 1 ) ) . "</pre>";
-		}		
-
-
+		}
 	}
 	new dmck_audioplayer;
 }

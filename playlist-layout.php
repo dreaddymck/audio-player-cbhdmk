@@ -116,7 +116,7 @@ EOF;
 ?>
 
 		<div class="tab-pane" id="top-10" role="tabpanel" aria-labelledby="top-10-tab">
-		<script>let top_10_json = <?php echo json_encode($top_10_json) ?></script>		
+				
 		<table class="table table-responsive-lg top-requests-data">
 			<thead>
 				<tr>
@@ -128,15 +128,15 @@ EOF;
 		
 <?php	
 
-		foreach($top_10_json as $t) { 
+		foreach($top_10_json as $key=>$value) { 
 
-			$param = (object) array('s' => $t["name"]);
+			$param = (object) array('s' => $value["name"]);
 			$p = json_decode($this->_utilities_playlist( $param ));
-
-			// var_dump($t);
-
-			$title = !empty($p[0]->title) ? $p[0]->title : urldecode($t["name"]);
-			$date = date('m/d/Y h:i:s a', $t["time"]);
+			
+			$title = !empty($p[0]->title) ? $p[0]->title : urldecode($value["name"]);
+			$top_10_json[$key]["title"] = $title;
+			
+			$date = date('m/d/Y h:i:s a', $value["time"]);
 
 echo <<<EOF
 
@@ -157,7 +157,7 @@ echo <<<EOF
 					</span>
 				</td>
 				<td class="text-center" title="$date">
-					<h1 class="dmck_top10_count">{$t["count"]}</h1>
+					<h1 class="dmck_top10_count">{$value["count"]}</h1>
 				</td> 
 			</tr>
 
@@ -165,7 +165,8 @@ EOF;
 
 		}		
 ?>		
-		</tbody></table> 
+		</tbody></table>		
+		<script>let top_10_json = <?php echo json_encode($top_10_json) ?></script> 
 		</div>  
 	</div>
 </div>

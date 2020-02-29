@@ -68,7 +68,7 @@ const access_log = {
             let data = [];
             let colors = dmck_audioplayer.chart_colors ? JSON.parse(dmck_audioplayer.chart_colors) : [];
             for( let x in arr ){
-                labels.push( unescape(arr[x].name));
+                labels.push( arr[x].title ? unescape(arr[x].title) : unescape(arr[x].name) );
                 data.push(arr[x].count)                
             }
             jQuery("#top-10").append(`<canvas id="top-requests-chart" width="auto" height="auto"></canvas>`);            
