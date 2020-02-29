@@ -37,11 +37,11 @@ const playlist = {
 					/**
 					 * add rss link for this list
 					 */
-					jQuery("<div />",{ class: "text-center" })
+					let param = { id: postids }
+                	jQuery("<div />",{ class: "text-center" })
 					.append(
 						jQuery("<a />", {
-							// "href": dmck_audioplayer.site_url + "/tag__id/" + JSON.stringify(postids) + "/?feed=rss2",
-							"href": dmck_audioplayer.site_url + "/tag/beats/feed/rss2",
+							"href": dmck_audioplayer.site_url + "/feed/playlist/?" + jQuery.param(param) ,
 							"title": elem.title + " rss feed",
 							"target": "_blank"
 						})
@@ -52,7 +52,7 @@ const playlist = {
 							})                
 						)
 					)
-					// .appendTo( jQuery('#' + elem.id) );
+					.appendTo( jQuery('#' + elem.id) );
            		});
 			}
 			// console.log(postids);

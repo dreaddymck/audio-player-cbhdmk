@@ -3,7 +3,7 @@
 Plugin Name: (DMCK) audio player
 Plugin URI: dreaddymck.com
 Description: Just another Wordpress audio player. This plugin will add the first mp3 link embedded in each active post content into a playlist. shortcode [dmck-audioplayer]
-Version: 1.0.37
+Version: 1.0.38
 Author: dreaddymck
 Author URI: dreaddymck.com
 License: GPL2
@@ -21,6 +21,7 @@ if (!class_exists("dmck_audioplayer")) {
 	require_once(plugin_dir_path(__FILE__)."trait/tables.php");
 	require_once(plugin_dir_path(__FILE__)."trait/cron.php");
 	require_once(plugin_dir_path(__FILE__)."trait/api.php");
+	require_once(plugin_dir_path(__FILE__)."trait/rss.php");
 
 	class dmck_audioplayer {
 
@@ -30,6 +31,7 @@ if (!class_exists("dmck_audioplayer")) {
 		use _tables;
 		use _cron;
 		use _api;
+		use _rss;
 
 		public $plugin_title;
 		public $plugin_slug				= 'dmck_audioplayer';
@@ -80,6 +82,7 @@ if (!class_exists("dmck_audioplayer")) {
 		}
 		function _init_actions(){
 			add_shortcode( $this->shortcode, array( $this, 'include_file') );
+			$this->_rss_create_feed();
 		}
 		function set_plugin_version(){
 			if(preg_match('/version:[\s\t]+?([0-9.]+)/i',file_get_contents( __FILE__ ), $v)){
