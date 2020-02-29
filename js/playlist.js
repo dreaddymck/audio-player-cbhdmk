@@ -40,7 +40,8 @@ const playlist = {
 					jQuery("<div />",{ class: "text-center" })
 					.append(
 						jQuery("<a />", {
-							"href": dmck_audioplayer.site_url + "/?s=&tag__in=" + postids.join() + "&feed=rss2",
+							// "href": dmck_audioplayer.site_url + "/tag__id/" + JSON.stringify(postids) + "/?feed=rss2",
+							"href": dmck_audioplayer.site_url + "/tag/beats/feed/rss2",
 							"title": elem.title + " rss feed",
 							"target": "_blank"
 						})

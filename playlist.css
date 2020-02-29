@@ -91,7 +91,7 @@ img.ui-li-img {
 }
 #fixed-controls {
   position: fixed;
-  bottom: 60px;
+  top: 10px;
   z-index: 10;
   text-shadow: 5px 5px #000;
 }  
