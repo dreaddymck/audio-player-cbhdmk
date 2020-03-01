@@ -42,11 +42,13 @@ const access_log = {
                  * add rss link for this list
                  */
                 let param = { type: "top-count" }
+                let title = "Todays top 10 RSS";
+                
                 jQuery("<div />",{ class: "text-center" })
                 .append(
                     jQuery("<a />", {
                         "href": dmck_audioplayer.site_url + "/feed/playlist/?" + jQuery.param(param) ,
-                        "title": "Todays top 10 rss feed",
+                        "title": title,
                         "target": "_blank"
                     })
                     .append(
@@ -56,6 +58,12 @@ const access_log = {
                         })                
                     )
                 )
+                .append(
+                    jQuery("<div />", {
+                        class: "text-center",
+                        "text": title
+                    })                
+                )                
                 .appendTo( jQuery('#top-10') ); 
                 /**
                  * top_10_json is currently embeded in html - playlist-layout.php

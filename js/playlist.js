@@ -38,11 +38,12 @@ const playlist = {
 					 */
 					// let param = { id: postids }
 					let param = {"tag" : elem.tag, "tag_slug__and" : elem.tag_slug__and }
+					let title = elem.title + " RSS";
                 	jQuery("<div />",{ class: "text-center" })
 					.append(
 						jQuery("<a />", {
 							"href": dmck_audioplayer.site_url + "/feed/playlist/?" + jQuery.param(param) ,
-							"title": elem.title + " rss feed",
+							"title": title,
 							"target": "_blank"
 						})
 						.append(
@@ -50,8 +51,14 @@ const playlist = {
 								"src": dmck_audioplayer.site_url + "/wp-includes/images/rss-2x.png",
 								"vspace":"12"
 							})                
-						)
+						)						
 					)
+					.append(
+						jQuery("<div />", {
+							class: "text-center",
+							"text": title
+						})                
+					)					
 					.appendTo( jQuery('#' + elem.id) );
            		});
 			}
