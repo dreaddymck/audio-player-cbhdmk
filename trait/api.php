@@ -28,7 +28,7 @@ trait _api {
 		$response = "";
 		switch ($data['option']) {
 			case "search":
-				$response = $this->_utilities_search($data);
+				$response = $this->param_request($data);
 				break;				
 			case "get":
 				$response = _accesslog::accesslog_activity_get();

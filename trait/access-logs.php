@@ -119,10 +119,12 @@ EOF;
                     } 
                 }        
         
-                fclose($handle);			
-                $json = json_encode($arr,JSON_FORCE_OBJECT);			
-                $query = "insert into dmck_audio_log_reports (data) values ( '" . $json . "' )";			
-                $results = $this->query( $query );	
+                fclose($handle);
+                if(!empty($arr)){
+                    $json = json_encode($arr,JSON_FORCE_OBJECT);			
+                    $query = "insert into dmck_audio_log_reports (data) values ( '" . $json . "' )";			
+                    $results = $this->query( $query );
+                }	
                 return;
         
             } catch (Exception $e) {

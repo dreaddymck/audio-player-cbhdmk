@@ -1,20 +1,4 @@
-<?php
-/**
- * playlist generated from json configuration data
- */
-if( empty( get_option("playlist_config") ) ){ return; }
-$playlist_json = json_decode(get_option("playlist_config"));
-/**
- * playlist generated from access log data
- */
-$top_10_json = json_decode(_accesslog::accesslog_activity_get(), true);
-usort($top_10_json, function($a, $b) {
-	if( $b["count"] > $a["count"] ) return 1;
-	if( $b["count"] < $a["count"] ) return -1;
-	return ($b["time"] < $a["time"]) ? -1 : 1;
-});
-$top_10_json = array_slice($top_10_json,0,10);
-?>
+<?php $playlist_data = $this->playlist_data_get(); ?>
 
 <div id="<?php echo $this->plugin_slug ?>">
 	<div class="row">
@@ -48,7 +32,7 @@ $top_10_json = array_slice($top_10_json,0,10);
 	<ul class="nav nav-tabs" id="info-tabs" role="tablist">
 
 <?php
-		foreach($playlist_json as $p) { 
+		foreach($playlist_data["playlist_json"] as $p) { 
 
 echo <<<EOF
 
@@ -71,13 +55,13 @@ EOF;
 	<div class="tab-content">
 
 <?php
-		foreach($playlist_json as $pj) { 
+		foreach($playlist_data["playlist_json"] as $pj) { 
 
 echo <<<EOF
 		<div class="tab-pane" id="{$pj->id}" role="tabpanel" aria-labelledby="tab-{$pj->id}">
 		<div id=id="{$pj->id}-rss"></div>
 EOF;
-			$playlist = json_decode( $this->_utilities_playlist( $pj ) );
+			$playlist = json_decode( $this->obj_request( $pj ) );
 
 			foreach($playlist as $p) { 
 
@@ -128,35 +112,27 @@ EOF;
 		
 <?php	
 
-		foreach($top_10_json as $key=>$value) { 
-
-			$param = (object) array('s' => $value["name"]);
-			$p = json_decode($this->_utilities_playlist( $param ));
-			
-			$title = !empty($p[0]->title) ? $p[0]->title : urldecode($value["name"]);
-			$top_10_json[$key]["title"] = $title;
-			
-			$date = date('m/d/Y h:i:s a', $value["time"]);
+		foreach($playlist_data["top_10_json"] as $value) { 
 
 echo <<<EOF
 
-			<tr id="top-10-{$p[0]->ID}"
+			<tr id="top-10-{$value["ID"]}"
 				class="top-10-track dmck-audio-playlist-track" 
-				post-id="{$p[0]->ID}"
-				audiourl="{$p[0]->mp3}" 
-				cover="{$p[0]->cover}" 
-				artist="{$p[0]->artist}" 
-				title="{$p[0]->title}"
-				permalink="{$p[0]->permalink}" 
-				wavformpng="{$p[0]->wavformpng}"
+				post-id="{$value["ID"]}"
+				audiourl="{$value["mp3"]}" 
+				cover="{$value["cover"]}" 
+				artist="{$value["artist"]}" 
+				title="{$value["title"]}"
+				permalink="{$value["permalink"]}" 
+				wavformpng="{$value["wavformpng"]}"
 				style="color:">
 				<td>
-					<h5>$title</h5>
+					<h5>{$value["title"]}</h5>
 					<span class="">
-						{$p[0]->tags} {$p[0]->moreinfo}
+						{$value["tags"]} {$value["moreinfo"]}
 					</span>
 				</td>
-				<td class="text-center" title="$date">
+				<td class="text-center" title="{$value["date"]}">
 					<h1 class="dmck_top10_count">{$value["count"]}</h1>
 				</td> 
 			</tr>
@@ -166,7 +142,7 @@ EOF;
 		}		
 ?>		
 		</tbody></table>		
-		<script>let top_10_json = <?php echo json_encode($top_10_json) ?></script> 
+		<script>let top_10_json = <?php echo json_encode($playlist_data["top_10_json"]) ?></script> 
 		</div>  
 	</div>
 </div>

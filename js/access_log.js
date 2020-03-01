@@ -17,10 +17,10 @@ const access_log = {
             let container   = jQuery('#top-10'); 
             let target      = ".top-10-track";
             let colors      = dmck_audioplayer.chart_colors ? JSON.parse(dmck_audioplayer.chart_colors) : [];
-            let postids     = [];
+            // let postids     = [];
             container.find( target ).each(function(index){
                jQuery(this).attr("style","color:" + (colors[index] ? colors[index] : "") ); 
-               postids.push(jQuery(this).attr("post-id"));
+            //    postids.push(jQuery(this).attr("post-id"));
                 /**
                  * top_10_json is currently embeded in html - playlist-layout.php
                  * overriding date values with javascript created date value for reasons
@@ -35,11 +35,13 @@ const access_log = {
                 playlist_control.globals.cfg.playing = true;
                 return;                            
             }).promise().done(function(){
-                access_log.active( container.find( target + ':first-child').attr("audiourl") );
+                let elem = container.find( target + ':first-child').attr("audiourl");
+                if(! elem.length){ return; }
+                access_log.active( elem );
                 /**
                  * add rss link for this list
                  */
-                let param = { id: postids }
+                let param = { type: "top-count" }
                 jQuery("<div />",{ class: "text-center" })
                 .append(
                     jQuery("<a />", {

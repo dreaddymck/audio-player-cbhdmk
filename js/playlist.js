@@ -19,12 +19,11 @@ const playlist = {
 			let container 	= "#" + dmck_audioplayer.plugin_slug + " #" + elem.id;
 			let target 		= "." + elem.id + "-track";
 			let colors      = dmck_audioplayer.chart_colors ? JSON.parse(dmck_audioplayer.chart_colors) : [];
-			let postids		= [];
-			if( jQuery( target ).length ){
-				
+			// let postids		= [];
+			if( jQuery( target ).length ){				
 				jQuery( container ).find( target ).each(function(index){
 					jQuery(this).attr("style","color:" + (colors[index] ? colors[index] : "") );
-					postids.push(jQuery(this).attr("post-id"));  
+					// postids.push(jQuery(this).attr("post-id"));  
 				 }).click(function () {
 					playlist_control.stopAudio();	
 					jQuery(playlist_control.globals.cfg.duration).slider('option', 'min', 0);
@@ -37,7 +36,8 @@ const playlist = {
 					/**
 					 * add rss link for this list
 					 */
-					let param = { id: postids }
+					// let param = { id: postids }
+					let param = {"tag" : elem.tag, "tag_slug__and" : elem.tag_slug__and }
                 	jQuery("<div />",{ class: "text-center" })
 					.append(
 						jQuery("<a />", {

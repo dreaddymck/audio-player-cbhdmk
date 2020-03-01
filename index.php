@@ -3,7 +3,7 @@
 Plugin Name: (DMCK) audio player
 Plugin URI: dreaddymck.com
 Description: Just another Wordpress audio player. This plugin will add the first mp3 link embedded in each active post content into a playlist. shortcode [dmck-audioplayer]
-Version: 1.0.39
+Version: 1.0.40
 Author: dreaddymck
 Author URI: dreaddymck.com
 License: GPL2
@@ -19,7 +19,7 @@ if (!class_exists("dmck_audioplayer")) {
 	require_once(plugin_dir_path(__FILE__)."trait/cron.php");
 	require_once(plugin_dir_path(__FILE__)."trait/api.php");
 	require_once(plugin_dir_path(__FILE__)."trait/rss.php");
-
+	require_once(plugin_dir_path(__FILE__)."trait/requests.php");
 	class dmck_audioplayer {
 		use _accesslog;
 		use _wavform;
@@ -28,13 +28,14 @@ if (!class_exists("dmck_audioplayer")) {
 		use _cron;
 		use _api;
 		use _rss;
+		use _requests;
 
 		public $plugin_title;
 		public $plugin_slug				= 'dmck_audioplayer';
 		public $plugin_settings_group 	= 'dmck-audioplayer-settings-group';
 		public $shortcode				= "dmck-audioplayer";
 		public $adminpreferences 		= array('chart_colors','favicon','default_album_cover', 'moreinfo', 'facebook_app_id','access_log','media_root_path','media_root_url','playlist_config');
-		public $userpreferences 		= array('userpreferences');		
+		public $userpreferences 		= array('userpreferences');	
 		public $plugin_version;
 		public $plugin_url;
 		public $theme_url;
@@ -98,20 +99,8 @@ if (!class_exists("dmck_audioplayer")) {
 			$excerpt_more = apply_filters( 'excerpt_more', ' ' . '[&hellip;]' );
 			$text = wp_trim_words( $text, $excerpt_length, $excerpt_more );
 			return $text;
-		}	
-		function content_toggle_https($content){
-			
-			$site_url = get_site_url();			
-			if( $this->isSecure() ){				
-				$secure_url		= preg_replace( "/^http:/i", "https:", $site_url );
-				$insecure_url	= preg_replace( "/^https:/i", "http:", $site_url );	
-				$pattern 		= "/" .preg_quote($insecure_url, '/') . "/i";	
-				$content 	= preg_replace( $pattern, $secure_url, $content );
-			}
-			return $content;
 		}
-		function the_exerpt_filter($param) {
-			
+		function the_exerpt_filter($param) {			
 			$param = preg_replace('/(\[.*\])/', "", $param);
 			$param = preg_replace('/(Sorry, your browser doesn\'t support HTML5 audio\.|Sorry, your browser doesn&#8217;t support HTML5 audio.)/i', "", $param);
 			return $param;
@@ -153,8 +142,7 @@ if (!class_exists("dmck_audioplayer")) {
 				$this->localize_vars();
 			}
 		}
-		function user_scripts() {
-			
+		function user_scripts() {			
 			if( $this->has_shortcode( $this->shortcode ) ) {}			
 			$this->shared_scripts();			
 			wp_enqueue_script( 'jquery-ui.min.js', $this->plugin_url . 'js/jquery-ui-1.12.1/jquery-ui.js', array('jquery'), $this->plugin_version, true );
@@ -175,7 +163,6 @@ if (!class_exists("dmck_audioplayer")) {
 			wp_enqueue_script( 'access_log.js', $this->plugin_url . 'js/access_log.js', array('jquery'), $this->plugin_version, true );			
 		}
 		function localize_vars(){
-
 			global $post,$wp_query;
 			$tags = "";
 			$category = "";
@@ -235,8 +222,7 @@ if (!class_exists("dmck_audioplayer")) {
 			);
 			wp_localize_script( 'functions.js', $this->plugin_slug, $local);
 		}
-		function has_shortcode($shortcode = '') {
-		
+		function has_shortcode($shortcode = '') {		
 			$post_to_check = get_post(get_the_ID());
 			$found = false;
 		
@@ -248,7 +234,6 @@ if (!class_exists("dmck_audioplayer")) {
 			return $found;
 		}
 		function admin_bar_setup(){
-
 			global $wp_admin_bar;
 			if ( !is_super_admin() || !is_admin_bar_showing() ) return;
 			$url_to = admin_url( 'options-general.php?page='.$this->plugin_slug);			
@@ -265,17 +250,11 @@ if (!class_exists("dmck_audioplayer")) {
 										)
 									);
 		}
-		function include_file($options) {			
-		
-			update_option( 'tag', isset($options['tag']) ? $options['tag'] : "");
-			update_option( 'tag_in', isset($options['tag_in']) ? $options['tag_in'] : "");
-			update_option( 'tag_not_in', isset($options['tag_not_in']) ? $options['tag_not_in'] : "");
-						
+		function include_file($options) {		
 			ob_start();
 			include (plugin_dir_path(__FILE__).'playlist-layout.php');	
 			return ob_get_clean();		
 		}
-
 		function admin_menu_include() {
 			if ( !current_user_can( 'read' ) )  {
 				wp_die( __( 'You do not have sufficient permissions to access this page.' ) );
@@ -287,58 +266,6 @@ if (!class_exists("dmck_audioplayer")) {
 			if( $favicon ){
 				echo  '<link href="'.$favicon.'" rel="icon" type="image/x-icon"></link>';
 			}
-		}
-		function setTimezone($OSXPassword = null){		
-			$timezone = null;
-			switch(true){
-				//Linux (Tested on Ubuntu 14.04)
-				case(file_exists('/etc/timezone')):
-					$timezone = file_get_contents('/etc/timezone');
-					$timezone = trim($timezone); //Remove an extra newline char.
-					break;
-
-				case(date_default_timezone_get()):
-					$timezone = date_default_timezone_get();
-					break;
-					
-				case(ini_get('date.timezone')):
-					$timezone =  ini_get('date.timezone');
-					break;
-		
-				//Windows (Untested) (Thanks @Mugoma J. Okomba!)
-				case(strtoupper(substr(PHP_OS, 0, 3)) === 'WIN'):
-					$timezone = exec('tzutil /g');
-					break;
-		
-				//OSX (Tested on OSX 10.11 - El Capitan)
-				case(file_exists('/usr/sbin/systemsetup')):
-					if(!isset($OSXPassword)){
-						$OSXPassword = readline('**WARNING your input will appear on screen!**  Password for sudo: ');
-					}
-					$timezone = exec("echo '" . $OSXPassword ."' | sudo -S systemsetup -gettimezone");
-					$timezone = substr($timezone, 11);
-					break;
-			}		
-			if(!empty($timezone)){
-				date_default_timezone_set($timezone);
-			}		
-			return $timezone;
-		}
-		function var_error_log( $object=null ){
-			ob_start();                    // start buffer capture
-			var_dump( $object );           // dump the values
-			$contents = ob_get_contents(); // put the buffer into a variable
-			ob_end_clean();                // end capture
-			error_log( $contents );        // log contents of the result of var_dump( $object )
-		}
-		function _log($obj = '') {
-			error_log ( print_r ( $obj, 1 ) );
-		}
-		function _dump($obj = '') {
-			var_dump( print_r( $obj,1 ) );
-		}	
-		function _echo($obj = '') {
-			echo "<pre>" . ( print_r ( $obj, 1 ) ) . "</pre>";
 		}
 	}
 	new dmck_audioplayer;

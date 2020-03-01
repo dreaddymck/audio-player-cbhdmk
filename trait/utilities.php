@@ -14,158 +14,75 @@ trait _utilities {
 	public $path;		
 	
 	function __construct(){}	
-	function _utilities_playlist($obj) {
-		global $wpdb;		
-		$args = array(
-			's'					=> !empty($obj->s) ? urldecode($obj->s)  : "",
-			'posts_per_page' 	=> !empty($obj->posts_per_page) ? $obj->posts_per_page : -1,
-			'orderby'          	=> !empty($obj->orderby) ? $obj->orderby  : "",
-			'order'            	=> !empty($obj->order) ? $obj->order  : "",
-			'post_status'      	=> !empty($obj->publish) ? $obj->publish  : "publish",
-			'tag'				=> !empty($obj->tag) ? $obj->tag  : "", 
-			'tag__in' 			=> !empty($obj->tag_in) ? array( $obj->tag_in ) : "", //array (id)
-			'tag__not_in'		=> !empty($obj->tag_not_in) ? array( $obj->tag_not_in ) : "", //array (id)
-			'tag_slug__and'		=> !empty($obj->tag_slug__and) ? array( $obj->tag_slug__and ) : "",	
-		);
-		$posts 	= get_posts( $args );
-		$response   = $this->render_elements($posts);			
-		wp_reset_postdata();
-		return $response;					
-	}
-	function _utilities_search($data){
-		global $wpdb;
-		$params 				= $data->get_params();
-		$args = array(
-			's'					=> !empty($params["s"]) ? urldecode($params["s"] ) : "",
-			'posts_per_page' 	=> !empty($params["posts_per_page"]) ? $params["posts_per_page"]  : -1,
-			'post_status'   	=> !empty($params["post_status"]) ? $params["post_status"] : "published",
-			'orderby'          	=> !empty($params["orderby"]) ? $params["orderby"] : "",
-			'order'            	=> !empty($params["order"]) ? $params["order"] : "",
-			'tag'				=> !empty($params["tag"]) ? $params["tag"] : "",
-			'tag__in' 			=> !empty($params["tag_in"]) ? $params["tag_in"] : "",
-			'tag__not_in'		=> !empty($params["tag_not_in"]) ? $params["tag_not_in"] : "",
-			'tag_slug__and'		=> !empty($params["tag_slug__and"]) ? $params["tag_slug__and"] : "",						
-		);			
-		$posts 	    = get_posts( $args );
-		$response   = $this->render_elements($posts);
-		wp_reset_postdata();
-		return($response);
-	}	
-	function query($sql){
-	
-		$conn = new mysqli(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME );
-
-		if ($conn->connect_error) {
-			die("Connection failed: " . $conn->connect_error);
-		} 
-
-		$resp       = $conn->query($sql);
-		$results    = array();        
-
-		if( $resp instanceof mysqli_result )
-		{
-			$results = mysqli_fetch_all($resp);  
-		}     
-		
-		$conn->close();
-
-		return ($results);	
-	}				
-	function render_elements($posts) {
-		
-		$response 	= [];		
-		foreach ( $posts as $post ) : setup_postdata( $post );			
-			$object 	= new stdClass();
-			$audio 		= $this->fetch_audio_from_string( $post->post_content );		
-			if(! !empty($audio[0])) { continue; }
-			/* If $this->path exist
-			* playlist_elements call
-			* we should be extracting a single element that matches
-			*/
-			if($this->path) {					
-				if (strpos(  urldecode($audio[0]), $this->path) === false) {
-					continue;
-				}				
-			}				
-			$object->ID		        = $post->ID;
-			$object->mp3		    = $audio[0];				
-			$object->wavformpng	    = $this->waveformpng($audio[0]);
-			$object->wavformjson	= $this->waveformjson($audio[0]);
-			
-			if($this->isSecure()){
-				$object->mp3		    = preg_replace("/^http:/i", "https:", $object->mp3);
-				$object->wavformpng	    = preg_replace("/^http:/i", "https:", $object->wavformpng);
-				$object->wavformjson	= preg_replace("/^http:/i", "https:", $object->wavformjson);	
-			}				
-			$object->title		= esc_attr($post->post_title);
-			$object->artist		= "dreaddymck";
-			$object->rating		= 0;
-			$object->cover		= $this->fetch_the_post_thumbnail_src( get_the_post_thumbnail($post->ID, "thumbnail") );
-			$object->permalink	= get_permalink( $post->ID );
-			$object->moreinfo	= get_option('moreinfo') ? get_option('moreinfo') : "";
-			$object->playlist_thumb = $object->cover;
-			$object->tags 		=  implode( ', ', wp_get_post_tags( $post->ID, array( 'fields' => 'names' )) );
-		
-			$excerpt_tmp 	= $post->post_content;
-			$excerpt_tmp 	= htmlspecialchars_decode($excerpt_tmp);
-			$excerpt_tmp 	= preg_replace('#<[^>]+>#', ' ', $excerpt_tmp);
-			$excerpt_tmp 	= preg_replace("#(\r|\n){2,}#", " ", $excerpt_tmp);
-			$excerpt_tmp 	= str_replace( chr( 194 ) . chr( 160 ), ' ', $excerpt_tmp );
-			$excerpt_tmp 	= preg_replace( '#(Sorry, your browser doesn\'t support HTML5 audio\.)#', ' ', $excerpt_tmp );
-			$excerpt_tmp 	= preg_replace( '#(download)#', ' ', $excerpt_tmp );
-	
-			$object->excerpt = wp_trim_words( esc_attr( $excerpt_tmp ), 12, "...");
-		
-			array_push( $response, $object );
-	
-		endforeach;			
-	
-		return json_encode($response);	
-	}
 	function isSecure() {
 		return
 			(!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off')
 			|| $_SERVER['SERVER_PORT'] == 443;
-	}		
-	function waveformpng($str) {
-		return preg_replace('/\.mp3$/', '.wavform.png', $str);
 	}
-	function waveformjson($str) {
-		return preg_replace('/\.mp3$/', '.wavform.json', $str);
+	function content_toggle_https($content){
+			
+		$site_url = get_site_url();			
+		if( $this->isSecure() ){				
+			$secure_url		= preg_replace( "/^http:/i", "https:", $site_url );
+			$insecure_url	= preg_replace( "/^https:/i", "http:", $site_url );	
+			$pattern 		= "/" .preg_quote($insecure_url, '/') . "/i";	
+			$content 	= preg_replace( $pattern, $secure_url, $content );
+		}
+		return $content;
+	}	
+	function var_error_log( $object=null ){
+		ob_start();                    // start buffer capture
+		var_dump( $object );           // dump the values
+		$contents = ob_get_contents(); // put the buffer into a variable
+		ob_end_clean();                // end capture
+		error_log( $contents );        // log contents of the result of var_dump( $object )
 	}
-	function fetch_the_post_thumbnail_src($img)
-	{
-		return (preg_match('~\bsrc="([^"]++)"~', $img, $matches)) ? $matches[1] : esc_attr( get_option('default_album_cover') ); //'https://dl.dropboxusercontent.com/u/1273929/MUSIC/FEATURING/photo.jpg';
+	function _log($obj = '') {
+		error_log ( print_r ( $obj, 1 ) );
 	}
-	function fetch_audio_from_string($str) {		
-		# See http://en.wikipedia.org/wiki/Audio_file_format
-		# Adjust the list to your needs
-		// 	$suffixes = array (
-		// 		'3gp', 'aa3', 'aac', 'aiff', 'ape', 'at3', 'au',  'flac', 'm4a', 'm4b',
-		// 		'm4p', 'm4r', 'm4v', 'mpc',  'mp3', 'mp4', 'mpp', 'oga',  'ogg', 'oma',
-		// 		'pcm', 'tta', 'wav', 'wma',  'wv',
-		// 	);
-		//	$formats = join( '|', $suffixes );
-		$formats = "mp3";		
-		// $regex   = '~
-		// (([^"\'])|^)            # start of string or attribute delimiter -> match 1
-		// (https?                 # http or https
-		//     ://                 # separator
-		//     .+/                 # domain plus /
-		//     .+                  # file name at least one character
-		//     \.                  # a dot
-		//     (' . $formats . ')  # file suffixes
-		// )                       # complete URL -> match 3
-		// (([^"\'])|$)?           # end of string or attribute delimiter -> match 5
-		// ~imUx';                 # case insensitive, multi-line, ungreedy, commented
-		$regex   = '~(https?://.+/.+\.(' . $formats . '))(([^"\'])|$)?~imUx';
-		preg_match_all( $regex, $str, $matches, PREG_PATTERN_ORDER );
-		// error_log("*******************************");
-		// error_log(var_export($matches, TRUE));			
-		return $matches[0];
+	function _dump($obj = '') {
+		var_dump( print_r( $obj,1 ) );
+	}	
+	function _echo($obj = '') {
+		echo "<pre>" . ( print_r ( $obj, 1 ) ) . "</pre>";
 	}
-	function respond_ok($response){
+	function setTimezone($OSXPassword = null){		
+		$timezone = null;
+		switch(true){
+			//Linux (Tested on Ubuntu 14.04)
+			case(file_exists('/etc/timezone')):
+				$timezone = file_get_contents('/etc/timezone');
+				$timezone = trim($timezone); //Remove an extra newline char.
+				break;
 
+			case(date_default_timezone_get()):
+				$timezone = date_default_timezone_get();
+				break;
+				
+			case(ini_get('date.timezone')):
+				$timezone =  ini_get('date.timezone');
+				break;
+	
+			//Windows (Untested) (Thanks @Mugoma J. Okomba!)
+			case(strtoupper(substr(PHP_OS, 0, 3)) === 'WIN'):
+				$timezone = exec('tzutil /g');
+				break;
+	
+			//OSX (Tested on OSX 10.11 - El Capitan)
+			case(file_exists('/usr/sbin/systemsetup')):
+				if(!isset($OSXPassword)){
+					$OSXPassword = readline('**WARNING your input will appear on screen!**  Password for sudo: ');
+				}
+				$timezone = exec("echo '" . $OSXPassword ."' | sudo -S systemsetup -gettimezone");
+				$timezone = substr($timezone, 11);
+				break;
+		}		
+		if(!empty($timezone)){
+			date_default_timezone_set($timezone);
+		}		
+		return $timezone;
+	}		
+	function respond_ok($response){
 		// check if fastcgi_finish_request is callable
 		if (is_callable('fastcgi_finish_request')) {
 			echo $response;
@@ -180,9 +97,7 @@ trait _utilities {
 		}			
 
 		ignore_user_abort(true);
-
-		ob_start();
-		
+		ob_start();		
 		echo $response;
 		
 		$serverProtocol = filter_input(INPUT_SERVER, 'SERVER_PROTOCOL', FILTER_SANITIZE_STRING);
