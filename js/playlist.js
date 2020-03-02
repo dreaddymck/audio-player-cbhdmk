@@ -19,7 +19,6 @@ const playlist = {
 			let container 	= "#" + dmck_audioplayer.plugin_slug + " #" + elem.id;
 			let target 		= "." + elem.id + "-track";
 			let colors      = dmck_audioplayer.chart_colors ? JSON.parse(dmck_audioplayer.chart_colors) : [];
-			// let postids		= [];
 			if( jQuery( target ).length ){				
 				jQuery( container ).find( target ).each(function(index){
 					jQuery(this).attr("style","color:" + (colors[index] ? colors[index] : "") );
@@ -31,12 +30,10 @@ const playlist = {
 					playlist_control.globals.cfg.playing = true;
 				}).promise().done(function(){
 					// initialization - first element in playlist
-					jQuery( container ).find( target + ':first-child').addClass("active");
-					
+					jQuery( container ).find( target + ':first-child').addClass("active");					
 					/**
 					 * add rss link for this list
 					 */
-					// let param = { id: postids }
 					let param = {"tag" : elem.tag, "tag_slug__and" : elem.tag_slug__and }
 					let title = elem.title + " RSS";
                 	jQuery("<div />",{ class: "text-center" })
@@ -62,9 +59,7 @@ const playlist = {
 					.appendTo( jQuery('#' + elem.id) );
            		});
 			}
-			// console.log(postids);
 		}
-
 		playlist_config.forEach(elem => {
 			targets(elem);	
 		});				
