@@ -18,6 +18,8 @@
   "dependencies": {
     "bootstrap": "^4.4.1",
     "font-awesome": "^4.7.0",
-    "jquery.cookie": "^1.4.1"
+    "jquery": "^3.4.1",
+    "jquery.cookie": "^1.4.1",
+    "popper.js": "^1.16.1"
   }
 }
