@@ -33,9 +33,12 @@ trait _api {
 			case "get":
 				$response = _accesslog::accesslog_activity_get();
 				break;
-			case "get-today":
-				$response = _accesslog::accesslog_activity_get_today();
+			case "get-week":
+				$response = _accesslog::accesslog_activity_get_week();
 				break;
+			case "get-month":
+				$response = _accesslog::accesslog_activity_get_month();
+				break;				
 			case "wavform":
 				$response = _wavform::wavform();
 				break; 					                

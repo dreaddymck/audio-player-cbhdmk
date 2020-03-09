@@ -7,7 +7,13 @@ trait _accesslog {
     function __construct(){} 
     
     function accesslog_activity_purge(){        
-        $query = "DELETE FROM dmck_audio_log_reports where UNIX_TIMESTAMP( updated ) <  UNIX_TIMESTAMP( DATE_SUB(NOW(), INTERVAL 30 DAY) )";
+        $query = <<<EOF
+DELETE FROM 
+    dmck_audio_log_reports 
+WHERE 
+    updated <  DATE_SUB(NOW(), INTERVAL 1 YEAR)
+EOF;
+
         $results = $this->query( $query );        
         return;        
     }
@@ -35,20 +41,15 @@ EOF;
         $conn->close();
         return $results['data'];
     }
-    function accesslog_activity_get_today() {
+    function accesslog_activity_get_week() {
 
         $query = <<<EOF
-SELECT
-    json_unquote(data->'$.*.name') as name,
-    json_unquote(data->'$.*.time') as time,
-    json_unquote(data->'$.*.count') as count    
-FROM 
-    dmck_audio_log_reports 
+SELECT 
+    data FROM dmck_audio_log_reports  
 WHERE 
-    DATE(`updated`) = CURDATE()    
+    DATE(`updated`) > DATE_SUB(NOW(), INTERVAL 1 WEEK)    
 order by 
     updated DESC
-LIMIT 1        
 EOF;
 
         $conn = new mysqli(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME );
@@ -65,7 +66,33 @@ EOF;
 
         $conn->close();	
         return json_encode($results);	
-    }    
+    } 
+    function accesslog_activity_get_month() {
+
+        $query = <<<EOF
+SELECT 
+    data FROM dmck_audio_log_reports 
+WHERE 
+    DATE(`updated`) > DATE_SUB(NOW(), INTERVAL 1 MONTH)    
+order by 
+    updated DESC
+EOF;
+
+        $conn = new mysqli(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME );
+
+        if ($conn->connect_error) {
+            die("Connection failed: " . $conn->connect_error);
+        } 	
+        $resp       = $conn->query($query);
+        $results    = array();
+        if( $resp instanceof mysqli_result )
+        {
+            $results = mysqli_fetch_all($resp);  
+        } 
+
+        $conn->close();	
+        return json_encode($results);	
+    }       
     function accesslog_activity_put()
     {			
         if(!$this->filepath){ die("Missing access log location"); }	

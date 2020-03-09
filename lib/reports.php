@@ -68,9 +68,12 @@ class dmck_reports{
             case "get":
                 $response = $this->accesslog_activity_get();
                 break;
-            case "get-today":
-                $response = $this->accesslog_activity_get_today();
-                break;                
+            case "get-week":
+                $response = $this->accesslog_activity_get_week();
+                break;    
+            case "get-month":
+                $response = $this->accesslog_activity_get_month();
+                break;                                
             case "purge":
                 $response = $this->accesslog_activity_purge();
                 break;

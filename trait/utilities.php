@@ -69,13 +69,13 @@ trait _utilities {
 				break;
 	
 			//OSX (Tested on OSX 10.11 - El Capitan)
-			case(file_exists('/usr/sbin/systemsetup')):
-				if(!isset($OSXPassword)){
-					$OSXPassword = readline('**WARNING your input will appear on screen!**  Password for sudo: ');
-				}
-				$timezone = exec("echo '" . $OSXPassword ."' | sudo -S systemsetup -gettimezone");
-				$timezone = substr($timezone, 11);
-				break;
+			// case(file_exists('/usr/sbin/systemsetup')):
+			// 	if(!isset($OSXPassword)){
+			// 		$OSXPassword = readline('**WARNING your input will appear on screen!**  Password for sudo: ');
+			// 	}
+			// 	$timezone = exec("echo '" . $OSXPassword ."' | sudo -S systemsetup -gettimezone");
+			// 	$timezone = substr($timezone, 11);
+			// 	break;
 		}		
 		if(!empty($timezone)){
 			date_default_timezone_set($timezone);
