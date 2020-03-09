@@ -25,7 +25,7 @@ class dmck_reports{
     public $filename;
     function __construct() {
         if($this::parameters()) {
-            exit($this::run());
+            exit( $this->requests($this->options) );
         }
     }
     function parameters()
@@ -57,35 +57,6 @@ class dmck_reports{
             return true;
         }                    
         return false;
-    }
-    function run(){
-        $response = "{}";
-        switch ($this->options) {
-            case "put":
-                $this->accesslog_activity_purge();
-                $response = $this->accesslog_activity_put();
-                break;
-            case "get":
-                $response = $this->accesslog_activity_get();
-                break;
-            case "get-week":
-                $response = $this->accesslog_activity_get_week();
-                break;    
-            case "get-month":
-                $response = $this->accesslog_activity_get_month();
-                break;                                
-            case "purge":
-                $response = $this->accesslog_activity_purge();
-                break;
-            case "playlist-create":
-                $response = $this->playlist_create();
-                break;
-            case "wavform":
-                $response = _wavform::wavform();        
-                break;                                
-            default:
-        }
-        return $response;
     }
 }
 new dmck_reports();

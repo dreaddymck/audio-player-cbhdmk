@@ -10,10 +10,15 @@
 
 trait _utilities {
 
-	public $debug;
-	public $path;		
-	
-	function __construct(){}	
+	function upload(){
+		$response = array();
+		foreach($_FILES as $file){
+			$path = esc_attr( get_option('media_root_path') );
+			$path = preg_replace('{/$}', '', $path);
+			array_push($response, move_uploaded_file($file['tmp_name'], $path."/".basename($file['name'])));
+		}
+		return $response;
+	}			
 	function isSecure() {
 		return
 			(!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off')

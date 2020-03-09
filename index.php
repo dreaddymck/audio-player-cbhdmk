@@ -3,7 +3,7 @@
 Plugin Name: (DMCK) audio player
 Plugin URI: dreaddymck.com
 Description: Just another Wordpress audio player. This plugin will add the first mp3 link embedded in each active post content into a playlist. shortcode [dmck-audioplayer]
-Version: 1.0.40
+Version: 1.0.41
 Author: dreaddymck
 Author URI: dreaddymck.com
 License: GPL2
@@ -17,16 +17,15 @@ if (!class_exists("dmck_audioplayer")) {
 	require_once(plugin_dir_path(__FILE__)."trait/utilities.php");
 	require_once(plugin_dir_path(__FILE__)."trait/tables.php");
 	require_once(plugin_dir_path(__FILE__)."trait/cron.php");
-	require_once(plugin_dir_path(__FILE__)."trait/api.php");
 	require_once(plugin_dir_path(__FILE__)."trait/rss.php");
 	require_once(plugin_dir_path(__FILE__)."trait/requests.php");
 	class dmck_audioplayer {
+
 		use _accesslog;
 		use _wavform;
 		use _utilities;
 		use _tables;
 		use _cron;
-		use _api;
 		use _rss;
 		use _requests;
 
@@ -40,6 +39,11 @@ if (!class_exists("dmck_audioplayer")) {
 		public $plugin_url;
 		public $theme_url;
 		public $github_url				= "https://github.com/dreaddy/audio-player-cbhdmk";
+
+		public $debug					= false;
+		public $posts_per_page;
+		public $tag;
+		public $path;		
 
 		public $cron_name;
 		public $cron_jobs;
@@ -68,10 +72,24 @@ if (!class_exists("dmck_audioplayer")) {
 			add_action( 'admin_head', array($this, 'head_hook') );
 			// add_action( 'wp', array($this, 'cronstarter_activation'));
 			// add_action( $this->cron_name, array($this, 'wp_cron_functions')); 
+			add_action( 'rest_api_init', function () {
+				$namespace = $this->plugin_slug.'/v'.$this->plugin_version;
+				register_rest_route( $namespace,'api/(?P<option>[\w]+)' ,array(
+					'methods'   =>  WP_REST_Server::READABLE,
+					'callback'  =>  array($this, 'handle_requests'),
+					'args' => [ 'option' ],										
+				));	
+				register_rest_route( $namespace,'upload' ,array(
+					'methods'   =>  WP_REST_Server::CREATABLE,
+					'callback'  =>  array($this, 'upload'),
+					'permission_callback' => function() { return current_user_can('edit_posts'); }						
+				));						
+			});			
 			add_filter( 'get_the_excerpt', array($this,'the_exerpt_filter'));
 			add_filter( 'the_content', array($this,'content_toggle_https'));			
 			add_filter( 'cron_schedules', array($this, 'cron_add_minute'));			
 			// require_once(plugin_dir_path(__FILE__).'playlist-api.php' );
+			
 		}
 		function _init_actions(){
 			add_shortcode( $this->shortcode, array( $this, 'include_file') );

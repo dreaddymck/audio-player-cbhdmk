@@ -3,9 +3,7 @@
 trait _accesslog {
 
     public $filepath;		
-    
-    function __construct(){} 
-    
+        
     function accesslog_activity_purge(){        
         $query = <<<EOF
 DELETE FROM 
@@ -113,6 +111,7 @@ EOF;
             $data   = "";
             $cnt    = 0;
             $arr    = array();
+            $results = "";
             try {
                 while (!feof($handle)) {
         
@@ -122,7 +121,7 @@ EOF;
                         $str = $parts[1];
                         //TODO: if match filter vs published post.
                         if ( preg_match('/(('. preg_quote($media_root_url, '/').'.*mp3))/i', $str)){	
-                            echo($str);
+                            // echo($str);
                             preg_match('/\[(.*)\]/', $parts[0], $date_array);
                             $date       = $date_array[1]; 
                             $new_date   = strtotime( $date ); 
@@ -152,7 +151,7 @@ EOF;
                     $query = "insert into dmck_audio_log_reports (data) values ( '" . $json . "' )";			
                     $results = $this->query( $query );
                 }	
-                return;
+                return json_encode($results);
         
             } catch (Exception $e) {
                 echo 'Caught exception: ', $e->getMessage(), "\n";

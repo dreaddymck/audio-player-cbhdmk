@@ -1,7 +1,42 @@
 <?php
 trait _requests {
   
-    function __construct(){}
+	function __construct(){}
+	function handle_requests($data){ return $this->requests($data); }	
+    function requests($data){		
+		$response = "{}";
+		$opt = $data;
+		if( is_object($opt) ){ $opt = $data['option']; }		
+        switch ($opt) {
+			case "search":
+				$response = $this->param_request($data);
+				break;				
+            case "put":
+                $this->accesslog_activity_purge();
+                $response = $this->accesslog_activity_put();
+                break;
+            case "get":
+                $response = $this->accesslog_activity_get();
+                break;
+            case "get-week":
+                $response = $this->accesslog_activity_get_week();
+                break;    
+            case "get-month":
+                $response = $this->accesslog_activity_get_month();
+                break;                                
+            case "purge":
+                $response = $this->accesslog_activity_purge();
+                break;
+            case "playlist-create":
+                $response = $this->playlist_create();
+                break;
+            case "wavform":
+                $response = _wavform::wavform();        
+                break;                                
+            default:
+        }
+        return $response;
+    }	
 	function obj_request($obj) {
 		global $wpdb;		
 		$args = array(
