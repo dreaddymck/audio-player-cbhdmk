@@ -27,9 +27,6 @@ trait _requests {
             case "purge":
                 $response = $this->accesslog_activity_purge();
                 break;
-            case "playlist-create":
-                $response = $this->playlist_create();
-                break;
             case "wavform":
                 $response = _wavform::wavform();        
                 break;                                
@@ -76,16 +73,10 @@ trait _requests {
 	}	
 	function query($sql){
 		$conn = new mysqli(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME );
-		if ($conn->connect_error) {
-			die("Connection failed: " . $conn->connect_error);
-		}
+		if ($conn->connect_error) { die("Connection failed: " . $conn->connect_error); }
 		$resp       = $conn->query($sql);
-		$results    = array();        
-
-		if( $resp instanceof mysqli_result )
-		{
-			$results = mysqli_fetch_all($resp);  
-		}
+		$results    = array();
+		if( $resp instanceof mysqli_result ){ $results = mysqli_fetch_all($resp); }
 		$conn->close();
 		return ($results);	
 	}

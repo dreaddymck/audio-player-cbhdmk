@@ -34,7 +34,8 @@ const access_log = {
                 return;                            
             }).promise().done(function(){
                 let elem = container.find( target + ':first-child').attr("audiourl");
-                if(! elem.length){ return; }
+                if(!elem){ return; }
+                if(!elem.length){ return; }
                 access_log.active( elem );
                 /**
                  * add rss link for this list

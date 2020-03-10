@@ -2,12 +2,15 @@
 /*
 Plugin Name: (DMCK) audio player
 Plugin URI: dreaddymck.com
-Description: Just another Wordpress audio player. This plugin will add the first mp3 link embedded in each active post content into a playlist. shortcode [dmck-audioplayer]
-Version: 1.0.41
+Description: Just another audio player, playlist renderer. This plugin will create playlists from the first mp3 link found in published post. shortcode [dmck-audioplayer]
+Version: 1.0.42
 Author: dreaddymck
 Author URI: dreaddymck.com
 License: GPL2
 
+TODO: Undo ALTER dmck_audio table add colums count, time, name - might not be necessary
+TODO: check to see if insert on duplicate update is better option
+TODO: render week, month, request activity per item
 */
 // error_reporting(E_ALL);
 // ini_set("display_errors","On");
@@ -33,7 +36,7 @@ if (!class_exists("dmck_audioplayer")) {
 		public $plugin_slug				= 'dmck_audioplayer';
 		public $plugin_settings_group 	= 'dmck-audioplayer-settings-group';
 		public $shortcode				= "dmck-audioplayer";
-		public $adminpreferences 		= array('chart_colors','favicon','default_album_cover', 'moreinfo', 'facebook_app_id','access_log','media_root_path','media_root_url','playlist_config');
+		public $adminpreferences 		= array('drop_table_on_inactive','chart_colors','favicon','default_album_cover', 'moreinfo', 'facebook_app_id','access_log','media_root_path','media_root_url','playlist_config');
 		public $userpreferences 		= array('userpreferences');	
 		public $plugin_version;
 		public $plugin_url;
@@ -52,6 +55,7 @@ if (!class_exists("dmck_audioplayer")) {
 		function __construct() {		
 			$this->setTimezone();
 			$this->set_plugin_version();
+			
 			$this->plugin_title = '(DMCK)Audio-ver:' . $this->plugin_version;
 			$this->plugin_url 	= plugins_url("/",__FILE__);
 			$this->theme_url	= dirname( get_bloginfo('stylesheet_url') );			
@@ -86,9 +90,8 @@ if (!class_exists("dmck_audioplayer")) {
 				));						
 			});			
 			add_filter( 'get_the_excerpt', array($this,'the_exerpt_filter'));
-			add_filter( 'the_content', array($this,'content_toggle_https'));			
-			add_filter( 'cron_schedules', array($this, 'cron_add_minute'));			
-			// require_once(plugin_dir_path(__FILE__).'playlist-api.php' );
+			add_filter( 'the_content', array($this,'content_handler'));			
+			add_filter( 'cron_schedules', array($this, 'cron_add_minute'));
 			
 		}
 		function _init_actions(){

@@ -28,67 +28,43 @@ LIMIT 1
 EOF;
         
         $conn = new mysqli(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME );
-
-        if ($conn->connect_error) {
-            die("Connection failed: " . $conn->connect_error);
-        } 
+        if ($conn->connect_error) { die("Connection failed: " . $conn->connect_error); } 
         $resp = $conn->query($query);
-        if( $resp instanceof mysqli_result ) {
-            $results = mysqli_fetch_assoc($resp);  
-        } 
+        if( $resp instanceof mysqli_result ) { $results = mysqli_fetch_assoc($resp); } 
         $conn->close();
         return $results['data'];
     }
-    function accesslog_activity_get_week() {
+    function accesslog_activity_get_week($name="") {
 
+        $filter = "";
+        if($name){ $filter = " AND json_unquote(data->'$.*.name') REGEXP'$name'"; }
         $query = <<<EOF
 SELECT 
     data FROM dmck_audio_log_reports  
 WHERE 
-    DATE(`updated`) > DATE_SUB(NOW(), INTERVAL 1 WEEK)    
+    DATE(`updated`) > DATE_SUB(NOW(), INTERVAL 1 WEEK)
+    {$filter}    
 order by 
     updated DESC
 EOF;
 
-        $conn = new mysqli(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME );
-
-        if ($conn->connect_error) {
-            die("Connection failed: " . $conn->connect_error);
-        } 	
-        $resp       = $conn->query($query);
-        $results    = array();
-        if( $resp instanceof mysqli_result )
-        {
-            $results = mysqli_fetch_all($resp);  
-        } 
-
-        $conn->close();	
+        $results = $this->query($query);
         return json_encode($results);	
     } 
-    function accesslog_activity_get_month() {
-
+    function accesslog_activity_get_month($name="") {
+        $filter = "";
+        if($name){ $filter = " AND json_unquote(data->'$.*.name') REGEXP'$name'"; }
         $query = <<<EOF
 SELECT 
     data FROM dmck_audio_log_reports 
 WHERE 
-    DATE(`updated`) > DATE_SUB(NOW(), INTERVAL 1 MONTH)    
+    DATE(`updated`) > DATE_SUB(NOW(), INTERVAL 1 MONTH)
+    {$filter}    
 order by 
     updated DESC
 EOF;
 
-        $conn = new mysqli(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME );
-
-        if ($conn->connect_error) {
-            die("Connection failed: " . $conn->connect_error);
-        } 	
-        $resp       = $conn->query($query);
-        $results    = array();
-        if( $resp instanceof mysqli_result )
-        {
-            $results = mysqli_fetch_all($resp);  
-        } 
-
-        $conn->close();	
+        $results = $this->query($query);	
         return json_encode($results);	
     }       
     function accesslog_activity_put()
@@ -98,10 +74,8 @@ EOF;
 
         if ( file_exists( $this->filepath ) ) {			
             try{   
-                $handle         = fopen($this->filepath,'r');
-                if ( !$handle ) { 
-                    throw new Exception('File open failed: ' . $this->filepath);
-                } 
+                $handle = fopen($this->filepath,'r');
+                if ( !$handle ) { throw new Exception('File open failed: ' . $this->filepath); } 
             }
             catch (Exception $e) {
                 echo 'Caught exception: ', $e->getMessage(), "\n";
@@ -112,44 +86,49 @@ EOF;
             $cnt    = 0;
             $arr    = array();
             $results = "";
+            $regex = '/^(\S+) (\S+) (\S+) \[([^:]+):(\d+:\d+:\d+) ([^\]]+)\] \"(\S+) (.*?) (\S+)\" (\S+) (\S+) "([^"]*)" "([^"]*)"$/';
+
             try {
-                while (!feof($handle)) {
-        
-                    $dd = fgets($handle);				
-                    $parts = explode('"', $dd);
-                    if( isset($parts[1]) ) {
-                        $str = $parts[1];
-                        //TODO: if match filter vs published post.
-                        if ( preg_match('/(('. preg_quote($media_root_url, '/').'.*mp3))/i', $str)){	
-                            // echo($str);
-                            preg_match('/\[(.*)\]/', $parts[0], $date_array);
-                            $date       = $date_array[1]; 
-                            $new_date   = strtotime( $date ); 
-                            $str = preg_replace('/GET/', "", $str);
-                            $str = preg_replace('/HTTP.*/', "", $str);                   
-                            $str = trim($str);			
-                            $tmparray = explode("/", $str );			
-                            $str = $tmparray[ count($tmparray) - 1 ];
-                            
-                            if( isset( $arr[$str] ) )
-                            {                            
-                                $arr[$str]["count"] += 1;		
-                                $old_date           = $arr[$str]["time"];
-                                $arr[$str]["time"]  = $old_date > $new_date ? $old_date : $new_date;
-                            }
-                            else
-                            {
-                                $arr[$str] = array( "count" => 1, "time" => $new_date, "name" => $str );
-                            }
+                while (!feof($handle)) {        
+                    
+                    $dd = fgets($handle);
+                    
+                    if ( preg_match('/(('. preg_quote($media_root_url, '/').'.*mp3))/i', $dd)){
+                        
+                        preg_match($regex , urldecode($dd), $matches);
+                        // echo( urldecode($dd) ."\n\r");
+                        // echo( print_r($matches,1) );
+                        $name = basename($matches[8]);
+                        $time = $matches[4] .":".$matches[5]." ".$matches[6];
+                        $time = strtotime( $time );
+                        $referer = $matches[1]." ".$matches[2]." ".$matches[3];
+
+                        if( isset( $arr[$name] ) )
+                        {                            
+                            $arr[$name]["count"] += 1;		
+                            $arr[$name]["time"]  =  $time ? $time : $arr[$name]["time"];
+                            $arr[$name]["referer"]  =  $referer;
                         }
-                    } 
+                        else
+                        {
+                            $arr[$name] = array( 
+                                "count" => 1, 
+                                "time" => $time, 
+                                "name" => $name, 
+                                "referer" => $referer );
+                        }
+                    }
                 }        
         
                 fclose($handle);
                 if(!empty($arr)){
-                    $json = json_encode($arr,JSON_FORCE_OBJECT);			
-                    $query = "insert into dmck_audio_log_reports (data) values ( '" . $json . "' )";			
-                    $results = $this->query( $query );
+                    $json = json_encode($arr,JSON_FORCE_OBJECT);                                        
+                    $results = $this->query( "select id from dmck_audio_log_reports where DATE(`updated`) = CURDATE()" );
+                    if(empty($results)){
+                        $results = $this->query( "insert into dmck_audio_log_reports (data) values ( '" . $json . "' )" );
+                    }else{
+                        $results = $this->query( "UPDATE dmck_audio_log_reports SET data = '" . $json . "' WHERE id=".$results[0][0]  );
+                    }
                 }	
                 return json_encode($results);
         

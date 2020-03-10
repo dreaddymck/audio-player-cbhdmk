@@ -33,6 +33,10 @@
 	        <input type="text" name="access_log"  class="form-control" value="<?php echo esc_attr( get_option('access_log') ); ?>">
 		</div>
 		<div>	
+			<label>Drop <?php echo $this->plugin_title ?> tables when deactivated</label>
+	        <input type="checkbox" name="drop_table_on_inactive"  class="form-control" value="1" <?php if (1 == get_option('drop_table_on_inactive')) echo 'checked="checked"'; ?> >
+		</div>		
+		<div>	
 			<label><?php _e('Top 10: Chart colors array ( <small>Example <code>["#ffffff","#F0F0F0","#E0E0E0","#D0D0D0","#C0C0C0","#B0B0B0","#A0A0A0","#909090","#808080","#707070"]</code></small> )'); ?></label>
 	        <input type="text" name="chart_colors"  class="form-control" value="<?php echo esc_attr( get_option('chart_colors') ); ?>">
 		</div>					

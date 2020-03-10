@@ -1,19 +1,17 @@
-# (DMCK) audio player
+# (DMCK) audio presenter
 
-== Work In Progress ==
+## Work In Progress
 
-Just another html5 mp3 audio player based on html5 audio playlist tutorial:
+Just another audio player, playlist creation tool. Designed to grab the first mp3 link in published posts then render a tabbed playlist.
+Playlists are currently defined by json structure and If the access_log is available, a top 10 playlist can be parsed the tab also.
+
+based on this html5 audio playlist tutorial:
 https://www.script-tutorials.com/html5-audio-player-with-playlist/
-
-This plugin will generate a playlist from the the first mp3 link found in public posts.
-Filter by tags availble.
 
 shortcode example:
 [dmck-audioplayer]
 
-playlists will be generated from the json structure created in the admin playlist tab.
-
-== Installation ==
+## Installation
 
 1. Upload plugin folder to `/wp-content/plugins/` directory
 2. Activate the plugin through the 'Plugins' menu in WordPress
@@ -21,28 +19,22 @@ playlists will be generated from the json structure created in the admin playlis
 4. Add shortcode to pages or posts as needed.
 5. something something work in progress
 
-== Public resources included  ==
+## Notes
+
+Regarding all version before 1.0.42:
+Drop the database with plugin deactivate or remove duplicates using example SQL query below (This option has not optimized and takes a long time ).
 
 ```bash
 
-MIT License
-Copyright (c) 2016 MaximAL
+DELETE t1 FROM dmck_audio_log_reports t1 
+INNER JOIN dmck_audio_log_reports t2 
+WHERE t1.id < t2.id AND DATE_FORMAT(t1.updated, '%m-%d-%Y') = DATE_FORMAT(t2.updated, '%m-%d-%Y')
 ```
 
-```bash
-
-* H3K | Tiny File Manager V2.4.1
-* CCP Programmers | ccpprogrammers@gmail.com
-* https://tinyfilemanager.github.io
-```
-
-== Notes ==
-
-This plugin creates table dmck_audio_log_reports upon activation.
-This plugin drops table dmck_audio_log_reports upon deactivation.
-table dmck_audio_log_reports stores the top 10 data extracted from the system access_log.
-A system cron task will be suggested in admin for manual setup.
-Please remember to remove the associated system cron task if enabled.
+Creates custom table dmck_audio_log_reports when activated.
+Drops table dmck_audio_log_reports when deactivated AND the admin option to drop custom table is checked.
+dmck_audio_log_reports stores used to render top 10 and charts.
+A cron string will be used to create data. See admin panel during setup. Please remember to remove the cron task when deactivated.
 
 Native create wavforms script (Requires ffmpeg Installation on server).
 
@@ -68,6 +60,26 @@ echo "end"
 exit
 ```
 
-== screenshot ==
+## Dependencies
+
+```javascript
+
+"bootstrap": "^4.4.1",
+"font-awesome": "^4.7.0",
+"jquery": "^3.4.1",
+"jquery.cookie": "^1.4.1",
+"popper.js": "^1.16.1"
+
+"maximal/audio-waveform": "~1.0"
+```
+
+```bash
+
+* H3K | Tiny File Manager V2.4.1
+* CCP Programmers | ccpprogrammers@gmail.com
+* https://tinyfilemanager.github.io
+```
+
+## Screenshot
 
 ![alt tag](https://github.com/dreaddymck/audio-player-cbhdmk/blob/master/screenshot.png?raw=true)
