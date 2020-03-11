@@ -43,7 +43,7 @@ EOF;
 SELECT 
     data FROM dmck_audio_log_reports  
 WHERE 
-    DATE(`updated`) > DATE_SUB(NOW(), INTERVAL $num WEEK)
+    DATE(`updated`) >= DATE_SUB(NOW(), INTERVAL $num WEEK)
     {$filter}    
 order by 
     updated ASC
@@ -59,7 +59,7 @@ EOF;
 SELECT 
     data FROM dmck_audio_log_reports 
 WHERE 
-    DATE(`updated`) > DATE_SUB(NOW(), INTERVAL $num MONTH)
+    DATE(`updated`) >= DATE_SUB(NOW(), INTERVAL $num MONTH)
     {$filter}    
 order by 
     updated ASC
