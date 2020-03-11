@@ -1,7 +1,7 @@
 "use strict";
 
 const playlist = {
-	powered_by: `| Some <a href="https://github.com/dreaddymck/audio-player-cbhdmk" target="_blank">Dreaddymck audio plugin</a>`,	
+	powered_by: `| A crappy <a href="https://github.com/dreaddymck/audio-player-cbhdmk" target="_blank">Dreaddymck plugin</a>`,	
 	init: function(){ this.defer( this.setup ) },		
 	defer: function (method) {
 		if (window.jQuery) {
@@ -63,19 +63,6 @@ const playlist = {
 		playlist_config.forEach(elem => {
 			targets(elem);	
 		});				
-	},
-	cookie : {
-		name: dmck_audioplayer.plugin_slug + "-cookie",
-		set : function(obj){
-			let cookie = playlist.cookie.get() 
-			if(cookie){
-                cookie = JSON.parse(cookie);
-                let keys = Object.keys(obj);                
-                keys.forEach(key => { cookie[key] = obj[key]; });				
-			}else{ cookie = obj; }
-            jQuery.cookie( playlist.cookie.name, JSON.stringify(cookie), { expires: 30 })
-		},
-		get : function(){ return jQuery.cookie(playlist.cookie.name); }
 	}, 
 }
 

@@ -3,7 +3,7 @@
 Plugin Name: (DMCK) audio player
 Plugin URI: dreaddymck.com
 Description: Just another audio player, playlist renderer. This plugin will create playlists from the first mp3 link found in published post. shortcode [dmck-audioplayer]
-Version: 1.0.42
+Version: 1.0.43
 Author: dreaddymck
 Author URI: dreaddymck.com
 License: GPL2
@@ -141,23 +141,20 @@ if (!class_exists("dmck_audioplayer")) {
 				register_setting( $this->plugin_settings_group, $settings );
 			}
 		}
-		function admin_menu()
-		{
+		function admin_menu(){
 			$this->settings_page = add_options_page(
-					$this->plugin_title,
-					$this->plugin_title,
-					'read',
-					$this->plugin_slug,
-					array( $this, 'admin_menu_include')
+				$this->plugin_title,
+				$this->plugin_title,
+				'read',
+				$this->plugin_slug,
+				array( $this, 'admin_menu_include')
 			);
 		}
 		function admin_scripts($hook_suffix) {			
 			if ( $this->settings_page == $hook_suffix ) {
-				$this->shared_scripts();
-				
+				$this->shared_scripts();				
 				wp_enqueue_style( 'admin.css',  $this->plugin_url . "admin/admin.css", array(), $this->plugin_version);
-				wp_enqueue_script( 'marked.min.js', $this->plugin_url . 'js/marked.min.js', array('jquery'), $this->plugin_version, true );
-				
+				wp_enqueue_script( 'marked.min.js', $this->plugin_url . 'js/marked.min.js', array('jquery'), $this->plugin_version, true );				
 				wp_enqueue_script( 'admin-functions.js', $this->plugin_url . 'admin/admin-functions.js', array('jquery'), $this->plugin_version, true );
 				wp_enqueue_script( 'admin.js', $this->plugin_url . 'admin/admin.js', array('jquery'), $this->plugin_version, true );				
 				$this->localize_vars();
@@ -172,7 +169,9 @@ if (!class_exists("dmck_audioplayer")) {
 			wp_enqueue_script( 'playlist-control.js', $this->plugin_url . 'js/playlist-control.js', array('jquery'), $this->plugin_version, true );
 			wp_enqueue_script( 'playlist.js', $this->plugin_url . 'js/playlist.js', array('jquery'), $this->plugin_version, true );
 			wp_enqueue_script( 'Chart.bundle.js', $this->plugin_url . 'js/Chart.bundle.js', array('jquery'), $this->plugin_version, true );
-			wp_enqueue_script( 'index.js', $this->plugin_url . 'js/index.js', array('jquery'), $this->plugin_version, true );			
+			wp_enqueue_script( 'index.js', $this->plugin_url . 'js/index.js', array('jquery'), $this->plugin_version, true );	
+			wp_enqueue_script( 'access_log.js', $this->plugin_url . 'js/access_log.js', array('jquery'), $this->plugin_version, true );
+			wp_enqueue_script( 'charts-pks.js', $this->plugin_url . 'js/charts-pks.js', array('jquery'), $this->plugin_version, true );			
 			$this->localize_vars();
 		}
 		function shared_scripts(){
@@ -180,8 +179,7 @@ if (!class_exists("dmck_audioplayer")) {
 			wp_enqueue_style( 'font-awesome.min.css',  $this->plugin_url . "/node_modules/font-awesome/css/font-awesome.min.css", array(), $this->plugin_version);
 			wp_enqueue_script( 'functions.js', $this->plugin_url . 'js/functions.js', array('jquery'), $this->plugin_version, true );	
 			wp_enqueue_style( 'bootstrap.css',  $this->plugin_url . "node_modules/bootstrap/dist/css/bootstrap.min.css", array(), $this->plugin_version);		
-			wp_enqueue_script( 'bootstrap.js', $this->plugin_url . 'node_modules/bootstrap/dist/js/bootstrap.min.js', array( 'jquery' ), '', true );
-			wp_enqueue_script( 'access_log.js', $this->plugin_url . 'js/access_log.js', array('jquery'), $this->plugin_version, true );			
+			wp_enqueue_script( 'bootstrap.js', $this->plugin_url . 'node_modules/bootstrap/dist/js/bootstrap.min.js', array( 'jquery' ), '', true );					
 		}
 		function localize_vars(){
 			global $post,$wp_query;

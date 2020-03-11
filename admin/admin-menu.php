@@ -25,11 +25,13 @@
 	        <input type="text" name="media_root_path"  class="form-control" value="<?php echo esc_attr( get_option('media_root_path') ); ?>">
 		</div>
 		<div>	
-			<label><?php _e('Media folder url path ( <small>Path after <code>'.get_site_url().'</code> that leads to media folder</small> )'); ?></label>
+			<label><?php _e('Media folder url path'); ?></label>
+			( <small>Path after <code><?php echo get_site_url() ?></code> that leads to media folder</small> )
 	        <input type="text" name="media_root_url"  class="form-control" value="<?php echo esc_attr( get_option('media_root_url') ); ?>">
 		</div>
 		<div>	
-			<label><?php _e('Top 10: Access Log location<br /><small>Add the following to cron: <code>$(which php) '. plugin_dir_path(__DIR__) .'lib/reports.php put</code>'); ?></small></label>
+			<label><?php _e('Access Log location')?></label>
+			(<small>Add the following to cron: <code>$(which php) <?php echo plugin_dir_path(__DIR__)?>lib/reports.php put</code>'); ?></small>)
 	        <input type="text" name="access_log"  class="form-control" value="<?php echo esc_attr( get_option('access_log') ); ?>">
 		</div>
 		<div>	

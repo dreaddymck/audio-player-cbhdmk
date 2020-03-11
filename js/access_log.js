@@ -23,9 +23,9 @@ const access_log = {
                  * top_10_json is currently embeded in html - playlist-layout.php
                  * overriding date values with javascript created date value for reasons
                  */
+                if(typeof top_10_json === 'undefined'){return;}
                 let date = new Date(top_10_json[index].time*1000 ).toLocaleString();
-                jQuery(this).find("td").next().attr("title",date);               
-               
+                jQuery(this).find("td").next().attr("title",date);
             }).click(function(e){
                 playlist_control.stopAudio();	
                 jQuery(playlist_control.globals.cfg.duration).slider('option', 'min', 0);
@@ -63,52 +63,9 @@ const access_log = {
                         "text": title
                     })                
                 )                
-                .appendTo( jQuery('#top-10') ); 
-                /**
-                 * top_10_json is currently embeded in html - playlist-layout.php
-                 */
-                access_log.reports.top_requests_chart(top_10_json);                 
+                .appendTo( jQuery('#top-10') );                 
             });            
         },
-        top_requests_chart: function(arr){
-            let labels = [];
-            let data = [];
-            let colors = dmck_audioplayer.chart_colors ? JSON.parse(dmck_audioplayer.chart_colors) : [];
-            for( let x in arr ){
-                labels.push( arr[x].title ? unescape(arr[x].title.toUpperCase()) : unescape(arr[x].name) );
-                data.push(arr[x].count)                
-            }
-            jQuery("#top-10").append(`<canvas id="top-requests-chart" width="auto" height="auto"></canvas>`);            
-            let ctx = jQuery("#top-requests-chart");
-            new Chart(ctx, {
-                type: 'horizontalBar',
-                data: {
-                    labels: labels,
-                    datasets: [{
-                        label: '# of Requests',
-                        data: data,
-                        borderWidth: 1,
-                        backgroundColor: colors,
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    legend: {
-                        labels: {
-                            fontColor: "#ffffff",
-                        }
-                    },                    
-                    scales: {
-                        yAxes: [{
-                            ticks: {
-                                beginAtZero:true,
-                                fontColor: "#ffffff",
-                            }
-                        }],                      
-                    }
-                }
-            }); 
-        }
     },
     active: function(url){
         jQuery(".top-requests-data tr").each(function(){

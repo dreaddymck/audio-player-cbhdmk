@@ -16,11 +16,9 @@ const playlist_control = {
 			song: null,
 		},
 		container: "",
-		target: "",
-		
+		target: "",		
 	},
 	init: function () {
-
 		playlist_control.popupcontrol();
 		playlist_control.globals.cfg.playing = false;
 		playlist_control.globals.cfg.song = null;
@@ -41,9 +39,7 @@ const playlist_control = {
 			min: 0,
 			max: 10,
 			start: function (event, ui) {},
-			slide: function (event, ui) {
-				playlist_control.globals.cfg.song.currentTime = ui.value
-			},
+			slide: function (event, ui) { playlist_control.globals.cfg.song.currentTime = ui.value },
 			stop: function (event, ui) {}
 		});
 		/**
@@ -54,7 +50,6 @@ const playlist_control = {
 			playlist_control.playAudio()
 			let id = (jQuery(playlist_control.globals.container).attr("id") || jQuery(playlist_control.globals.container).parents(".tab-pane").attr("id"));
 			jQuery('#info-tabs a[href="#' + id + '"]').tab('show');
-			// play = true
 			playlist_control.globals.cfg.playing = true
 		});
 		jQuery(playlist_control.globals.cfg.title).click(function (e) {
@@ -104,9 +99,7 @@ const playlist_control = {
 		});
 		jQuery('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
 			let target = jQuery(e.target).attr("href") // activated tab
-			playlist.cookie.set({
-				"tab": target
-			});
+			_functions.cookie.set({ "tab": target });
 		});
 	},
 	popupcontrol: function(){
@@ -148,7 +141,6 @@ const playlist_control = {
 				
 			}		
 		});	
-
 	},
 	initAudio: function (elem) {
 
@@ -207,11 +199,7 @@ const playlist_control = {
 				playlist_control.playAudio()
 			}
 		});
-		// playlist_control.globals.container.children().filter(function(){
-		// 	return( jQuery(this).hasClass(playlist_control.globals.target) && this.id !== elem[0].id)
-		// }).removeClass('active');
 		jQuery(".dmck-audio-playlist-track").removeClass('active');	
-
 		playlist_control.globals.container.children().filter(function(){
 			return( jQuery(this).hasClass(playlist_control.globals.target) && this.id == elem[0].id)
 		}).addClass('active');

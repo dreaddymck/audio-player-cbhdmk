@@ -1,7 +1,6 @@
 "use strict";
 
-jQuery(document).ready(function () {  
-
+jQuery(document).ready(function () {
     /**
      * 1st initialize playlist control
      * then initialize dependencies
@@ -10,7 +9,7 @@ jQuery(document).ready(function () {
     playlist_control.init();
 
 	let dmck_audioplayer_end = function() {
-		let cookie = playlist.cookie.get();
+		let cookie = _functions.cookie.get();
 		if (cookie) {
 			cookie = JSON.parse(cookie);
 			if (typeof cookie.tab !== 'undefined') {
@@ -36,14 +35,14 @@ jQuery(document).ready(function () {
             p2
         ]
     ).then(function() {
-
+        charts_pkg.top_requests_chart();
+        charts_pkg.post_chart();
         dmck_audioplayer_end();
         jQuery(".site-info").append( playlist.powered_by );
         if(dmck_audioplayer.autoplay){
             if( jQuery('audio')[0] ){ jQuery('audio')[0].load().play(); }
         }        
-    }); 
-
+    });
 });
 
 

@@ -13,13 +13,6 @@ create table IF NOT EXISTS dmck_audio_log_reports (
 
 EOF;
         $res = _requests::query($sql);
-
-        // $res = _requests::query("SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE table_name = 'dmck_audio_log_reports' AND column_name = 'name'");
-        // if(empty($res)){            
-        //     $res = _requests::query("ALTER TABLE dmck_audio_log_reports ADD COLUMN name varchar(250) AFTER id");
-        //     $res = _requests::query("ALTER TABLE dmck_audio_log_reports ADD COLUMN count INT AFTER name");
-        //     $res = _requests::query("ALTER TABLE dmck_audio_log_reports ADD COLUMN time TIMESTAMP DEFAULT CURRENT_TIMESTAMP AFTER count");            
-        // }        
     } 
     function _tables_drop(){
 

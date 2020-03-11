@@ -2,6 +2,9 @@
     /* 	width: 800px; */
     margin: 0 auto;
 }
+.admin-container label {
+    font-variant: all-petite-caps;
+}
 
 ul.tabs {
     margin: 0px;

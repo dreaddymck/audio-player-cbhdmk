@@ -34,7 +34,7 @@ EOF;
         $conn->close();
         return $results['data'];
     }
-    function accesslog_activity_get_week($name="") {
+    function accesslog_activity_get_week($name="",$num=1) {
 
         $filter = "";
         if($name){ $filter = " AND json_unquote(data->'$.*.name') REGEXP'$name'"; }
@@ -42,30 +42,30 @@ EOF;
 SELECT 
     data FROM dmck_audio_log_reports  
 WHERE 
-    DATE(`updated`) > DATE_SUB(NOW(), INTERVAL 1 WEEK)
+    DATE(`updated`) > DATE_SUB(NOW(), INTERVAL $num WEEK)
     {$filter}    
 order by 
-    updated DESC
+    updated ASC
 EOF;
 
         $results = $this->query($query);
-        return json_encode($results);	
+        return $results;	
     } 
-    function accesslog_activity_get_month($name="") {
+    function accesslog_activity_get_month($name="", $num=1) {
         $filter = "";
         if($name){ $filter = " AND json_unquote(data->'$.*.name') REGEXP'$name'"; }
         $query = <<<EOF
 SELECT 
     data FROM dmck_audio_log_reports 
 WHERE 
-    DATE(`updated`) > DATE_SUB(NOW(), INTERVAL 1 MONTH)
+    DATE(`updated`) > DATE_SUB(NOW(), INTERVAL $num MONTH)
     {$filter}    
 order by 
-    updated DESC
+    updated ASC
 EOF;
 
         $results = $this->query($query);	
-        return json_encode($results);	
+        return $results;	
     }       
     function accesslog_activity_put()
     {			
@@ -81,9 +81,7 @@ EOF;
                 echo 'Caught exception: ', $e->getMessage(), "\n";
                 return;
             }
-            $requestsCount  = 0;
-            $data   = "";
-            $cnt    = 0;
+
             $arr    = array();
             $results = "";
             $regex = '/^(\S+) (\S+) (\S+) \[([^:]+):(\d+:\d+:\d+) ([^\]]+)\] \"(\S+) (.*?) (\S+)\" (\S+) (\S+) "([^"]*)" "([^"]*)"$/';
@@ -123,9 +121,9 @@ EOF;
                 fclose($handle);
                 if(!empty($arr)){
                     $json = json_encode($arr,JSON_FORCE_OBJECT);                                        
-                    $results = $this->query( "select id from dmck_audio_log_reports where DATE(`updated`) = CURDATE()" );
+                    $results = $this->query( "SELECT id FROM dmck_audio_log_reports WHERE DATE(`updated`) = CURDATE()" );
                     if(empty($results)){
-                        $results = $this->query( "insert into dmck_audio_log_reports (data) values ( '" . $json . "' )" );
+                        $results = $this->query( "INSERT INTO dmck_audio_log_reports (data) VALUES ( '" . $json . "' )" );
                     }else{
                         $results = $this->query( "UPDATE dmck_audio_log_reports SET data = '" . $json . "' WHERE id=".$results[0][0]  );
                     }

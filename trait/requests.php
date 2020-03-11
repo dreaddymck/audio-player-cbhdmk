@@ -78,7 +78,7 @@ trait _requests {
 		$results    = array();
 		if( $resp instanceof mysqli_result ){ $results = mysqli_fetch_all($resp); }
 		$conn->close();
-		return ($results);	
+		return $results;	
 	}
 	function top_count_get(){
 		/**
