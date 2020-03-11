@@ -3,7 +3,7 @@
 Plugin Name: (DMCK) audio player
 Plugin URI: dreaddymck.com
 Description: Just another audio player, playlist renderer. This plugin will create playlists from the first mp3 link found in published post. shortcode [dmck-audioplayer]
-Version: 1.0.43
+Version: 1.0.44
 Author: dreaddymck
 Author URI: dreaddymck.com
 License: GPL2
@@ -74,8 +74,11 @@ if (!class_exists("dmck_audioplayer")) {
 			add_action( 'wp_head', array($this, 'head_hook') );
 			add_action( 'login_head', array($this, 'head_hook') );
 			add_action( 'admin_head', array($this, 'head_hook') );
-			// add_action( 'wp', array($this, 'cronstarter_activation'));
-			// add_action( $this->cron_name, array($this, 'wp_cron_functions')); 
+			/**
+			 * cron
+			 */
+			add_action( 'wp', array($this, 'cronstarter_activation'));
+			add_action( $this->cron_name."_daily", array($this, 'wp_cron_functions_daily')); 
 			add_action( 'rest_api_init', function () {
 				$namespace = $this->plugin_slug.'/v'.$this->plugin_version;
 				register_rest_route( $namespace,'api/(?P<option>[\w]+)' ,array(
@@ -102,29 +105,6 @@ if (!class_exists("dmck_audioplayer")) {
 			if(preg_match('/version:[\s\t]+?([0-9.]+)/i',file_get_contents( __FILE__ ), $v)){
 				$this->plugin_version = $v[1];
 			}								
-		}		
-		function get_post_by_slug($slug){
-			$posts = get_posts(array(
-					'name' => $slug,
-					'post_type'   => 'post',
-					'post_status' => 'publish',
-					'numberposts' => 1
-			));	
-			return $posts[0];
-		}
-		function excerpt($text){
-			$text = strip_shortcodes( $text );
-			$text = apply_filters( 'the_content', $text );
-			$text = str_replace(']]>', ']]&gt;', $text);
-			$excerpt_length = apply_filters( 'excerpt_length', 55 );
-			$excerpt_more = apply_filters( 'excerpt_more', ' ' . '[&hellip;]' );
-			$text = wp_trim_words( $text, $excerpt_length, $excerpt_more );
-			return $text;
-		}
-		function the_exerpt_filter($param) {			
-			$param = preg_replace('/(\[.*\])/', "", $param);
-			$param = preg_replace('/(Sorry, your browser doesn\'t support HTML5 audio\.|Sorry, your browser doesn&#8217;t support HTML5 audio.)/i', "", $param);
-			return $param;
 		}
 		function register_activation($options){
 			$this->_tables_create();

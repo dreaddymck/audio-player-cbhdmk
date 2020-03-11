@@ -56,6 +56,29 @@ trait _utilities {
 		}
 		return $content;
 	}
+	function get_post_by_slug($slug){
+		$posts = get_posts(array(
+				'name' => $slug,
+				'post_type'   => 'post',
+				'post_status' => 'publish',
+				'numberposts' => 1
+		));	
+		return $posts[0];
+	}
+	function excerpt($text){
+		$text = strip_shortcodes( $text );
+		$text = apply_filters( 'the_content', $text );
+		$text = str_replace(']]>', ']]&gt;', $text);
+		$excerpt_length = apply_filters( 'excerpt_length', 55 );
+		$excerpt_more = apply_filters( 'excerpt_more', ' ' . '[&hellip;]' );
+		$text = wp_trim_words( $text, $excerpt_length, $excerpt_more );
+		return $text;
+	}
+	function the_exerpt_filter($param) {			
+		$param = preg_replace('/(\[.*\])/', "", $param);
+		$param = preg_replace('/(Sorry, your browser doesn\'t support HTML5 audio\.|Sorry, your browser doesn&#8217;t support HTML5 audio.)/i', "", $param);
+		return $param;
+	}	
 	function setTimezone($OSXPassword = null){		
 		$timezone = null;
 		switch(true){

@@ -9,11 +9,12 @@ trait _accesslog {
 DELETE FROM 
     dmck_audio_log_reports 
 WHERE 
-    updated <  DATE_SUB(NOW(), INTERVAL 1 YEAR)
+    updated <  DATE_SUB(NOW(), INTERVAL 2 YEAR)
 EOF;
 
-        $results = $this->query( $query );        
-        return;        
+        $results = $this->query( $query ); 
+        error_log( print_r($results,1) );
+        return $results;        
     }
     function accesslog_activity_get() {
 

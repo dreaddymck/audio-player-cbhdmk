@@ -3,26 +3,20 @@
 trait _cron {
 	
     function __construct(){}  
-    // here's the function we'd like to call with our cron job
-    function wp_cron_functions() {
-        //cron activities here
+    function wp_cron_functions_daily() {
         try{
-            $cmd = '$(which php) '. plugin_dir_path(__DIR__) .'lib/reports.php put'; 
-            error_log($cmd);
-            $resp = shell_exec($cmd);
-            error_log($resp);
+            $this->accesslog_activity_purge();
         }
         catch (Exception $e) { error_log($e); }   
     }
     function cronstarter_deactivate() {	
-        // find out when the last event was scheduled
         $timestamp = wp_next_scheduled ($this->cron_name);			
         // unschedule previous event if any
         wp_unschedule_event ($timestamp, $this->cron_name);
     } 				
     function cronstarter_activation() {
-        if( !wp_next_scheduled( $this->cron_name ) ) {  
-            wp_schedule_event( time(), 'everyminute', $this->cron_name );  
+        if( !wp_next_scheduled( $this->cron_name."_daily" ) ) {  
+            wp_schedule_event( time(), 'daily', $this->cron_name."_daily" );  
         }
     }
     function cron_add_minute( $schedules ) { // Adds once every minute to the existing schedules. 
