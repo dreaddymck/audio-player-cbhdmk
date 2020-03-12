@@ -22,11 +22,12 @@ trait _utilities {
 			$post_chart_json = array();
 			foreach($paths as $p){
 				$value = parse_url($p, PHP_URL_PATH);
-				$filename = basename($p);
+				$basename = basename($p);
+				$filename = urldecode($basename);
+				$pattern = $basename."|".$filename;
 				$target = pathinfo($filename, PATHINFO_FILENAME);
-				$target = urldecode($target);
-				$target = preg_replace("/(\W)+/", '_', $target);	
-				$resp = $this->accesslog_activity_get_month($filename,12);
+				$target = preg_replace("/(\W)+/", '_', $target);					
+				$resp = $this->accesslog_activity_get_month($pattern,12);
 				foreach($resp as $key=>$value){					
 					$json = json_decode($value[0]);
 					foreach($json as $jkey=>$jvalue){
@@ -35,7 +36,7 @@ trait _utilities {
 								"time"=> $jvalue->time,
 								"count" => $jvalue->count,
 								"target" => $target,
-								"filename" => urldecode($filename)
+								"filename" => $filename
 							)); 
 						}						
 					}

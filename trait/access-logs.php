@@ -44,7 +44,7 @@ SELECT
     data FROM dmck_audio_log_reports  
 WHERE 
     DATE(`updated`) >= DATE_SUB(NOW(), INTERVAL $num WEEK)
-    {$filter}    
+    $filter    
 order by 
     updated ASC
 EOF;
@@ -60,12 +60,12 @@ SELECT
     data FROM dmck_audio_log_reports 
 WHERE 
     DATE(`updated`) >= DATE_SUB(NOW(), INTERVAL $num MONTH)
-    {$filter}    
+    $filter    
 order by 
     updated ASC
 EOF;
 
-        $results = $this->query($query);	
+        $results = $this->query($query);	$this->_echo($query);
         return $results;	
     }       
     function accesslog_activity_put()
