@@ -21,10 +21,12 @@ shortcode example:
 
 ## Notes
 
-Regarding all version before 1.0.42:
-Drop the database with plugin deactivate or remove duplicates using example SQL query below (This option has not optimized and takes a long time ).
+**Regarding all version before 1.0.42:**
 
-```bash
+Changes require plugin deactivate/reactivate or attempt remove duplicates in the custom table using example SQL query below
+*(The latter option has not been optimized and takes a long time ).*
+
+```sql
 
 DELETE t1 FROM dmck_audio_log_reports t1 
 INNER JOIN dmck_audio_log_reports t2 
@@ -40,7 +42,7 @@ Native create wavforms script (Requires ffmpeg Installation on server).
 
 ```bash
 
- $(which php) /home/user/site.com/wp-content/plugins/audio-player-cbhdmk/lib/reports.php wavform "" "filename.mp3"
+$(which php) /home/user/site.com/wp-content/plugins/audio-player-cbhdmk/lib/reports.php wavform "" "filename.mp3"
 ```
 
 The following bash script generates wavform (Requires ffmpeg Installation on server).
@@ -53,8 +55,8 @@ echo "Begin render wavform";
 echo "*******************************"
 cd /home/user/path/to/mp3/
 for i in *.mp3; do
- ffmpeg -y -i "$i" -filter_complex "compand,showwavespic=s=1200x120:colors=b2b2b2ff:" -frames:v 1  "${i%.mp3}.wavform.png";
- sleep 1;
+    ffmpeg -y -i "$i" -filter_complex "compand,showwavespic=s=1200x120:colors=b2b2b2ff:" -frames:v 1  "${i%.mp3}.wavform.png";
+    sleep 1;
 done
 echo "end"
 exit
