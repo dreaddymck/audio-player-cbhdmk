@@ -90,6 +90,14 @@ const charts_pkg = {
                             fontColor: "#ffffff",
                         }
                     },
+                    scales: {
+                        yAxes: [{
+                            ticks: {
+                                beginAtZero:true,
+                                fontColor: "#ffffff",
+                            }
+                        }],                      
+                    }                    
                 }
             });            
         }
