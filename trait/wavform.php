@@ -9,7 +9,10 @@ trait _wavform {
     function __construct(){} 
     function wavform(){
         $name	= isset($_SERVER["argv"][3]) && $_SERVER["argv"][3] ? htmlspecialchars( $_SERVER["argv"][3] ) : "";
-        $folder   = isset($_SERVER["argv"][2]) && $_SERVER["argv"][2] ? $_SERVER["argv"][2] : get_option('media_root_path') ;
+        $folder   = isset($_SERVER["argv"][2]) && $_SERVER["argv"][2] ? $_SERVER["argv"][2] : "";
+        if(!$folder){
+            exit("Missing parameter: '/path/to/folder/' ");
+        }
 
         function do_wavform($fileInfo){
             $pathname = $fileInfo->getPathname(); 
