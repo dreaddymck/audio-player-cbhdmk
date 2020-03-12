@@ -54,12 +54,22 @@
 		<textarea name="playlist_config" class="form-control" rows="18"><?php echo playlist_config_default() ?></textarea>		
 	</div>
 	<div id="tab-5" class="tab-content tab-charts form-group">
-		<label><?php _e('Access Log location')?></label>
-		<input type="text" name="access_log"  class="form-control" value="<?php echo esc_attr( get_option('access_log') ); ?>">
-		<small>Add the following to cron: <code>$(which php) <?php echo plugin_dir_path(__DIR__)?>lib/reports.php put > /dev/null 2>&1</code></small>
-		<hr>	
-		<label><?php _e('Top 10: Chart colors array ( <small>Example <code>["#ffffff","#F0F0F0","#E0E0E0","#D0D0D0","#C0C0C0","#B0B0B0","#A0A0A0","#909090","#808080","#707070"]</code></small> )'); ?></label>
-		<input type="text" name="chart_colors"  class="form-control" value="<?php echo esc_attr( get_option('chart_colors') ); ?>">
+		<div class="row">
+			<div class="col-sm-6 form-group">	
+				<input type="checkbox" name="charts_enabled"  class="form-control" value="1" <?php if (1 == get_option('charts_enabled')) echo 'checked="checked"'; ?> >
+				<label>Enable Charts</label>			
+				<hr>
+				<label><?php _e('Access Log location')?></label>
+				<input type="text" name="access_log"  class="form-control" value="<?php echo esc_attr( get_option('access_log') ); ?>">
+				<small>Add the following to cron: <code>$(which php) <?php echo plugin_dir_path(__DIR__)?>lib/reports.php put > /dev/null 2>&1</code></small>
+				<hr>	
+				<label><?php _e('Top 10: Chart colors array ( <small>Example <code>["#ffffff","#F0F0F0","#E0E0E0","#D0D0D0","#C0C0C0","#B0B0B0","#A0A0A0","#909090","#808080","#707070"]</code></small> )'); ?></label>
+				<input type="text" name="chart_colors"  class="form-control" value="<?php echo esc_attr( get_option('chart_colors') ); ?>">
+			</div>
+			<div class="col-sm-6 form-group">
+		
+			</div>	
+		</div>	
 	</div>
 	
 </div><!-- container -->	

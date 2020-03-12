@@ -36,7 +36,7 @@ if (!class_exists("dmck_audioplayer")) {
 		public $plugin_slug				= 'dmck_audioplayer';
 		public $plugin_settings_group 	= 'dmck-audioplayer-settings-group';
 		public $shortcode				= "dmck-audioplayer";
-		public $adminpreferences 		= array('drop_table_on_inactive','chart_colors','favicon','default_album_cover', 'moreinfo', 'facebook_app_id','access_log','media_root_path','media_root_url','playlist_config');
+		public $adminpreferences 		= array('charts_enabled','drop_table_on_inactive','chart_colors','favicon','default_album_cover', 'moreinfo', 'facebook_app_id','access_log','media_root_path','media_root_url','playlist_config');
 		public $userpreferences 		= array('userpreferences');	
 		public $plugin_version;
 		public $plugin_url;

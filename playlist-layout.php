@@ -141,8 +141,12 @@ EOF;
 
 		}		
 ?>		
-		</tbody></table>		
+		</tbody></table>
+
+<?php if (get_option('charts_enabled')) { ?>				
 		<script>let top_10_json = <?php echo json_encode($playlist_data["top_10_json"]) ?></script> 
+<?php }  ?>	
+
 		</div>  
 	</div>
 </div>
