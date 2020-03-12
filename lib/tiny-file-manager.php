@@ -2,14 +2,12 @@
 /**
  * dmck_audioplayer restrictions implementation 
  */
-try{
-    require_once dirname(__FILE__) . "/../../../../wp-load.php";
-}
+try{ require_once dirname(__FILE__) . "/../../../../wp-load.php";}
 catch (Exception $e) { exit($e); }
 
 $root_path = esc_attr( get_option('media_root_path') );
-if(!$root_path) { exit("Path to media folder not set"); }
-if(!is_super_admin()) exit("Invalid credentials");
+if(!$root_path) { exit(); }
+if(!is_super_admin()) exit("Invalid credentials.");
 
 /**
  * dmck_audioplayer restrictions implementation 
@@ -90,11 +88,11 @@ $datetime_format = 'd.m.y H:i';
 
 // Allowed file extensions for create and rename files
 // e.g. 'txt,html,css,js'
-$allowed_file_extensions = '';
+$allowed_file_extensions = 'gif,png,jpg,html,txt,mp3,mp4,wav,ogg';
 
 // Allowed file extensions for upload files
 // e.g. 'gif,png,jpg,html,txt'
-$allowed_upload_extensions = '';
+$allowed_upload_extensions = 'gif,png,jpg,html,txt,mp3,mp4,wav,ogg';
 
 // Favicon path. This can be either a full url to an .PNG image, or a path based on the document root.
 // full path, e.g http://example.com/favicon.png
@@ -120,7 +118,12 @@ $sticky_navbar = true;
 // Maximum file upload size
 // Increase the following values in php.ini to work properly
 // memory_limit, upload_max_filesize, post_max_size
-define('MAX_UPLOAD_SIZE', '2048');
+$_max_upload = (int)(ini_get('upload_max_filesize'));
+$_max_post = (int)(ini_get('post_max_size'));
+$_memory_limit = (int)(ini_get('memory_limit'));
+$_upload_mb = min($_max_upload, $_max_post, $_memory_limit);
+
+define('MAX_UPLOAD_SIZE', $_upload_mb);
 
 // Possible rules are 'OFF', 'AND' or 'OR'
 // OFF => Don't check connection IP, defaults to OFF
