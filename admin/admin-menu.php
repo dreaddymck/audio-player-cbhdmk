@@ -22,17 +22,17 @@
 				<input type="text" name="default_album_cover"  title="Image url"  class="form-control" value="<?php echo esc_attr( get_option('default_album_cover') ); ?>"  required placeholder="Required">
 				<br />
 				<label><?php _e('Media folder root path'); ?></label>
-				<input type="text" name="media_root_path"  class="form-control" value="<?php echo esc_attr( get_option('media_root_path') ); ?>" required placeholder="Required">
+				<input type="text" name="media_root_path"  class="form-control" value="<?php echo esc_attr( get_option('media_root_path') ); ?>" title="File management" required placeholder="Required">
 				<br />	
 				<label><?php _e('Media folder url path'); ?></label>
-				<input type="text" name="media_root_url"  class="form-control" value="<?php echo esc_attr( get_option('media_root_url') ); ?>"  required placeholder="Required">
+				<input type="text" name="media_root_url"  class="form-control" value="<?php echo esc_attr( get_option('media_root_url') ); ?>"  title="Acces log parsing"  required placeholder="Required">
 				<small>Path after <code><?php echo get_site_url() ?></code> that leads to media folder</small>
 				<br />					
 				<label for="favicon" ><?php _e('Favicon'); ?></label>
 				<textarea  name="favicon" class="form-control" title="ico url or base64"><?php echo esc_attr( get_option('favicon') ); ?></textarea>
 				<br />
 				<label><?php _e('More info (HTML or TEXT)'); ?></label>
-				<input type="text" name="moreinfo"  class="form-control" value="<?php echo esc_attr( get_option('moreinfo') ); ?>">
+				<input type="text" name="moreinfo"  class="form-control" value="<?php echo esc_attr( get_option('moreinfo') ); ?>" title="This is useless atm">
 				<br>		
 				<span class="hidden">	
 					<label><?php _e('Facebook App ID (not functional)'); ?></label>
