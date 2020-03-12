@@ -80,7 +80,6 @@ const charts_pkg = {
                     datasets: [{
                         label: chart_data[c].filename + ' year history',
                         data: chart_data[c].data,
-                        borderWidth: 1,
                         backgroundColor: colors,
                     }]
                 },
@@ -90,15 +89,7 @@ const charts_pkg = {
                         labels: {
                             fontColor: "#ffffff",
                         }
-                    },                    
-                    scales: {
-                        yAxes: [{
-                            ticks: {
-                                beginAtZero:true,
-                                fontColor: "#ffffff",
-                            }
-                        }],                      
-                    }
+                    },
                 }
             });            
         }
