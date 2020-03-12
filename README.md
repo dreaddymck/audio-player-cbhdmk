@@ -39,11 +39,17 @@ dmck_audio_log_reports stores used to render top 10 and charts.
 A cron string will be used to create data. See admin panel during setup. Please remember to remove the cron task when deactivated.
 
 Native create wavforms script (Requires ffmpeg Installation on server).
+_Parameters:_
+
+1. wavform - _required_
+2. path - _required_
+3. name - _optional, specific file to generate wavform from_
 
 ```bash
 
-$(which php) /home/user/site.com/wp-content/plugins/audio-player-cbhdmk/lib/reports.php wavform "" "filename.mp3"
+$(which php) /home/user/site.com/wp-content/plugins/audio-player-cbhdmk/lib/reports.php wavform "/path/to/folder" "file-name.mp3"
 ```
+
 
 The following bash script generates wavform (Requires ffmpeg Installation on server).
 
