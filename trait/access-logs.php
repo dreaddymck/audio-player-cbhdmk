@@ -65,7 +65,7 @@ order by
     updated ASC
 EOF;
 
-        $results = $this->query($query);	$this->_echo($query);
+        $results = $this->query($query);
         return $results;	
     }       
     function accesslog_activity_put()
