@@ -92,15 +92,12 @@ EOF;
             $regex = '/^(\S+) (\S+) (\S+) \[([^:]+):(\d+:\d+:\d+) ([^\]]+)\] \"(\S+) (.*?) (\S+)\" (\S+) (\S+) "([^"]*)" "([^"]*)"$/';
 
             try {
-                while (!feof($handle)) {        
-                    
-                    $dd = fgets($handle);
-                    
-                    if ( preg_match($pattern, $dd)){
-                        
-                        preg_match($regex , urldecode($dd), $matches);
-                        // echo( urldecode($dd) ."\n\r");
-                        // echo( print_r($matches,1) );
+                while (!feof($handle)) { 
+                    $dd = fgets($handle);                    
+                    preg_match($regex , urldecode($dd), $matches);
+                    // echo( urldecode($dd) ."\n\r");
+                    // echo( print_r($matches,1) );
+                    if(preg_match( $pattern , $matches[8] ) ){
                         if($this->debug){
                             $this->_log($matches);
                         }                        
