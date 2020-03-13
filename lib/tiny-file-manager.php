@@ -3,7 +3,8 @@
 
 try{require_once dirname(__FILE__) . "/../../../../wp-load.php";}
 catch (Exception $e) { exit($e); }
-if(!is_super_admin()) exit("Access denied.");
+if(!is_super_admin()) { exit("Access denied."); }
+if(!get_option('filemanager_enabled') ){ exit(); };
 
 $CONFIG = '{"lang":"en","error_reporting":false,"show_hidden":false,"hide_Cols":false,"calc_folder":false}';
 
