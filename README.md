@@ -4,7 +4,7 @@
 
 Another audio thingy. Can be used to generate playlists and simple charts. 
 Default action is to grab the first mp3 located in published posts, then render a tabbed playlist.
-Playlists rendered are currently defined by a json structure, and If the sited access log is available, a top 10 playlist and couple of charts can be rendered.
+Playlists rendered are currently defined by a json structure, and If the website access log is available, a top 10 playlist and some charts can be rendered.
 
 Based on this html5 audio playlist tutorial:
 https://www.script-tutorials.com/html5-audio-player-with-playlist/
