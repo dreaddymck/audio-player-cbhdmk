@@ -2,7 +2,7 @@
 /*
 Plugin Name: (DMCK) audio player
 Plugin URI: dreaddymck.com
-Description: Just another audio player, playlist renderer. This plugin will create playlists from the first mp3 link found in published post. shortcode [dmck-audioplayer]
+Description: Just another audio thingy. Can be used to generate playlists and simple charts. playlist shortcode [dmck-audioplayer]
 Version: 1.0.44
 Author: dreaddymck
 Author URI: dreaddymck.com
@@ -36,7 +36,7 @@ if (!class_exists("dmck_audioplayer")) {
 		public $plugin_slug				= 'dmck_audioplayer';
 		public $plugin_settings_group 	= 'dmck-audioplayer-settings-group';
 		public $shortcode				= "dmck-audioplayer";
-		public $adminpreferences 		= array('charts_enabled','drop_table_on_inactive','chart_colors','favicon','default_album_cover', 'moreinfo', 'facebook_app_id','access_log','media_root_path','media_root_url','playlist_config');
+		public $adminpreferences 		= array('charts_enabled','drop_table_on_inactive','chart_colors','favicon','default_album_cover','moreinfo','access_log','filemanager_enabled','access_log_pattern','playlist_config');
 		public $userpreferences 		= array('userpreferences');	
 		public $plugin_version;
 		public $plugin_url;
@@ -86,11 +86,6 @@ if (!class_exists("dmck_audioplayer")) {
 					'callback'  =>  array($this, 'handle_requests'),
 					'args' => [ 'option' ],										
 				));	
-				register_rest_route( $namespace,'upload' ,array(
-					'methods'   =>  WP_REST_Server::CREATABLE,
-					'callback'  =>  array($this, 'upload'),
-					'permission_callback' => function() { return current_user_can('edit_posts'); }						
-				));						
 			});			
 			add_filter( 'get_the_excerpt', array($this,'the_exerpt_filter'));
 			add_filter( 'the_content', array($this,'content_handler'));			

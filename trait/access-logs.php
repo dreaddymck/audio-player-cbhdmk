@@ -71,8 +71,12 @@ EOF;
     function accesslog_activity_put()
     {			
         if(!$this->filepath){ die("Missing access log location"); }	
-        $media_root_url = get_option('media_root_url') ? get_option('media_root_url') : die("Missing media_root_url option");
-
+        $access_log_pattern = get_option('access_log_pattern') ? get_option('access_log_pattern') : "";
+        $pattern = $access_log_pattern ? $access_log_pattern : "/.mp3/i";
+        if($this->debug){
+            $pattern = $this->filename  ? $this->filename : $pattern;
+            $this->_log("PATTERN: " . $pattern);
+        }        
         if ( file_exists( $this->filepath ) ) {			
             try{   
                 $handle = fopen($this->filepath,'r');
@@ -92,11 +96,14 @@ EOF;
                     
                     $dd = fgets($handle);
                     
-                    if ( preg_match('/(('. preg_quote($media_root_url, '/').'.*mp3))/i', $dd)){
+                    if ( preg_match($pattern, $dd)){
                         
                         preg_match($regex , urldecode($dd), $matches);
                         // echo( urldecode($dd) ."\n\r");
                         // echo( print_r($matches,1) );
+                        if($this->debug){
+                            $this->_log($matches);
+                        }                        
                         $name = basename($matches[8]);
                         $time = $matches[4] .":".$matches[5]." ".$matches[6];
                         $time = strtotime( $time );
@@ -117,8 +124,8 @@ EOF;
                                 "referer" => $referer );
                         }
                     }
-                }        
-        
+                } 
+
                 fclose($handle);
                 if(!empty($arr)){
                     $json = json_encode($arr,JSON_FORCE_OBJECT);                                        

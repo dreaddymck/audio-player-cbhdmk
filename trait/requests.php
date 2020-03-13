@@ -11,8 +11,7 @@ trait _requests {
 			case "search":
 				$response = $this->param_request($data);
 				break;				
-            case "put":
-                $this->accesslog_activity_purge();
+			case "put":
                 $response = $this->accesslog_activity_put();
                 break;
             case "get":
@@ -72,6 +71,9 @@ trait _requests {
 		return($response);
 	}	
 	function query($sql){
+		if($this->debug){
+			$this->_log($sql);
+		}
 		$conn = new mysqli(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME );
 		if ($conn->connect_error) { die("Connection failed: " . $conn->connect_error); }
 		$resp       = $conn->query($sql);
