@@ -59,6 +59,23 @@ Creates custom table dmck_audio_log_reports when activated.
 Drops table dmck_audio_log_reports when deactivated AND the admin option to drop custom table is checked.
 dmck_audio_log_reports stores data used to render top 10 list and charts.
 
+### Filter access logs. Debugging
+
+The script below is used to manually test the filter used when parsing the access log.
+_Parameters:_
+
+1. put - _action flag, required_
+2. path - _optional, overrides admin settings_
+3. regex - _optional, override admin settings_
+4. true - _optional, show results in error log_
+
+```bash
+
+$(which php) /home/user/site.com/wp-content/plugins/audio-player-cbhdmk/lib/reports.php put "/path/to/accesslog" "/.mp3/i" true
+```
+
+### Wavform
+
 The script below is used to manually create wavforms (Requires an ffmpeg Installation on server).
 _Parameters:_
 
