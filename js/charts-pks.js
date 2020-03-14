@@ -1,5 +1,15 @@
 "use strict";
 
+Chart.plugins.register({
+    afterDatasetsDraw: function(chartInstance) {
+       var ctx = chartInstance.chart.ctx;
+       let colors = dmck_audioplayer.chart_colors ? JSON.parse(dmck_audioplayer.chart_colors) : [];
+       chartInstance.data.datasets.forEach(function(dataset, datasetIndex) {
+           dataset.backgroundColor = colors;           
+       });
+    }
+ });
+
 const charts_pkg = {
     top_requests_chart: function(){
         /**
@@ -10,7 +20,6 @@ const charts_pkg = {
         let arr = top_10_json;
         let labels = [];
         let data = [];
-        let colors = dmck_audioplayer.chart_colors ? JSON.parse(dmck_audioplayer.chart_colors) : [];
         for( let x in arr ){
             labels.push( arr[x].title ? unescape(arr[x].title.toUpperCase()) : unescape(arr[x].name) );
             data.push(arr[x].count)                
@@ -25,23 +34,30 @@ const charts_pkg = {
                     label: '# of Requests',
                     data: data,
                     borderWidth: 1,
-                    backgroundColor: colors,
+                    backgroundColor: jQuery("body").css("background-color"),
+                    borderColor: jQuery("body").css("color"),
                 }]
             },
             options: {
                 responsive: true,
                 legend: {
                     labels: {
-                        fontColor: "#ffffff",
+                        fontColor: jQuery("body").css("color"),
                     }
                 },                    
                 scales: {
                     yAxes: [{
                         ticks: {
-                            beginAtZero:true,
-                            fontColor: "#ffffff",
+                            beginAtZero:false,
+                            fontColor: jQuery("body").css("color"),
                         }
-                    }],                      
+                    }],
+                    xAxes: [{
+                        ticks: {
+                            beginAtZero:false,
+                            fontColor: jQuery("body").css("color"),
+                        },
+                    }],                                           
                 }
             }
         }); 
@@ -53,7 +69,6 @@ const charts_pkg = {
         if(typeof post_chart_json === 'undefined'){return;}
         if(!post_chart_json.length){return;}
         let chart_data = {};
-        let colors = dmck_audioplayer.chart_colors ? JSON.parse(dmck_audioplayer.chart_colors) : [];
         let ctx,id,date;
         for( let x in post_chart_json ){
             if(typeof chart_data[post_chart_json[x].target] === "undefined" ){ 
@@ -80,26 +95,34 @@ const charts_pkg = {
                     datasets: [{
                         label: chart_data[c].filename + ' year history',
                         data: chart_data[c].data,
-                        backgroundColor: colors,
+                        backgroundColor: jQuery("body").css("background-color"),
+                        borderColor: jQuery("body").css("color"),
                     }]
                 },
                 options: {
                     responsive: true,
                     legend: {
                         labels: {
-                            fontColor: "#ffffff",
+                            fontColor: jQuery("body").css("color"),
                         }
                     },
                     scales: {
                         yAxes: [{
                             ticks: {
-                                beginAtZero:true,
-                                fontColor: "#ffffff",
-                            }
-                        }],                      
+                                beginAtZero:false,
+                                fontColor: jQuery("body").css("color"),
+                            },
+                        }],
+                        xAxes: [{
+                            ticks: {
+                                beginAtZero:false,
+                                fontColor: jQuery("body").css("color"),
+                            },
+                        }],                                              
                     }                    
                 }
             });            
         }
     }
 }
+

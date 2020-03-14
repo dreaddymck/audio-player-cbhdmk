@@ -15,5 +15,13 @@ const _functions = {
 		},
 		get : function(){ return jQuery.cookie(_functions.cookie.name); }
 	},
+	is_json_string: function(str) {
+		try {
+			JSON.parse(str);
+		} catch (e) {
+			return false;
+		}
+		return true;
+	}	
 }
 
