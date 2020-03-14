@@ -36,6 +36,8 @@ const access_log = {
                 let elem = container.find( target + ':first-child').attr("audiourl");
                 if(!elem){ return; }
                 if(!elem.length){ return; }
+                // jQuery("#top-10").removeClass("hidden");
+                // jQuery("#tab-top-10").removeClass("hidden");
                 access_log.active( elem );
                 /**
                  * add rss link for this list

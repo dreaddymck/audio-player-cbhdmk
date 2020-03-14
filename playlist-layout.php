@@ -101,14 +101,14 @@ EOF;
 
 		<div class="tab-pane" id="top-10" role="tabpanel" aria-labelledby="top-10-tab">
 				
-		<table class="table table-responsive-lg top-requests-data">
+			<table class="table table-responsive-lg top-requests-data">
 			<thead>
 				<tr>
 					<th>Track</th>
 					<th class="text-center">Requests</th>
 				</tr>
 			</thead>
-		<tbody>
+			<tbody>
 		
 <?php	
 
@@ -116,32 +116,32 @@ EOF;
 
 echo <<<EOF
 
-			<tr id="top-10-{$value["ID"]}"
-				class="top-10-track dmck-audio-playlist-track" 
-				post-id="{$value["ID"]}"
-				audiourl="{$value["mp3"]}" 
-				cover="{$value["cover"]}" 
-				artist="{$value["artist"]}" 
-				title="{$value["title"]}"
-				permalink="{$value["permalink"]}" 
-				wavformpng="{$value["wavformpng"]}"
-				style="color:">
-				<td>
-					<h5>{$value["title"]}</h5>
-					<span class="">
-						{$value["tags"]} {$value["moreinfo"]}
-					</span>
-				</td>
-				<td class="text-center" title="{$value["date"]}">
-					<h1 class="dmck_top10_count">{$value["count"]}</h1>
-				</td> 
-			</tr>
+				<tr id="top-10-{$value["ID"]}"
+					class="top-10-track dmck-audio-playlist-track" 
+					post-id="{$value["ID"]}"
+					audiourl="{$value["mp3"]}" 
+					cover="{$value["cover"]}" 
+					artist="{$value["artist"]}" 
+					title="{$value["title"]}"
+					permalink="{$value["permalink"]}" 
+					wavformpng="{$value["wavformpng"]}"
+					style="color:">
+					<td>
+						<h5>{$value["title"]}</h5>
+						<span class="">
+							{$value["tags"]} {$value["moreinfo"]}
+						</span>
+					</td>
+					<td class="text-center" title="{$value["date"]}">
+						<h1 class="dmck_top10_count">{$value["count"]}</h1>
+					</td> 
+				</tr>
 
 EOF;
 
 		}		
 ?>		
-		</tbody></table>
+			</tbody></table>
 
 <?php if (get_option('charts_enabled')) { ?>				
 		<script>let top_10_json = <?php echo json_encode($playlist_data["top_10_json"]) ?></script> 

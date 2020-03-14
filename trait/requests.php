@@ -46,10 +46,11 @@ trait _requests {
 			'tag__not_in'		=> !empty($obj->tag_not_in) ? array( $obj->tag_not_in ) : "", //array (id)
 			'tag_slug__and'		=> !empty($obj->tag_slug__and) ? array( $obj->tag_slug__and ) : "",	
 		);
-		$posts 	= get_posts( $args );
-		$response   = $this->render_elements($posts);			
-		wp_reset_postdata();
-		return $response;					
+		return $this->_requests_get_posts($args);
+		// $posts 	= get_posts( $args );
+		// $response   = $this->render_elements($posts);			
+		// wp_reset_postdata();
+		// return $response;					
 	}
 	function param_request($data){
 		global $wpdb;
@@ -64,7 +65,14 @@ trait _requests {
 			'tag__in' 			=> !empty($params["tag_in"]) ? $params["tag_in"] : "",
 			'tag__not_in'		=> !empty($params["tag_not_in"]) ? $params["tag_not_in"] : "",
 			'tag_slug__and'		=> !empty($params["tag_slug__and"]) ? $params["tag_slug__and"] : "",						
-		);			
+		);
+		return $this->_requests_get_posts($args);			
+		// $posts 	    = get_posts( $args );
+		// $response   = $this->render_elements($posts);
+		// wp_reset_postdata();
+		// return($response);
+	}
+	function _requests_get_posts($args){
 		$posts 	    = get_posts( $args );
 		$response   = $this->render_elements($posts);
 		wp_reset_postdata();

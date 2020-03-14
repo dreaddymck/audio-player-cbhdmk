@@ -101,7 +101,7 @@ const charts_pkg = {
                 data: {
                     labels: chart_data[c].labels,
                     datasets: [{
-                        label: chart_data[c].filename + ' year history',
+                        label: chart_data[c].filename + ' history.',
                         data: chart_data[c].data,
                         backgroundColor: jQuery("body").css("background-color"),
                         borderColor: jQuery("body").css("color"),
