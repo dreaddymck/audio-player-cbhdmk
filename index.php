@@ -3,7 +3,7 @@
 Plugin Name: (DMCK) audio player
 Plugin URI: dreaddymck.com
 Description: Just another audio thingy. Can be used to generate playlists and simple charts. playlist shortcode [dmck-audioplayer]
-Version: 1.0.46
+Version: 1.0.47
 Author: dreaddymck
 Author URI: dreaddymck.com
 License: GPL2
@@ -36,7 +36,7 @@ if (!class_exists("dmck_audioplayer")) {
 		public $plugin_slug				= 'dmck_audioplayer';
 		public $plugin_settings_group 	= 'dmck-audioplayer-settings-group';
 		public $shortcode				= "dmck-audioplayer";
-		public $adminpreferences 		= array('charts_enabled','drop_table_on_inactive','chart_colors','favicon','default_album_cover','moreinfo','access_log','filemanager_enabled','access_log_pattern','playlist_config');
+		public $adminpreferences 		= array('charts_enabled','drop_table_on_inactive','chart_color_array','chart_color_static','favicon','default_album_cover','moreinfo','access_log','filemanager_enabled','access_log_pattern','playlist_config');
 		public $userpreferences 		= array('userpreferences');	
 		public $plugin_version;
 		public $plugin_url;
@@ -212,7 +212,8 @@ if (!class_exists("dmck_audioplayer")) {
 				'has_shortcode' => $this->has_shortcode($this->shortcode),
 				'stylesheet_url' => dirname( get_bloginfo('stylesheet_url') )."/",
 				'autoplay'	=> ($this->autoplay || $this->auto_play),
-				'chart_colors' => esc_attr( get_option('chart_colors') ),
+				'chart_color_array' => esc_attr( get_option('chart_color_array') ),
+				'chart_color_static' => esc_attr( get_option('chart_color_static') ),
 			);
 			wp_localize_script( 'functions.js', $this->plugin_slug, $local);
 		}

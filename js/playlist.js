@@ -18,7 +18,7 @@ const playlist = {
 		let targets = function(elem){
 			let container 	= "#" + dmck_audioplayer.plugin_slug + " #" + elem.id;
 			let target 		= "." + elem.id + "-track";
-			let colors      = dmck_audioplayer.chart_colors ? JSON.parse(dmck_audioplayer.chart_colors) : [];
+			let colors      = _functions.is_json_string(dmck_audioplayer.chart_color_array) ? JSON.parse(dmck_audioplayer.chart_color_array) : [];
 			if( jQuery( target ).length ){				
 				jQuery( container ).find( target ).each(function(index){
 					jQuery(this).attr("style","color:" + (colors[index] ? colors[index] : "") );

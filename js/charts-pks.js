@@ -2,12 +2,19 @@
 
 Chart.plugins.register({
     afterDatasetsDraw: function (chartInstance) {
-        let colors = dmck_audioplayer.chart_colors ? JSON.parse(dmck_audioplayer.chart_colors) : [];
+        let color;
         if (chartInstance.config.type == "horizontalBar") {
+            color = _functions.is_json_string(dmck_audioplayer.chart_color_array)  ? JSON.parse(dmck_audioplayer.chart_color_array) : jQuery("body").css("background-color");
             chartInstance.data.datasets.forEach(function (dataset, datasetIndex) {
-                dataset.backgroundColor = colors;
+                dataset.backgroundColor = color;
             });
         }
+        // if (chartInstance.config.type == "line") {
+        //     color = dmck_audioplayer.chart_color_static  ? dmck_audioplayer.chart_color_static : jQuery("body").css("background-color");
+        //     chartInstance.data.datasets.forEach(function (dataset, datasetIndex) {
+        //         dataset.backgroundColor = _functions.hex_to_rgb(color);
+        //     });
+        // }        
     }
 });
 
