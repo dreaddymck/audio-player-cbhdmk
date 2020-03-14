@@ -1,14 +1,15 @@
 "use strict";
 
 Chart.plugins.register({
-    afterDatasetsDraw: function(chartInstance) {
-       var ctx = chartInstance.chart.ctx;
-       let colors = dmck_audioplayer.chart_colors ? JSON.parse(dmck_audioplayer.chart_colors) : [];
-       chartInstance.data.datasets.forEach(function(dataset, datasetIndex) {
-           dataset.backgroundColor = colors;           
-       });
+    afterDatasetsDraw: function (chartInstance) {
+        let colors = dmck_audioplayer.chart_colors ? JSON.parse(dmck_audioplayer.chart_colors) : [];
+        if (chartInstance.config.type == "horizontalBar") {
+            chartInstance.data.datasets.forEach(function (dataset, datasetIndex) {
+                dataset.backgroundColor = colors;
+            });
+        }
     }
- });
+});
 
 const charts_pkg = {
     top_requests_chart: function(){
