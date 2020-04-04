@@ -4,8 +4,8 @@
 	<img src="<?php echo plugins_url( 'images/loading-nerd.gif', dirname(__FILE__) )?>" /></div>
 
 <form name="admin-settings-form" name="admin-settings-form" method="post" action="options.php">
-	<?php settings_fields( $this->plugin_settings_group ); ?>
-	<?php do_settings_sections( $this->plugin_settings_group ); ?>	
+	<?php settings_fields( self::SETTINGS_GROUP ); ?>
+	<?php do_settings_sections( self::SETTINGS_GROUP ); ?>	
 <div class="admin-container" style="display:none;">
 	<ul class="tabs">
 		<li class="tab-link current" data-tab="tab-1">Settings</li>

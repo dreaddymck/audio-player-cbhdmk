@@ -3,7 +3,7 @@
 Plugin Name: (DMCK) audio player
 Plugin URI: dreaddymck.com
 Description: Just another audio thingy. Can be used to generate playlists and simple charts. playlist shortcode [dmck-audioplayer]
-Version: 1.0.47
+Version: 1.0.48
 Author: dreaddymck
 Author URI: dreaddymck.com
 License: GPL2
@@ -15,13 +15,15 @@ TODO: render week, month, request activity per item
 // error_reporting(E_ALL);
 // ini_set("display_errors","On");
 if (!class_exists("dmck_audioplayer")) {
-	require_once(plugin_dir_path(__FILE__)."trait/access-logs.php");
-	require_once(plugin_dir_path(__FILE__)."trait/wavform.php");	
-	require_once(plugin_dir_path(__FILE__)."trait/utilities.php");
-	require_once(plugin_dir_path(__FILE__)."trait/tables.php");
-	require_once(plugin_dir_path(__FILE__)."trait/cron.php");
-	require_once(plugin_dir_path(__FILE__)."trait/rss.php");
-	require_once(plugin_dir_path(__FILE__)."trait/requests.php");
+
+	require_once(plugin_dir_path(__FILE__)."lib/trait/access-logs.php");
+	require_once(plugin_dir_path(__FILE__)."lib/trait/wavform.php");	
+	require_once(plugin_dir_path(__FILE__)."lib/trait/utilities.php");
+	require_once(plugin_dir_path(__FILE__)."lib/trait/tables.php");
+	require_once(plugin_dir_path(__FILE__)."lib/trait/cron.php");
+	require_once(plugin_dir_path(__FILE__)."lib/trait/rss.php");
+	require_once(plugin_dir_path(__FILE__)."lib/trait/requests.php");
+	
 	class dmck_audioplayer {
 
 		use _accesslog;
@@ -32,18 +34,20 @@ if (!class_exists("dmck_audioplayer")) {
 		use _rss;
 		use _requests;
 
-		public $plugin_title;
-		public $plugin_slug				= 'dmck_audioplayer';
-		public $plugin_settings_group 	= 'dmck-audioplayer-settings-group';
+		const PLUGIN_SLUG				= 'dmck_audioplayer';
+		const SETTINGS_GROUP			= 'dmck-audioplayer-settings-group';
+
 		public $shortcode				= "dmck-audioplayer";
 		public $adminpreferences 		= array('charts_enabled','drop_table_on_inactive','chart_color_array','chart_color_static','favicon','default_album_cover','moreinfo','access_log','filemanager_enabled','access_log_pattern','playlist_config');
 		public $userpreferences 		= array('userpreferences');	
+		public $github_url				= "https://github.com/dreaddy/audio-player-cbhdmk";
+		public $debug					= false;
+
+		public $plugin_title;
 		public $plugin_version;
 		public $plugin_url;
 		public $theme_url;
-		public $github_url				= "https://github.com/dreaddy/audio-player-cbhdmk";
-
-		public $debug					= false;
+		
 		public $posts_per_page;
 		public $tag;
 		public $path;		
@@ -60,7 +64,7 @@ if (!class_exists("dmck_audioplayer")) {
 			$this->plugin_url 	= plugins_url("/",__FILE__);
 			$this->theme_url	= dirname( get_bloginfo('stylesheet_url') );			
 			$this->site_url     = get_site_url();
-			$this->cron_name 	= $this->plugin_slug . "_cronjob";
+			$this->cron_name 	= self::PLUGIN_SLUG . "_cronjob";
 
 			register_activation_hook( __FILE__, array($this, 'register_activation' ) );
 			register_deactivation_hook (__FILE__, array($this, 'register_deactivation'));
@@ -74,13 +78,10 @@ if (!class_exists("dmck_audioplayer")) {
 			add_action( 'wp_head', array($this, 'head_hook') );
 			add_action( 'login_head', array($this, 'head_hook') );
 			add_action( 'admin_head', array($this, 'head_hook') );
-			/**
-			 * cron
-			 */
 			add_action( 'wp', array($this, 'cronstarter_activation'));
 			add_action( $this->cron_name."_daily", array($this, 'wp_cron_functions_daily')); 
 			add_action( 'rest_api_init', function () {
-				$namespace = $this->plugin_slug.'/v'.$this->plugin_version;
+				$namespace = self::PLUGIN_SLUG.'/v'.$this->plugin_version;
 				register_rest_route( $namespace,'api/(?P<option>[\w]+)' ,array(
 					'methods'   =>  WP_REST_Server::READABLE,
 					'callback'  =>  array($this, 'handle_requests'),
@@ -97,31 +98,23 @@ if (!class_exists("dmck_audioplayer")) {
 			$this->_rss_create_feed();
 		}
 		function set_plugin_version(){
-			if(preg_match('/version:[\s\t]+?([0-9.]+)/i',file_get_contents( __FILE__ ), $v)){
-				$this->plugin_version = $v[1];
-			}								
+			if(preg_match('/version:[\s\t]+?([0-9.]+)/i',file_get_contents( __FILE__ ), $v)){ $this->plugin_version = $v[1]; }								
 		}
-		function register_activation($options){
-			$this->_tables_create();
-		}
+		function register_activation($options){ $this->_tables_create(); }
 		function register_deactivation($options){
 			$this->cronstarter_deactivate();
 			$this->_tables_drop();
 		}
 		function register_settings() {
-			foreach($this->adminpreferences as $settings ) {
-				register_setting( $this->plugin_settings_group, $settings );
-			}
-			foreach($this->userpreferences as $settings ){
-				register_setting( $this->plugin_settings_group, $settings );
-			}
+			foreach($this->adminpreferences as $settings ) { register_setting( self::SETTINGS_GROUP, $settings ); }
+			foreach($this->userpreferences as $settings ){ register_setting( self::SETTINGS_GROUP, $settings ); }
 		}
 		function admin_menu(){
 			$this->settings_page = add_options_page(
 				$this->plugin_title,
 				$this->plugin_title,
 				'read',
-				$this->plugin_slug,
+				self::PLUGIN_SLUG,
 				array( $this, 'admin_menu_include')
 			);
 		}
@@ -140,7 +133,7 @@ if (!class_exists("dmck_audioplayer")) {
 			$this->shared_scripts();			
 			wp_enqueue_script( 'jquery-ui.min.js', $this->plugin_url . 'js/jquery-ui-1.12.1/jquery-ui.js', array('jquery'), $this->plugin_version, true );
 			wp_enqueue_style( 'jquery-ui.min.css',  $this->plugin_url . "js/jquery-ui-1.12.1/jquery-ui.min.css", array(), $this->plugin_version);
-			wp_enqueue_style( 'playlist.css',  $this->plugin_url . "playlist.css", array(), $this->plugin_version);
+			wp_enqueue_style( 'playlist.css',  $this->plugin_url . "css/playlist.css", array(), $this->plugin_version);
 			wp_enqueue_script( 'playlist-control.js', $this->plugin_url . 'js/playlist-control.js', array('jquery'), $this->plugin_version, true );
 			wp_enqueue_script( 'playlist.js', $this->plugin_url . 'js/playlist.js', array('jquery'), $this->plugin_version, true );
 			wp_enqueue_script( 'Chart.bundle.js', $this->plugin_url . 'js/Chart.bundle.js', array('jquery'), $this->plugin_version, true );
@@ -203,7 +196,7 @@ if (!class_exists("dmck_audioplayer")) {
 				'category' => $category,
 				'plugin_version' => $this->plugin_version,
 				'plugin_url' => $this->plugin_url,
-				'plugin_slug' => $this->plugin_slug,
+				'plugin_slug' => self::PLUGIN_SLUG,
 				'plugin_title' => $this->plugin_title,
 				'playlist_config'=> get_option("playlist_config"),
 				'github_url' => $this->github_url,
@@ -215,7 +208,7 @@ if (!class_exists("dmck_audioplayer")) {
 				'chart_color_array' => esc_attr( get_option('chart_color_array') ),
 				'chart_color_static' => esc_attr( get_option('chart_color_static') ),
 			);
-			wp_localize_script( 'functions.js', $this->plugin_slug, $local);
+			wp_localize_script( 'functions.js', self::PLUGIN_SLUG, $local);
 		}
 		function has_shortcode($shortcode = '') {		
 			$post_to_check = get_post(get_the_ID());
@@ -231,15 +224,15 @@ if (!class_exists("dmck_audioplayer")) {
 		function admin_bar_setup(){
 			global $wp_admin_bar;
 			if ( !is_super_admin() || !is_admin_bar_showing() ) return;
-			$url_to = admin_url( 'options-general.php?page='.$this->plugin_slug);			
+			$url_to = admin_url( 'options-general.php?page='.self::PLUGIN_SLUG);			
 			$wp_admin_bar->add_menu(
 									array(
-											'id' => $this->plugin_slug,
-											'title' => __( $this->plugin_title, $this->plugin_slug ),
+											'id' => self::PLUGIN_SLUG,
+											'title' => __( $this->plugin_title, self::PLUGIN_SLUG ),
 											'href' => $url_to,
 											'meta'  => array(
 															'title' => $this->plugin_title,
-															'class' => $this->plugin_slug
+															'class' => self::PLUGIN_SLUG
 															)
 											
 										)

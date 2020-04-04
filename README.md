@@ -21,26 +21,6 @@ shortcode for tabbed playlist:
 5. something something work in progress, idk might delete later.
 
 
-## Dependencies
-
-```javascript
-
-"bootstrap": "^4.4.1",
-"font-awesome": "^4.7.0",
-"jquery": "^3.4.1",
-"jquery.cookie": "^1.4.1",
-"popper.js": "^1.16.1"
-
-"maximal/audio-waveform": "~1.0"
-```
-
-```bash
-
-* H3K | Tiny File Manager V2.4.1
-* CCP Programmers | ccpprogrammers@gmail.com
-* https://tinyfilemanager.github.io
-```
-
 ## Notes
 
 **Regarding all version before 1.0.42:**

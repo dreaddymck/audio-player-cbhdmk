@@ -6,10 +6,10 @@
 
 try{
     require_once dirname(__FILE__) . "/../../../../wp-load.php";
-    require_once(dirname(__FILE__) . "/../trait/access-logs.php");
-	require_once(dirname(__FILE__) . "/../trait/wavform.php");
-    require_once(dirname(__FILE__) . "/../trait/utilities.php");   
-    require_once(dirname(__FILE__) . "/../trait/requests.php"); 
+    require_once(dirname(__FILE__) . "/trait/access-logs.php");
+	require_once(dirname(__FILE__) . "/trait/wavform.php");
+    require_once(dirname(__FILE__) . "/trait/utilities.php");   
+    require_once(dirname(__FILE__) . "/trait/requests.php"); 
 }
 catch (Exception $e) { exit($e); }
 

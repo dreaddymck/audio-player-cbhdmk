@@ -1,0 +1,39 @@
+/**
+ * The following styles get applied inside the editor only.
+ *
+ * Replace them with your own styles or remove the file completely.
+ */
+
+.wp-block-audio-player-cbhdmk-dmck-player-interface {
+	border: 1px dotted #333;
+}
+.cover { height: 200px; }
+.duration {
+    height: 100px;
+    width: 100%;
+    background-color: initial;
+    border: 0px !important;
+    filter:saturate(2);
+}
+.artist { float: right; padding: 12px; }
+.controls div{
+    float: none;
+    margin: 0 auto;
+    text-align: center;
+    padding-top: 24px;
+    padding-bottom: 24px;
+    cursor:pointer;
+}
+.controls div:active:hover{
+    color: rgb(8, 8, 8);
+}
+.volume {
+    height: 30px;
+    margin-bottom: 20px;
+    width: 100%;
+    background-color: initial;
+}
+.tracktime {
+    height: 25px;
+    padding: 12px;
+}

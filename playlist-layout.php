@@ -1,6 +1,6 @@
 <?php $playlist_data = $this->playlist_data_get(); ?>
 
-<div id="<?php echo $this->plugin_slug ?>">
+<div id="<?php echo self::PLUGIN_SLUG ?>">
 	<div class="row">
 		<div class="col-lg-12">
 			<div class="panel panel-box box-background">
