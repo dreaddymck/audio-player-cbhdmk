@@ -3,7 +3,7 @@
 Plugin Name: (DMCK) audio player
 Plugin URI: dreaddymck.com
 Description: Just another audio thingy. Can be used to generate playlists and simple charts. playlist shortcode [dmck-audioplayer]
-Version: 1.0.48
+Version: 1.0.49
 Author: dreaddymck
 Author URI: dreaddymck.com
 License: GPL2
@@ -122,7 +122,7 @@ if (!class_exists("dmck_audioplayer")) {
 			if ( $this->settings_page == $hook_suffix ) {
 				$this->shared_scripts();				
 				wp_enqueue_style( 'admin.css',  $this->plugin_url . "admin/admin.css", array(), $this->plugin_version);
-				wp_enqueue_script( 'marked.min.js', $this->plugin_url . 'js/marked.min.js', array('jquery'), $this->plugin_version, true );				
+				wp_enqueue_script( 'marked.min.js', $this->plugin_url . 'assets/js/marked.min.js', array('jquery'), $this->plugin_version, true );				
 				wp_enqueue_script( 'admin-functions.js', $this->plugin_url . 'admin/admin-functions.js', array('jquery'), $this->plugin_version, true );
 				wp_enqueue_script( 'admin.js', $this->plugin_url . 'admin/admin.js', array('jquery'), $this->plugin_version, true );				
 				$this->localize_vars();
@@ -131,21 +131,21 @@ if (!class_exists("dmck_audioplayer")) {
 		function user_scripts() {			
 			if( $this->has_shortcode( $this->shortcode ) ) {}			
 			$this->shared_scripts();			
-			wp_enqueue_script( 'jquery-ui.min.js', $this->plugin_url . 'js/jquery-ui-1.12.1/jquery-ui.js', array('jquery'), $this->plugin_version, true );
-			wp_enqueue_style( 'jquery-ui.min.css',  $this->plugin_url . "js/jquery-ui-1.12.1/jquery-ui.min.css", array(), $this->plugin_version);
-			wp_enqueue_style( 'playlist.css',  $this->plugin_url . "css/playlist.css", array(), $this->plugin_version);
-			wp_enqueue_script( 'playlist-control.js', $this->plugin_url . 'js/playlist-control.js', array('jquery'), $this->plugin_version, true );
-			wp_enqueue_script( 'playlist.js', $this->plugin_url . 'js/playlist.js', array('jquery'), $this->plugin_version, true );
-			wp_enqueue_script( 'Chart.bundle.js', $this->plugin_url . 'js/Chart.bundle.js', array('jquery'), $this->plugin_version, true );
-			wp_enqueue_script( 'index.js', $this->plugin_url . 'js/index.js', array('jquery'), $this->plugin_version, true );	
-			wp_enqueue_script( 'access_log.js', $this->plugin_url . 'js/access_log.js', array('jquery'), $this->plugin_version, true );
-			wp_enqueue_script( 'charts-pks.js', $this->plugin_url . 'js/charts-pks.js', array('jquery'), $this->plugin_version, true );			
+			wp_enqueue_script( 'jquery-ui.min.js', $this->plugin_url . 'assets/js/jquery-ui-1.12.1/jquery-ui.js', array('jquery'), $this->plugin_version, true );
+			wp_enqueue_style( 'jquery-ui.min.css',  $this->plugin_url . "assets/js/jquery-ui-1.12.1/jquery-ui.min.css", array(), $this->plugin_version);
+			wp_enqueue_style( 'playlist.css',  $this->plugin_url . "assets/css/playlist.css", array(), $this->plugin_version);
+			wp_enqueue_script( 'playlist-control.js', $this->plugin_url . 'assets/js/playlist-control.js', array('jquery'), $this->plugin_version, true );
+			wp_enqueue_script( 'playlist.js', $this->plugin_url . 'assets/js/playlist.js', array('jquery'), $this->plugin_version, true );
+			wp_enqueue_script( 'Chart.bundle.js', $this->plugin_url . 'assets/js/Chart.bundle.js', array('jquery'), $this->plugin_version, true );
+			wp_enqueue_script( 'index.js', $this->plugin_url . 'assets/js/index.js', array('jquery'), $this->plugin_version, true );	
+			wp_enqueue_script( 'access_log.js', $this->plugin_url . 'assets/js/access_log.js', array('jquery'), $this->plugin_version, true );
+			wp_enqueue_script( 'charts-pks.js', $this->plugin_url . 'assets/js/charts-pks.js', array('jquery'), $this->plugin_version, true );			
 			$this->localize_vars();
 		}
 		function shared_scripts(){
 			wp_enqueue_script( 'jquery.cookie.js', $this->plugin_url . 'node_modules/jquery.cookie/jquery.cookie.js', array('jquery'), $this->plugin_version, true );
 			wp_enqueue_style( 'font-awesome.min.css',  $this->plugin_url . "/node_modules/font-awesome/css/font-awesome.min.css", array(), $this->plugin_version);
-			wp_enqueue_script( 'functions.js', $this->plugin_url . 'js/functions.js', array('jquery'), $this->plugin_version, true );	
+			wp_enqueue_script( 'functions.js', $this->plugin_url . 'assets/js/functions.js', array('jquery'), $this->plugin_version, true );	
 			wp_enqueue_style( 'bootstrap.css',  $this->plugin_url . "node_modules/bootstrap/dist/css/bootstrap.min.css", array(), $this->plugin_version);		
 			wp_enqueue_script( 'bootstrap.js', $this->plugin_url . 'node_modules/bootstrap/dist/js/bootstrap.min.js', array( 'jquery' ), '', true );					
 		}
