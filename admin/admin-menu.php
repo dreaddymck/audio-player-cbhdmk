@@ -1,7 +1,7 @@
 <?php ?>
 
 <div class="loading" style="text-align: center; width: 100%;">
-	<img src="<?php echo plugins_url( 'images/loading-nerd.gif', dirname(__FILE__) )?>" /></div>
+	<img src="<?php echo plugins_url( 'assets/images/loading-nerd.gif', dirname(__FILE__) )?>" /></div>
 
 <form name="admin-settings-form" name="admin-settings-form" method="post" action="options.php">
 	<?php settings_fields( self::SETTINGS_GROUP ); ?>
@@ -12,9 +12,6 @@
 		<li class="tab-link" data-tab="tab-4">Playlists</li>
 		<?php if( get_option('charts_enabled') ){ ?>
 		<li class="tab-link" data-tab="tab-5">Charts</li>
-		<?php } ?>
-		<?php if( get_option('filemanager_enabled') ){ ?>
-		<li class="tab-link" data-tab="tab-2">Tiny File Manager</li>
 		<?php } ?>
 		<li class="tab-link" data-tab="tab-3">About</li>
 	</ul>
@@ -39,10 +36,6 @@
 				<input type="checkbox" name="charts_enabled"  class="form-control" value="1" <?php if (1 == get_option('charts_enabled')) echo 'checked="checked"'; ?> >
 				<label>Charts</label>
 				<hr>
-				<input type="checkbox" name="filemanager_enabled"  class="form-control" value="1" <?php if (1 == get_option('filemanager_enabled')) echo 'checked="checked"'; ?> >
-				<label>Tiny File Manager</label>							
-								
-				
 			</div>			
 		</div>
 	</div>

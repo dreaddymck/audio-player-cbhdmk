@@ -19,7 +19,7 @@ function dmck_player_interface_block_init() {
 	}
 	$dir = dirname( __FILE__ );
 
-	$index_js = 'dmck-player-interface/index.js';
+	$index_js = 'index.js';
 	wp_register_script(
 		'dmck-player-interface-block-editor',
 		plugins_url( $index_js, __FILE__ ),
@@ -44,10 +44,10 @@ function dmck_player_interface_block_init() {
 	$jquery_ui_css = "js/jquery-ui-1.12.1/jquery-ui.min.css";
 	wp_register_style( 'jquery-ui.min.css.block', plugins_url( $jquery_ui_css, __FILE__ ), array());	
 
-	$editor_css = 'dmck-player-interface/editor.css';
+	$editor_css = 'editor.css';
 	wp_register_style( 'dmck-player-interface-block-editor', plugins_url( $editor_css, __FILE__ ), array(), filemtime( "$dir/$editor_css" ) );
 
-	$style_css = 'dmck-player-interface/style.css';
+	$style_css = 'style.css';
 	wp_register_style( 'dmck-player-interface-block', plugins_url( $style_css, __FILE__ ), array(), filemtime( "$dir/$style_css" ) );
 
 	register_block_type( 'audio-player-cbhdmk/dmck-player-interface', array(

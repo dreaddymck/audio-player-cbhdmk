@@ -5,13 +5,7 @@ const admin_functions = {
         /**
          * events
          */
-        jQuery('<iframe id="tiny-file-manager" style="width:100%;height:auto;" />')
-            .attr("src", dmck_audioplayer.plugin_url + "/lib/tiny-file-manager.php")
-            .appendTo('.tab-files')
-            .load(function () {
-                let $contents = jQuery(this).contents();
-                jQuery("#tiny-file-manager").height( $contents.height() + "px")
-        });        
+      
         jQuery('ul.tabs li').click(function(){
             var tab_id = jQuery(this).attr('data-tab');
     

@@ -38,7 +38,7 @@ if (!class_exists("dmck_audioplayer")) {
 		const SETTINGS_GROUP			= 'dmck-audioplayer-settings-group';
 
 		public $shortcode				= "dmck-audioplayer";
-		public $adminpreferences 		= array('charts_enabled','drop_table_on_inactive','chart_color_array','chart_color_static','favicon','default_album_cover','moreinfo','access_log','filemanager_enabled','access_log_pattern','playlist_config');
+		public $adminpreferences 		= array('charts_enabled','drop_table_on_inactive','chart_color_array','chart_color_static','favicon','default_album_cover','moreinfo','access_log','access_log_pattern','playlist_config');
 		public $userpreferences 		= array('userpreferences');	
 		public $github_url				= "https://github.com/dreaddy/audio-player-cbhdmk";
 		public $debug					= false;
@@ -91,6 +91,8 @@ if (!class_exists("dmck_audioplayer")) {
 			add_filter( 'get_the_excerpt', array($this,'the_exerpt_filter'));
 			add_filter( 'the_content', array($this,'content_handler'));			
 			add_filter( 'cron_schedules', array($this, 'cron_add_minute'));
+
+			require_once(plugin_dir_path(__FILE__)."blocks/example-block/example-block.php");
 			
 		}
 		function _init_actions(){
