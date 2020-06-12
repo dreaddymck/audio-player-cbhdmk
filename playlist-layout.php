@@ -45,11 +45,11 @@ EOF;
 
 }
 ?>		
-		<!-- <li class="nav-item">
+		<li class="nav-item">
 			<a class="nav-link" id="tab-top-10" data-toggle="tab" href="#top-10" role="tab" aria-controls="top-10" aria-selected="true">
 				<h4>Today's Top 10</h4>
 			</a>
-		</li>		 -->
+		</li>		
 	</ul>
 
 	<div class="tab-content">
@@ -112,40 +112,40 @@ EOF;
 		
 <?php	
 
-// 		foreach($playlist_data["top_10_json"] as $value) { 
+		foreach($playlist_data["top_10_json"] as $value) { 
 
-// echo <<<EOF
+echo <<<EOF
 
-// 				<tr id="top-10-{$value["ID"]}"
-// 					class="top-10-track dmck-audio-playlist-track" 
-// 					post-id="{$value["ID"]}"
-// 					audiourl="{$value["mp3"]}" 
-// 					cover="{$value["cover"]}" 
-// 					artist="{$value["artist"]}" 
-// 					title="{$value["title"]}"
-// 					permalink="{$value["permalink"]}" 
-// 					wavformpng="{$value["wavformpng"]}"
-// 					style="color:">
-// 					<td>
-// 						<h5>{$value["title"]}</h5>
-// 						<span class="">
-// 							{$value["tags"]} {$value["moreinfo"]}
-// 						</span>
-// 					</td>
-// 					<td class="text-center" title="{$value["date"]}">
-// 						<h1 class="dmck_top10_count">{$value["count"]}</h1>
-// 					</td> 
-// 				</tr>
+				<tr id="top-10-{$value["ID"]}"
+					class="top-10-track dmck-audio-playlist-track" 
+					post-id="{$value["ID"]}"
+					audiourl="{$value["mp3"]}" 
+					cover="{$value["cover"]}" 
+					artist="{$value["artist"]}" 
+					title="{$value["title"]}"
+					permalink="{$value["permalink"]}" 
+					wavformpng="{$value["wavformpng"]}"
+					style="color:">
+					<td>
+						<h5>{$value["title"]}</h5>
+						<span class="">
+							{$value["tags"]} {$value["moreinfo"]}
+						</span>
+					</td>
+					<td class="text-center" title="{$value["date"]}">
+						<h1 class="dmck_top10_count">{$value["count"]}</h1>
+					</td> 
+				</tr>
 
-// EOF;
+EOF;
 
-// 		}		
+		}		
 ?>		
 			</tbody></table>
 
-<?php //if (get_option('charts_enabled')) { ?>				
-		<!-- <script>let top_10_json = <?php //echo json_encode($playlist_data["top_10_json"]) ?></script>  -->
-<?php //}  ?>	
+<?php if (get_option('charts_enabled')) { ?>				
+		<script>let top_10_json = <?php echo json_encode($playlist_data["top_10_json"]) ?></script> 
+<?php }  ?>	
 
 		</div>  
 	</div>
