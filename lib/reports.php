@@ -2,7 +2,6 @@
 /*
     Command line support for cron calls.
 */
-
 try{
     require_once dirname(__FILE__) . "/../../../../wp-load.php";
     require_once(dirname(__FILE__) . "/trait/access-logs.php");
@@ -11,9 +10,7 @@ try{
     require_once(dirname(__FILE__) . "/trait/requests.php"); 
 }
 catch (Exception $e) { exit($e); }
-
 class dmck_reports{
-
     use _accesslog;
     use _wavform;
     use _utilities;
@@ -25,7 +22,17 @@ class dmck_reports{
     function __construct() {
         if ( $_SERVER['REQUEST_METHOD'] ) { exit( header("Location: ".get_bloginfo('url')) ); }        
         if($this::parameters()) {
-            exit( $this->requests($this->options) );
+            $response = "{}";
+            switch ($this->options) {
+                case "put":
+                    $response = $this->accesslog_activity_put();
+                    break;
+                case "wavform":
+                    $response = _wavform::wavform();        
+                    break;                                
+                default:
+            }   
+            exit($response);
         }
     }
     function parameters()

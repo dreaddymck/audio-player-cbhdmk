@@ -11,9 +11,6 @@ trait _requests {
 			case "search":
 				$response = $this->param_request($data);
 				break;				
-			case "put":
-                $response = $this->accesslog_activity_put();
-                break;
             case "get":
                 $response = $this->accesslog_activity_get();
                 break;
@@ -22,12 +19,6 @@ trait _requests {
                 break;    
             case "get-month":
                 $response = $this->accesslog_activity_get_month();
-                break;                                
-            case "purge":
-                $response = $this->accesslog_activity_purge();
-                break;
-            case "wavform":
-                $response = _wavform::wavform();        
                 break;                                
             default:
         }
@@ -47,10 +38,6 @@ trait _requests {
 			'tag_slug__and'		=> !empty($obj->tag_slug__and) ? array( $obj->tag_slug__and ) : "",	
 		);
 		return $this->_requests_get_posts($args);
-		// $posts 	= get_posts( $args );
-		// $response   = $this->render_elements($posts);			
-		// wp_reset_postdata();
-		// return $response;					
 	}
 	function param_request($data){
 		global $wpdb;
@@ -67,10 +54,6 @@ trait _requests {
 			'tag_slug__and'		=> !empty($params["tag_slug__and"]) ? $params["tag_slug__and"] : "",						
 		);
 		return $this->_requests_get_posts($args);			
-		// $posts 	    = get_posts( $args );
-		// $response   = $this->render_elements($posts);
-		// wp_reset_postdata();
-		// return($response);
 	}
 	function _requests_get_posts($args){
 		$posts 	    = get_posts( $args );
