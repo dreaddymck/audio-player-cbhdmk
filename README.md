@@ -20,24 +20,7 @@ shortcode for tabbed playlist:
 4. Add shortcode to pages or posts as needed.
 5. something something work in progress, idk might delete later.
 
-
 ## Notes
-
-**Regarding all version before 1.0.42:**
-
-Changes require plugin deactivate/reactivate or attempt remove duplicates in the custom table using example SQL query below
-*(The latter option has not been optimized and takes a long long time ).*
-
-```sql
-
-DELETE t1 FROM dmck_audio_log_reports t1 
-INNER JOIN dmck_audio_log_reports t2 
-WHERE t1.id < t2.id AND DATE_FORMAT(t1.updated, '%m-%d-%Y') = DATE_FORMAT(t2.updated, '%m-%d-%Y')
-```
-
-Creates custom table dmck_audio_log_reports when activated.
-Drops table dmck_audio_log_reports when deactivated AND the admin option to drop custom table is checked.
-dmck_audio_log_reports stores data used to render top 10 list and charts.
 
 ### Filter access logs. Debugging
 
