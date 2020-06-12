@@ -1,6 +1,8 @@
 /config.js
+config.js
 .nodemonignore
 nohup.out
 npm-debug.log
-config.js
+error_log                                                                                                                                                   
+lib/error_log 
 
