@@ -161,7 +161,7 @@ const playlist_control = {
 		jQuery(playlist_control.globals.cfg.artist).text(artist)
 	
 		playlist_control.set_cover_background(cover)
-		playlist_control.set_cover_click(permalink)
+		// playlist_control.set_cover_click(permalink)
 		playlist_control.set_duration_background(wavformpng)
 
 		playlist_control.globals.cfg.song = new Audio(url);	
@@ -225,13 +225,13 @@ const playlist_control = {
 			'opacity': 0.8
 		})
 	},
-	set_cover_click: function (str) {
-		jQuery(playlist_control.globals.cfg.cover).css('cursor', 'pointer').unbind('click').bind(
-			'click',
-			function () {
-				window.open(str, '_top')
-			})
-	},
+	// set_cover_click: function (str) {
+	// 	jQuery(playlist_control.globals.cfg.cover).css('cursor', 'pointer').unbind('click').bind(
+	// 		'click',
+	// 		function () {
+	// 			window.open(str, '_top')
+	// 		})
+	// },
 	set_duration_background: function (img) {
 		jQuery(playlist_control.globals.cfg.duration).css({
 			'background-image': 'url("' + img + '")',
