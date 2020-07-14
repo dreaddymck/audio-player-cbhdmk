@@ -16,7 +16,7 @@ trait _utilities {
 					// $value = parse_url($p, PHP_URL_PATH);
 					$basename = basename($p);
 					$filename = urldecode($basename);
-					$pattern = "(".preg_quote($basename).")|(".preg_quote($filename).")";
+					$pattern = "(".preg_quote($basename)."|".preg_quote($filename).")";
 					$target = pathinfo($filename, PATHINFO_FILENAME);
 					$target = preg_replace("/(\W)+/", '_', $target);					
 					$resp = $this->accesslog_activity_get_month($pattern,12);
@@ -24,8 +24,9 @@ trait _utilities {
 						$json = json_decode($value[0]);
 						foreach($json as $jkey=>$jvalue){
 							// if($jvalue->name == $filename){
-							// $this->_echo($jvalue->name . " == " . $filename);
-							// $this->_echo($jvalue->name . " == " . $pattern);
+							// 	$this->_log("PATTERN: ". $pattern);
+							// 	$this->_log("RESULTS: ". $jvalue->name . " == " . $filename);
+							// }
 							if( preg_match("/".$pattern."/", $jvalue->name) ){
 								array_push($post_chart_json, array(
 									"time"=> $jvalue->time,
