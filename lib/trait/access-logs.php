@@ -38,7 +38,7 @@ EOF;
     function accesslog_activity_get_week($name="",$num=1) {
 
         $filter = "";
-        if($name){ $filter = " AND json_unquote(data->'$.*.name') REGEXP'$name'"; }
+        if($name){ $filter = " AND JSON_EXTRACT(data, '$.*.name')  REGEXP'$name'"; }
         $query = <<<EOF
 SELECT 
     data FROM dmck_audio_log_reports  
@@ -54,7 +54,8 @@ EOF;
     } 
     function accesslog_activity_get_month($name="", $num=1) {
         $filter = "";
-        if($name){ $filter = " AND json_unquote(data->'$.*.name') REGEXP'$name'"; }
+        if($name){ $filter = " AND JSON_EXTRACT(data, '$.*.name') REGEXP'$name'"; }
+        
         $query = <<<EOF
 SELECT 
     data FROM dmck_audio_log_reports 
@@ -65,6 +66,7 @@ order by
     updated ASC
 EOF;
 
+        // error_log($query);
         $results = $this->query($query);
         return $results;	
     }       
