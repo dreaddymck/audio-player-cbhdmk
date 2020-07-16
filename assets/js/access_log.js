@@ -27,10 +27,17 @@ const access_log = {
                 let date = new Date(top_10_json[index].time*1000 ).toLocaleString();
                 jQuery(this).find("td").next().attr("title",date);
             }).click(function(e){
-                playlist_control.stopAudio();	
-                jQuery(playlist_control.globals.cfg.duration).slider('option', 'min', 0);
-                playlist_control.initAudio(jQuery(this));
-                playlist_control.globals.cfg.playing = true;
+
+                if (jQuery('.row-cover:hover').length != 0) {
+                    window.open(jQuery(this).attr("permalink"), '_blank')
+                }
+                else
+                {
+                    playlist_control.stopAudio();	
+                    jQuery(playlist_control.globals.cfg.duration).slider('option', 'min', 0);
+                    playlist_control.initAudio(jQuery(this));
+                    playlist_control.globals.cfg.playing = true;
+                }
                 return;                            
             }).promise().done(function(){
                 let elem = container.find( target + ':first-child').attr("audiourl");

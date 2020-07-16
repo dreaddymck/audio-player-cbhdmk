@@ -83,7 +83,7 @@ echo <<<EOF
 							{$p->tags} {$p->moreinfo}
 						</span>
 					</div>
-					<div class="col-lg-2 text-center">
+					<div class="col-lg-2 text-center row-cover">
 						<img class="" src="{$p->cover}" height="100" width="100">
 					</div>
 				</div>
@@ -132,7 +132,7 @@ echo <<<EOF
 							{$value["tags"]} {$value["moreinfo"]}
 						</span>
 					</td>
-					<td class="text-center" title="{$value["date"]}">
+					<td class="text-center  row-cover" title="{$value["date"]}">
 						<h1 class="dmck_top10_count">{$value["count"]}</h1>
 					</td> 
 				</tr>

@@ -24,10 +24,18 @@ const playlist = {
 					jQuery(this).attr("style","color:" + (colors[index] ? colors[index] : "") );
 					// postids.push(jQuery(this).attr("post-id"));  
 				 }).click(function () {
-					playlist_control.stopAudio();	
-					jQuery(playlist_control.globals.cfg.duration).slider('option', 'min', 0);
-					playlist_control.initAudio(jQuery(this));
-					playlist_control.globals.cfg.playing = true;
+
+					if (jQuery('.row-cover:hover').length != 0) {
+						window.open(jQuery(this).attr("permalink"), '_blank')
+					}
+					else
+					{					
+						playlist_control.stopAudio();	
+						jQuery(playlist_control.globals.cfg.duration).slider('option', 'min', 0);
+						playlist_control.initAudio(jQuery(this));
+						playlist_control.globals.cfg.playing = true;
+					}
+					return;
 				}).promise().done(function(){
 					// initialization - first element in playlist
 					jQuery( container ).find( target + ':first-child').addClass("active");					
