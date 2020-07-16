@@ -55,7 +55,7 @@ const playlist_control = {
 		jQuery(playlist_control.globals.cfg.title).click(function (e) {
 			e.preventDefault()
 			let permalink = jQuery(this).attr('permalink')
-			window.open(permalink, '_top', '')
+			window.open(permalink, '_blank', '')
 		});
 		// pause click
 		jQuery(playlist_control.globals.cfg.pause).click(function (e) {
@@ -229,7 +229,7 @@ const playlist_control = {
 	// 	jQuery(playlist_control.globals.cfg.cover).css('cursor', 'pointer').unbind('click').bind(
 	// 		'click',
 	// 		function () {
-	// 			window.open(str, '_top')
+	// 			window.open(str, '_blank')
 	// 		})
 	// },
 	set_duration_background: function (img) {
