@@ -53,6 +53,9 @@ img.ui-li-img {
     height: 100px;
     width: 50px;
 }
+.top-10-track {
+    cursor: pointer;
+}
 .dmck-audio-playlist-track {
     list-style-type: none;
     /* margin: -1px 0 0 0px; */
@@ -61,8 +64,28 @@ img.ui-li-img {
     width: 100%;
     cursor: pointer;
 }
-.top-10-track {
-    cursor: pointer;
+.dmck-row-cover h1 {
+    background-color: rgba(0,0,0,0.75);
+    line-height: 100px;    
+}
+.dmck-row-cover img {
+	border-radius: 50%;
+}
+.track-content .dmck-row-cover,
+.top-10-track .dmck-row-cover {
+    width : 100px;    
+}
+.track-content .dmck-row-cover div,
+.top-10-track .dmck-row-cover div {
+    -webkit-border-radius: 50px;
+    -moz-border-radius: 50px;
+    border-radius: 50px;
+    border: none;
+    height : 100px;
+    width : 100px;
+    background-size: 100px 100px;
+    background-repeat: no-repeat;
+    background-position: center;    
 }   
 .dmck-audio-playlist-track.active, .top-requests-data tbody tr.active{ 
     background-color: rgba(87, 87, 87, 0.384); 

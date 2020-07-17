@@ -60,15 +60,19 @@ EOF;
 echo <<<EOF
 		<div class="tab-pane" id="{$pj->id}" role="tabpanel" aria-labelledby="tab-{$pj->id}">
 		<div id=id="{$pj->id}-rss"></div>
+
+		<table class="table table-responsive-lg top-requests-data">
+		<tbody>		
 EOF;
 			$playlist = json_decode( $this->obj_request( $pj ) );
+
+			
 
 			foreach($playlist as $p) { 
 
 echo <<<EOF
-			<div  
-				id="{$pj->id}-{$p->ID}" 
-				class="{$pj->id}-track dmck-audio-playlist-track" 
+			<tr id="{$pj->id}-{$p->ID}" 
+				class="{$pj->id}-track dmck-audio-playlist-track track-content" 
 				post-id="{$p->ID}"
 				audiourl="{$p->mp3}" 
 				cover="{$p->cover}" 
@@ -76,24 +80,20 @@ echo <<<EOF
 				title="{$p->title}" 
 				permalink="{$p->permalink}" 
 				wavformpng="{$p->wavformpng}">
-				<div class="track-content row">
-					<div class="col-lg-10">
-						<h5 class="">$p->title</h5>
-						<span class="">
-							{$p->tags} {$p->moreinfo}
-						</span>
-					</div>
-					<div class="col-lg-2 text-center row-cover">
-						<img class="" src="{$p->cover}" height="100" width="100">
-					</div>
-				</div>
-			</div>
+				<td>
+					<h5 class="">$p->title</h5>
+					<span class=""> {$p->tags} {$p->moreinfo} </span>
+				</td>	
+				<td class="text-center dmck-row-cover">
+					<div style="background-image: url('{$p->cover}')"></div>
+				</td>
+			</tr>
 EOF;
 
 		}
 
 echo <<<EOF
-		</div>
+	</tbody></table></div>
 EOF;
 
 }
@@ -128,12 +128,10 @@ echo <<<EOF
 					style="color:">
 					<td>
 						<h5>{$value["title"]}</h5>
-						<span class="">
-							{$value["tags"]} {$value["moreinfo"]}
-						</span>
+						<span class="">{$value["tags"]} {$value["moreinfo"]}</span>
 					</td>
-					<td class="text-center  row-cover" title="{$value["date"]}">
-						<h1 class="dmck_top10_count">{$value["count"]}</h1>
+					<td class="text-center dmck-row-cover" title="{$value["date"]}">
+						<div><h1 class="dmck_top10_count">{$value["count"]}</h1></div>							
 					</td> 
 				</tr>
 

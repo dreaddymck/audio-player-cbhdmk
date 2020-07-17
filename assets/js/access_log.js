@@ -25,10 +25,15 @@ const access_log = {
                  */
                 if(typeof top_10_json === 'undefined'){return;}
                 let date = new Date(top_10_json[index].time*1000 ).toLocaleString();
-                jQuery(this).find("td").next().attr("title",date);
+                let cover = jQuery(this).attr('cover');
+                jQuery(this).find("td.dmck-row-cover div").css({   
+                    'background-image': 'url(' + cover + ')',                   
+                })
+                jQuery(this).find("td.dmck-row-cover h1").attr("title",date);               
+                
             }).click(function(e){
 
-                if (jQuery('.row-cover:hover').length != 0) {
+                if (jQuery('.dmck-row-cover:hover').length != 0) {
                     window.open(jQuery(this).attr("permalink"), '_blank')
                 }
                 else

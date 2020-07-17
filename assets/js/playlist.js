@@ -25,7 +25,7 @@ const playlist = {
 					// postids.push(jQuery(this).attr("post-id"));  
 				 }).click(function () {
 
-					if (jQuery('.row-cover:hover').length != 0) {
+					if (jQuery('.dmck-row-cover:hover').length != 0) {
 						window.open(jQuery(this).attr("permalink"), '_blank')
 					}
 					else
