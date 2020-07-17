@@ -64,6 +64,10 @@ img.ui-li-img {
     width: 100%;
     cursor: pointer;
 }
+.dmck-cover {
+    background-size: 100%; 
+    opacity: 0.8;
+}
 .dmck-row-cover h1 {
     background-color: rgba(0,0,0,0.75);
     line-height: 100px;    

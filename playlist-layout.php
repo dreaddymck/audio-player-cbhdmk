@@ -8,7 +8,7 @@
 					<h1 class="title" title="click for more information"></h1>
 				</div>
 				<div class="panel-body">				
-					<div class="cover" style="background-image: url('<?php echo esc_attr( get_option('default_album_cover') ); ?>'); background-size: 100%; opacity: 0.8; cursor: pointer;"">
+					<div class="cover" style="background-image: url('<?php echo esc_attr( get_option('default_album_cover') ); ?>');">
 						<div class="h-100">
 							<div class="volume" style="display:none"></div>						
 							<div class="duration h-100">							
