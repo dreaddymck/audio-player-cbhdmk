@@ -118,7 +118,8 @@ trait _requests {
 		return $arr;		
 	}
 	function render_elements($posts) {		
-		$response 	= [];		
+		$response = [];
+		$is_secure = $this->isSecure();		
 		foreach ( $posts as $post ) : setup_postdata( $post );			
 			$object 	= new stdClass();
 			$audio 		= $this->fetch_audio_from_string( $post->post_content );		
@@ -137,7 +138,7 @@ trait _requests {
 			$object->wavformpng	    = $this->waveformpng($audio[0]);
 			$object->wavformjson	= $this->waveformjson($audio[0]);
 			
-			if($this->isSecure()){
+			if($is_secure){
 				$object->mp3		    = preg_replace("/^http:/i", "https:", $object->mp3);
 				$object->wavformpng	    = preg_replace("/^http:/i", "https:", $object->wavformpng);
 				$object->wavformjson	= preg_replace("/^http:/i", "https:", $object->wavformjson);	
