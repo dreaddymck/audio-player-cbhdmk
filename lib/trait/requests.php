@@ -123,13 +123,14 @@ trait _requests {
 		foreach ( $posts as $post ) : setup_postdata( $post );			
 			$object 	= new stdClass();
 			$audio 		= $this->fetch_audio_from_string( $post->post_content );		
-			if(! !empty($audio[0])) { continue; }
-			/* If $this->path exist
-			* playlist_elements call
-			* we should be extracting a single element that matches
-			*/
+			if(empty($audio[0])) { continue; }
+			$audio[0] = urldecode($audio[0]);			
 			if($this->path) {					
-				if (strpos(  urldecode($audio[0]), $this->path) === false) {
+				/* If $this->path exist
+				* playlist_elements call
+				* we should be extracting a single element that matches
+				*/
+				if (strpos(  $audio[0], $this->path) === false) {
 					continue;
 				}				
 			}				
