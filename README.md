@@ -39,7 +39,10 @@ $(which php) /home/user/site.com/wp-content/plugins/audio-player-cbhdmk/lib/repo
 
 ### Wavform
 
-The script below is used to manually create wavforms (Requires an ffmpeg Installation on server).
+Default location for the wav form image is within the same folder as the mp3. 
+The default can be overriden by creating a custom field for the post document called *dmck_wavformpng*. Value is the url to the alternate wav form image location.
+
+The script below may be used to manually create wavforms (Requires an ffmpeg Installation on server).
 _Parameters:_
 
 1. wavform - _action flag, required_
@@ -55,7 +58,7 @@ $(which php) /home/user/site.com/wp-content/plugins/audio-player-cbhdmk/lib/repo
 
 ## Misc
 
-The following bash script can also be used to generate wavform (Requires ffmpeg Installation on server and some tweaking).
+The following bash script may also be used to generate wavform (Requires ffmpeg Installation on server and some tweaking).
 
 ```bash
 
