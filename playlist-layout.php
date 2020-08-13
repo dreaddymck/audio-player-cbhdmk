@@ -77,14 +77,13 @@ echo <<<EOF
 				audiourl="{$p->mp3}" 
 				cover="{$p->cover}" 
 				artist="{$p->artist}" 
-				title="{$p->title}" 
 				permalink="{$p->permalink}" 
 				wavformpng="{$p->wavformpng}">
-				<td>
+				<td title="{$p->title}\nClick to play">
 					<h5 class="">$p->title</h5>
 					<span class=""> {$p->tags} {$p->moreinfo} </span>
 				</td>	
-				<td class="text-center dmck-row-cover">
+				<td title="Click for details" class="text-center dmck-row-cover">
 					<div style="background-image: url('{$p->cover}')"></div>
 				</td>
 			</tr>
@@ -125,12 +124,11 @@ echo <<<EOF
 					post-id="{$value["ID"]}"
 					audiourl="{$value["mp3"]}" 
 					cover="{$value["cover"]}" 
-					artist="{$value["artist"]}" 
-					title="{$value["title"]}"
+					artist="{$value["artist"]}"					
 					permalink="{$value["permalink"]}" 
 					wavformpng="{$value["wavformpng"]}"
 					style="color:">
-					<td>
+					<td title="{$value["title"]}\nClick to play">
 						<h5>{$value["title"]}</h5>
 						<span class="">{$value["tags"]} {$value["moreinfo"]}</span>
 					</td>

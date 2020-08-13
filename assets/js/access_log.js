@@ -29,7 +29,7 @@ const access_log = {
                 jQuery(this).find("td.dmck-row-cover div").css({   
                     'background-image': 'url(' + cover + ')',                   
                 })
-                jQuery(this).find("td.dmck-row-cover h1").attr("title",date);               
+                jQuery(this).find("td.dmck-row-cover h1").attr("title",date + "\nClick for details");               
                 
             }).click(function(e){
 
