@@ -113,6 +113,7 @@ EOF;
 <?php	
 
 		foreach($playlist_data["top_10_json"] as $value) { 
+			if(!$value["ID"]){continue;}
 
 echo <<<EOF
 
