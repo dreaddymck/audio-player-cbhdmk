@@ -102,8 +102,7 @@ trait _requests {
 			$json[$key]["permalink"] = $p[0]->permalink;
 			$json[$key]["wavformpng"] = $p[0]->wavformpng;
 			$json[$key]["tags"] = $p[0]->tags;
-			$json[$key]["moreinfo"] = $p[0]->moreinfo;
-			
+			$json[$key]["moreinfo"] = $p[0]->moreinfo;			
 		}
 		return $json;
 	}
@@ -120,7 +119,10 @@ trait _requests {
 	function render_elements($posts) {		
 		$response = [];
 		$is_secure = $this->isSecure();		
-		foreach ( $posts as $post ) : setup_postdata( $post );			
+		foreach ( $posts as $post ) : setup_postdata( $post );		
+		
+			if(get_post_status($post->ID) != "publish" ){ continue; }
+
 			$object 	= new stdClass();
 			$audio 		= $this->fetch_audio_from_string( $post->post_content );		
 			if(empty($audio[0])) { continue; }
@@ -130,15 +132,13 @@ trait _requests {
 				* playlist_elements call
 				* we should be extracting a single element that matches
 				*/
-				if (strpos(  $audio[0], $this->path) === false) {
-					continue;
-				}				
+				if (strpos(  $audio[0], $this->path) === false) { continue; }				
 			}				
 			$object->ID		        = $post->ID;
 			$object->mp3		    = $audio[0];				
-			$object->wavformpng	    = $this->waveformpng($audio[0]);
-			$object->wavformjson	= $this->waveformjson($audio[0]);
-			
+			$object->wavformpng		= get_post_meta( $post->ID, 'dmck_wavformpng', true );
+			$object->wavformpng	    = $object->wavformpng ? $object->wavformpng : $this->waveformpng($audio[0]);
+			$object->wavformjson	= $this->waveformjson($audio[0]);			
 			if($is_secure){
 				$object->mp3		    = preg_replace("/^http:/i", "https:", $object->mp3);
 				$object->wavformpng	    = preg_replace("/^http:/i", "https:", $object->wavformpng);
