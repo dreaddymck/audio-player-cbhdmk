@@ -24,10 +24,10 @@ trait _requests {
         }
         return $response;
     }	
-	function obj_request($obj) {
+	function get_post_from_path($obj) {
 		global $wpdb;		
 		$args = array(
-			's'					=> !empty($obj->s) ? urldecode($obj->s)  : "",
+			's'					=> !empty($obj->s) ? "/".urldecode($obj->s)  : "",
 			'posts_per_page' 	=> !empty($obj->posts_per_page) ? $obj->posts_per_page : -1,
 			'orderby'          	=> !empty($obj->orderby) ? $obj->orderby  : "",
 			'order'            	=> !empty($obj->order) ? $obj->order  : "",
@@ -88,7 +88,7 @@ trait _requests {
 		foreach($json as $key=>$value) { 
 			
 			$param = (object) array('s' => $value["name"]);
-			$p = json_decode($this->obj_request( $param ));
+			$p = json_decode($this->get_post_from_path( $param ));
 
 			$title = !empty($p[0]->title) ? $p[0]->title : urldecode($value["name"]);
 			$date = date('m/d/Y h:i:s a', $json["time"]);
