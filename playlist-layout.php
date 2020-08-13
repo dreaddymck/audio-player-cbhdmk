@@ -144,7 +144,9 @@ EOF;
 		}		
 		foreach ( $unset_queue as $index ){
 			unset($playlist_data["top_10_json"][$index]);
-		}		
+		}	
+		// rebase the array
+		$playlist_data["top_10_json"] = array_values($playlist_data["top_10_json"]);
 ?>		
 			</tbody></table>
 
