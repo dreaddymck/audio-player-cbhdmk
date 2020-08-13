@@ -111,9 +111,12 @@ EOF;
 			<tbody>
 		
 <?php	
-
-		foreach($playlist_data["top_10_json"] as $value) { 
-			if(!$value["ID"]){continue;}
+		$unset_queue = array();
+		foreach($playlist_data["top_10_json"] as $key => $value) { 
+			if( !$value["ID"] ){
+				$unset_queue[] = $key;
+				continue;
+			}
 
 echo <<<EOF
 
@@ -138,6 +141,9 @@ echo <<<EOF
 
 EOF;
 
+		}		
+		foreach ( $unset_queue as $index ){
+			unset($playlist_data["top_10_json"][$index]);
 		}		
 ?>		
 			</tbody></table>
