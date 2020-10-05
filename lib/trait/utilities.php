@@ -6,6 +6,19 @@ trait _utilities {
 			(!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off')
 			|| $_SERVER['SERVER_PORT'] == 443;
 	}
+	function get_my_ip(){
+		$ip = "";
+		if ( !empty($_SERVER['HTTP_CLIENT_IP']) ) {			
+			$ip = $_SERVER['HTTP_CLIENT_IP']; // Check IP from internet.
+		} 
+		elseif (!empty($_SERVER['HTTP_X_FORWARDED_FOR']) ) {
+			$ip = $_SERVER['HTTP_X_FORWARDED_FOR']; // Check IP is passed from proxy.
+		} 
+		else {
+			$ip = $_SERVER['REMOTE_ADDR']; // Get IP address from remote address.
+		}
+		return $ip;
+	}	
 	function content_handler($content){
 		$html = "";
 		if ( is_singular() && in_the_loop() ) {

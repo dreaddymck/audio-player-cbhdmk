@@ -36,6 +36,6 @@ ul.tabs li.current {
 }
 textarea.form-control {
     /* height: auto; */
-    height: -webkit-fill-available;
+    /* height: -webkit-fill-available; */
     /* height: fit-content; */
 }

@@ -73,7 +73,11 @@ EOF;
     function accesslog_activity_put()
     {			
         if(!$this->filepath){ die("Missing access log location"); }	
+        
         $access_log_pattern = get_option('access_log_pattern') ? get_option('access_log_pattern') : "";
+        $ignore_ip = get_option('ignore_ip') ? esc_attr( get_option('ignore_ip') ) : "";
+        $ignore_ip_enabled = get_option('ignore_ip_enabled') ? esc_attr( get_option('ignore_ip_enabled') ) : "";
+        
         $pattern = $access_log_pattern ? $access_log_pattern : "/.mp3/i";
         if($this->debug){
             $pattern = $this->filename  ? $this->filename : $pattern;
@@ -100,9 +104,14 @@ EOF;
                     // echo( urldecode($dd) ."\n\r");
                     // echo( print_r($matches,1) );
                     if(preg_match( $pattern , $matches[8] ) ){
+                        if( $ignore_ip_enabled ){
+                            if($ignore_ip && preg_match('/'. $matches[1] .'/', $ignore_ip)){
+                                continue;
+                            }
+                        }
                         if($this->debug){
                             $this->_log($matches);
-                        }                        
+                        }                       
                         $name = basename($matches[8]);
                         $time = $matches[4] .":".$matches[5]." ".$matches[6];
                         $time = strtotime( $time );

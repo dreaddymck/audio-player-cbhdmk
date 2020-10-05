@@ -3,11 +3,12 @@
 Plugin Name: (DMCK) audio player
 Plugin URI: dreaddymck.com
 Description: Just another audio thingy. Can be used to generate playlists and simple charts. playlist shortcode [dmck-audioplayer]
-Version: 1.0.54
+Version: 1.0.55
 Author: dreaddymck
 Author URI: dreaddymck.com
 License: GPL2
 
+TODO: Ignore ip address when parsing access log.
 TODO: Undo ALTER dmck_audio table add colums count, time, name - might not be necessary
 TODO: check to see if insert on duplicate update is better option
 TODO: render week, month, request activity per item
@@ -38,7 +39,7 @@ if (!class_exists("dmck_audioplayer")) {
 		const SETTINGS_GROUP			= 'dmck-audioplayer-settings-group';
 
 		public $shortcode				= "dmck-audioplayer";
-		public $adminpreferences 		= array('charts_enabled','drop_table_on_inactive','chart_color_array','chart_color_static','favicon','default_album_cover','moreinfo','access_log','access_log_pattern','playlist_config');
+		public $adminpreferences 		= array('ignore_ip','ignore_ip_enabled','charts_enabled','drop_table_on_inactive','chart_color_array','chart_color_static','favicon','default_album_cover','moreinfo','access_log','access_log_pattern','playlist_config');
 		public $userpreferences 		= array('userpreferences');	
 		public $github_url				= "https://github.com/dreaddy/audio-player-cbhdmk";
 		public $debug					= false;

@@ -6,7 +6,10 @@ trait _requests {
     function requests($data){		
 		$response = "{}";
 		$opt = $data;
-		if( is_object($opt) ){ $opt = $data['option']; }		
+		if( is_object($opt) ){ $opt = $data['option']; }	
+		
+		error_log($data);
+		
         switch ($opt) {
 			case "search":
 				$response = $this->param_request($data);
@@ -14,12 +17,15 @@ trait _requests {
             case "get":
                 $response = $this->accesslog_activity_get();
                 break;
-            case "get-week":
+            case "get_week":
                 $response = $this->accesslog_activity_get_week();
                 break;    
-            case "get-month":
+            case "get_month":
                 $response = $this->accesslog_activity_get_month();
-                break;                                
+				break;  
+			case "get_my_ip":
+				$response = $this->get_my_ip();
+				break; 				                              
             default:
         }
         return $response;

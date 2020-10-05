@@ -1,6 +1,6 @@
-# (DMCK) audio presenter
+# (DMCK) audio
 
-## Always a work in progress.
+## Always a work in progress
 
 Another audio thingy. Can be used to generate playlists and simple charts. 
 Default action is to grab the first mp3 located in published posts, then render a tabbed playlist.

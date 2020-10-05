@@ -4,5 +4,6 @@ config.js
 nohup.out
 npm-debug.log
 error_log                                                                                                                                                   
-lib/error_log 
+lib/error_log
+reports.sql 
 
