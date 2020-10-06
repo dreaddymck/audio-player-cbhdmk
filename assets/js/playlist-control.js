@@ -198,7 +198,7 @@ const playlist_control = {
 			playlist_control.stopAudio();
 			jQuery(playlist_control.globals.cfg.duration).slider('option', 'min', 0);
 
-			if(playlist_control.globals.cfg.playing && jQuery(".dmck-audio-playlist-track.track-content.active").attr("id") == elem.id){
+			if(playlist_control.globals.cfg.playing && jQuery(".dmck-audio-playlist-track.active").attr("id") == elem.id){
 				playlist_control.globals.cfg.playing = false;
 				return;
 			}
