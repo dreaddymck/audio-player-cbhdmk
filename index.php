@@ -9,7 +9,6 @@ Author URI: dreaddymck.com
 License: GPL2
 
 TODO: route all calls to add active class to a central method.
-TODO: Audio Visualizer to active elemen. Draw visual along element base, support mobile.
 TODO: convert access log data to columns, depracate json storage.
 TODO: Undo ALTER dmck_audio table add colums count, time, name - might not be necessary.
 TODO: check to see if insert on duplicate update is better option.
