@@ -143,6 +143,7 @@ if (!class_exists("dmck_audioplayer")) {
 			wp_enqueue_script( 'playlist-control.js', $this->plugin_url . 'assets/js/playlist-control.js', array('jquery'), $this->plugin_version, true );
 			wp_enqueue_script( 'playlist.js', $this->plugin_url . 'assets/js/playlist.js', array('jquery'), $this->plugin_version, true );
 			wp_enqueue_script( 'Chart.bundle.js', $this->plugin_url . 'assets/js/Chart.bundle.js', array('jquery'), $this->plugin_version, true );
+			wp_enqueue_script( 'visualizer.js', $this->plugin_url . 'assets/js/visualizer.js', array('jquery'), $this->plugin_version, true );
 			wp_enqueue_script( 'index.js', $this->plugin_url . 'assets/js/index.js', array('jquery'), $this->plugin_version, true );	
 			wp_enqueue_script( 'access_log.js', $this->plugin_url . 'assets/js/access_log.js', array('jquery'), $this->plugin_version, true );
 			wp_enqueue_script( 'charts-pks.js', $this->plugin_url . 'assets/js/charts-pks.js', array('jquery'), $this->plugin_version, true );			

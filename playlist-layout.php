@@ -29,6 +29,7 @@
 			</div>
 		</div>
 	</div>
+	<canvas id="canvas_visualizer"  style="display:none"></canvas>
 	<ul class="nav nav-tabs" id="info-tabs" role="tablist">
 
 <?php

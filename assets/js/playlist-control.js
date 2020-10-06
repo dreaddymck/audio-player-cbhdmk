@@ -161,7 +161,9 @@ const playlist_control = {
 		jQuery(".dmck-audio-playlist-track").removeClass('active');	
 		playlist_control.globals.container.children().filter(function(){
 			return( this.id == elem[0].id )
-		}).addClass('active');
+		}).addClass('active')
+
+		jQuery("#canvas_visualizer").detach().appendTo( elem.children('td:eq(0)') ).show("slow");		
 
 		playlist_control.globals.cfg.playing = true;
 
@@ -170,7 +172,11 @@ const playlist_control = {
 
 	},
 	playAudio: function (e) {
+		
 		playlist_control.globals.cfg.song.play()
+
+		let canvas = dmck_visualizer.init(playlist_control.globals.cfg.song);		
+
 		jQuery(playlist_control.globals.cfg.duration).slider('option', 'max', playlist_control.globals.cfg.song.duration);
 	},
 	stopAudio: function () {
