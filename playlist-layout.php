@@ -72,7 +72,7 @@ EOF;
 
 echo <<<EOF
 			<tr id="{$pj->id}-{$p->ID}" 
-				class="{$pj->id}-track dmck-audio-playlist-track track-content" 
+				class="{$pj->id}-track dmck-audio-playlist-track" 
 				post-id="{$p->ID}"
 				audiourl="{$p->mp3}" 
 				cover="{$p->cover}" 

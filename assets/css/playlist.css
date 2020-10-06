@@ -75,12 +75,10 @@ img.ui-li-img {
 .dmck-row-cover img {
 	border-radius: 50%;
 }
-.track-content .dmck-row-cover,
-.top-10-track .dmck-row-cover {
+.dmck-row-cover {
     width : 100px;    
 }
-.track-content .dmck-row-cover div,
-.top-10-track .dmck-row-cover div {
+.dmck-row-cover div {
     -webkit-border-radius: 50px;
     -moz-border-radius: 50px;
     border-radius: 50px;

@@ -166,15 +166,14 @@ const playlist_control = {
 	},
 	playAudio: function () {
 		playlist_control.globals.cfg.song.play()
-		jQuery(playlist_control.globals.cfg.duration).slider('option', 'max', playlist_control.globals.cfg.song.duration)
-
-		jQuery(playlist_control.globals.cfg.play).addClass('hidden')
-		jQuery(playlist_control.globals.cfg.pause).removeClass('hidden')
+		jQuery(playlist_control.globals.cfg.duration).slider('option', 'max', playlist_control.globals.cfg.song.duration);
+		// jQuery(playlist_control.globals.cfg.play).addClass('hidden')
+		// jQuery(playlist_control.globals.cfg.pause).removeClass('hidden')
 	},
 	stopAudio: function () {
 		if(playlist_control.globals.cfg.song){ playlist_control.globals.cfg.song.pause(); }		
-		jQuery(playlist_control.globals.cfg.play).removeClass('hidden')
-		jQuery(playlist_control.globals.cfg.pause).addClass('hidden')
+		// jQuery(playlist_control.globals.cfg.play).removeClass('hidden')
+		// jQuery(playlist_control.globals.cfg.pause).addClass('hidden')
 	},
 	set_cover_background: function (img) {
 		jQuery(playlist_control.globals.cfg.cover).css({
@@ -193,16 +192,14 @@ const playlist_control = {
 		if (jQuery('.dmck-row-cover:hover').length != 0) {
 			window.open(jQuery(elem).attr("permalink"), '_blank')
 		}
-		else{
-			
+		else
+		{			
 			playlist_control.stopAudio();
-			jQuery(playlist_control.globals.cfg.duration).slider('option', 'min', 0);
-
+			// jQuery(playlist_control.globals.cfg.duration).slider('option', 'min', 0);
 			if(playlist_control.globals.cfg.playing && jQuery(".dmck-audio-playlist-track.active").attr("id") == elem.id){
 				playlist_control.globals.cfg.playing = false;
 				return;
 			}
-			
 			playlist_control.initAudio( jQuery(elem) );
 			playlist_control.globals.cfg.playing = true;
 		}
