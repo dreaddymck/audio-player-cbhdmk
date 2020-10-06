@@ -32,17 +32,7 @@ const access_log = {
                 jQuery(this).find("td.dmck-row-cover h1").attr("title",date + "\nClick for details");               
                 
             }).click(function(e){
-
-                if (jQuery('.dmck-row-cover:hover').length != 0) {
-                    window.open(jQuery(this).attr("permalink"), '_blank')
-                }
-                else
-                {
-                    playlist_control.stopAudio();	
-                    jQuery(playlist_control.globals.cfg.duration).slider('option', 'min', 0);
-                    playlist_control.initAudio(jQuery(this));
-                    playlist_control.globals.cfg.playing = true;
-                }
+                playlist_control.play_on_click(this);
                 return;                            
             }).promise().done(function(){
                 let elem = container.find( target + ':first-child').attr("audiourl");

@@ -102,46 +102,6 @@ const playlist_control = {
 			_functions.cookie.set({ "tab": target });
 		});
 	},
-	popupcontrol: function(){
-		
-		jQuery("#" + dmck_audioplayer.plugin_slug).prepend(
-			jQuery('<div id="fixed-controls" class="hidden"></div>').append( jQuery('#dmck_audioplayer .panel-heading.options').clone() )
-		);
-		jQuery('#fixed-controls .controls.row').children().removeClass('fa-3x').addClass('fa-2x'); 
-		jQuery('#fixed-controls').width( jQuery('#dmck_audioplayer .panel').width() ) 
-		jQuery( window ).resize(function() {
-			jQuery('#fixed-controls').width( jQuery('#dmck_audioplayer .panel').width() )
-		});	
-
-		jQuery.fn.isAboveScreen = function()
-		{
-			let win = jQuery(window);		
-			let viewport = { top : win.scrollTop(), left : win.scrollLeft() };
-			viewport.right = viewport.left + win.width();
-			viewport.bottom = viewport.top + win.height();	
-			let bounds = this.offset();
-			if(bounds){
-				bounds.right = bounds.left + this.outerWidth();
-				bounds.bottom = bounds.top + this.outerHeight();		
-				return (!(viewport.top > bounds.bottom));
-			}
-		};	
-		jQuery(document).scroll(function () {
-			if( jQuery('#dmck_audioplayer .panel').isAboveScreen() ){
-				setTimeout(function(){ 
-					// console.log("hide");
-					jQuery('#fixed-controls').addClass("hidden");  
-				}, 200);
-			} 
-			else { 
-				setTimeout(function(){ 
-					// console.log("show");
-					jQuery('#fixed-controls').removeClass("hidden"); 
-				}, 200);
-				
-			}		
-		});	
-	},
 	initAudio: function (elem) {
 
 		if (!elem.attr('audiourl')) { return; }
@@ -201,10 +161,9 @@ const playlist_control = {
 		});
 		jQuery(".dmck-audio-playlist-track").removeClass('active');	
 		playlist_control.globals.container.children().filter(function(){
-			return( jQuery(this).hasClass(playlist_control.globals.target) && this.id == elem[0].id)
+			return( this.id == elem[0].id )
 		}).addClass('active');
 	},
-
 	playAudio: function () {
 		playlist_control.globals.cfg.song.play()
 		jQuery(playlist_control.globals.cfg.duration).slider('option', 'max', playlist_control.globals.cfg.song.duration)
@@ -217,7 +176,6 @@ const playlist_control = {
 		jQuery(playlist_control.globals.cfg.play).removeClass('hidden')
 		jQuery(playlist_control.globals.cfg.pause).addClass('hidden')
 	},
-
 	set_cover_background: function (img) {
 		jQuery(playlist_control.globals.cfg.cover).css({
 			'background-image': 'url(' + img + ')',
@@ -225,40 +183,82 @@ const playlist_control = {
 			'opacity': 0.8
 		})
 	},
-	// set_cover_click: function (str) {
-	// 	jQuery(playlist_control.globals.cfg.cover).css('cursor', 'pointer').unbind('click').bind(
-	// 		'click',
-	// 		function () {
-	// 			window.open(str, '_blank')
-	// 		})
-	// },
 	set_duration_background: function (img) {
 		jQuery(playlist_control.globals.cfg.duration).css({
 			'background-image': 'url("' + img + '")',
 			'background-size': '100% 100%'
 		})
 	},
-	formatSecondsAsTime: function (secs, format) {
-		let hr = Math.floor(secs / 3600)
-		let min = Math.floor((secs - (hr * 3600)) / 60)
-		let sec = Math.floor(secs - (hr * 3600) - (min * 60))
-
-		if (min < 10) {
-			min = '0' + min
+	play_on_click: function(elem){
+		if (jQuery('.dmck-row-cover:hover').length != 0) {
+			window.open(jQuery(elem).attr("permalink"), '_blank')
 		}
-		if (sec < 10) {
-			sec = '0' + sec
-		}
+		else{
+			
+			playlist_control.stopAudio();
+			jQuery(playlist_control.globals.cfg.duration).slider('option', 'min', 0);
 
-		return min + ':' + sec
+			if(playlist_control.globals.cfg.playing && jQuery(".dmck-audio-playlist-track.track-content.active").attr("id") == elem.id){
+				playlist_control.globals.cfg.playing = false;
+				return;
+			}
+			
+			playlist_control.initAudio( jQuery(elem) );
+			playlist_control.globals.cfg.playing = true;
+		}
 	},
+	popupcontrol: function(){		
+		jQuery("#" + dmck_audioplayer.plugin_slug).prepend(
+			jQuery('<div id="fixed-controls" class="hidden"></div>').append( jQuery('#dmck_audioplayer .panel-heading.options').clone() )
+		);
+		jQuery('#fixed-controls .controls.row').children().removeClass('fa-3x').addClass('fa-2x'); 
+		jQuery('#fixed-controls').width( jQuery('#dmck_audioplayer .panel').width() ) 
+		jQuery( window ).resize(function() {
+			jQuery('#fixed-controls').width( jQuery('#dmck_audioplayer .panel').width() )
+		});	
+		jQuery.fn.isAboveScreen = function()
+		{
+			let win = jQuery(window);		
+			let viewport = { top : win.scrollTop(), left : win.scrollLeft() };
+			viewport.right = viewport.left + win.width();
+			viewport.bottom = viewport.top + win.height();	
+			let bounds = this.offset();
+			if(bounds){
+				bounds.right = bounds.left + this.outerWidth();
+				bounds.bottom = bounds.top + this.outerHeight();		
+				return (!(viewport.top > bounds.bottom));
+			}
+		};	
+		jQuery(document).scroll(function () {
+			if( jQuery('#dmck_audioplayer .panel').isAboveScreen() ){ //#dmck_audioplayer > div.row > div > div > div.panel-heading.options > div
+				setTimeout(function(){ 
+					// console.log("hide");
+					jQuery('#fixed-controls').addClass("hidden");  
+				}, 200);
+			} 
+			else { 
+				setTimeout(function(){ 
+					// console.log("show");
+					jQuery('#fixed-controls').removeClass("hidden"); 
+				}, 200);				
+			}		
+		});	
+	},	
+	formatSecondsAsTime: function (secs, format) {
+		let hr = Math.floor(secs / 3600);
+		let min = Math.floor((secs - (hr * 3600)) / 60);
+		let sec = Math.floor(secs - (hr * 3600) - (min * 60));
 
+		if (min < 10) { min = '0' + min; }
+		if (sec < 10) { sec = '0' + sec; }
+		return min + ':' + sec;
+	},
 	// Encode/decode htmlentities
 	EncodeEntities: function (s) {
-		return jQuery('<div/>').text(s).html()
+		return jQuery('<div/>').text(s).html();
 	},
 	DecodeEntities: function (s) {
-		return jQuery('<div/>').html(s).text()
+		return jQuery('<div/>').html(s).text();
 	},
 	
 
