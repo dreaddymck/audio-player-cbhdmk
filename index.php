@@ -2,15 +2,19 @@
 /*
 Plugin Name: (DMCK) audio player
 Plugin URI: dreaddymck.com
-Description: Just another audio thingy. Can be used to generate playlists and simple charts. playlist shortcode [dmck-audioplayer]
-Version: 1.0.55
+Description: Just another audio thingy. Can be used to generate playlists and simple charts. Shortcode [dmck-audioplayer]
+Version: 1.0.6
 Author: dreaddymck
 Author URI: dreaddymck.com
 License: GPL2
 
-TODO: Undo ALTER dmck_audio table add colums count, time, name - might not be necessary
-TODO: check to see if insert on duplicate update is better option
-TODO: render week, month, request activity per item
+TODO: route all calls to add active class to a central method.
+TODO: Audio Visualizer to active elemen. Draw visual along element base, support mobile.
+TODO: convert access log data to columns, depracate json storage.
+TODO: Undo ALTER dmck_audio table add colums count, time, name - might not be necessary.
+TODO: check to see if insert on duplicate update is better option.
+TODO: render week, month, request activity per item.
+
 */
 // error_reporting(E_ALL);
 // ini_set("display_errors","On");

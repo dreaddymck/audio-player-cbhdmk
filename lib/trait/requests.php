@@ -30,7 +30,7 @@ trait _requests {
         }
         return $response;
     }	
-	function get_post_from_path($obj) {
+	function obj_request($obj) {
 		global $wpdb;		
 		$args = array(
 			's'					=> !empty($obj->s) ? "/".urldecode($obj->s)  : "",
@@ -94,7 +94,7 @@ trait _requests {
 		foreach($json as $key=>$value) { 
 			
 			$param = (object) array('s' => $value["name"]);
-			$p = json_decode($this->get_post_from_path( $param ));
+			$p = json_decode($this->obj_request( $param ));
 
 			$title = !empty($p[0]->title) ? $p[0]->title : urldecode($value["name"]);
 			$date = date('m/d/Y h:i:s a', $json["time"]);

@@ -64,7 +64,7 @@ echo <<<EOF
 		<table class="table table-responsive-lg top-requests-data">
 		<tbody>		
 EOF;
-			$playlist = json_decode( $this->get_post_from_path( $pj ) );
+			$playlist = json_decode( $this->obj_request( $pj ) );
 
 			
 

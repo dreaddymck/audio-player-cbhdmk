@@ -1,8 +1,8 @@
 <?php ?>
 
 <div class="loading" style="text-align: center; width: 100%;">
-	<img src="<?php echo plugins_url( 'assets/images/loading-nerd.gif', dirname(__FILE__) )?>" /></div>
-
+	<img src="<?php echo plugins_url( 'assets/images/loading-nerd.gif', dirname(__FILE__) )?>" />
+</div>
 <form name="admin-settings-form" name="admin-settings-form" method="post" action="options.php">
 	<?php settings_fields( self::SETTINGS_GROUP ); ?>
 	<?php do_settings_sections( self::SETTINGS_GROUP ); ?>	
@@ -28,8 +28,7 @@
 				<label><?php _e('More info (HTML or TEXT)'); ?></label>
 				<input type="text" name="moreinfo"  class="form-control" value="<?php echo esc_attr( get_option('moreinfo') ); ?>" title="This is useless atm">
 			</div>
-			<div class="col-sm-6 form-group">
-	
+			<div class="col-sm-6 form-group">	
 				<input type="checkbox" name="drop_table_on_inactive"  class="form-control" value="1" <?php if (1 == get_option('drop_table_on_inactive')) echo 'checked="checked"'; ?> >
 				<label>Drop <?php echo $this->plugin_title ?> tables when deactivated</label>
 				<hr>
@@ -60,17 +59,14 @@
 				<hr>
 				<label><?php _e('A comma separated list of ip addresses to ignore'); ?></label> <input type="checkbox" name="ignore_ip_enabled"  class="form-control" value="1" <?php if (1 == get_option('ignore_ip_enabled')) echo 'checked="checked"'; ?> > <a type="button" id="get_my_ip_button" class="btn-sm" <?php if (1 != get_option('ignore_ip_enabled')) echo 'hidden="true"'; ?>" >GET MY IP</a>
 				<input type="text" name="ignore_ip"  class="form-control" value="<?php echo esc_attr( get_option('ignore_ip') ); ?>" <?php if (1 != get_option('ignore_ip_enabled')) echo 'disabled'; ?> >
-				
 				<hr>					
 				<!-- <label><?php //_e('Chart background color static ( <small>Example "#ffffff"]</code></small> )'); ?></label>
 				<input type="text" name="chart_color_static"  class="form-control" value="<?php //echo esc_attr( get_option('chart_color_static') ); ?>">				 -->
 			</div>
 		</div>	
-	</div>
-	
+	</div>	
 </div><!-- container -->	
 </form>
-
 <?php
 function playlist_config_default(){
 	$json = get_option("playlist_config");

@@ -120,5 +120,18 @@ img.ui-li-img {
   z-index: 10;
   text-shadow: 5px 5px #000;
 }  
+.glow {
+    -webkit-animation: glow 1s ease-in-out infinite alternate;
+    -moz-animation: glow 1s ease-in-out infinite alternate;
+    animation: glow 1s ease-in-out infinite alternate;
+}
+@-webkit-keyframes glow {
+    from {
+        text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 15px #292929, 0 0 20px #292929, 0 0 25px #292929, 0 0 30px #292929
+    }
 
+    to {
+        text-shadow: 0 0 10px #fff, 0 0 20px #5f5f5f, 0 0 30px #5f5f5f, 0 0 40px #5f5f5f, 0 0 50px #5f5f5f, 0 0 60px #5f5f5f
+    }
+}
 @media only screen and (max-width: 600px) {}

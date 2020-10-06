@@ -47,10 +47,10 @@ const playlist_control = {
 		 */
 		jQuery(playlist_control.globals.cfg.play).click(function (e) {
 			e.preventDefault()
-			playlist_control.playAudio()
+			playlist_control.playAudio(e)
 			let id = (jQuery(playlist_control.globals.container).attr("id") || jQuery(playlist_control.globals.container).parents(".tab-pane").attr("id"));
 			jQuery('#info-tabs a[href="#' + id + '"]').tab('show');
-			playlist_control.globals.cfg.playing = true
+			// playlist_control.globals.cfg.playing = true
 		});
 		jQuery(playlist_control.globals.cfg.title).click(function (e) {
 			e.preventDefault()
@@ -61,7 +61,7 @@ const playlist_control = {
 		jQuery(playlist_control.globals.cfg.pause).click(function (e) {
 			e.preventDefault()
 			playlist_control.stopAudio()
-			playlist_control.globals.cfg.playing = false
+			// playlist_control.globals.cfg.playing = false
 		});
 		// forward click
 		jQuery(playlist_control.globals.cfg.fwd).click(function (e) {
@@ -78,7 +78,7 @@ const playlist_control = {
 			playlist_control.initAudio(next)
 			let id = (jQuery(playlist_control.globals.container).attr("id") || jQuery(playlist_control.globals.container).parents(".tab-pane").attr("id"));
 			jQuery('#info-tabs a[href="#' + id + '"]').tab('show');
-			playlist_control.globals.cfg.playing = true
+			// playlist_control.globals.cfg.playing = true
 		});
 		// rewind click
 		jQuery(playlist_control.globals.cfg.rew).click(function (e) {
@@ -95,7 +95,6 @@ const playlist_control = {
 			playlist_control.initAudio(next);
 			let id = (jQuery(playlist_control.globals.container).attr("id") || jQuery(playlist_control.globals.container).parents(".tab-pane").attr("id"));
 			jQuery('#info-tabs a[href="#' + id + '"]').tab('show');
-			playlist_control.globals.cfg.playing = true
 		});
 		jQuery('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
 			let target = jQuery(e.target).attr("href") // activated tab
@@ -124,7 +123,7 @@ const playlist_control = {
 		// playlist_control.set_cover_click(permalink)
 		playlist_control.set_duration_background(wavformpng)
 
-		playlist_control.globals.cfg.song = new Audio(url);	
+		playlist_control.globals.cfg.song = new Audio(url);			
 
 		playlist_control.globals.cfg.song.addEventListener('timeupdate', function _listener() {
 			if (!isNaN(playlist_control.globals.cfg.song.duration)) {
@@ -156,24 +155,27 @@ const playlist_control = {
 		playlist_control.globals.cfg.song.addEventListener('canplay', function _listener(e) {
 			jQuery(playlist_control.globals.cfg.duration).slider('value', parseInt(playlist_control.globals.cfg.song.currentTime, 10))
 			if (playlist_control.globals.cfg.playing) {
-				playlist_control.playAudio()
+				playlist_control.playAudio(e)
 			}
 		});
 		jQuery(".dmck-audio-playlist-track").removeClass('active');	
 		playlist_control.globals.container.children().filter(function(){
 			return( this.id == elem[0].id )
 		}).addClass('active');
+
+		playlist_control.globals.cfg.playing = true;
+
+		jQuery('#info-tabs a').removeClass("glow");
+		jQuery('#info-tabs a[href="#' + (jQuery(playlist_control.globals.container).attr("id") || jQuery(playlist_control.globals.container).parents(".tab-pane").attr("id")) + '"]').addClass("glow");
+
 	},
-	playAudio: function () {
+	playAudio: function (e) {
 		playlist_control.globals.cfg.song.play()
 		jQuery(playlist_control.globals.cfg.duration).slider('option', 'max', playlist_control.globals.cfg.song.duration);
-		// jQuery(playlist_control.globals.cfg.play).addClass('hidden')
-		// jQuery(playlist_control.globals.cfg.pause).removeClass('hidden')
 	},
 	stopAudio: function () {
-		if(playlist_control.globals.cfg.song){ playlist_control.globals.cfg.song.pause(); }		
-		// jQuery(playlist_control.globals.cfg.play).removeClass('hidden')
-		// jQuery(playlist_control.globals.cfg.pause).addClass('hidden')
+		if(playlist_control.globals.cfg.song){ playlist_control.globals.cfg.song.pause(); }	
+		playlist_control.globals.cfg.playing = false;	
 	},
 	set_cover_background: function (img) {
 		jQuery(playlist_control.globals.cfg.cover).css({
@@ -190,18 +192,15 @@ const playlist_control = {
 	},
 	play_on_click: function(elem){
 		if (jQuery('.dmck-row-cover:hover').length != 0) {
-			window.open(jQuery(elem).attr("permalink"), '_blank')
-		}
-		else
-		{			
-			playlist_control.stopAudio();
-			// jQuery(playlist_control.globals.cfg.duration).slider('option', 'min', 0);
+			window.open(jQuery(elem).attr("permalink"), '_blank');
+		}else{			
 			if(playlist_control.globals.cfg.playing && jQuery(".dmck-audio-playlist-track.active").attr("id") == elem.id){
-				playlist_control.globals.cfg.playing = false;
-				return;
+				playlist_control.stopAudio();
+			}else{
+				playlist_control.stopAudio();
+				playlist_control.initAudio( jQuery(elem) );
+				// playlist_control.globals.cfg.playing = true;
 			}
-			playlist_control.initAudio( jQuery(elem) );
-			playlist_control.globals.cfg.playing = true;
 		}
 	},
 	popupcontrol: function(){		

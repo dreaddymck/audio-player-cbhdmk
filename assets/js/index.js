@@ -10,21 +10,21 @@ jQuery(document).ready(function () {
 
 	let dmck_audioplayer_end = function() {
 		let cookie = _functions.cookie.get();
-		if (cookie) {
+        let playlist_config = dmck_audioplayer.playlist_config ? JSON.parse(dmck_audioplayer.playlist_config) : "";
+        if (cookie) {
 			cookie = JSON.parse(cookie);
 			if (typeof cookie.tab !== 'undefined') {
                 jQuery('#info-tabs a[href="' + cookie["tab"] + '"]').tab('show');
                 jQuery(".dmck-audio-playlist-track").removeClass('active');	
-				playlist_control.initAudio( jQuery("#dmck_audioplayer .tab-pane.active .dmck-audio-playlist-track").first() );
-				return;
+                playlist_control.initAudio( jQuery("#dmck_audioplayer .tab-pane.active .dmck-audio-playlist-track").first() );
 			}
-		}
-		let playlist_config = dmck_audioplayer.playlist_config ? JSON.parse(dmck_audioplayer.playlist_config) : "";
+		}else		
 		if(playlist_config){
             jQuery('#info-tabs a[href="#'+ playlist_config[0].id  +'"]').tab('show');
             jQuery(".dmck-audio-playlist-track").removeClass('active');	
-			playlist_control.initAudio( jQuery("#dmck_audioplayer .tab-pane.active .dmck-audio-playlist-track").first() );
-		}
+            playlist_control.initAudio( jQuery("#dmck_audioplayer .tab-pane.active .dmck-audio-playlist-track").first() );
+        }
+        playlist_control.globals.cfg.playing = false;
 		
 	}
     let p1 = Promise.resolve(playlist.init());
