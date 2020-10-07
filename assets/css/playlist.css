@@ -3,7 +3,11 @@
 }
 .title, .top-played-track { cursor: pointer; }
 .this_excerpt { word-wrap: break-word; }
-.cover { height: 200px; }
+.cover { 
+    height: 200px; 
+    background-size: 100%;
+    opacity: 0.8;
+}
 .top-played{
     list-style-type:none;
     padding-left:0;

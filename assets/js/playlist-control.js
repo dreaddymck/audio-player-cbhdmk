@@ -154,10 +154,10 @@ const playlist_control = {
 				playlist_control.playAudio(e)
 			}
 		});
-		jQuery(".dmck-audio-playlist-track").removeClass('active');	
+		jQuery(".dmck-audio-playlist-track").removeClass('active').removeClass('glow');	
 		playlist_control.globals.container.children().filter(function(){
 			return( this.id == elem[0].id )
-		}).addClass('active')
+		}).addClass('active').addClass("glow")
 
 		jQuery("#canvas_visualizer").detach().appendTo( elem.children('td:eq(0)') ).show("slow");		
 
@@ -179,14 +179,11 @@ const playlist_control = {
 	set_cover_background: function (img) {
 		jQuery(playlist_control.globals.cfg.cover).css({
 			'background-image': 'url(' + img + ')',
-			'background-size': '100% auto',
-			'opacity': 0.8
 		})
 	},
 	set_duration_background: function (img) {
 		jQuery(playlist_control.globals.cfg.duration).css({
 			'background-image': 'url("' + img + '")',
-			'background-size': '100% 100%'
 		})
 	},
 	play_on_click: function(elem){
