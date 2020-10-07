@@ -184,6 +184,7 @@ const playlist_control = {
 	set_duration_background: function (img) {
 		jQuery(playlist_control.globals.cfg.duration).css({
 			'background-image': 'url("' + img + '")',
+			'background-size': '100% 100%',
 		})
 	},
 	play_on_click: function(elem){
