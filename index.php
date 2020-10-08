@@ -8,9 +8,7 @@ Author: dreaddymck
 Author URI: dreaddymck.com
 License: GPL2
 
-TODO: route all calls to add active class to a central method.
 TODO: convert access log data to columns, depracate json storage.
-TODO: Undo ALTER dmck_audio table add colums count, time, name - might not be necessary.
 TODO: check to see if insert on duplicate update is better option.
 TODO: render week, month, request activity per item.
 
