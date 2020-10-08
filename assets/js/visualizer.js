@@ -15,13 +15,13 @@ const dmck_visualizer = {
         src.connect(analyser);
         analyser.connect(context.destination);
 
-        analyser.fftSize = 256;
+        analyser.fftSize = 512;
 
         var bufferLength = analyser.frequencyBinCount;
         var dataArray = new Uint8Array(bufferLength);
         var WIDTH = canvas.width;
         var HEIGHT = canvas.height;
-        var barWidth = (WIDTH / bufferLength) * 2.5;
+        var barWidth = (WIDTH / bufferLength) * 1.0;
         var barHeight;
         var x = 0;
 

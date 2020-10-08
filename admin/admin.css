@@ -1,17 +1,14 @@
 .container {
-    /* 	width: 800px; */
     margin: 0 auto;
 }
 .admin-container label {
     font-variant: all-petite-caps;
 }
-
 ul.tabs {
     margin: 0px;
     padding: 0px;
     list-style: none;
 }
-
 ul.tabs li {
     background: none;
     color: #222;
@@ -19,23 +16,16 @@ ul.tabs li {
     padding: 10px 15px;
     cursor: pointer;
 }
-
 ul.tabs li.current {
     background: #ededed;
     color: #222;
 }
-
 .tab-content {
     display: none;
     background: #ededed;
     padding: 15px;
 }
-
 .tab-content.current {
     display: inherit;
 }
-textarea.form-control {
-    /* height: auto; */
-    /* height: -webkit-fill-available; */
-    /* height: fit-content; */
-}
+

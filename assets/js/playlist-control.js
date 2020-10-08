@@ -154,17 +154,17 @@ const playlist_control = {
 				playlist_control.playAudio(e)
 			}
 		});
-		jQuery(".dmck-audio-playlist-track").removeClass('active').removeClass('glow');	
+		jQuery(".dmck-audio-playlist-track").removeClass('active').removeClass('active-highlight');	
 		playlist_control.globals.container.children().filter(function(){
 			return( this.id == elem[0].id )
-		}).addClass('active').addClass("glow")
+		}).addClass('active').addClass("active-highlight")
 
 		jQuery("#canvas_visualizer").detach().appendTo( elem.children('td:eq(0)') ).show("slow");		
 
 		playlist_control.globals.cfg.playing = true;
 
-		jQuery('#info-tabs a').removeClass("glow");
-		jQuery('#info-tabs a[href="#' + (jQuery(playlist_control.globals.container).attr("id") || jQuery(playlist_control.globals.container).parents(".tab-pane").attr("id")) + '"]').addClass("glow");
+		jQuery('#info-tabs a').removeClass("active-highlight");
+		jQuery('#info-tabs a[href="#' + (jQuery(playlist_control.globals.container).attr("id") || jQuery(playlist_control.globals.container).parents(".tab-pane").attr("id")) + '"]').addClass("active-highlight");
 
 	},
 	playAudio: function (e) {		
