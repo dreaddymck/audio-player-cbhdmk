@@ -62,45 +62,8 @@ const admin_functions = {
             return;
         }); 
         jQuery("input[type='checkbox'][name='ignore_ip_enabled']").click(function (e) {
-            jQuery("input[type='text'][name='ignore_ip']").prop("disabled", ! jQuery(this).prop("checked") );
-            jQuery("#get_my_ip_button").prop("hidden", ! jQuery(this).prop("checked") );
-        });  
-        jQuery("#get_my_ip_button").click(function(e){
-            
-            e.preventDefault();
-
-            function set(ip){
-                let val = jQuery("input[type='text'][name='ignore_ip']").val();
-                if(!val){
-                    jQuery("input[type='text'][name='ignore_ip']").val(ip);
-                }else
-                if( val && ! val.includes(ip)){
-                    jQuery("input[type='text'][name='ignore_ip']").val( val + "," + ip ) ;
-                }                
-            }
-            let url = dmck_audioplayer.site_url + "/wp-json/dmck_audioplayer/v" + dmck_audioplayer.plugin_version + '/api/get_my_ip' ;
-            new Promise(function (resolve, reject) {
-				jQuery.ajax({
-						type: "GET",
-						url: url,
-						data: {},
-						beforeSend: function (xhr) {
-							xhr.setRequestHeader('X-WP-Nonce', dmck_audioplayer.nonce);
-						},
-					})
-					.done(function (data) {
-						resolve(data);
-					})
-					.fail(function (xhr, textStatus, errorThrown) {
-						console.log(errorThrown);
-						reject(false);
-					});
-			})
-			.then(
-				function (results) { set(results); },
-				function (error) { console.log(error); }
-			);            
-        })     
+            jQuery("textarea[name='ignore_ip_json']").prop("disabled", ! jQuery(this).prop("checked") );
+        });    
         jQuery('#admin-upload-action').click(function (e) {
             e.preventDefault();
             if (!confirm('Please confirm')) { return false; }

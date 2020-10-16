@@ -18,6 +18,52 @@ trait _utilities {
 			$ip = $_SERVER['REMOTE_ADDR']; // Get IP address from remote address.
 		}
 		return $ip;
+	}
+/*
+The idea here is to set the current ip addresses of site admins.
+Purge old entries on the fly.
+Update upon login.
+*/
+	function _utilities_ignore_ip_auto_set(){
+
+		$ignore_ip_enabled = get_option('ignore_ip_enabled') ? esc_attr( get_option('ignore_ip_enabled') ) : "";
+
+		if( $ignore_ip_enabled && is_super_admin() ){                            
+			
+			$ignore_ip_json = get_option('ignore_ip_json') ? get_option('ignore_ip_json') : "";			
+			$ip = $this->get_my_ip();
+			$curr = (object) [
+				'uid' => get_current_user_id(),
+				'ip' => $ip,
+				'date' => time(),					
+			];
+
+			if( $ignore_ip_json ){
+				$ignore_ip_json = json_decode($ignore_ip_json);
+				$ip_exists = false;
+				foreach($ignore_ip_json as $key=>$value) {
+					/*
+					The access log cron task collects data only for current day. 
+					So ignored IP addresses will be purged after that one day.
+					*/
+					if($value->date < strtotime('- 1.5 days')){ // remove old ip addresses
+						unset($ignore_ip_json[$key]);
+					}else	
+					if( $value->ip == $ip ){
+						$ip_exists = true;						
+					}			
+				}
+				if(!$ip_exists){
+					array_push($ignore_ip_json, $curr);					
+				}
+				$ignore_ip_json = array_values($ignore_ip_json);			
+			}else{
+				$ignore_ip_json = [];
+				array_push($ignore_ip_json, $curr);
+			}	
+			$ignore_ip_json = json_encode($ignore_ip_json);		
+			update_option( 'ignore_ip_json', $ignore_ip_json);			
+		}
 	}	
 	function content_handler($content){
 		$html = "";

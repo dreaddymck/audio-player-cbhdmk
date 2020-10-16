@@ -57,11 +57,8 @@
 				<label><?php _e('Chart background colors array ( <small>Example <code>["#ffffff","#F0F0F0","#E0E0E0","#D0D0D0","#C0C0C0","#B0B0B0","#A0A0A0","#909090","#808080","#707070"]</code></small> )'); ?></label>
 				<input type="text" name="chart_color_array"  class="form-control" value="<?php echo esc_attr( get_option('chart_color_array') ); ?>">
 				<hr>
-				<label><?php _e('A comma separated list of ip addresses to ignore'); ?></label> <input type="checkbox" name="ignore_ip_enabled"  class="form-control" value="1" <?php if (1 == get_option('ignore_ip_enabled')) echo 'checked="checked"'; ?> > <a type="button" id="get_my_ip_button" class="btn-sm" <?php if (1 != get_option('ignore_ip_enabled')) echo 'hidden="true"'; ?>" >GET MY IP</a>
-				<input type="text" name="ignore_ip"  class="form-control" value="<?php echo esc_attr( get_option('ignore_ip') ); ?>" <?php if (1 != get_option('ignore_ip_enabled')) echo 'disabled'; ?> >
-				<hr>					
-				<!-- <label><?php //_e('Chart background color static ( <small>Example "#ffffff"]</code></small> )'); ?></label>
-				<input type="text" name="chart_color_static"  class="form-control" value="<?php //echo esc_attr( get_option('chart_color_static') ); ?>">				 -->
+				<label><?php _e('Ignore site admin ip addresses'); ?></label> <input type="checkbox" name="ignore_ip_enabled"  class="form-control" value="1" <?php if (1 == get_option('ignore_ip_enabled')) echo 'checked="checked"'; ?> >
+				<textarea  name="ignore_ip_json" class="form-control" title="ignore ip json"  <?php if (1 != get_option('ignore_ip_enabled')) echo 'disabled'; ?> ><?php echo esc_attr( get_option('ignore_ip_json') ); ?></textarea>
 			</div>
 		</div>	
 	</div>	

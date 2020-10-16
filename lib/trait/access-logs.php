@@ -75,8 +75,6 @@ EOF;
         if(!$this->filepath){ die("Missing access log location"); }	
         
         $access_log_pattern = get_option('access_log_pattern') ? get_option('access_log_pattern') : "";
-        $ignore_ip = get_option('ignore_ip') ? esc_attr( get_option('ignore_ip') ) : "";
-        $ignore_ip_enabled = get_option('ignore_ip_enabled') ? esc_attr( get_option('ignore_ip_enabled') ) : "";
         
         $pattern = $access_log_pattern ? $access_log_pattern : "/.mp3/i";
         if($this->debug){
@@ -93,6 +91,9 @@ EOF;
                 return;
             }
 
+            $ignore_ip_json = get_option('ignore_ip_json') ? get_option('ignore_ip_json') : "";
+            $ignore_ip_enabled = get_option('ignore_ip_enabled') ? esc_attr( get_option('ignore_ip_enabled') ) : "";            
+
             $arr    = array();
             $results = "";
             $regex = '/^(\S+) (\S+) (\S+) \[([^:]+):(\d+:\d+:\d+) ([^\]]+)\] \"(\S+) (.*?) (\S+)\" (\S+) (\S+) "([^"]*)" "([^"]*)"$/';
@@ -103,11 +104,19 @@ EOF;
                     preg_match($regex , urldecode($dd), $matches);
                     // echo( urldecode($dd) ."\n\r");
                     // echo( print_r($matches,1) );
-                    if(preg_match( $pattern , $matches[8] ) ){
-                        if( $ignore_ip_enabled ){
-                            if($ignore_ip && preg_match('/'. $matches[1] .'/', $ignore_ip)){
-                                continue;
+                    if(preg_match( $pattern , $matches[8] ) ){                        
+                        if( $ignore_ip_enabled && $ignore_ip_json ){                            
+                            // if($ignore_ip_json && preg_match('/'. $matches[1] .'/', $ignore_ip_json)){ continue; }
+                            $found_ip = false;
+                            foreach(json_decode($ignore_ip_json) as $key=>$value) {                                
+                                if( $value->ip == $matches[1] ){
+                                    $found_ip = true;   
+                                    break;
+                                }
                             }
+                            if($found_ip){ 
+                                continue; 
+                            }                            
                         }
                         if($this->debug){
                             $this->_log($matches);
@@ -136,6 +145,7 @@ EOF;
 
                 fclose($handle);
                 if(!empty($arr)){
+                    
                     $json = json_encode($arr,JSON_FORCE_OBJECT);                                        
                     $results = $this->query( "SELECT id FROM dmck_audio_log_reports WHERE DATE(`updated`) = CURDATE()" );
                     if(empty($results)){

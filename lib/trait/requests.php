@@ -7,9 +7,6 @@ trait _requests {
 		$response = "{}";
 		$opt = $data;
 		if( is_object($opt) ){ $opt = $data['option']; }	
-		
-		error_log($data);
-		
         switch ($opt) {
 			case "search":
 				$response = $this->param_request($data);

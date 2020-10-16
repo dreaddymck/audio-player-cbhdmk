@@ -3,7 +3,7 @@
 Plugin Name: (DMCK) audio player
 Plugin URI: dreaddymck.com
 Description: Just another audio thingy. Can be used to generate playlists and simple charts. Shortcode [dmck-audioplayer]
-Version: 1.0.6
+Version: 1.0.7
 Author: dreaddymck
 Author URI: dreaddymck.com
 License: GPL2
@@ -39,7 +39,7 @@ if (!class_exists("dmck_audioplayer")) {
 		const SETTINGS_GROUP			= 'dmck-audioplayer-settings-group';
 
 		public $shortcode				= "dmck-audioplayer";
-		public $adminpreferences 		= array('ignore_ip','ignore_ip_enabled','charts_enabled','drop_table_on_inactive','chart_color_array','chart_color_static','favicon','default_album_cover','moreinfo','access_log','access_log_pattern','playlist_config');
+		public $adminpreferences 		= array('ignore_ip_json','ignore_ip_enabled','charts_enabled','drop_table_on_inactive','chart_color_array','chart_color_static','favicon','default_album_cover','moreinfo','access_log','access_log_pattern','playlist_config');
 		public $userpreferences 		= array('userpreferences');	
 		public $github_url				= "https://github.com/dreaddy/audio-player-cbhdmk";
 		public $debug					= false;
@@ -99,6 +99,7 @@ if (!class_exists("dmck_audioplayer")) {
 		function _init_actions(){
 			add_shortcode( $this->shortcode, array( $this, 'include_file') );
 			$this->_rss_create_feed();
+			$this->_utilities_ignore_ip_auto_set();
 		}
 		function set_plugin_version(){
 			if(preg_match('/version:[\s\t]+?([0-9.]+)/i',file_get_contents( __FILE__ ), $v)){ $this->plugin_version = $v[1]; }								
@@ -179,8 +180,11 @@ if (!class_exists("dmck_audioplayer")) {
 				$this->auto_play		= isset($_GET["auto_play"]) ? htmlspecialchars($_GET["auto_play"] ) : "";
 				$this->relatedposts		= isset($_GET["relatedposts"]) ? htmlspecialchars($_GET["relatedposts"] ) : "";					
 			}
+			$date = new DateTime();
 			$local = array(
 				'nonce' => wp_create_nonce( 'wp_rest' ),
+				'curr_user_id' => get_current_user_id(),
+				'date'=> $date->getTimestamp(),
 				'is_home' => is_home(),
 				'is_front_page' => is_front_page(),
 				'is_single' => is_single(),
