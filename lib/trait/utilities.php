@@ -46,7 +46,7 @@ Update upon login.
 					The access log cron task collects data only for current day. 
 					So ignored IP addresses will be purged after that one day.
 					*/
-					if($value->date < strtotime('- 1.5 days')){ // remove old ip addresses
+					if($value->date < strtotime('-1 day')){ // remove old ip addresses
 						unset($ignore_ip_json[$key]);
 					}else	
 					if( $value->ip == $ip ){
