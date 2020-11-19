@@ -24,6 +24,15 @@ const dmck_visualizer = {
         var barWidth = (WIDTH / bufferLength) * 1.0;
         var barHeight;
         var x = 0;
+        var r = 255;
+        var g = 255;
+        var b = 255;
+
+        if(dmck_audioplayer && dmck_audioplayer.visualizer_rgb.r && dmck_audioplayer.visualizer_rgb.g && dmck_audioplayer.visualizer_rgb.b){
+            r = dmck_audioplayer.visualizer_rgb.r;
+            g = dmck_audioplayer.visualizer_rgb.g;
+            b = dmck_audioplayer.visualizer_rgb.b;
+        }
 
         function renderFrame() {
             requestAnimationFrame(renderFrame);
@@ -35,9 +44,9 @@ const dmck_visualizer = {
             for (var i = 0; i < bufferLength; i++) {
      
                 barHeight = dataArray[i];
-                var r = 250; //barHeight + (25 * (i / bufferLength));
-                var g = 250; //250 * (i / bufferLength);
-                var b = 250; //50;
+                // var r = 250; //barHeight + (25 * (i / bufferLength));
+                // var g = 250; //250 * (i / bufferLength);
+                // var b = 250; //50;
                 ctx.fillStyle = "rgb(" + r + "," + g + "," + b + ")";
                 ctx.fillRect(x, HEIGHT - barHeight, barWidth, barHeight);
                 x += barWidth + 1;

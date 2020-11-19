@@ -42,7 +42,26 @@
 	<div id="tab-2" class="tab-content tab-files"></div>
 	<div id="tab-3" class="tab-content tab-about"></div>
 	<div id="tab-4" class="tab-content tab-playlists">
-		<textarea name="playlist_config" class="form-control" rows="18"><?php echo playlist_config_default() ?></textarea>		
+		<label>playlist json</label>
+		<textarea name="playlist_config" class="form-control" rows="18"><?php echo playlist_config_default(); ?></textarea>
+		<hr>
+		<label>Visualizer</label>
+		<table class="table-responsive">
+		<thead>
+			<tr>
+			<th scope="col">R</th>
+			<th scope="col">G</th>
+			<th scope="col">B</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+			<td><input type="text" name="visualizer_r"  class="form-control" value="<?php echo esc_attr( get_option('visualizer_r') ); ?>" title="visualizer r"></td>
+			<td><input type="text" name="visualizer_g"  class="form-control" value="<?php echo esc_attr( get_option('visualizer_g') ); ?>" title="visualizer g"></td>
+			<td><input type="text" name="visualizer_b"  class="form-control" value="<?php echo esc_attr( get_option('visualizer_b') ); ?>" title="visualizer b"></td>
+			</tr>
+		</tbody>
+		</table>		
 	</div>
 	<div id="tab-5" class="tab-content tab-charts form-group">
 		<div class="row">

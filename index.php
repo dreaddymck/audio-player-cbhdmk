@@ -16,7 +16,6 @@ TODO: render week, month, request activity per item.
 // error_reporting(E_ALL);
 // ini_set("display_errors","On");
 if (!class_exists("dmck_audioplayer")) {
-
 	require_once(plugin_dir_path(__FILE__)."lib/trait/access-logs.php");
 	require_once(plugin_dir_path(__FILE__)."lib/trait/wavform.php");	
 	require_once(plugin_dir_path(__FILE__)."lib/trait/utilities.php");
@@ -26,7 +25,6 @@ if (!class_exists("dmck_audioplayer")) {
 	require_once(plugin_dir_path(__FILE__)."lib/trait/requests.php");
 	
 	class dmck_audioplayer {
-
 		use _accesslog;
 		use _wavform;
 		use _utilities;
@@ -39,7 +37,23 @@ if (!class_exists("dmck_audioplayer")) {
 		const SETTINGS_GROUP			= 'dmck-audioplayer-settings-group';
 
 		public $shortcode				= "dmck-audioplayer";
-		public $adminpreferences 		= array('ignore_ip_json','ignore_ip_enabled','charts_enabled','drop_table_on_inactive','chart_color_array','chart_color_static','favicon','default_album_cover','moreinfo','access_log','access_log_pattern','playlist_config');
+		public $adminpreferences		= array(
+											'ignore_ip_json',
+											'ignore_ip_enabled',
+											'charts_enabled',
+											'drop_table_on_inactive',
+											'chart_color_array',
+											'chart_color_static',
+											'favicon',
+											'default_album_cover',
+											'moreinfo',
+											'access_log',
+											'access_log_pattern',
+											'playlist_config',
+											'visualizer_r',
+											'visualizer_g',
+											'visualizer_b'
+										);
 		public $userpreferences 		= array('userpreferences');	
 		public $github_url				= "https://github.com/dreaddy/audio-player-cbhdmk";
 		public $debug					= false;
@@ -60,7 +74,6 @@ if (!class_exists("dmck_audioplayer")) {
 		function __construct() {		
 			$this->setTimezone();
 			$this->set_plugin_version();
-			
 			$this->plugin_title = '(DMCK)Audio-ver:' . $this->plugin_version;
 			$this->plugin_url 	= plugins_url("/",__FILE__);
 			$this->theme_url	= dirname( get_bloginfo('stylesheet_url') );			
@@ -215,6 +228,11 @@ if (!class_exists("dmck_audioplayer")) {
 				'autoplay'	=> ($this->autoplay || $this->auto_play),
 				'chart_color_array' => esc_attr( get_option('chart_color_array') ),
 				'chart_color_static' => esc_attr( get_option('chart_color_static') ),
+				'visualizer_rgb' => array(
+					'r' => get_option("visualizer_r"),
+					'g' => get_option("visualizer_g"),
+					'b' => get_option("visualizer_b"),
+				)
 			);
 			wp_localize_script( 'functions.js', self::PLUGIN_SLUG, $local);
 		}
