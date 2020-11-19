@@ -13,6 +13,7 @@
 		<?php if( get_option('charts_enabled') ){ ?>
 		<li class="tab-link" data-tab="tab-5">Charts</li>
 		<?php } ?>
+		<li class="tab-link" data-tab="tab-6">Git Commits</li>
 		<li class="tab-link" data-tab="tab-3">About</li>
 	</ul>
 	<?php submit_button(); ?>
@@ -61,6 +62,18 @@
 				<textarea  name="ignore_ip_json" class="form-control" title="ignore ip json"  <?php if (1 != get_option('ignore_ip_enabled')) echo 'disabled'; ?> ><?php echo esc_attr( get_option('ignore_ip_json') ); ?></textarea>
 			</div>
 		</div>	
+	</div>
+	<div id="tab-6" class="tab-content tab-gitlog">
+		<?php if (current_user_can('activate_plugins')) : ?>
+		<div class="row">
+		<div class="col-sm-12 form-group">
+			<label>git: <a href="https://github.com/dreaddymck/audio-player-cbhdmk" target="_blank">https://github.com/dreaddymck/audio-player-cbhdmk</a></label>	
+			<textarea class="form-control rounded-0" id="git-log" rows="18">
+				<?php echo shell_exec('cd ' .__DIR__.  '; git log -n 50 --graph --abbrev-commit --decorate --date=relative --all'); ?>
+			</textarea>
+		</div>
+		</div>
+		<?php endif; ?>	
 	</div>	
 </div><!-- container -->	
 </form>
