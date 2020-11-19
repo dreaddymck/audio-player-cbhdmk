@@ -75,7 +75,10 @@ function playlist_config_default(){
 		"title" : "Demo",
 		"tag" : "featured",
 		"tag_slug__and" : ""
-	}	
+	},
+	{
+		"topten" : "false"
+	}		
 ]
 EOF;
 

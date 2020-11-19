@@ -16,6 +16,7 @@ const playlist = {
 		let playlist_config = dmck_audioplayer.playlist_config ? JSON.parse(dmck_audioplayer.playlist_config) : "";
 
 		let targets = function(elem){
+			if(!elem.id){return;}
 			let container 	= "#" + dmck_audioplayer.plugin_slug + " #" + elem.id;
 			let target 		= "." + elem.id + "-track";
 			let colors      = _functions.is_json_string(dmck_audioplayer.chart_color_array) ? JSON.parse(dmck_audioplayer.chart_color_array) : [];

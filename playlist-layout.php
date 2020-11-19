@@ -1,4 +1,7 @@
-<?php $playlist_data = $this->playlist_data_get(); ?>
+<?php
+require_once(plugin_dir_path(__FILE__)."playlist-layout-functions.php");
+$playlist_data = $this->playlist_data_get(); 
+?>
 
 <div id="<?php echo self::PLUGIN_SLUG ?>">
 	<div class="row">
@@ -29,134 +32,30 @@
 			</div>
 		</div>
 	</div>
+
 	<canvas id="canvas_visualizer"  style="display:none"></canvas>
+	
 	<ul class="nav nav-tabs" id="info-tabs" role="tablist">
-
-<?php
+<?php 
 		foreach($playlist_data["playlist_json"] as $p) { 
-
-echo <<<EOF
-
-		<li class="nav-item">
-			<a class="nav-link" id="tab-{$p->id}" data-toggle="tab" href="#{$p->id}" role="tab" aria-controls="{$p->id}" aria-selected="true">
-				<h4>{$p->title}</h4> 
-			</a>			
-		</li>
-EOF;
-
-}
-?>		
-		<li class="nav-item">
-			<a class="nav-link" id="tab-top-10" data-toggle="tab" href="#top-10" role="tab" aria-controls="top-10" aria-selected="true">
-				<h4>Today's Top 10</h4>
-			</a>
-		</li>		
+			if(isset($p->id)) {
+				nav_item($p);
+			}else
+			if(isset($p->topten) && $p->topten){
+				nav_item_topten();
+			}			
+		}
+		
+?>
 	</ul>
 
 	<div class="tab-content">
-
 <?php
 		foreach($playlist_data["playlist_json"] as $pj) { 
-
-echo <<<EOF
-		<div class="tab-pane" id="{$pj->id}" role="tabpanel" aria-labelledby="tab-{$pj->id}">
-		<div id=id="{$pj->id}-rss"></div>
-
-		<table class="table table-responsive-lg top-requests-data">
-		<tbody>		
-EOF;
-			$playlist = json_decode( $this->obj_request( $pj ) );
-
-			
-
-			foreach($playlist as $p) { 
-
-echo <<<EOF
-			<tr id="{$pj->id}-{$p->ID}" 
-				class="{$pj->id}-track dmck-audio-playlist-track" 
-				post-id="{$p->ID}"
-				audiourl="{$p->mp3}" 
-				cover="{$p->cover}" 
-				artist="{$p->artist}" 
-				permalink="{$p->permalink}" 
-				wavformpng="{$p->wavformpng}"
-				title="{$p->title}">
-				<td title="{$p->title}\nClick to play">
-					<h5 class="">$p->title</h5>
-					<span class=""> {$p->tags} {$p->moreinfo} </span>
-				</td>	
-				<td title="Click for details" class="text-center dmck-row-cover">
-					<div style="background-image: url('{$p->cover}')"></div>
-				</td>
-			</tr>
-EOF;
-
+			nav_pane($this, $pj);
 		}
-
-echo <<<EOF
-	</tbody></table></div>
-EOF;
-
-}
+		nav_pane_topten($playlist_data);
 ?>
-
-		<div class="tab-pane" id="top-10" role="tabpanel" aria-labelledby="top-10-tab">
-				
-			<table class="table table-responsive-lg top-requests-data">
-			<thead>
-				<tr>
-					<th>Track</th>
-					<th class="text-center">Requests</th>
-				</tr>
-			</thead>
-			<tbody>
-		
-<?php	
-		$unset_queue = array();
-		foreach($playlist_data["top_10_json"] as $key => $value) { 
-			if( !$value["ID"] ){
-				$unset_queue[] = $key;
-				continue;
-			}
-
-echo <<<EOF
-
-				<tr id="top-10-{$value["ID"]}"
-					class="top-10-track dmck-audio-playlist-track" 
-					post-id="{$value["ID"]}"
-					audiourl="{$value["mp3"]}" 
-					cover="{$value["cover"]}" 
-					artist="{$value["artist"]}"					
-					permalink="{$value["permalink"]}" 
-					wavformpng="{$value["wavformpng"]}"
-					style="color:"
-					title="{$value["title"]}">
-					<td title="{$value["title"]}\nClick to play">
-						<h5>{$value["title"]}</h5>
-						<span class="">{$value["tags"]} {$value["moreinfo"]}</span>
-					</td>
-					<td class="text-center dmck-row-cover" title="{$value["date"]}">
-						<div><h1 class="dmck_top10_count">{$value["count"]}</h1></div>							
-					</td> 
-				</tr>
-
-EOF;
-
-		}		
-		foreach ( $unset_queue as $index ){
-			unset($playlist_data["top_10_json"][$index]);
-		}	
-		// rebase the array
-		$playlist_data["top_10_json"] = array_values($playlist_data["top_10_json"]);
-?>		
-			</tbody></table>
-
-<?php if (get_option('charts_enabled')) { ?>				
-		<script>let top_10_json = <?php echo json_encode($playlist_data["top_10_json"]) ?></script> 
-<?php }  ?>	
-
-		</div>  
 	</div>
 </div>
-
 
