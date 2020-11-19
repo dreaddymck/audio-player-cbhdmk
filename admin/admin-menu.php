@@ -71,8 +71,8 @@ function playlist_config_default(){
 		$json = <<<EOF
 [
 	{
-		"id" : "demo",
-		"title" : "Demo",
+		"id" : "featured",
+		"title" : "Title text",
 		"tag" : "featured",
 		"tag_slug__and" : ""
 	},
