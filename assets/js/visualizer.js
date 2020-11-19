@@ -24,30 +24,25 @@ const dmck_visualizer = {
         var barWidth = (WIDTH / bufferLength) * 1.0;
         var barHeight;
         var x = 0;
-        var r = 255;
-        var g = 255;
-        var b = 255;
+        var visualizer_rgb_init = "rgba(0, 0, 0, 1.0)";
+        var visualizer_rgb = "rgba(255, 255, 255, 1.0)";
 
-        if(dmck_audioplayer && dmck_audioplayer.visualizer_rgb.r && dmck_audioplayer.visualizer_rgb.g && dmck_audioplayer.visualizer_rgb.b){
-            r = dmck_audioplayer.visualizer_rgb.r;
-            g = dmck_audioplayer.visualizer_rgb.g;
-            b = dmck_audioplayer.visualizer_rgb.b;
-        }
+        if(dmck_audioplayer){
+            if(dmck_audioplayer.visualizer_rgb_init){ visualizer_rgb_init = dmck_audioplayer.visualizer_rgb_init; }
+            if(dmck_audioplayer.visualizer_rgb){ visualizer_rgb = dmck_audioplayer.visualizer_rgb; }
+        }         
 
         function renderFrame() {
             requestAnimationFrame(renderFrame);
             x = 0;
             analyser.getByteFrequencyData(dataArray);
-            ctx.fillStyle = "rgba(0, 0, 0, 0.9)";
+            ctx.fillStyle = visualizer_rgb_init;
             ctx.fillRect(0, 0, WIDTH, HEIGHT);
 
             for (var i = 0; i < bufferLength; i++) {
      
                 barHeight = dataArray[i];
-                // var r = 250; //barHeight + (25 * (i / bufferLength));
-                // var g = 250; //250 * (i / bufferLength);
-                // var b = 250; //50;
-                ctx.fillStyle = "rgb(" + r + "," + g + "," + b + ")";
+                ctx.fillStyle = visualizer_rgb
                 ctx.fillRect(x, HEIGHT - barHeight, barWidth, barHeight);
                 x += barWidth + 1;
             }

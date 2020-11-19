@@ -50,9 +50,8 @@ if (!class_exists("dmck_audioplayer")) {
 											'access_log',
 											'access_log_pattern',
 											'playlist_config',
-											'visualizer_r',
-											'visualizer_g',
-											'visualizer_b'
+											'visualizer_rgb_init',
+											'visualizer_rgb'
 										);
 		public $userpreferences 		= array('userpreferences');	
 		public $github_url				= "https://github.com/dreaddy/audio-player-cbhdmk";
@@ -141,7 +140,8 @@ if (!class_exists("dmck_audioplayer")) {
 				wp_enqueue_style( 'admin.css',  $this->plugin_url . "admin/admin.css", array(), $this->plugin_version);
 				wp_enqueue_script( 'marked.min.js', $this->plugin_url . 'assets/js/marked.min.js', array('jquery'), $this->plugin_version, true );				
 				wp_enqueue_script( 'admin-functions.js', $this->plugin_url . 'admin/admin-functions.js', array('jquery'), $this->plugin_version, true );
-				wp_enqueue_script( 'admin.js', $this->plugin_url . 'admin/admin.js', array('jquery'), $this->plugin_version, true );				
+				wp_enqueue_script( 'admin.js', $this->plugin_url . 'admin/admin.js', array('jquery'), $this->plugin_version, true );
+				wp_enqueue_script( 'jscolor.js', $this->plugin_url . 'node_modules/@eastdesire/jscolor/jscolor.js', '', '', true );				
 				$this->localize_vars();
 			}
 		}
@@ -228,11 +228,8 @@ if (!class_exists("dmck_audioplayer")) {
 				'autoplay'	=> ($this->autoplay || $this->auto_play),
 				'chart_color_array' => esc_attr( get_option('chart_color_array') ),
 				'chart_color_static' => esc_attr( get_option('chart_color_static') ),
-				'visualizer_rgb' => array(
-					'r' => get_option("visualizer_r"),
-					'g' => get_option("visualizer_g"),
-					'b' => get_option("visualizer_b"),
-				)
+				'visualizer_rgb_init' => esc_attr( get_option('visualizer_rgb_init')),
+				'visualizer_rgb' => get_option("visualizer_rgb")
 			);
 			wp_localize_script( 'functions.js', self::PLUGIN_SLUG, $local);
 		}

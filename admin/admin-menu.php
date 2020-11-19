@@ -45,23 +45,9 @@
 		<label>playlist json</label>
 		<textarea name="playlist_config" class="form-control" rows="18"><?php echo playlist_config_default(); ?></textarea>
 		<hr>
-		<label>Visualizer</label>
-		<table class="table-responsive">
-		<thead>
-			<tr>
-			<th scope="col">R</th>
-			<th scope="col">G</th>
-			<th scope="col">B</th>
-			</tr>
-		</thead>
-		<tbody>
-			<tr>
-			<td><input type="text" name="visualizer_r"  class="form-control" value="<?php echo esc_attr( get_option('visualizer_r') ); ?>" title="visualizer r"></td>
-			<td><input type="text" name="visualizer_g"  class="form-control" value="<?php echo esc_attr( get_option('visualizer_g') ); ?>" title="visualizer g"></td>
-			<td><input type="text" name="visualizer_b"  class="form-control" value="<?php echo esc_attr( get_option('visualizer_b') ); ?>" title="visualizer b"></td>
-			</tr>
-		</tbody>
-		</table>		
+		<label>Visualizer color</label>
+		<input name="visualizer_rgb_init" data-jscolor="{width:100}" value="<?php if(get_option('visualizer_rgb_init')){ echo esc_attr( get_option('visualizer_rgb_init') ); }else{ echo "rgba(0,0,0,1.0)"; } ?>" >
+		<input name="visualizer_rgb" data-jscolor="{width:100}" value="<?php if(get_option('visualizer_rgb')){ echo esc_attr( get_option('visualizer_rgb') ); }else{ echo "rgba(255,255,255,1.0)"; } ?>" >
 	</div>
 	<div id="tab-5" class="tab-content tab-charts form-group">
 		<div class="row">
