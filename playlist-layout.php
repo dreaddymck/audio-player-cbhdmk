@@ -23,10 +23,10 @@ $playlist_data = $this->playlist_data_get();
 				</div>
 				<div class="panel-heading options">
 					<div class="controls row ">
-						<div class="play fa fa-play-circle fa-3x col-xs-3"  aria-hidden="true" title="Play"></div>
-						<div class="pause fa fa-pause fa-3x col-xs-3 hidden"  aria-hidden="true" title="Pause"></div>	
-						<div class="rew fa fa-step-backward fa-3x col-xs-3" aria-hidden="true" title="Back"></div>
-						<div class="fwd fa fa-step-forward fa-3x col-xs-3"  aria-hidden="true" title="Forward"></div>
+						<div class="play fas fa-play-circle fa-3x col-xs-3"  aria-hidden="true" title="Play"></div>
+						<div class="pause fas fa-stop-circle fa-3x col-xs-3 hidden"  aria-hidden="true" title="Pause"></div>	
+						<div class="rew fas fa-step-backward fa-3x col-xs-3" aria-hidden="true" title="Back"></div>
+						<div class="fwd fas fa-step-forward fa-3x col-xs-3"  aria-hidden="true" title="Forward"></div>
 					</div> 
 				</div>			
 			</div>

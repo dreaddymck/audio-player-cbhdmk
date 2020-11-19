@@ -43,7 +43,7 @@
 	<div id="tab-3" class="tab-content tab-about"></div>
 	<div id="tab-4" class="tab-content tab-playlists">
 		<label>playlist json</label>
-		<textarea name="playlist_config" class="form-control" rows="18"><?php echo playlist_config_default(); ?></textarea>
+		<textarea name="playlist_config" class="form-control" rows="12"><?php echo playlist_config_default(); ?></textarea>
 		<hr>
 		<label>Visualizer color</label>
 		<input name="visualizer_rgb_init" data-jscolor="{preset:'large dark'}" value="<?php if(get_option('visualizer_rgb_init')){ echo esc_attr( get_option('visualizer_rgb_init') ); }else{ echo "rgba(0,0,0,1.0)"; } ?>" title="Initial visualizer fill color">
