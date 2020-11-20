@@ -169,7 +169,7 @@ const playlist_control = {
 	},
 	playAudio: function (e) {		
 		playlist_control.globals.cfg.song.play();
-		let canvas = dmck_visualizer.init(playlist_control.globals.cfg.song);	
+		let canvas = dmck_visualizer.init(playlist_control.globals.cfg.song, "canvas_visualizer");	
 		jQuery(playlist_control.globals.cfg.duration).slider('option', 'max', playlist_control.globals.cfg.song.duration);
 	},
 	stopAudio: function () {

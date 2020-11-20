@@ -60,7 +60,27 @@ const playlist = {
 		}
 		playlist_config.forEach(elem => {
 			targets(elem);	
-		});				
+		});	
+		
+		 
+		if(document.getElementsByTagName('audio').length){
+
+			let audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+			let audio_obj = document.querySelectorAll('audio');
+			let canvas;
+			
+			for(let i=0; i<audio_obj.length;i++){
+
+				canvas = document.createElement("canvas");
+				canvas.id = "canvas_visualizer_" + i;
+				canvas.style = "display:";
+				audio_obj[i].parentNode.insertBefore(canvas, audio_obj[i].nextSibling);
+				audio_obj[i].addEventListener("play", function(event){
+					dmck_visualizer.init(event.target, this.nextSibling.id);
+				});
+			
+			}
+		}
 	}, 
 }
 

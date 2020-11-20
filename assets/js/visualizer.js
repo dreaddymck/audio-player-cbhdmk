@@ -2,12 +2,14 @@
 
 const dmck_visualizer = {
 
-    init: function(audio) {
+    init: function(audio,id) {
 
         var context = new AudioContext();
         var src = context.createMediaElementSource(audio);
         var analyser = context.createAnalyser();
-        var canvas = document.getElementById("canvas_visualizer");
+        var canvas = document.getElementById(id);
+        console.log(id);
+        // var canvas = document.querySelector('[id^="canvas_visualizer"]');
         canvas.width = window.innerWidth;
         canvas.height = window.innerHeight;
         var ctx = canvas.getContext("2d");
