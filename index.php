@@ -51,7 +51,8 @@ if (!class_exists("dmck_audioplayer")) {
 											'access_log_pattern',
 											'playlist_config',
 											'visualizer_rgb_init',
-											'visualizer_rgb'
+											'visualizer_rgb',
+											'visualizer_samples'
 										);
 		public $userpreferences 		= array('userpreferences');	
 		public $github_url				= "https://github.com/dreaddy/audio-player-cbhdmk";
@@ -229,7 +230,8 @@ if (!class_exists("dmck_audioplayer")) {
 				'chart_color_array' => esc_attr( get_option('chart_color_array') ),
 				'chart_color_static' => esc_attr( get_option('chart_color_static') ),
 				'visualizer_rgb_init' => esc_attr( get_option('visualizer_rgb_init')),
-				'visualizer_rgb' => get_option("visualizer_rgb")
+				'visualizer_rgb' => get_option("visualizer_rgb"),
+				'visualizer_samples' => get_option("visualizer_samples")
 			);
 			wp_localize_script( 'functions.js', self::PLUGIN_SLUG, $local);
 		}

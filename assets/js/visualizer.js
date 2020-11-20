@@ -2,32 +2,40 @@
 
 const dmck_visualizer = {
 
+    context:null,
+    audio_node:null,
+    MEDIA_ELEMENT_NODES: new WeakMap(),    
     init: function(audio,id) {
 
-        var context = new AudioContext();
-        var src = context.createMediaElementSource(audio);
-        var analyser = context.createAnalyser();
-        var canvas = document.getElementById(id);
-        console.log(id);
-        // var canvas = document.querySelector('[id^="canvas_visualizer"]');
+        let canvas = document.getElementById(id);
+        let ctx = canvas.getContext("2d");
         canvas.width = window.innerWidth;
         canvas.height = window.innerHeight;
-        var ctx = canvas.getContext("2d");
+        
+        dmck_visualizer.context = new (window.AudioContext || window.webkitAudioContext);
 
-        src.connect(analyser);
-        analyser.connect(context.destination);
+        if(dmck_visualizer.MEDIA_ELEMENT_NODES.has(audio)){
+            dmck_visualizer.audio_node = dmck_visualizer.MEDIA_ELEMENT_NODES.get(audio)
+        }else{
+            dmck_visualizer.audio_node = dmck_visualizer.context.createMediaElementSource(audio);
+            dmck_visualizer.MEDIA_ELEMENT_NODES.set(audio, dmck_visualizer.audio_node);
+        }        
+        let analyser = dmck_visualizer.context.createAnalyser();
+        analyser.connect(dmck_visualizer.context.destination);
+        /* Failed to execute 'connect' on 'AudioNode': cannot connect to a destination belonging to a different audio context.*/
+        dmck_visualizer.audio_node.connect(analyser);        
 
-        analyser.fftSize = 512;
+        analyser.fftSize = (dmck_audioplayer && dmck_audioplayer.visualizer_samples) ? dmck_audioplayer.visualizer_samples : 512;
 
-        var bufferLength = analyser.frequencyBinCount;
-        var dataArray = new Uint8Array(bufferLength);
-        var WIDTH = canvas.width;
-        var HEIGHT = canvas.height;
-        var barWidth = (WIDTH / bufferLength) * 1.0;
-        var barHeight;
-        var x = 0;
-        var visualizer_rgb_init = "rgba(0, 0, 0, 1.0)";
-        var visualizer_rgb = "rgba(255, 255, 255, 1.0)";
+        let bufferLength = analyser.frequencyBinCount;
+        let dataArray = new Uint8Array(bufferLength);
+        let WIDTH = canvas.width;
+        let HEIGHT = canvas.height;
+        let barWidth = (WIDTH / bufferLength) * 1.0;
+        let barHeight;
+        let x = 0;
+        let visualizer_rgb_init = "rgba(0, 0, 0, 1.0)";
+        let visualizer_rgb = "rgba(255, 255, 255, 1.0)";
 
         if(dmck_audioplayer){
             if(dmck_audioplayer.visualizer_rgb_init){ visualizer_rgb_init = dmck_audioplayer.visualizer_rgb_init; }
@@ -41,7 +49,7 @@ const dmck_visualizer = {
             ctx.fillStyle = visualizer_rgb_init;
             ctx.fillRect(0, 0, WIDTH, HEIGHT);
 
-            for (var i = 0; i < bufferLength; i++) {
+            for (let i = 0; i < bufferLength; i++) {
      
                 barHeight = dataArray[i];
                 ctx.fillStyle = visualizer_rgb

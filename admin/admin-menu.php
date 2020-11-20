@@ -45,9 +45,29 @@
 		<label>playlist json</label>
 		<textarea name="playlist_config" class="form-control" rows="12"><?php echo playlist_config_default(); ?></textarea>
 		<hr>
-		<label>Visualizer color</label>
+		<div>
+			<label>Visualizer</label>
+		</div>
+		<div>	
+		<label>colors</label>: 
 		<input name="visualizer_rgb_init" data-jscolor="{preset:'large dark'}" value="<?php if(get_option('visualizer_rgb_init')){ echo esc_attr( get_option('visualizer_rgb_init') ); }else{ echo "rgba(0,0,0,1.0)"; } ?>" title="Initial visualizer fill color">
 		<input name="visualizer_rgb" data-jscolor="{preset:'large dark'}" value="<?php if(get_option('visualizer_rgb')){ echo esc_attr( get_option('visualizer_rgb') ); }else{ echo "rgba(255,255,255,1.0)"; } ?>" title="Visualizer fill color">
+		</div>
+		<label>samples:</label>
+		<select name='visualizer_samples'>
+			<option value='' <?php selected( get_option('visualizer_samples'), "" ); ?>>Select</option>
+			<option value='32' <?php selected( get_option('visualizer_samples'), "32" ); ?>>32</option>
+			<option value='64' <?php selected( get_option('visualizer_samples'), "64" ); ?>>64</option>
+			<option value='128' <?php selected( get_option('visualizer_samples'), "128" ); ?>>128</option>
+			<option value='256' <?php selected( get_option('visualizer_samples'), "256" ); ?>>256</option>
+			<option value='512' <?php selected( get_option('visualizer_samples'), "512" ); ?>>512</option>
+			<option value='1024' <?php selected( get_option('visualizer_samples'), "1024" ); ?>>1024</option>
+			<option value='2048' <?php selected( get_option('visualizer_samples'), "2048" ); ?>>2048</option>
+			<option value='4096' <?php selected( get_option('visualizer_samples'), "4096" ); ?>>4096</option>
+			<option value='8192' <?php selected( get_option('visualizer_samples'), "8192" ); ?>>8192</option>
+			<option value='16384' <?php selected( get_option('visualizer_samples'), "16384" ); ?>>16384</option>
+			<option value='32768' <?php selected( get_option('visualizer_samples'), "32768" ); ?>>32768</option>
+    	</select>			
 	</div>
 	<div id="tab-5" class="tab-content tab-charts form-group">
 		<div class="row">

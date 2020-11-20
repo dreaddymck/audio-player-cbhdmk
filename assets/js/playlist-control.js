@@ -168,8 +168,8 @@ const playlist_control = {
 
 	},
 	playAudio: function (e) {		
+		dmck_visualizer.init(playlist_control.globals.cfg.song, "canvas_visualizer");
 		playlist_control.globals.cfg.song.play();
-		let canvas = dmck_visualizer.init(playlist_control.globals.cfg.song, "canvas_visualizer");	
 		jQuery(playlist_control.globals.cfg.duration).slider('option', 'max', playlist_control.globals.cfg.song.duration);
 	},
 	stopAudio: function () {
@@ -203,7 +203,8 @@ const playlist_control = {
 		jQuery("#" + dmck_audioplayer.plugin_slug).prepend(
 			jQuery('<div id="fixed-controls" class="hidden"></div>').append( jQuery('#dmck_audioplayer .panel-heading.options').clone() )
 		);
-		jQuery('#fixed-controls .controls.row').children().removeClass('fa-3x').addClass('fa-2x'); 
+		// jQuery('#fixed-controls .controls.row').children().removeClass('fa-3x').addClass('fa-2x'); 
+		jQuery('#fixed-controls .controls.row').children(); 
 		jQuery('#fixed-controls').width( jQuery('#dmck_audioplayer .panel').width() ) 
 		jQuery( window ).resize(function() {
 			jQuery('#fixed-controls').width( jQuery('#dmck_audioplayer .panel').width() )

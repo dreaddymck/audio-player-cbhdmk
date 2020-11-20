@@ -58,14 +58,11 @@ const playlist = {
            		});
 			}
 		}
-		playlist_config.forEach(elem => {
-			targets(elem);	
-		});	
-		
+
+		playlist_config.forEach(elem => { targets(elem); });		
 		 
 		if(document.getElementsByTagName('audio').length){
 
-			let audioCtx = new (window.AudioContext || window.webkitAudioContext)();
 			let audio_obj = document.querySelectorAll('audio');
 			let canvas;
 			
@@ -75,10 +72,11 @@ const playlist = {
 				canvas.id = "canvas_visualizer_" + i;
 				canvas.style = "display:";
 				audio_obj[i].parentNode.insertBefore(canvas, audio_obj[i].nextSibling);
-				audio_obj[i].addEventListener("play", function(event){
+				audio_obj[i].addEventListener("playing", function(event){
 					dmck_visualizer.init(event.target, this.nextSibling.id);
-				});
-			
+				})
+				audio_obj[i].addEventListener("pause", function(event){});
+
 			}
 		}
 	}, 
