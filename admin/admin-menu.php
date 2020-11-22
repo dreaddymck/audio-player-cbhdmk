@@ -35,6 +35,9 @@
 				<hr>
 				<input type="checkbox" name="audio_control_enabled"  class="form-control" value="1" <?php if (1 == get_option('audio_control_enabled')) echo 'checked="checked"'; ?> >
 				<label>Audio Control Display</label>
+				<br>
+				<label>Audio Control slider height:</label> 
+				<input type="text" name="audio_control_slider_height" class="form_control" value="<?php if(get_option('audio_control_slider_height')){ echo esc_attr( get_option('audio_control_slider_height') ); }else{ echo "200"; } ?>" <?php if (0 == get_option('audio_control_enabled')) echo 'disabled'; ?> > px
 				<hr>
 				<input type="checkbox" name="charts_enabled"  class="form-control" value="1" <?php if (1 == get_option('charts_enabled')) echo 'checked="checked"'; ?> >
 				<label>Charts</label>

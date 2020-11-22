@@ -57,7 +57,8 @@ if (!class_exists("dmck_audioplayer")) {
 											'chart_rgb_init',
 											'chart_rgb',
 											'chart_rgb_enabled',
-											'audio_control_enabled'
+											'audio_control_enabled',
+											'audio_control_slider_height'
 										);
 		public $userpreferences 		= array('userpreferences');	
 		public $github_url				= "https://github.com/dreaddy/audio-player-cbhdmk";
