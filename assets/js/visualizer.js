@@ -7,6 +7,8 @@ const dmck_visualizer = {
     MEDIA_ELEMENT_NODES: new WeakMap(),    
     init: function(audio,id) {
 
+        if(!dmck_audioplayer.visualizer_rgb_enabled){ return; }
+
         let canvas = document.getElementById(id);
         let ctx = canvas.getContext("2d");
         canvas.width = window.innerWidth;

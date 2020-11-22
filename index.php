@@ -236,8 +236,10 @@ if (!class_exists("dmck_audioplayer")) {
 				'visualizer_rgb_init' => esc_attr( get_option('visualizer_rgb_init')),
 				'visualizer_rgb' => get_option("visualizer_rgb"),
 				'visualizer_samples' => get_option("visualizer_samples"),
+				'visualizer_rgb_enabled' => get_option("visualizer_rgb_enabled"),
 				'chart_rgb_init' => get_option("chart_rgb_init"),
-				'chart_rgb' => get_option("chart_rgb")				
+				'chart_rgb' => get_option("chart_rgb"),
+				'chart_rgb_enabled' => get_option("chart_rgb_enabled")				
 			);
 			wp_localize_script( 'functions.js', self::PLUGIN_SLUG, $local);
 		}
