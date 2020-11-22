@@ -34,8 +34,8 @@ const dmck_visualizer = {
         let barWidth = (WIDTH / bufferLength) * 1.0;
         let barHeight;
         let x = 0;
-        let visualizer_rgb_init = "rgba(0, 0, 0, 1.0)";
-        let visualizer_rgb = "rgba(255, 255, 255, 1.0)";
+        let visualizer_rgb_init = getComputedStyle(document.body).getPropertyValue("background-color"); //"rgba(0, 0, 0, 1.0)";
+        let visualizer_rgb = getComputedStyle(document.body).getPropertyValue("color"); //"rgba(255, 255, 255, 1.0)";
 
         if(dmck_audioplayer){
             if(dmck_audioplayer.visualizer_rgb_init){ visualizer_rgb_init = dmck_audioplayer.visualizer_rgb_init; }

@@ -49,13 +49,8 @@ const playlist_control = {
 			e.preventDefault();
 			playlist_control.stopAudio();
 			// playlist_control.playAudio(e)
-
-			let active = playlist_control.globals.container.children().filter(function(){
-				return( jQuery(this).hasClass("active") );
-			})			
-
+			let active = playlist_control.globals.container.children().filter(function(){ return( jQuery(this).hasClass("active") ); })
 			playlist_control.initAudio(active);
-
 			let id = (jQuery(playlist_control.globals.container).attr("id") || jQuery(playlist_control.globals.container).parents(".tab-pane").attr("id"));
 			jQuery('#info-tabs a[href="#' + id + '"]').tab('show');
 		});
@@ -142,8 +137,7 @@ const playlist_control = {
 						' / ' +
 						playlist_control.formatSecondsAsTime(playlist_control.globals.cfg.song.duration))
 			}
-		});
-		
+		});		
 		playlist_control.globals.cfg.song.addEventListener('ended', function _listener(e) {
 			playlist_control.stopAudio();
 			let next =playlist_control.globals.container.children().filter(function(){
