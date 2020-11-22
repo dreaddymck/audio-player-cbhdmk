@@ -3,7 +3,7 @@
 Plugin Name: (DMCK) audio player
 Plugin URI: dreaddymck.com
 Description: Just another audio thingy. Can be used to generate playlists and simple charts. Shortcode [dmck-audioplayer]
-Version: 1.0.8.2
+Version: 1.0.8.3
 Author: dreaddymck
 Author URI: dreaddymck.com
 License: GPL2
@@ -56,7 +56,8 @@ if (!class_exists("dmck_audioplayer")) {
 											'visualizer_rgb_enabled',
 											'chart_rgb_init',
 											'chart_rgb',
-											'chart_rgb_enabled'
+											'chart_rgb_enabled',
+											'audio_control_enabled'
 										);
 		public $userpreferences 		= array('userpreferences');	
 		public $github_url				= "https://github.com/dreaddy/audio-player-cbhdmk";
@@ -239,7 +240,8 @@ if (!class_exists("dmck_audioplayer")) {
 				'visualizer_rgb_enabled' => get_option("visualizer_rgb_enabled"),
 				'chart_rgb_init' => get_option("chart_rgb_init"),
 				'chart_rgb' => get_option("chart_rgb"),
-				'chart_rgb_enabled' => get_option("chart_rgb_enabled")				
+				'chart_rgb_enabled' => get_option("chart_rgb_enabled"),
+				'audio_control_enabled' => get_option("audio_control_enabled")				
 			);
 			wp_localize_script( 'functions.js', self::PLUGIN_SLUG, $local);
 		}

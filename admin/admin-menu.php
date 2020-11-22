@@ -33,9 +33,12 @@
 				<input type="checkbox" name="drop_table_on_inactive"  class="form-control" value="1" <?php if (1 == get_option('drop_table_on_inactive')) echo 'checked="checked"'; ?> >
 				<label>Drop <?php echo $this->plugin_title ?> tables when deactivated</label>
 				<hr>
+				<input type="checkbox" name="audio_control_enabled"  class="form-control" value="1" <?php if (1 == get_option('audio_control_enabled')) echo 'checked="checked"'; ?> >
+				<label>Audio Control Display</label>
+				<hr>
 				<input type="checkbox" name="charts_enabled"  class="form-control" value="1" <?php if (1 == get_option('charts_enabled')) echo 'checked="checked"'; ?> >
 				<label>Charts</label>
-				<hr>
+				<hr>				
 			</div>			
 		</div>
 	</div>
