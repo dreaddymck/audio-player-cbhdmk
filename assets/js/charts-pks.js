@@ -42,28 +42,28 @@ const charts_pkg = {
                     label: '# of Requests',
                     data: data,
                     borderWidth: 1,
-                    backgroundColor: jQuery("body").css("background-color"),
-                    borderColor: jQuery("body").css("color"),
+                    backgroundColor: (dmck_audioplayer && dmck_audioplayer.chart_rgb_init) ? dmck_audioplayer.chart_rgb_init : jQuery("body").css("background-color"),
+                    borderColor: (dmck_audioplayer && dmck_audioplayer.chart_rgb) ? dmck_audioplayer.chart_rgb : jQuery("body").css("color"),
                 }]
             },
             options: {
                 responsive: true,
                 legend: {
                     labels: {
-                        fontColor: jQuery("body").css("color"),
+                        fontColor: (dmck_audioplayer && dmck_audioplayer.chart_rgb) ? dmck_audioplayer.chart_rgb : jQuery("body").css("color"),
                     }
                 },                    
                 scales: {
                     yAxes: [{
                         ticks: {
                             beginAtZero:false,
-                            fontColor: jQuery("body").css("color"),
+                            fontColor: (dmck_audioplayer && dmck_audioplayer.chart_rgb) ? dmck_audioplayer.chart_rgb : jQuery("body").css("color"),
                         }
                     }],
                     xAxes: [{
                         ticks: {
                             beginAtZero:false,
-                            fontColor: jQuery("body").css("color"),
+                            fontColor: (dmck_audioplayer && dmck_audioplayer.chart_rgb) ? dmck_audioplayer.chart_rgb : jQuery("body").css("color"),
                         },
                     }],                                           
                 }
@@ -103,28 +103,28 @@ const charts_pkg = {
                     datasets: [{
                         label: chart_data[c].filename + ' history.',
                         data: chart_data[c].data,
-                        backgroundColor: jQuery("body").css("background-color"),
-                        borderColor: jQuery("body").css("color"),
+                        backgroundColor: (dmck_audioplayer && dmck_audioplayer.chart_rgb_init) ? dmck_audioplayer.chart_rgb_init : jQuery("body").css("background-color"),
+                        borderColor: (dmck_audioplayer && dmck_audioplayer.chart_rgb) ? dmck_audioplayer.chart_rgb : jQuery("body").css("color"),
                     }]
                 },
                 options: {
                     responsive: true,
                     legend: {
                         labels: {
-                            fontColor: jQuery("body").css("color"),
+                            fontColor: (dmck_audioplayer && dmck_audioplayer.chart_rgb) ? dmck_audioplayer.chart_rgb : jQuery("body").css("color"),
                         }
                     },
                     scales: {
                         yAxes: [{
                             ticks: {
                                 beginAtZero:false,
-                                fontColor: jQuery("body").css("color"),
+                                fontColor: (dmck_audioplayer && dmck_audioplayer.chart_rgb) ? dmck_audioplayer.chart_rgb : jQuery("body").css("color"),
                             },
                         }],
                         xAxes: [{
                             ticks: {
                                 beginAtZero:false,
-                                fontColor: jQuery("body").css("color"),
+                                fontColor: (dmck_audioplayer && dmck_audioplayer.chart_rgb) ? dmck_audioplayer.chart_rgb : jQuery("body").css("color"),
                             },
                         }],                                              
                     }                    

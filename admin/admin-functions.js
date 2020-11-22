@@ -63,7 +63,16 @@ const admin_functions = {
         }); 
         jQuery("input[type='checkbox'][name='ignore_ip_enabled']").click(function (e) {
             jQuery("textarea[name='ignore_ip_json']").prop("disabled", ! jQuery(this).prop("checked") );
-        });    
+        }); 
+        jQuery("input[type='checkbox'][name='visualizer_rgb_enabled']").click(function (e) {
+            jQuery("input[name='visualizer_rgb_init']").prop("disabled", ! jQuery(this).prop("checked") );
+            jQuery("input[name='visualizer_rgb']").prop("disabled", ! jQuery(this).prop("checked") );
+            jQuery("select[name='visualizer_samples']").prop("disabled", ! jQuery(this).prop("checked") );
+        });
+        jQuery("input[type='checkbox'][name='chart_rgb_enabled']").click(function (e) {
+            jQuery("input[name='chart_rgb_init']").prop("disabled", ! jQuery(this).prop("checked") );
+            jQuery("input[name='chart_rgb']").prop("disabled", ! jQuery(this).prop("checked") );
+        });                      
         jQuery('#admin-upload-action').click(function (e) {
             e.preventDefault();
             if (!confirm('Please confirm')) { return false; }

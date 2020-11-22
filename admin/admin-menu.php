@@ -46,15 +46,15 @@
 		<textarea name="playlist_config" class="form-control" rows="12"><?php echo playlist_config_default(); ?></textarea>
 		<hr>
 		<div>
-			<label>Visualizer</label>
+			<label>Visualizer <input type="checkbox" name="visualizer_rgb_enabled"  class="form-control" value="1" <?php if (1 == get_option('visualizer_rgb_enabled')) echo 'checked="checked"'; ?> ></label>
 		</div>
 		<div>	
 		<label>colors</label>: 
-		<input name="visualizer_rgb_init" data-jscolor="{preset:'large dark'}" value="<?php if(get_option('visualizer_rgb_init')){ echo esc_attr( get_option('visualizer_rgb_init') ); }else{ echo "rgba(0,0,0,1.0)"; } ?>" title="Initial visualizer fill color">
-		<input name="visualizer_rgb" data-jscolor="{preset:'large dark'}" value="<?php if(get_option('visualizer_rgb')){ echo esc_attr( get_option('visualizer_rgb') ); }else{ echo "rgba(255,255,255,1.0)"; } ?>" title="Visualizer fill color">
+		<input name="visualizer_rgb_init" data-jscolor="{preset:'large dark'}" value="<?php if(get_option('visualizer_rgb_init')){ echo esc_attr( get_option('visualizer_rgb_init') ); }else{ echo "rgba(0,0,0,1.0)"; } ?>" title="Initial visualizer fill color"  <?php if (1 != get_option('visualizer_rgb_enabled')) echo 'disabled'; ?>>
+		<input name="visualizer_rgb" data-jscolor="{preset:'large dark'}" value="<?php if(get_option('visualizer_rgb')){ echo esc_attr( get_option('visualizer_rgb') ); }else{ echo "rgba(255,255,255,1.0)"; } ?>" title="Visualizer fill color" <?php if (1 != get_option('visualizer_rgb_enabled')) echo 'disabled'; ?>>
 		</div>
 		<label>samples:</label>
-		<select name='visualizer_samples'>
+		<select name='visualizer_samples' <?php if (1 != get_option('visualizer_rgb_enabled')) echo 'disabled'; ?>>
 			<option value='' <?php selected( get_option('visualizer_samples'), "" ); ?>>Select</option>
 			<option value='32' <?php selected( get_option('visualizer_samples'), "32" ); ?>>32</option>
 			<option value='64' <?php selected( get_option('visualizer_samples'), "64" ); ?>>64</option>
@@ -72,6 +72,9 @@
 	<div id="tab-5" class="tab-content tab-charts form-group">
 		<div class="row">
 			<div class="col-sm-12 form-group">	
+				<label><?php _e('Ignore site admin ip addresses'); ?></label> <input type="checkbox" name="ignore_ip_enabled"  class="form-control" value="1" <?php if (1 == get_option('ignore_ip_enabled')) echo 'checked="checked"'; ?> >
+				<textarea  name="ignore_ip_json" class="form-control" title="ignore ip json"  <?php if (1 != get_option('ignore_ip_enabled')) echo 'disabled'; ?> ><?php echo esc_attr( get_option('ignore_ip_json') ); ?></textarea>
+				<hr>
 				<label><?php _e('Access log filter '); ?></label>
 				<input type="text" name="access_log_pattern"  class="form-control" value="<?php echo esc_attr( get_option('access_log_pattern') ); ?>"  placeholder="/.mp3/i">
 				<small>Simple regex. The default is <code>/.mp3/i</code>.</small>
@@ -80,11 +83,15 @@
 				<input type="text" name="access_log"  class="form-control" value="<?php echo esc_attr( get_option('access_log') ); ?>">
 				<small>Add the following to cron: <code>* * * * * $(which php) <?php echo plugin_dir_path(__DIR__)?>lib/reports.php put > /dev/null 2>&1</code></small>
 				<hr>	
-				<label><?php _e('Chart background colors array ( <small>Example <code>["#ffffff","#F0F0F0","#E0E0E0","#D0D0D0","#C0C0C0","#B0B0B0","#A0A0A0","#909090","#808080","#707070"]</code></small> )'); ?></label>
+				<label><?php _e('Chart fill colors array ( <small>Example <code>["#ffffff","#F0F0F0","#E0E0E0","#D0D0D0","#C0C0C0","#B0B0B0","#A0A0A0","#909090","#808080","#707070"]</code></small> )'); ?></label>
 				<input type="text" name="chart_color_array"  class="form-control" value="<?php echo esc_attr( get_option('chart_color_array') ); ?>">
 				<hr>
-				<label><?php _e('Ignore site admin ip addresses'); ?></label> <input type="checkbox" name="ignore_ip_enabled"  class="form-control" value="1" <?php if (1 == get_option('ignore_ip_enabled')) echo 'checked="checked"'; ?> >
-				<textarea  name="ignore_ip_json" class="form-control" title="ignore ip json"  <?php if (1 != get_option('ignore_ip_enabled')) echo 'disabled'; ?> ><?php echo esc_attr( get_option('ignore_ip_json') ); ?></textarea>
+				<div>	
+				<label>colors</label> <input type="checkbox" name="chart_rgb_enabled"  class="form-control" value="1" <?php if (1 == get_option('chart_rgb_enabled')) echo 'checked="checked"'; ?> >: 
+				<input name="chart_rgb_init" data-jscolor="{preset:'large dark'}" value="<?php if(get_option('chart_rgb_init')){ echo esc_attr( get_option('chart_rgb_init') ); }else{ echo "rgba(0,0,0,1.0)"; } ?>" title="Initial chart fill color" <?php if (1 != get_option('chart_rgb_enabled')) echo 'disabled'; ?>>
+				<input name="chart_rgb" data-jscolor="{preset:'large dark'}" value="<?php if(get_option('chart_rgb')){ echo esc_attr( get_option('chart_rgb') ); }else{ echo "rgba(255,255,255,1.0)"; } ?>" title="chart fill color" <?php if (1 != get_option('chart_rgb_enabled')) echo 'disabled'; ?>>
+				</div>	
+				<hr>			
 			</div>
 		</div>	
 	</div>
