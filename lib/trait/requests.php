@@ -32,9 +32,9 @@ trait _requests {
 		$args = array(
 			's'					=> !empty($obj->s) ? "/".urldecode($obj->s)  : "",
 			'posts_per_page' 	=> !empty($obj->posts_per_page) ? $obj->posts_per_page : -1,
+			'post_status'      	=> !empty($obj->publish) ? $obj->publish  : "publish",
 			'orderby'          	=> !empty($obj->orderby) ? $obj->orderby  : "",
 			'order'            	=> !empty($obj->order) ? $obj->order  : "",
-			'post_status'      	=> !empty($obj->publish) ? $obj->publish  : "publish",
 			'tag'				=> !empty($obj->tag) ? $obj->tag  : "", 
 			'tag__in' 			=> !empty($obj->tag_in) ? array( $obj->tag_in ) : "", //array (id)
 			'tag__not_in'		=> !empty($obj->tag_not_in) ? array( $obj->tag_not_in ) : "", //array (id)

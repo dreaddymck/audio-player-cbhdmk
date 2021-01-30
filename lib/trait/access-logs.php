@@ -33,7 +33,7 @@ EOF;
         $resp = $conn->query($query);
         if( $resp instanceof mysqli_result ) { $results = mysqli_fetch_assoc($resp); } 
         $conn->close();
-        return $results['data'];
+        return $results ? $results['data'] : "";
     }
     function accesslog_activity_get_week($name="",$num=1) {
 
@@ -50,7 +50,7 @@ order by
 EOF;
 
         $results = $this->query($query);
-        return $results;	
+        return $results ? $results['data'] : "";	
     } 
     function accesslog_activity_get_month($name="", $num=1) {
         $filter = "";
@@ -68,7 +68,7 @@ EOF;
 
         // error_log($query);
         $results = $this->query($query);
-        return $results;	
+        return $results ? $results['data'] : "";	
     }       
     function accesslog_activity_put()
     {			

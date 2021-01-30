@@ -12,7 +12,7 @@ create table IF NOT EXISTS dmck_audio_log_reports (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 DEFAULT COLLATE utf8_unicode_ci;
 
 EOF;
-        $res = _requests::query($sql);
+        $res = $this->query($sql);
     } 
     function _tables_drop(){
 
@@ -22,6 +22,6 @@ EOF;
 DROP TABLE IF EXISTS dmck_audio_log_reports;
 EOF;
 
-        _requests::query($sql);
+        $res = $this->query($sql);
     } 
 }
