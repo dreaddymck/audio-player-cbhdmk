@@ -123,11 +123,6 @@ img.ui-li-img {
     background-position: center;
 }
 
-.artist {
-    float: right;
-    padding: 12px;
-}
-
 .controls div {
     float: none;
     margin: 0 auto;

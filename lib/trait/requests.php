@@ -101,7 +101,6 @@ trait _requests {
 			$json[$key]["ID"] = $p[0]->ID;
 			$json[$key]["mp3"] = $p[0]->mp3;
 			$json[$key]["cover"] = $p[0]->cover;
-			$json[$key]["artist"] = $p[0]->artist;
 			$json[$key]["permalink"] = $p[0]->permalink;
 			$json[$key]["wavformpng"] = $p[0]->wavformpng;
 			$json[$key]["tags"] = $p[0]->tags;
@@ -148,7 +147,6 @@ trait _requests {
 				$object->wavformjson	= preg_replace("/^http:/i", "https:", $object->wavformjson);
 			}
 			$object->title		= esc_attr($post->post_title);
-			$object->artist		= "dreaddymck";
 			$object->rating		= 0;
 			$object->cover		= $this->fetch_the_post_thumbnail_src( $post );
 			$object->permalink	= get_permalink( $post->ID );

@@ -11,7 +11,6 @@ const playlist_control = {
 			fwd: "#" + dmck_audioplayer.plugin_slug + ' .fwd',
 			rew: "#" + dmck_audioplayer.plugin_slug + ' .rew',
 			cover: "#" + dmck_audioplayer.plugin_slug + ' .cover',
-			artist: "#" + dmck_audioplayer.plugin_slug + ' .artist',
 			playing: false,
 			song: null,
 		},
@@ -109,10 +108,9 @@ const playlist_control = {
 		if (!elem.attr('audiourl')) { return; }
 
 		let url = elem.attr('audiourl');
-		let title = playlist_control.DecodeEntities(elem.attr('artist')) + ' - ' +playlist_control.DecodeEntities(elem.attr('title'));
+		let title = playlist_control.DecodeEntities(elem.attr('title'));
 		let cover = elem.attr('cover')
 		let wavformpng = elem.attr('wavformpng')
-		let artist = elem.attr('artist')
 		let permalink = elem.attr('permalink')
 		let id = elem.attr('id')
 
@@ -120,7 +118,6 @@ const playlist_control = {
 		playlist_control.globals.target = elem[0].className;
 
 		jQuery(playlist_control.globals.cfg.title).html(title).attr('permalink', permalink).attr('ID', id)
-		jQuery(playlist_control.globals.cfg.artist).text(artist)
 	
 		playlist_control.set_cover_background(cover)
 		// playlist_control.set_duration_background(wavformpng)

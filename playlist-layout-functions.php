@@ -47,7 +47,6 @@ echo <<<EOF
 			post-id="{$p->ID}"
 			audiourl="{$p->mp3}" 
 			cover="{$p->cover}" 
-			artist="{$p->artist}" 
 			permalink="{$p->permalink}" 
 			wavformpng="{$p->wavformpng}"
 			title="{$p->title}">
@@ -98,8 +97,7 @@ echo <<<EOF
 			class="top-10-track dmck-audio-playlist-track" 
 			post-id="{$value["ID"]}"
 			audiourl="{$value["mp3"]}" 
-			cover="{$value["cover"]}" 
-			artist="{$value["artist"]}"					
+			cover="{$value["cover"]}" 					
 			permalink="{$value["permalink"]}" 
 			wavformpng="{$value["wavformpng"]}"
 			style="color:"
