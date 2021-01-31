@@ -220,7 +220,7 @@ trait _requests {
 		libxml_use_internal_errors(true);
 		$dom->loadHTML($str);
 		$xpath = new DOMXpath($dom);
-		$src = $xpath->query("//source/attribute::src");
+		$src = $xpath->query("//source/attribute::src | //audio/attribute::src");
 		if($src->length){
 			foreach( $src as $s ) {
 				$value = $s->nodeValue;
