@@ -70,33 +70,34 @@ Update upon login.
 		if ( is_singular() && in_the_loop() ) {
 			if (get_option('charts_enabled')) {
 				$paths = $this->fetch_audio_from_string($content);
-				$post_chart_json = array();
-				foreach($paths as $p){
-					// $value = parse_url($p, PHP_URL_PATH);
-					$basename = basename($p);
-					$filename = urldecode($basename);
-					$pattern = "(".preg_quote($basename)."|".preg_quote($filename).")";
-					$target = pathinfo($filename, PATHINFO_FILENAME);
-					$target = preg_replace("/(\W)+/", '_', $target);					
-					$resp = $this->accesslog_activity_get_month($pattern,12);
-					foreach($resp as $key=>$value){					
-						$json = json_decode($value[0]);
-						foreach($json as $jkey=>$jvalue){
-							// if($jvalue->name == $filename){
-							// 	$this->_log("PATTERN: ". $pattern);
-							// 	$this->_log("RESULTS: ". $jvalue->name . " == " . $filename);
-							// }
-							if( preg_match("/".$pattern."/", $jvalue->name) ){
-								array_push($post_chart_json, array(
-									"time"=> $jvalue->time,
-									"count" => $jvalue->count,
-									"target" => $target,
-									"filename" => $filename
-								));								
-							}						
+				if(sizeof($paths)){
+					$post_chart_json = array();
+					foreach($paths as $p){
+						// $value = parse_url($p, PHP_URL_PATH);
+						$basename = basename($p);
+						$filename = urldecode($basename);
+						$pattern = "(".preg_quote($basename)."|".preg_quote($filename).")";
+						$target = pathinfo($filename, PATHINFO_FILENAME);
+						$target = preg_replace("/(\W)+/", '_', $target);					
+						$resp = $this->accesslog_activity_get_month($pattern,12);
+						if($resp){
+							foreach($resp as $key=>$value){					
+								$json = json_decode($value[0]);
+								foreach($json as $jkey=>$jvalue){
+									if( preg_match("/".$pattern."/", $jvalue->name) ){
+										array_push($post_chart_json, array(
+											"time"=> $jvalue->time,
+											"count" => $jvalue->count,
+											"target" => $target,
+											"filename" => $filename
+										));								
+									}						
+								}
+							}
 						}
+
+						$html = "<div class='post_chart_section ". $target ."_chart'></div><script>let post_chart_json = ".json_encode($post_chart_json)."</script>";				
 					}
-					$html = "<div class='post_chart_section ". $target ."_chart'></div><script>let post_chart_json = ".json_encode($post_chart_json)."</script>";				
 				}
 			}
 		}

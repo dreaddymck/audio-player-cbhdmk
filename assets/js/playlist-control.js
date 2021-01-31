@@ -16,10 +16,13 @@ const playlist_control = {
 			song: null,
 		},
 		container: "",
-		target: "",		
+		target: "",
+		playlists : [],		
 	},
 	init: function () {
-		playlist_control.popupcontrol();
+		if(dmck_audioplayer.audio_control_enabled){
+			playlist_control.popupcontrol();
+		}		
 		playlist_control.globals.cfg.playing = false;
 		playlist_control.globals.cfg.song = null;
 		// initialize the volume slider
@@ -120,7 +123,7 @@ const playlist_control = {
 		jQuery(playlist_control.globals.cfg.artist).text(artist)
 	
 		playlist_control.set_cover_background(cover)
-		playlist_control.set_duration_background(wavformpng)
+		// playlist_control.set_duration_background(wavformpng)
 
 		playlist_control.globals.cfg.song = new Audio(url);			
 

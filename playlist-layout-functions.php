@@ -31,13 +31,13 @@ function nav_pane($obj, $pj){
 echo <<<EOF
 
 	<div class="tab-pane" id="{$pj->id}" role="tabpanel" aria-labelledby="tab-{$pj->id}">
-	<div id=id="{$pj->id}-rss"></div>
+	<div id="{$pj->id}-rss"></div>
 	<table class="table table-responsive-lg top-requests-data">
 	<tbody>	
 
 EOF;
-
-		$playlist = json_decode( $obj->obj_request( $pj ) );
+		$resp = $obj->obj_request( $pj );
+		$playlist = json_decode( $resp );
 		foreach($playlist as $p) { 
 
 echo <<<EOF

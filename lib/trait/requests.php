@@ -182,7 +182,12 @@ trait _requests {
 	{
 		return (preg_match('~\bsrc="([^"]++)"~', $img, $matches)) ? $matches[1] : esc_attr( get_option('default_album_cover') ); //'https://dl.dropboxusercontent.com/u/1273929/MUSIC/FEATURING/photo.jpg';
 	}
-	function fetch_audio_from_string($str) {		
+	function fetch_audio_from_string($str) {
+		
+		$matches = array();
+
+		// This REGEX solution fails on classic html pages/posts imported from blogspot
+		//
 		# See http://en.wikipedia.org/wiki/Audio_file_format
 		# Adjust the list to your needs
 		// 	$suffixes = array (
@@ -191,7 +196,7 @@ trait _requests {
 		// 		'pcm', 'tta', 'wav', 'wma',  'wv',
 		// 	);
 		//	$formats = join( '|', $suffixes );
-		$formats = "mp3";		
+		// $formats = "mp3";		
 		// $regex   = '~
 		// (([^"\'])|^)            # start of string or attribute delimiter -> match 1
 		// (https?                 # http or https
@@ -203,10 +208,25 @@ trait _requests {
 		// )                       # complete URL -> match 3
 		// (([^"\'])|$)?           # end of string or attribute delimiter -> match 5
 		// ~imUx';                 # case insensitive, multi-line, ungreedy, commented
-		$regex   = '~(https?://.+/.+\.(' . $formats . '))(([^"\'])|$)?~imUx';
-		preg_match_all( $regex, $str, $matches, PREG_PATTERN_ORDER );
-		// error_log("*******************************");
-		// error_log(var_export($matches, TRUE));			
-		return $matches[0];
+		//
+		
+		//
+		// $regex   = '~(https?://.+/.+\.(' . $formats . '))(([^"\'])|$)?~imUx';
+		// $regex = '~((?:\'|")https?://\w.+\.(mp3)(?:\'|"))~';
+		// preg_match_all( $regex, $str, $matches, PREG_PATTERN_ORDER );
+	
+		
+		$dom = new DOMDocument();
+		libxml_use_internal_errors(true);
+		$dom->loadHTML($str);
+		$xpath = new DOMXpath($dom);
+		$src = $xpath->query("//source/attribute::src");
+		if($src->length){
+			foreach( $src as $s ) {
+				$value = $s->nodeValue;
+				array_push($matches,$value);
+			}
+		}		
+		return $matches;
 	}    
 }
