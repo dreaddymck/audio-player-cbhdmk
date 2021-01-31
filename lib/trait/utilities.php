@@ -77,7 +77,7 @@ Update upon login.
 						$basename = basename($p);
 						$filename = urldecode($basename);
 						$pattern = "(".preg_quote($basename)."|".preg_quote($filename).")";
-						$target = pathinfo($filename, PATHINFO_FILENAME);
+						$target = pathinfo($filename, PATHINFO_FILENAME); 
 						$target = preg_replace("/(\W)+/", '_', $target);					
 						$resp = $this->accesslog_activity_get_month($pattern,12);
 						if($resp){
