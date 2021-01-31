@@ -120,10 +120,8 @@ const playlist_control = {
 		jQuery(playlist_control.globals.cfg.title).html(title).attr('permalink', permalink).attr('ID', id)
 	
 		playlist_control.set_cover_background(cover)
-		// playlist_control.set_duration_background(wavformpng)
-
+		if(wavformpng){playlist_control.set_duration_background(wavformpng)}
 		playlist_control.globals.cfg.song = new Audio(url);			
-
 		playlist_control.globals.cfg.song.addEventListener('timeupdate', function _listener() {
 			if (!isNaN(playlist_control.globals.cfg.song.duration)) {
 				jQuery(playlist_control.globals.cfg.duration)

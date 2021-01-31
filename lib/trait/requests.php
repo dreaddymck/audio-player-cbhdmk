@@ -140,7 +140,7 @@ trait _requests {
 			$object->mp3		    = $audio[0];
 			$object->wavformpng		= get_post_meta( $post->ID, 'dmck_wavformpng', true );
 			$object->wavformpng	    = $object->wavformpng ? $object->wavformpng : $this->waveformpng($audio[0]);
-			$object->wavformjson	= $this->waveformjson($audio[0]);
+			$object->wavformjson	= $this->wavformjson($audio[0]);
 			if($is_secure){
 				$object->mp3		    = preg_replace("/^http:/i", "https:", $object->mp3);
 				$object->wavformpng	    = preg_replace("/^http:/i", "https:", $object->wavformpng);
@@ -173,7 +173,7 @@ trait _requests {
 	function waveformpng($str) {
 		return preg_replace('/\.mp3$/', '.wavform.png', $str);
 	}
-	function waveformjson($str) {
+	function wavformjson($str) {
 		return preg_replace('/\.mp3$/', '.wavform.json', $str);
 	}
 	function fetch_the_post_thumbnail_src($post)
