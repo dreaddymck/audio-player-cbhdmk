@@ -27,8 +27,8 @@ trait _rss {
         global $wp_query;
         // if(empty($_REQUEST["id"])){exit;};
         $idarray        = array();
-        $id             = $_REQUEST["id"];
-        $type           = $_REQUEST["type"];
+        $id             = isset($_REQUEST["id"]) ? $_REQUEST["id"] : "";
+        $type           = isset($_REQUEST["type"]) ? $_REQUEST["type"] : "";
         $tag            = $_REQUEST["tag"];
         $tag_slug__and  = $_REQUEST["tag_slug__and"];        
         if($type == "top-count"){
