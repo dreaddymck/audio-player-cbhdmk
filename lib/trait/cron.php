@@ -1,5 +1,7 @@
 <?php
 
+namespace DMCK_WP_MEDIA_PLUGIN;
+
 trait _cron {
 	
     function __construct(){}  

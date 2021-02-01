@@ -1,5 +1,7 @@
 <?php
 
+namespace DMCK_WP_MEDIA_PLUGIN;
+
 require_once __DIR__ . '/../../vendor/autoload.php';
 
 use maximal\audio\Waveform;

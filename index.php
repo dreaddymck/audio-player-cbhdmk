@@ -3,7 +3,7 @@
 Plugin Name: (DMCK) audio player
 Plugin URI: dreaddymck.com
 Description: Just another audio thingy. Can be used to generate playlists and simple charts. Shortcode [dmck-audioplayer]
-Version: 1.0.9.3
+Version: 1.0.10
 Author: dreaddymck
 Author URI: dreaddymck.com
 License: GPL2
@@ -13,6 +13,7 @@ TODO: check to see if insert on duplicate update is better option.
 TODO: render week, month, request activity per item.
 
 */
+namespace DMCK_WP_MEDIA_PLUGIN;
 // error_reporting(E_ALL);
 // ini_set("display_errors","On");
 if (!class_exists("dmck_audioplayer")) {
@@ -23,6 +24,7 @@ if (!class_exists("dmck_audioplayer")) {
 	require_once(plugin_dir_path(__FILE__)."lib/trait/cron.php");
 	require_once(plugin_dir_path(__FILE__)."lib/trait/rss.php");
 	require_once(plugin_dir_path(__FILE__)."lib/trait/requests.php");
+	require_once(plugin_dir_path(__FILE__)."lib/trait/meta_box.php");
 	
 	class dmck_audioplayer {
 		use _accesslog;
@@ -32,6 +34,7 @@ if (!class_exists("dmck_audioplayer")) {
 		use _cron;
 		use _rss;
 		use _requests;
+		use _meta_box;
 
 		const PLUGIN_SLUG				= 'dmck_audioplayer';
 		const SETTINGS_GROUP			= 'dmck-audioplayer-settings-group';
@@ -91,6 +94,8 @@ if (!class_exists("dmck_audioplayer")) {
 
 			add_action( 'init', array( $this, '_init_actions'));
 			add_action( 'admin_init', array( $this, 'register_settings') );
+			add_action('add_meta_boxes', array($this, 'add_meta_box_hook') );
+			add_action('save_post',      array( $this, 'save_meta_box_hook') );			
 			add_action( 'admin_menu', array( $this, 'admin_menu' ));			
 			add_action( 'admin_enqueue_scripts', array($this, 'admin_scripts') );
 			add_action( 'admin_bar_menu', array( $this, 'admin_bar_setup'), 999);
@@ -103,7 +108,7 @@ if (!class_exists("dmck_audioplayer")) {
 			add_action( 'rest_api_init', function () {
 				$namespace = self::PLUGIN_SLUG.'/v'.$this->plugin_version;
 				register_rest_route( $namespace,'api/(?P<option>[\w]+)' ,array(
-					'methods'   =>  WP_REST_Server::READABLE,
+					'methods'   =>  \WP_REST_Server::READABLE,
 					'callback'  =>  array($this, 'handle_requests'),
 					'permission_callback' => '__return_true', 
 					'args' => [ 'option' => [] ],										
@@ -201,7 +206,7 @@ if (!class_exists("dmck_audioplayer")) {
 				$this->auto_play		= isset($_GET["auto_play"]) ? htmlspecialchars($_GET["auto_play"] ) : "";
 				$this->relatedposts		= isset($_GET["relatedposts"]) ? htmlspecialchars($_GET["relatedposts"] ) : "";					
 			}
-			$date = new DateTime();
+			$date = new \DateTime();
 			$local = array(
 				'nonce' => wp_create_nonce( 'wp_rest' ),
 				'curr_user_id' => get_current_user_id(),

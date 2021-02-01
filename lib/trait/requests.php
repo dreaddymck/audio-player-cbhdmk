@@ -1,4 +1,7 @@
 <?php
+
+namespace DMCK_WP_MEDIA_PLUGIN;
+
 trait _requests {
 
 	function __construct(){}
@@ -68,11 +71,11 @@ trait _requests {
 		if($this->debug){
 			$this->_log($sql);
 		}
-		$conn = new mysqli(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME );
+		$conn = new \mysqli(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME );
 		if ($conn->connect_error) { die("Connection failed: " . $conn->connect_error); }
 		$resp       = $conn->query($sql);
 		$results    = array();
-		if( $resp instanceof mysqli_result ){ $results = mysqli_fetch_all($resp); }
+		if( $resp instanceof \mysqli_result ){ $results = mysqli_fetch_all($resp); }
 		$conn->close();
 		return $results;
 	}
@@ -125,7 +128,7 @@ trait _requests {
 
 			if(get_post_status($post->ID) != "publish" ){ continue; }
 
-			$object 	= new stdClass();
+			$object 	= new \stdClass();
 			$audio 		= $this->fetch_audio_from_string( $post->post_content );
 			if(empty($audio[0])) { continue; }
 			$audio[0] = urldecode($audio[0]);
@@ -180,10 +183,10 @@ trait _requests {
 	{
 		$img = get_the_post_thumbnail_url($post->ID, "thumbnail");
 		if(!$img){
-			$dom = new DOMDocument();
+			$dom = new \DOMDocument();
 			libxml_use_internal_errors(true);
 			$dom->loadHTML($post->post_content);
-			$xpath = new DOMXpath($dom);
+			$xpath = new \DOMXpath($dom);
 			$src = $xpath->query("//img/attribute::src");			
 			if($src->length){
 				foreach( $src as $s ) {
@@ -229,10 +232,10 @@ trait _requests {
 		// preg_match_all( $regex, $str, $matches, PREG_PATTERN_ORDER );
 
 
-		$dom = new DOMDocument();
+		$dom = new \DOMDocument();
 		libxml_use_internal_errors(true);
 		$dom->loadHTML($str);
-		$xpath = new DOMXpath($dom);
+		$xpath = new \DOMXpath($dom);
 		$src = $xpath->query("//source/attribute::src | //audio/attribute::src");
 		if($src->length){
 			foreach( $src as $s ) {

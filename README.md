@@ -2,44 +2,28 @@
 
 ## Always a work in progress
 
-Another audio thingy. Can be used to generate playlists and simple charts. 
-Default action is to grab the first mp3 located in published posts, then render a tabbed playlist.
-Playlists rendered are currently defined by a json structure, and If the website access log is available, a top 10 playlist and some charts can be rendered.
+SHORTCODE: [dmck-audioplayer]
+
+Another media thingy. Can be used to generate playlists embeded in posts and simple charts. Application will grab the first mp3 located in published posts then render a tabbed playlist.
+
+If the access log is available, a top 10 playlist and some charts can be rendered.
 
 Based on this html5 audio playlist tutorial:
 https://www.script-tutorials.com/html5-audio-player-with-playlist/
-
-shortcode for tabbed playlist:
-[dmck-audioplayer]
 
 ## Installation
 
 1. Upload plugin folder to `/wp-content/plugins/` directory
 2. Activate the plugin through the 'Plugins' menu in WordPress
-3. Configure plugin admin settings
+3. Configure the playlist json object and other options in the admin menu in the admin section.
 4. Add shortcode to pages or posts as needed.
-5. something something work in progress, idk might delete later.
-
-## Notes
-
-### Filter access logs. Debugging
-
-The script below is used to manually test the filter used when parsing the access log.
-_Parameters:_
-
-1. put - _action flag, required_
-2. path - _optional, overrides admin settings_
-3. regex - _optional, override admin settings_
-4. true - _optional, show results in error log_
-
-```bash
-
-$(which php) /home/user/site.com/wp-content/plugins/audio-player-cbhdmk/lib/reports.php put "/path/to/accesslog" "/.mp3/i" true
-```
+5. Something something...
 
 ### Wavform
 
-Default location for the wav form image is within the same folder as the mp3. 
+Add wavform image url to the available "DMCK Audio meta options" post meta box section..
+
+Default location for the wav form image is the same directory as the mp3. 
 The default can be overriden by creating a custom field for the post document called *dmck_wavformpng*. Value is the url to the alternate wav form image location.
 
 The script below may be used to manually create wavforms (Requires an ffmpeg Installation on server).
@@ -56,23 +40,19 @@ $(which php) /home/user/site.com/wp-content/plugins/audio-player-cbhdmk/lib/repo
 $(which php) /home/user/site.com/wp-content/plugins/audio-player-cbhdmk/lib/reports.php wavform "/path/to/folder" "file-name.mp3"
 ```
 
-## Misc
+### Filter access logs. Debugging
 
-The following bash script may also be used to generate wavform (Requires ffmpeg Installation on server and some tweaking).
+The script below is used to manually test the filter used when parsing the access log.
+_Parameters:_
+
+1. put - _action flag, required_
+2. path - _optional, overrides admin settings_
+3. regex - _optional, override admin settings_
+4. true - _optional, show results in error log_
 
 ```bash
 
-#!/bin/bash
-echo "*******************************"
-echo "Begin render wavform";
-echo "*******************************"
-cd /home/user/path/to/mp3/
-for i in *.mp3; do
-    ffmpeg -y -i "$i" -filter_complex "compand,showwavespic=s=1200x120:colors=b2b2b2ff:" -frames:v 1  "${i%.mp3}.wavform.png";
-    sleep 1;
-done
-echo "end"
-exit
+$(which php) /home/user/site.com/wp-content/plugins/audio-player-cbhdmk/lib/reports.php put "/path/to/accesslog" "/.mp3/i" true
 ```
 
 ## Screenshot

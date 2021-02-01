@@ -1,5 +1,7 @@
 <?php
 
+namespace DMCK_WP_MEDIA_PLUGIN;
+
 trait _accesslog {
 
     public $filepath;		
@@ -27,10 +29,10 @@ ORDER BY
 LIMIT 1
 EOF;
         
-        $conn = new mysqli(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME );
+        $conn = new \mysqli(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME );
         if ($conn->connect_error) { die("Connection failed: " . $conn->connect_error); } 
         $resp = $conn->query($query);
-        if( $resp instanceof mysqli_result ) { $results = mysqli_fetch_assoc($resp); } 
+        if( $resp instanceof \mysqli_result ) { $results = mysqli_fetch_assoc($resp); } 
         $conn->close();
         return $results ? $results["data"] : "";
     }
@@ -83,10 +85,10 @@ EOF;
         if ( file_exists( $this->filepath ) ) {			
             try{   
                 $handle = fopen($this->filepath,'r');
-                if ( !$handle ) { throw new Exception('File open failed: ' . $this->filepath); } 
+                if ( !$handle ) { throw new \Exception('File open failed: ' . $this->filepath); } 
             }
-            catch (Exception $e) {
-                echo 'Caught exception: ', $e->getMessage(), "\n";
+            catch (\Exception $e) {
+                echo 'Caught \Exception: ', $e->getMessage(), "\n";
                 return;
             }
 
@@ -155,8 +157,8 @@ EOF;
                 }	
                 return json_encode($results);
         
-            } catch (Exception $e) {
-                echo 'Caught exception: ', $e->getMessage(), "\n";
+            } catch (\Exception $e) {
+                echo 'Caught \Exception: ', $e->getMessage(), "\n";
             } 			
         }
         else{
