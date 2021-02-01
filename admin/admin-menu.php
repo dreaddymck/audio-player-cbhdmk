@@ -106,9 +106,11 @@
 		<div class="row">
 		<div class="col-sm-12 form-group">
 			<label>git: <a href="https://github.com/dreaddymck/audio-player-cbhdmk" target="_blank">https://github.com/dreaddymck/audio-player-cbhdmk</a></label>	
-			<textarea class="form-control rounded-0" id="git-log" rows="18">
-				<?php echo shell_exec('cd ' .__DIR__.  '; git log -n 50 --graph --abbrev-commit --decorate --date=relative --all'); ?>
-			</textarea>
+			<textarea 
+				class="form-control rounded-0" 
+				id="git-log" 
+				rows="18"
+				><?php echo shell_exec('cd ' .__DIR__.  '; git log -n 50 --graph --abbrev-commit --decorate --date=relative --all'); ?></textarea>
 		</div>
 		</div>
 		<?php endif; ?>	
