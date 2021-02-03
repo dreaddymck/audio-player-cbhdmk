@@ -2,6 +2,7 @@
 /*
     Command line support for cron calls.
 */
+namespace DMCK_WP_MEDIA_PLUGIN;
 try{
     require_once dirname(__FILE__) . "/../../../../wp-load.php";
     require_once(dirname(__FILE__) . "/trait/access-logs.php");

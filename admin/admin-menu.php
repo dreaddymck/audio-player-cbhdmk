@@ -126,8 +126,8 @@ function playlist_config_default(){
 	{
 		"id" : "element_id",
 		"title" : "Title",
-		"tag" : "post_tag",
-		"tag_slug__and" : ""
+		"tag" : "tag_slug",
+		"tag_slug__and" : "tag_slug_and"
 	},
 	{
 		"topten" : "false"
