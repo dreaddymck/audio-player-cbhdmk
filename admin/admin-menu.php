@@ -93,7 +93,7 @@
 				<input type="text" name="chart_color_array"  class="form-control" value="<?php echo esc_attr( get_option('chart_color_array') ); ?>">
 				<hr>
 				<div>	
-				<label>colors</label> <input type="checkbox" name="chart_rgb_enabled"  class="form-control" value="1" <?php if (1 == get_option('chart_rgb_enabled')) echo 'checked="checked"'; ?> >: 
+				<label>Enable charts on posts</label> <input type="checkbox" name="chart_rgb_enabled"  class="form-control" value="1" <?php if (1 == get_option('chart_rgb_enabled')) echo 'checked="checked"'; ?> >: 
 				<input name="chart_rgb_init" data-jscolor="{preset:'large dark'}" value="<?php if(get_option('chart_rgb_init')){ echo esc_attr( get_option('chart_rgb_init') ); }else{ echo "rgba(0,0,0,1.0)"; } ?>" title="Initial chart fill color" <?php if (1 != get_option('chart_rgb_enabled')) echo 'disabled'; ?>>
 				<input name="chart_rgb" data-jscolor="{preset:'large dark'}" value="<?php if(get_option('chart_rgb')){ echo esc_attr( get_option('chart_rgb') ); }else{ echo "rgba(255,255,255,1.0)"; } ?>" title="chart fill color" <?php if (1 != get_option('chart_rgb_enabled')) echo 'disabled'; ?>>
 				</div>	
