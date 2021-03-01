@@ -107,6 +107,17 @@
 				<textarea  name="ignore_ip_json" class="form-control" title="ignore ip json"  <?php if (1 != get_option('ignore_ip_enabled')) echo 'disabled'; ?> ><?php echo esc_attr( get_option('ignore_ip_json') ); ?></textarea>
 				<hr>					
 			</div>
+		</div>
+		<div class="row">
+			<div class="col-lg-12">
+				<label><?php _e("Latest Chart JSON"); ?></label>
+				<pre><?php 
+					$toptengget = $this->top_count_get();
+					if(is_array($toptengget)){
+						echo json_encode($this->top_count_get(), JSON_PRETTY_PRINT);
+					}					 
+				?></pre> 
+			</div>
 		</div>	
 	</div>
 	<div id="tab-6" class="tab-content tab-gitlog">
