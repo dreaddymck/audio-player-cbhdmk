@@ -111,12 +111,19 @@
 		<div class="row">
 			<div class="col-lg-12">
 				<label><?php _e("Latest Chart JSON"); ?></label>
-				<pre><?php 
-					$toptengget = $this->top_count_get();
-					if(is_array($toptengget)){
-						echo json_encode($this->top_count_get(), JSON_PRETTY_PRINT);
+				<textarea 	id="access_log_activity" 
+							class="" 
+							name="access_log_activity" 
+							style="width:100%; height:200px; resize:both;"
+							title="access_log_activity" 
+							ondblclick="this.style.height = '';this.style.height = this.scrollHeight + 'px'"
+							placeholder=""
+							readonly><?php 
+					$access_log_activity = $this->top_count_get();
+					if(is_array($access_log_activity)){
+						echo json_encode($access_log_activity, JSON_PRETTY_PRINT);
 					}					 
-				?></pre> 
+				?></textarea>
 			</div>
 		</div>	
 	</div>

@@ -3,6 +3,8 @@
 namespace DMCK_WP_MEDIA_PLUGIN;
 
 trait _requests {
+	public $path;
+	
 
 	function __construct(){}
 	function handle_requests($data){ return $this->requests($data); }
@@ -68,9 +70,6 @@ trait _requests {
 		return($response);
 	}
 	function query($sql){
-		if($this->debug){
-			$this->_log($sql);
-		}
 		$conn = new \mysqli(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME );
 		if ($conn->connect_error) { die("Connection failed: " . $conn->connect_error); }
 		$resp       = $conn->query($sql);
@@ -97,7 +96,7 @@ trait _requests {
 			$p = json_decode($this->obj_request( $param ));
 
 			$title = !empty($p[0]->title) ? $p[0]->title : urldecode($value["name"]);
-			$date = date('m/d/Y h:i:s a', $json["time"]);
+			$date = date('m/d/Y h:i:s a', $value["time"]);
 
 			$json[$key]["title"] = $title;
 			$json[$key]["date"] = $date;
@@ -124,6 +123,7 @@ trait _requests {
 	function render_elements($posts) {
 		$response = [];
 		$is_secure = $this->isSecure();
+
 		foreach ( $posts as $post ) : setup_postdata( $post );
 
 			if(get_post_status($post->ID) != "publish" ){ continue; }
@@ -131,43 +131,48 @@ trait _requests {
 			$object 	= new \stdClass();
 			$audio 		= $this->fetch_audio_from_string( $post->post_content );
 			if(empty($audio[0])) { continue; }
-			$audio[0] = urldecode($audio[0]);
-			if($this->path) {
-				/* If $this->path exist
-				* playlist_elements call
-				* we should be extracting a single element that matches
-				*/
-				if (strpos(  $audio[0], $this->path) === false) { continue; }
+			
+			foreach($audio as $a){			
+			
+				$a = urldecode($a);
+				if($this->path) {
+					/* If $this->path exist
+					* playlist_elements call
+					* we should be extracting a single element that matches
+					*/
+					if (strpos(  $a, $this->path) === false) { continue; }
+				}
+				$object->ID		        = $post->ID;
+				$object->mp3		    = $a;
+				$object->wavformpng		= get_post_meta( $post->ID, 'dmck_wavformpng', true );
+				$object->wavformpng	    = $object->wavformpng ? $object->wavformpng : $this->waveformpng($a);
+				$object->wavformjson	= $this->wavformjson($a);
+				if($is_secure){
+					$object->mp3		    = preg_replace("/^http:/i", "https:", $object->mp3);
+					$object->wavformpng	    = preg_replace("/^http:/i", "https:", $object->wavformpng);
+					$object->wavformjson	= preg_replace("/^http:/i", "https:", $object->wavformjson);
+				}
+				$object->title		= esc_attr($post->post_title);
+				$object->rating		= 0;
+				$object->cover		= $this->fetch_the_post_thumbnail_src( $post );
+				$object->permalink	= get_permalink( $post->ID );
+				$object->moreinfo	= get_option('moreinfo') ? get_option('moreinfo') : "";
+				$object->playlist_thumb = $object->cover;
+				$object->tags 		=  implode( ', ', wp_get_post_tags( $post->ID, array( 'fields' => 'names' )) );
+
+				$excerpt_tmp 	= $post->post_content;
+				$excerpt_tmp 	= htmlspecialchars_decode($excerpt_tmp);
+				$excerpt_tmp 	= preg_replace('#<[^>]+>#', ' ', $excerpt_tmp);
+				$excerpt_tmp 	= preg_replace("#(\r|\n){2,}#", " ", $excerpt_tmp);
+				$excerpt_tmp 	= str_replace( chr( 194 ) . chr( 160 ), ' ', $excerpt_tmp );
+				$excerpt_tmp 	= preg_replace( '#(Sorry, your browser doesn\'t support HTML5 audio\.)#', ' ', $excerpt_tmp );
+				$excerpt_tmp 	= preg_replace( '#(download)#', ' ', $excerpt_tmp );
+
+				// $object->excerpt = wp_trim_words( esc_attr( $excerpt_tmp ), 12, "...");
+
+				array_push( $response, $object );
+
 			}
-			$object->ID		        = $post->ID;
-			$object->mp3		    = $audio[0];
-			$object->wavformpng		= get_post_meta( $post->ID, 'dmck_wavformpng', true );
-			$object->wavformpng	    = $object->wavformpng ? $object->wavformpng : $this->waveformpng($audio[0]);
-			$object->wavformjson	= $this->wavformjson($audio[0]);
-			if($is_secure){
-				$object->mp3		    = preg_replace("/^http:/i", "https:", $object->mp3);
-				$object->wavformpng	    = preg_replace("/^http:/i", "https:", $object->wavformpng);
-				$object->wavformjson	= preg_replace("/^http:/i", "https:", $object->wavformjson);
-			}
-			$object->title		= esc_attr($post->post_title);
-			$object->rating		= 0;
-			$object->cover		= $this->fetch_the_post_thumbnail_src( $post );
-			$object->permalink	= get_permalink( $post->ID );
-			$object->moreinfo	= get_option('moreinfo') ? get_option('moreinfo') : "";
-			$object->playlist_thumb = $object->cover;
-			$object->tags 		=  implode( ', ', wp_get_post_tags( $post->ID, array( 'fields' => 'names' )) );
-
-			$excerpt_tmp 	= $post->post_content;
-			$excerpt_tmp 	= htmlspecialchars_decode($excerpt_tmp);
-			$excerpt_tmp 	= preg_replace('#<[^>]+>#', ' ', $excerpt_tmp);
-			$excerpt_tmp 	= preg_replace("#(\r|\n){2,}#", " ", $excerpt_tmp);
-			$excerpt_tmp 	= str_replace( chr( 194 ) . chr( 160 ), ' ', $excerpt_tmp );
-			$excerpt_tmp 	= preg_replace( '#(Sorry, your browser doesn\'t support HTML5 audio\.)#', ' ', $excerpt_tmp );
-			$excerpt_tmp 	= preg_replace( '#(download)#', ' ', $excerpt_tmp );
-
-			$object->excerpt = wp_trim_words( esc_attr( $excerpt_tmp ), 12, "...");
-
-			array_push( $response, $object );
 
 		endforeach;
 
