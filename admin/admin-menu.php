@@ -110,20 +110,14 @@
 		</div>
 		<div class="row">
 			<div class="col-lg-12">
-				<label><?php _e("Latest Chart JSON"); ?></label>
-				<textarea 	id="access_log_activity" 
-							class="" 
-							name="access_log_activity" 
-							style="width:100%; height:200px; resize:both;"
-							title="access_log_activity" 
-							ondblclick="this.style.height = '';this.style.height = this.scrollHeight + 'px'"
-							placeholder=""
-							readonly><?php 
-					$access_log_activity = $this->top_count_get();
+				<label><?php _e("Media Requests Today"); ?></label>
+				<pre><?php 
+					$access_log_activity = $this->media_activity_today();
 					if(is_array($access_log_activity)){
 						echo json_encode($access_log_activity, JSON_PRETTY_PRINT);
 					}					 
-				?></textarea>
+				?></pre>
+				<label><?php echo "Count: ".sizeof($access_log_activity) ?><label>
 			</div>
 		</div>	
 	</div>

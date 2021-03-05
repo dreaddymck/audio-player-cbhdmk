@@ -6,10 +6,10 @@ trait _cron {
 	
     function __construct(){}  
     function wp_cron_functions_daily() {
-        try{
-            $this->accesslog_activity_purge();
-        }
-        catch (Exception $e) { error_log($e); }   
+        // try{
+        //     $this->accesslog_activity_purge();
+        // }
+        // catch (Exception $e) { error_log($e); }   
     }
     function cronstarter_deactivate() {	
         $timestamp = wp_next_scheduled ($this->cron_name);			

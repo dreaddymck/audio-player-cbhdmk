@@ -34,7 +34,7 @@ trait _rss {
         $tag            = $_REQUEST["tag"];
         $tag_slug__and  = $_REQUEST["tag_slug__and"];        
         if($type == "top-count"){
-            $data = $this->top_count_get();
+            $data = $this->media_activity_today($limit=10);
             foreach($data as $value) {                
                 array_push($idarray, $value["ID"]);     
             }

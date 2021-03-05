@@ -13,6 +13,7 @@ try{
 	require_once(dirname(__FILE__) . "/trait/wavform.php");
     require_once(dirname(__FILE__) . "/trait/utilities.php");
     require_once(dirname(__FILE__) . "/trait/requests.php");
+    require_once(dirname(__FILE__) . "/trait/tables.php");
 }
 catch (Exception $e) { exit($e); }
 class dmck_reports_migrate{
@@ -20,6 +21,7 @@ class dmck_reports_migrate{
     use _accesslog;
     use _utilities;
     use _requests;
+    use _tables;
 
     public $response;
 
@@ -44,34 +46,34 @@ class dmck_reports_migrate{
 
         if($this->flag){ 
             echo "Dropping Tables If Exists\r\n";
-            $results = $this->query("DROP TABLE IF EXISTS dmck_media_activity_log;");
-            $results = $this->query("DROP TABLE IF EXISTS dmck_media_activity_referer_log;");            
+            $this->_tables_media_drop();
+            // $results = $this->query("DROP TABLE IF EXISTS dmck_media_activity_log;");
+            // $results = $this->query("DROP TABLE IF EXISTS dmck_media_activity_referer_log;");            
         }        
         echo "Creating Tables If Not Exist\r\n";
-        $query = <<<EOF
-create table IF NOT EXISTS dmck_media_activity_log (
-    id BIGINT PRIMARY KEY AUTO_INCREMENT,
-    post_id INT,
-    media text,
-    count int,
-    time TIMESTAMP,
-    created TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 DEFAULT COLLATE utf8_unicode_ci;
+        $this->_tables_dmck_media();
+//         $query = "
+// create table IF NOT EXISTS dmck_media_activity_log (
+//     id BIGINT PRIMARY KEY AUTO_INCREMENT,
+//     post_id INT,
+//     media text,
+//     count int,
+//     time TIMESTAMP,
+//     created TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+// ) ENGINE=InnoDB DEFAULT CHARSET=utf8 DEFAULT COLLATE utf8_unicode_ci;
+// ";
+//         $results = $this->query($query);
 
-EOF;
-        $results = $this->query($query);
-
-        $query = <<<EOF
-create table IF NOT EXISTS dmck_media_activity_referer_log (
-    id BIGINT PRIMARY KEY AUTO_INCREMENT,
-    post_id INT,
-    referer text,
-    time TIMESTAMP,
-    created TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 DEFAULT COLLATE utf8_unicode_ci
-
-EOF;
-        $results = $this->query($query);
+//         $query = "
+// create table IF NOT EXISTS dmck_media_activity_referer_log (
+//     id BIGINT PRIMARY KEY AUTO_INCREMENT,
+//     post_id INT,
+//     referer text,
+//     time TIMESTAMP,
+//     created TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+// ) ENGINE=InnoDB DEFAULT CHARSET=utf8 DEFAULT COLLATE utf8_unicode_ci
+// ";
+//         $results = $this->query($query);
     }
     function migrate(){
 
@@ -79,7 +81,7 @@ EOF;
         $x=0;
         $size=sizeof($elements);
 
-        echo "Migrating $size media items extracted from posts\r\n";
+        echo "Attempting to Migrate DMCK meta to new table format from $size posts\r\n";
 
         foreach($elements as $e){
             if($e->mp3){                
@@ -88,19 +90,22 @@ EOF;
                 $pattern = "(".preg_quote($basename)."|".preg_quote($filename).")";
                 $resp = $this->accesslog_activity_get_month( $pattern, $this->value);
                 if($resp){
+                    $x=$x + 1;
                     foreach($resp as $key=>$value){
                         $json = json_decode($value[0]);
-                        foreach($json as $jkey=>$jvalue){
-                            if( preg_match("/".$pattern."/", $jvalue->name) ){
-                                $jvalue->referer = isset($jvalue->referer) ? $jvalue->referer : "";
-                                $results = $this->dmck_media_activity_tables($e, $jvalue);
+                        foreach($json as $jkey=>$jval){
+                            if( preg_match("/".$pattern."/", $jval->name) ){
+                                $jval->referer = isset($jval->referer) ? $jval->referer : "";
+                                $jval->ID = $e->ID;
+                                $results = $this->dmck_media_activity_tables($jval);
                             }
                         }
                     }
                 }
             }
-            $x=$x + 1;
-            $this->progressBar($x, $size);
+            if(!$this->debug){
+                $this->progressBar($x, $size);
+            }            
         }
         return;
     }

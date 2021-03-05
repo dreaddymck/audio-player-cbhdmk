@@ -69,6 +69,7 @@ Update upon login.
 		}
 	}	
 	function content_handler($content){
+		global $post;
 		$html = "";
 		if ( is_singular() && in_the_loop() ) {
 			if (get_option('charts_enabled')) {
@@ -76,29 +77,23 @@ Update upon login.
 				if(sizeof($paths)){
 					$post_chart_json = array();
 					foreach($paths as $p){
-						// $value = parse_url($p, PHP_URL_PATH);
 						$basename = basename($p);
 						$filename = urldecode($basename);
 						$pattern = "(".preg_quote($basename)."|".preg_quote($filename).")";
 						$target = pathinfo($filename, PATHINFO_FILENAME); 
 						$target = preg_replace("/(\W)+/", '_', $target);					
-						$resp = $this->accesslog_activity_get_month($pattern,12);
+						$resp = $this->dmck_media_activity_month($post->ID,12);						
 						if($resp){
 							foreach($resp as $key=>$value){					
-								$json = json_decode($value[0]);
-								foreach($json as $jkey=>$jvalue){
-									if( preg_match("/".$pattern."/", $jvalue->name) ){
-										array_push($post_chart_json, array(
-											"time"=> $jvalue->time,
-											"count" => $jvalue->count,
-											"target" => $target,
-											"filename" => $filename
-										));								
-									}						
-								}
+								$json = (object)($value);
+								array_push($post_chart_json, array(
+									"time"=> $json->time,
+									"count" => $json->count,
+									"target" => $target,
+									"filename" => $filename
+								));	
 							}
 						}
-
 						$html = "<div class='post_chart_section ". $target ."_chart'></div><script>let post_chart_json = ".json_encode($post_chart_json)."</script>";				
 					}
 				}

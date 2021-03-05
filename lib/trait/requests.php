@@ -4,9 +4,6 @@ namespace DMCK_WP_MEDIA_PLUGIN;
 
 trait _requests {
 	public $path;
-	
-
-	function __construct(){}
 	function handle_requests($data){ return $this->requests($data); }
     function requests($data){
 		$response = "{}";
@@ -16,15 +13,15 @@ trait _requests {
 			case "search":
 				$response = $this->param_request($data);
 				break;
-            case "get":
-                $response = $this->accesslog_activity_get();
-                break;
-            case "get_week":
-                $response = $this->accesslog_activity_get_week();
-                break;
-            case "get_month":
-                $response = $this->accesslog_activity_get_month();
-				break;
+            // case "get":
+            //     $response = $this->accesslog_activity_get();
+            //     break;
+            // case "get_week":
+            //     $response = $this->accesslog_activity_get_week();
+            //     break;
+            // case "get_month":
+            //     $response = $this->accesslog_activity_get_month();
+			// 	break;
 			case "get_my_ip":
 				$response = $this->get_my_ip();
 				break;
@@ -69,6 +66,16 @@ trait _requests {
 		wp_reset_postdata();
 		return($response);
 	}
+    function mysqli_query($query){
+        $results = array();
+        if(!$query){return $results;}
+        $conn = new \mysqli(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME );
+        if ($conn->connect_error) { die("Connection failed: " . $conn->connect_error); }
+        $resp = $conn->query($query);
+        if( $resp instanceof \mysqli_result ) { while ($row = $resp->fetch_assoc()) { array_push($results, $row); } }
+        $conn->close();
+        return $results;        
+    }	
 	function query($sql){
 		$conn = new \mysqli(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME );
 		if ($conn->connect_error) { die("Connection failed: " . $conn->connect_error); }
@@ -78,35 +85,44 @@ trait _requests {
 		$conn->close();
 		return $results;
 	}
-	function top_count_get(){
+	function media_activity_today($limit=0){
 		/**
 		 * playlist generated from access log data
 		 */
-		$json = json_decode($this->accesslog_activity_get(), true);
+		// $json = json_decode($this->accesslog_activity_get(), true);
+		$response = array();
+		$json = $this->dmck_media_activity_today();
 		if(!$json){return array();}
 		usort($json, function($a, $b) {
 			if( $b["count"] > $a["count"] ) return 1;
 			if( $b["count"] < $a["count"] ) return -1;
 			return ($b["time"] < $a["time"]) ? -1 : 1;
 		});
-		$json = array_slice($json,0,10);
+		if($limit){ $json = array_slice($json,0,$limit); }		
 		foreach($json as $key=>$value) {
 
 			$param = (object) array('s' => $value["name"]);
 			$p = json_decode($this->obj_request( $param ));
 
-			$title = !empty($p[0]->title) ? $p[0]->title : urldecode($value["name"]);
-			$date = date('m/d/Y h:i:s a', $value["time"]);
+			foreach($p as $e){
 
-			$json[$key]["title"] = $title;
-			$json[$key]["date"] = $date;
-			$json[$key]["ID"] = $p[0]->ID;
-			$json[$key]["mp3"] = $p[0]->mp3;
-			$json[$key]["cover"] = $p[0]->cover;
-			$json[$key]["permalink"] = $p[0]->permalink;
-			$json[$key]["wavformpng"] = $p[0]->wavformpng;
-			$json[$key]["tags"] = $p[0]->tags;
-			$json[$key]["moreinfo"] = $p[0]->moreinfo;
+				if(basename($e->mp3) == $value["name"]){
+
+					$title = !empty($e->title) ? $e->title : urldecode($value["name"]);
+					$date = date('m/d/Y h:i:s a', $value["time"]);
+		
+					$json[$key]["title"] = $title;
+					$json[$key]["date"] = $date;
+					$json[$key]["ID"] = $e->ID;
+					$json[$key]["mp3"] = $e->mp3;
+					$json[$key]["cover"] = $e->cover;
+					$json[$key]["permalink"] = $e->permalink;
+					$json[$key]["wavformpng"] = $e->wavformpng;
+					$json[$key]["tags"] = $e->tags;
+					$json[$key]["moreinfo"] = $e->moreinfo;
+
+				}
+			}
 		}
 		return $json;
 	}
@@ -117,31 +133,30 @@ trait _requests {
 		 */
 		if( empty( get_option("playlist_config") ) ){ return; }
 		$arr["playlist_json"] = json_decode(get_option("playlist_config"));
-		$arr["top_10_json"] = $this->top_count_get();
+		$arr["top_10_json"] = $this->media_activity_today($limit=10);
 		return $arr;
 	}
 	function render_elements($posts) {
-		$response = [];
+		$response = array();
 		$is_secure = $this->isSecure();
-
-		foreach ( $posts as $post ) : setup_postdata( $post );
-
+		foreach ( $posts as $post ) { 
+			setup_postdata( $post );
 			if(get_post_status($post->ID) != "publish" ){ continue; }
-
-			$object 	= new \stdClass();
 			$audio 		= $this->fetch_audio_from_string( $post->post_content );
-			if(empty($audio[0])) { continue; }
-			
+			if(empty($audio[0])) { continue; }			
 			foreach($audio as $a){			
-			
 				$a = urldecode($a);
 				if($this->path) {
 					/* If $this->path exist
 					* playlist_elements call
 					* we should be extracting a single element that matches
+					*
+					* I no longer remember why this is here.
+					* TODO: find out why this is here.
 					*/
 					if (strpos(  $a, $this->path) === false) { continue; }
 				}
+				$object 				= new \stdClass();
 				$object->ID		        = $post->ID;
 				$object->mp3		    = $a;
 				$object->wavformpng		= get_post_meta( $post->ID, 'dmck_wavformpng', true );
@@ -159,23 +174,9 @@ trait _requests {
 				$object->moreinfo	= get_option('moreinfo') ? get_option('moreinfo') : "";
 				$object->playlist_thumb = $object->cover;
 				$object->tags 		=  implode( ', ', wp_get_post_tags( $post->ID, array( 'fields' => 'names' )) );
-
-				$excerpt_tmp 	= $post->post_content;
-				$excerpt_tmp 	= htmlspecialchars_decode($excerpt_tmp);
-				$excerpt_tmp 	= preg_replace('#<[^>]+>#', ' ', $excerpt_tmp);
-				$excerpt_tmp 	= preg_replace("#(\r|\n){2,}#", " ", $excerpt_tmp);
-				$excerpt_tmp 	= str_replace( chr( 194 ) . chr( 160 ), ' ', $excerpt_tmp );
-				$excerpt_tmp 	= preg_replace( '#(Sorry, your browser doesn\'t support HTML5 audio\.)#', ' ', $excerpt_tmp );
-				$excerpt_tmp 	= preg_replace( '#(download)#', ' ', $excerpt_tmp );
-
-				// $object->excerpt = wp_trim_words( esc_attr( $excerpt_tmp ), 12, "...");
-
 				array_push( $response, $object );
-
 			}
-
-		endforeach;
-
+		}
 		return json_encode($response);
     }
 	function waveformpng($str) {
