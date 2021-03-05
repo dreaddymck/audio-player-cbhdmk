@@ -20,7 +20,7 @@ LEFT JOIN
     dmck_media_activity_referer_log  on (dmck_media_activity_log.post_id = dmck_media_activity_referer_log.post_id)
 WHERE DATE(dmck_media_activity_log.time) = CURDATE() AND DATE(dmck_media_activity_referer_log.time) = CURDATE()
 GROUP BY 1,2,3,4
-ORDER BY time DESC
+ORDER BY time ASC
 ";
         return $this->mysqli_query($query);
     }
@@ -45,7 +45,7 @@ WHERE
     DATE(dmck_media_activity_referer_log.time) >= DATE_SUB(NOW(), INTERVAL $months MONTH)
     $filter
 GROUP BY 1,2,3,4
-ORDER BY time DESC
+ORDER BY time ASC
 ";
         return $this->mysqli_query($query);
     }
