@@ -108,9 +108,9 @@ trait _requests {
 
 				if(basename($e->mp3) == $value["name"]){
 
-					$title = !empty($e->title) ? $e->title : urldecode($value["name"]);
-					$date = date('m/d/Y h:i:s a', $value["time"]);
-		
+					$title = pathinfo($e->mp3, PATHINFO_FILENAME); 
+					$title = preg_replace('/^\w*\s?.\-/', '', $title);					
+					$date = date('m/d/Y h:i:s a', $value["time"]);		
 					$json[$key]["title"] = $title;
 					$json[$key]["date"] = $date;
 					$json[$key]["ID"] = $e->ID;
@@ -120,7 +120,6 @@ trait _requests {
 					$json[$key]["wavformpng"] = $e->wavformpng;
 					$json[$key]["tags"] = $e->tags;
 					$json[$key]["moreinfo"] = $e->moreinfo;
-
 				}
 			}
 		}
@@ -167,7 +166,10 @@ trait _requests {
 					$object->wavformpng	    = preg_replace("/^http:/i", "https:", $object->wavformpng);
 					$object->wavformjson	= preg_replace("/^http:/i", "https:", $object->wavformjson);
 				}
-				$object->title		= esc_attr($post->post_title);
+
+				$title = pathinfo($a, PATHINFO_FILENAME); 
+				$title = preg_replace('/^\w*\s?.\-/', '', $title);
+				$object->title		= esc_attr($title);
 				$object->rating		= 0;
 				$object->cover		= $this->fetch_the_post_thumbnail_src( $post );
 				$object->permalink	= get_permalink( $post->ID );
