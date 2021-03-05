@@ -2,6 +2,20 @@
 
 ## Always a work in progress
 
+NOTICE: Meta data used with Charts and top ten display will be migrated to a new table. The migration process requires command line access.
+
+Migration command
+
+php lib/reports_migrate.php [flag] [Int] [bool]
+
+flag = "migrate" (required).
+Int = Number of months (defaults to 1).
+Bool = display debugs (defaults to false).
+
+example: php lib/reports_migrate.php migrate 12
+
+----------------------------------------------------------------
+
 SHORTCODE: [dmck-audioplayer]
 
 Another media thingy. Can be used to generate playlists embeded in posts and simple charts. Application will grab the first mp3 located in published posts then render a tabbed playlist.
