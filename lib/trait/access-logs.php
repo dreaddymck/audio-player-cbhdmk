@@ -49,54 +49,6 @@ ORDER BY time ASC
 ";
         return $this->mysqli_query($query);
     }
-//     function accesslog_activity_purge(){
-//         $query = "
-// DELETE FROM
-//     dmck_audio_log_reports
-// WHERE
-//     updated <  DATE_SUB(NOW(), INTERVAL 2 YEAR)
-// ";
-//         $results = $this->query( $query );
-//         return $results;
-//     }
-    //TODO: depracate
-//     function accesslog_activity_get() {
-
-//         $query = "
-// SELECT
-//     data FROM dmck_audio_log_reports
-// WHERE
-//     DATE(`updated`) = CURDATE()
-// ORDER BY
-//     updated DESC
-// LIMIT 1
-// ";
-//         $conn = new \mysqli(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME );
-//         if ($conn->connect_error) { die("Connection failed: " . $conn->connect_error); }
-//         $resp = $conn->query($query);
-//         if( $resp instanceof \mysqli_result ) { $results = mysqli_fetch_assoc($resp); }
-//         $conn->close();
-//         return $results ? $results["data"] : "";
-//     }
-    //TODO: depracate
-//     function accesslog_activity_get_week($name="",$num=1) {
-
-//         $filter = "";
-//         if($name){ $filter = " AND JSON_EXTRACT(data, '$.*.name')  REGEXP'$name'"; }
-
-//         $query = "
-// SELECT
-//     data FROM dmck_audio_log_reports
-// WHERE
-//     DATE(`updated`) >= DATE_SUB(NOW(), INTERVAL $num WEEK)
-//     $filter
-// order by
-//     updated ASC
-// ";
-
-//         $results = $this->query($query);
-//         return $results ? $results : "";
-//     }
     //TODO: remove after migration
     function accesslog_activity_get_month($name="", $num=1) {
         $filter = "";
@@ -177,12 +129,6 @@ order by
 
             fclose($handle);
             /*
-                Old Method
-            */
-            if(!empty($arr)){
-                $results = $this->dmck_audio_log_report_table($arr);
-            }
-            /*
                 New Method
             */
             foreach($arr as $a){
@@ -198,17 +144,6 @@ order by
         }
         catch (\Exception $e) { echo 'Caught \Exception: ', $e->getMessage(), "\n"; }
         return;
-    }
-    //TODO: depracate after migration
-    function dmck_audio_log_report_table($arr){
-        $json = json_encode($arr,JSON_FORCE_OBJECT);
-        $results = $this->query( "SELECT id FROM dmck_audio_log_reports WHERE DATE(`updated`) = CURDATE()" );
-        if(empty($results)){
-            $results = $this->query( "INSERT INTO dmck_audio_log_reports (data) VALUES ( '" . $json . "' )" );
-        }else{
-            $results = $this->query( "UPDATE dmck_audio_log_reports SET data = '" . $json . "' WHERE id=".$results[0][0]  );
-        }
-        return $results;
     }
     function dmck_media_activity_tables($a){
 

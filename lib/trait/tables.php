@@ -6,7 +6,6 @@ trait _tables {
     function __construct(){}
 
     function _tables_create(){        
-        $this->_tables_dmck_audio();
         $this->_tables_dmck_media();
     }
     function _tables_dmck_audio(){        
@@ -42,15 +41,11 @@ create table IF NOT EXISTS dmck_media_activity_referer_log (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 DEFAULT COLLATE utf8_unicode_ci
 ";
         $results = $this->query($query);
-
     }
-    function _tables_media_drop(){
-        $results = $this->query("DROP TABLE IF EXISTS dmck_media_activity_log;");
-        $results = $this->query("DROP TABLE IF EXISTS dmck_media_activity_referer_log;");          
-    } 
     function _tables_drop(){
         if (!get_option('drop_table_on_inactive')) { return; }
-        $sql = "DROP TABLE IF EXISTS dmck_audio_log_reports";
-        $res = $this->query($sql);
+        $results = $this->query("DROP TABLE IF EXISTS dmck_audio_log_reports;");
+        $results = $this->query("DROP TABLE IF EXISTS dmck_media_activity_log;");
+        $results = $this->query("DROP TABLE IF EXISTS dmck_media_activity_referer_log;");         
     } 
 }

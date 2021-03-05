@@ -33,9 +33,14 @@ class dmck_reports_migrate{
         if($this::parameters()) {
             switch ($this->option) {
                 case "migrate":
-                    $this->table();                    
-                    $this->migrate();
-                    $this->response = "\r\nFinished\r\n";
+                    $table_exists = $this->table_exists();
+                    if(!empty($table_exists)){
+                        $this->table();                    
+                        $this->migrate();
+                        $this->response = "\r\nFinished\r\n";
+                    }else{
+                        $this->response = "\r\nTable dmck_audio_log_reports does not exist. Exiting\r\n";
+                    }
                     break;
                 default:
             }
@@ -45,38 +50,15 @@ class dmck_reports_migrate{
         }
         exit($this->response);
     }
+    function table_exists(){ return $this->query("SHOW TABLES LIKE 'dmck_audio_log_reports'"); }
     function table(){
 
         if($this->flag){ 
-            echo "Dropping Tables If Exists\r\n";
-            $this->_tables_media_drop();
-            // $results = $this->query("DROP TABLE IF EXISTS dmck_media_activity_log;");
-            // $results = $this->query("DROP TABLE IF EXISTS dmck_media_activity_referer_log;");            
+            echo "Dropping Migration Tables If Exists\r\n";
+            $this->_tables_drop();
         }        
-        echo "Creating Tables If Not Exist\r\n";
+        echo "Creating Migration Tables If Not Exist\r\n";
         $this->_tables_dmck_media();
-//         $query = "
-// create table IF NOT EXISTS dmck_media_activity_log (
-//     id BIGINT PRIMARY KEY AUTO_INCREMENT,
-//     post_id INT,
-//     media text,
-//     count int,
-//     time TIMESTAMP,
-//     created TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-// ) ENGINE=InnoDB DEFAULT CHARSET=utf8 DEFAULT COLLATE utf8_unicode_ci;
-// ";
-//         $results = $this->query($query);
-
-//         $query = "
-// create table IF NOT EXISTS dmck_media_activity_referer_log (
-//     id BIGINT PRIMARY KEY AUTO_INCREMENT,
-//     post_id INT,
-//     referer text,
-//     time TIMESTAMP,
-//     created TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-// ) ENGINE=InnoDB DEFAULT CHARSET=utf8 DEFAULT COLLATE utf8_unicode_ci
-// ";
-//         $results = $this->query($query);
     }
     function migrate(){
 
@@ -128,8 +110,7 @@ class dmck_reports_migrate{
         $left = 100 - $perc;
         $write = sprintf("\033[0G\033[2K[%'={$perc}s>%-{$left}s] - $perc%% - $done/$total", "", "");
         fwrite(STDERR, $write);
-    }    
-
+    }
 }
 
 new dmck_reports_migrate;
