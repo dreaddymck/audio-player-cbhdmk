@@ -16,6 +16,9 @@ try{
     require_once(dirname(__FILE__) . "/trait/tables.php");
 }
 catch (Exception $e) { exit($e); }
+
+ini_set("memory_limit","512M");
+
 class dmck_reports_migrate{
 
     use _accesslog;
