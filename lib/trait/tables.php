@@ -1,23 +1,9 @@
 <?php
 namespace DMCK_WP_MEDIA_PLUGIN;
-
 trait _tables {
 	
     function __construct(){}
-
-    function _tables_create(){        
-        $this->_tables_dmck_media();
-    }
-    function _tables_dmck_audio(){        
-        $sql = "
-create table IF NOT EXISTS dmck_audio_log_reports (
-    id serial primary key,
-    data json,
-    updated TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 DEFAULT COLLATE utf8_unicode_ci;
-";
-        $res = $this->query($sql);
-    }    
+    function _tables_create(){ $this->_tables_dmck_media(); }
     function _tables_dmck_media(){
         $query = "
 create table IF NOT EXISTS dmck_media_activity_log (

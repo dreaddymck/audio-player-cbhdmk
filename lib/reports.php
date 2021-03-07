@@ -21,6 +21,7 @@ class dmck_reports{
     public $filepath;
     public $filename;
     function __construct() {
+        $this->setTimezone();
         if ( isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] ) { exit( header("Location: ".get_bloginfo('url')) ); }        
         if($this::parameters()) {
             $response = "{}";

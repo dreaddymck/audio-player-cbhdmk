@@ -13,15 +13,6 @@ trait _requests {
 			case "search":
 				$response = $this->param_request($data);
 				break;
-            // case "get":
-            //     $response = $this->accesslog_activity_get();
-            //     break;
-            // case "get_week":
-            //     $response = $this->accesslog_activity_get_week();
-            //     break;
-            // case "get_month":
-            //     $response = $this->accesslog_activity_get_month();
-			// 	break;
 			case "get_my_ip":
 				$response = $this->get_my_ip();
 				break;
@@ -86,10 +77,6 @@ trait _requests {
 		return $results;
 	}
 	function media_activity_today($limit=0){
-		/**
-		 * playlist generated from access log data
-		 */
-		// $json = json_decode($this->accesslog_activity_get(), true);
 		$response = array();
 		$json = $this->dmck_media_activity_today();
 		if(!$json){return array();}
@@ -127,9 +114,6 @@ trait _requests {
 	}
 	function playlist_data_get(){
 		$arr = array();
-		/**
-		 * playlist generated from json configuration data
-		 */
 		if( empty( get_option("playlist_config") ) ){ return; }
 		$arr["playlist_json"] = json_decode(get_option("playlist_config"));
 		$arr["top_10_json"] = $this->media_activity_today($limit=10);
@@ -141,7 +125,7 @@ trait _requests {
 		foreach ( $posts as $post ) { 
 			setup_postdata( $post );
 			if(get_post_status($post->ID) != "publish" ){ continue; }
-			$audio 		= $this->fetch_audio_from_string( $post->post_content );
+			$audio 		= $this->extract_embedded_media( $post->post_content );
 			if(empty($audio[0])) { continue; }			
 			foreach($audio as $a){			
 				$a = urldecode($a);
@@ -206,8 +190,7 @@ trait _requests {
 		// return (preg_match('~\bsrc="([^"]++)"~', $img, $matches)) ? $matches[1] : esc_attr( get_option('default_album_cover') );
 		return $img ? $img : esc_attr( get_option('default_album_cover'));
 	}
-	function fetch_audio_from_string($str) {
-
+	function extract_embedded_media($str) { //renamed from fetch_audio_from_string
 		$matches = array();
 
 		// This REGEX solution fails on classic html pages/posts imported from blogspot
@@ -220,25 +203,23 @@ trait _requests {
 		// 		'pcm', 'tta', 'wav', 'wma',  'wv',
 		// 	);
 		//	$formats = join( '|', $suffixes );
-		// $formats = "mp3";
-		// $regex   = '~
-		// (([^"\'])|^)            # start of string or attribute delimiter -> match 1
-		// (https?                 # http or https
+		//  $formats = "mp3";
+		//  $regex   = '~
+		//  (([^"\'])|^)            # start of string or attribute delimiter -> match 1
+		//  (https?                 # http or https
 		//     ://                 # separator
 		//     .+/                 # domain plus /
 		//     .+                  # file name at least one character
 		//     \.                  # a dot
 		//     (' . $formats . ')  # file suffixes
-		// )                       # complete URL -> match 3
-		// (([^"\'])|$)?           # end of string or attribute delimiter -> match 5
-		// ~imUx';                 # case insensitive, multi-line, ungreedy, commented
+		//  )                       # complete URL -> match 3
+		//  (([^"\'])|$)?           # end of string or attribute delimiter -> match 5
+		//  ~imUx';                 # case insensitive, multi-line, ungreedy, commented
 		//
-
 		//
 		// $regex   = '~(https?://.+/.+\.(' . $formats . '))(([^"\'])|$)?~imUx';
 		// $regex = '~((?:\'|")https?://\w.+\.(mp3)(?:\'|"))~';
 		// preg_match_all( $regex, $str, $matches, PREG_PATTERN_ORDER );
-
 
 		$dom = new \DOMDocument();
 		libxml_use_internal_errors(true);

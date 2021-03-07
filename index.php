@@ -3,12 +3,12 @@
 Plugin Name: (DMCK) audio player
 Plugin URI: dreaddymck.com
 Description: Just another audio thingy. Can be used to generate playlists and simple charts. Shortcode [dmck-audioplayer]
-Version: 1.0.11
+Version: 1.0.12
 Author: dreaddymck
 Author URI: dreaddymck.com
 License: GPL2
 
-TODO: convert access log data to columns, depracate json storage.
+TODO: Add support for youtube/libry.tv support
 TODO: check to see if insert on duplicate update is better option.
 TODO: render week, month, request activity per item.
 
@@ -25,6 +25,7 @@ if (!class_exists("dmck_audioplayer")) {
 	require_once(plugin_dir_path(__FILE__)."lib/trait/rss.php");
 	require_once(plugin_dir_path(__FILE__)."lib/trait/requests.php");
 	require_once(plugin_dir_path(__FILE__)."lib/trait/meta_box.php");
+	require_once(plugin_dir_path(__FILE__)."lib/trait/content.php");
 	
 	class dmck_audioplayer {
 		use _accesslog;
@@ -35,6 +36,7 @@ if (!class_exists("dmck_audioplayer")) {
 		use _rss;
 		use _requests;
 		use _meta_box;
+		use _content;
 
 		const PLUGIN_SLUG				= 'dmck_audioplayer';
 		const SETTINGS_GROUP			= 'dmck-audioplayer-settings-group';

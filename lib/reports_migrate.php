@@ -4,6 +4,7 @@ Migrates access log activity content to the latest version.
 Option: migrate
 Value(months history) : 12
 Flag(drop tables if exist):1 
+
 */
 
 namespace DMCK_WP_MEDIA_PLUGIN;
@@ -29,6 +30,7 @@ class dmck_reports_migrate{
     public $response;
 
     function __construct() {
+        $this->setTimezone();
         if ( isset($_SERVER['REQUEST_METHOD'] )) { exit( header("Location: ".get_bloginfo('url')) ); }
         if($this::parameters()) {
             switch ($this->option) {
@@ -46,7 +48,13 @@ class dmck_reports_migrate{
             }
             
         }else{
-            $this->response = "Missing required parameters: [1]=option [2]=value\r\n";
+            $this->response = "
+DMCK database migration script, parameters subject to change.
+
+Parameter[1] - text: \"migrate\"
+Parameter[2] - numeric default: 1
+Parameter[3] - bool: true
+";
         }
         exit($this->response);
     }
@@ -105,12 +113,7 @@ class dmck_reports_migrate{
         }
         return false;
     }
-    function progressBar($done, $total) {
-        $perc = floor(($done / $total) * 100);
-        $left = 100 - $perc;
-        $write = sprintf("\033[0G\033[2K[%'={$perc}s>%-{$left}s] - $perc%% - $done/$total", "", "");
-        fwrite(STDERR, $write);
-    }
+
 }
 
 new dmck_reports_migrate;
