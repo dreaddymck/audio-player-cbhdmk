@@ -55,6 +55,7 @@ if (!class_exists("dmck_audioplayer")) {
 											'access_log',
 											'access_log_pattern',
 											'playlist_config',
+											'media_filename_regex',
 											'visualizer_rgb_init',
 											'visualizer_rgb',
 											'visualizer_samples',

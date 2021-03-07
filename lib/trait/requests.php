@@ -1,7 +1,5 @@
 <?php
-
 namespace DMCK_WP_MEDIA_PLUGIN;
-
 trait _requests {
 	public $path;
 	function handle_requests($data){ return $this->requests($data); }
@@ -129,16 +127,6 @@ trait _requests {
 			if(empty($audio[0])) { continue; }			
 			foreach($audio as $a){			
 				$a = urldecode($a);
-				if($this->path) {
-					/* If $this->path exist
-					* playlist_elements call
-					* we should be extracting a single element that matches
-					*
-					* I no longer remember why this is here.
-					* TODO: find out why this is here.
-					*/
-					if (strpos(  $a, $this->path) === false) { continue; }
-				}
 				$object 				= new \stdClass();
 				$object->ID		        = $post->ID;
 				$object->mp3		    = $a;
@@ -150,9 +138,11 @@ trait _requests {
 					$object->wavformpng	    = preg_replace("/^http:/i", "https:", $object->wavformpng);
 					$object->wavformjson	= preg_replace("/^http:/i", "https:", $object->wavformjson);
 				}
-
-				$title = pathinfo($a, PATHINFO_FILENAME); 
-				$title = preg_replace('/^\w*\s?.\-/', '', $title);
+				$title = pathinfo($a, PATHINFO_FILENAME);
+				$media_filename_regex = esc_attr( get_option('media_filename_regex') ); 
+				if($media_filename_regex){ 
+					$title = preg_replace($media_filename_regex, '', $title); // /^\w*\s?.\-/i /dreaddymck.?[.*\-]\s?/i
+				}				
 				$object->title		= esc_attr($title);
 				$object->rating		= 0;
 				$object->cover		= $this->fetch_the_post_thumbnail_src( $post );

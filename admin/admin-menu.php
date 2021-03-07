@@ -55,6 +55,9 @@
 				<hr>
 			</div>
 			<div>
+				<label>Media Filename REGEX</label>:
+				<input name="media_filename_regex"  class="form-control" value="<?php if(get_option('media_filename_regex')){ echo esc_attr( get_option('media_filename_regex') ); } ?>" title="Regex replace media filename" />
+				<hr>
 				<label>Visualizer</label>:	
 				<div>
 					<label>Enable: <input type="checkbox" name="visualizer_rgb_enabled"  class="form-control" value="1" <?php if (1 == get_option('visualizer_rgb_enabled')) echo 'checked="checked"'; ?> ></label>
