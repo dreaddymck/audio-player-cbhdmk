@@ -157,7 +157,7 @@ order by
             if($this->debug){error_log($query);}
             $results = $this->query( $query );
         }else{
-            $query = "UPDATE dmck_media_activity_log SET count={$a->count}, time=FROM_UNIXTIME({$a->time}) WHERE id={$results[0][0]}";
+            $query = "UPDATE dmck_media_activity_log SET media='{$a->name}', count={$a->count}, time=FROM_UNIXTIME({$a->time}) WHERE id={$results[0][0]}";
             if($this->debug){error_log($query);}
             $results = $this->query( $query );
         }
