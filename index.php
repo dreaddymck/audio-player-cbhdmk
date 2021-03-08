@@ -17,6 +17,7 @@ namespace DMCK_WP_MEDIA_PLUGIN;
 // error_reporting(E_ALL);
 // ini_set("display_errors","On");
 if (!class_exists("dmck_audioplayer")) {
+	require_once(plugin_dir_path(__FILE__)."lib/trait/register.php");
 	require_once(plugin_dir_path(__FILE__)."lib/trait/access-logs.php");
 	require_once(plugin_dir_path(__FILE__)."lib/trait/wavform.php");	
 	require_once(plugin_dir_path(__FILE__)."lib/trait/utilities.php");
@@ -28,6 +29,7 @@ if (!class_exists("dmck_audioplayer")) {
 	require_once(plugin_dir_path(__FILE__)."lib/trait/content.php");
 	
 	class dmck_audioplayer {
+		use _register;
 		use _accesslog;
 		use _wavform;
 		use _utilities;
@@ -40,33 +42,8 @@ if (!class_exists("dmck_audioplayer")) {
 
 		const PLUGIN_SLUG				= 'dmck_audioplayer';
 		const SETTINGS_GROUP			= 'dmck-audioplayer-settings-group';
-
 		public $shortcode				= "dmck-audioplayer";
-		public $adminpreferences		= array(
-											'ignore_ip_json',
-											'ignore_ip_enabled',
-											'charts_enabled',
-											'drop_table_on_inactive',
-											'chart_color_array',
-											'chart_color_static',
-											'favicon',
-											'default_album_cover',
-											'moreinfo',
-											'access_log',
-											'access_log_pattern',
-											'playlist_config',
-											'media_filename_regex',
-											'visualizer_rgb_init',
-											'visualizer_rgb',
-											'visualizer_samples',
-											'visualizer_rgb_enabled',
-											'chart_rgb_init',
-											'chart_rgb',
-											'chart_rgb_enabled',
-											'audio_control_enabled',
-											'audio_control_slider_height'
-										);
-		public $userpreferences 		= array('userpreferences');	
+
 		public $github_url				= "https://github.com/dreaddy/audio-player-cbhdmk";
 		public $debug					= false;
 
@@ -120,9 +97,7 @@ if (!class_exists("dmck_audioplayer")) {
 			add_filter( 'get_the_excerpt', array($this,'the_exerpt_filter'));
 			add_filter( 'the_content', array($this,'content_handler'));			
 			add_filter( 'cron_schedules', array($this, 'cron_add_minute'));
-
-			require_once(plugin_dir_path(__FILE__)."blocks/example-block/example-block.php");
-			
+			require_once(plugin_dir_path(__FILE__)."blocks/example-block/example-block.php");			
 		}
 		function _init_actions(){
 			add_shortcode( $this->shortcode, array( $this, 'include_file') );
@@ -131,16 +106,7 @@ if (!class_exists("dmck_audioplayer")) {
 		}
 		function set_plugin_version(){
 			if(preg_match('/version:[\s\t]+?([0-9.]+)/i',file_get_contents( __FILE__ ), $v)){ $this->plugin_version = $v[1]; }								
-		}
-		function register_activation($options){ $this->_tables_create(); }
-		function register_deactivation($options){
-			$this->cronstarter_deactivate();
-			$this->_tables_drop();
-		}
-		function register_settings() {
-			foreach($this->adminpreferences as $settings ) { register_setting( self::SETTINGS_GROUP, $settings ); }
-			foreach($this->userpreferences as $settings ){ register_setting( self::SETTINGS_GROUP, $settings ); }
-		}
+		}		
 		function admin_menu(){
 			$this->settings_page = add_options_page(
 				$this->plugin_title,

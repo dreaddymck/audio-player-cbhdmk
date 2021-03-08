@@ -1,8 +1,6 @@
 <?php
 namespace DMCK_WP_MEDIA_PLUGIN;
 trait _tables {
-	
-    function __construct(){}
     function _tables_create(){ $this->_tables_dmck_media(); }
     function _tables_dmck_media(){
         $query = "
@@ -29,7 +27,6 @@ create table IF NOT EXISTS dmck_media_activity_referer_log (
         $results = $this->query($query);
     }
     function _tables_drop(){
-        if (!get_option('drop_table_on_inactive')) { return; }
         $results = $this->query("DROP TABLE IF EXISTS dmck_audio_log_reports;");
         $results = $this->query("DROP TABLE IF EXISTS dmck_media_activity_log;");
         $results = $this->query("DROP TABLE IF EXISTS dmck_media_activity_referer_log;");         

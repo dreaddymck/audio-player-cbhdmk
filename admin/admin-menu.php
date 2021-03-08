@@ -33,6 +33,9 @@
 				<input type="checkbox" name="drop_table_on_inactive"  class="form-control" value="1" <?php if (1 == get_option('drop_table_on_inactive')) echo 'checked="checked"'; ?> >
 				<label>Drop <?php echo $this->plugin_title ?> tables when deactivated</label>
 				<hr>
+				<input type="checkbox" name="delete_options_on_inactive"  class="form-control" value="1" <?php if (1 == get_option('delete_options_on_inactive')) echo 'checked="checked"'; ?> >
+				<label>Delete <?php echo $this->plugin_title ?> saved options</label>
+				<hr>
 				<input type="checkbox" name="audio_control_enabled"  class="form-control" value="1" <?php if (1 == get_option('audio_control_enabled')) echo 'checked="checked"'; ?> >
 				<label>Audio Control Display</label>
 				<br>
