@@ -24,12 +24,17 @@ ul.tabs li {
     cursor: pointer;
 }
 ul.tabs li.current {
-    background: #ededed;
+    /* background: #ededed; */
     color: #222;
+    border-left: 1px solid #ddd;
+    border-right: 1px solid #ddd;
+    border-top: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 10px;    
 }
 .tab-content {
     display: none;
-    background: #ededed;
+    /* background: #ededed; */
     padding: 15px;
 }
 .tab-content.current {

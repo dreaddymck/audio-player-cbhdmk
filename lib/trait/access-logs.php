@@ -128,9 +128,7 @@ order by
             }
 
             fclose($handle);
-            /*
-                New Method
-            */
+
             foreach($arr as $a){
                 $elements = json_decode($this->obj_request( (object) array('s' => $a["name"]) ));
                 foreach($elements as $e){

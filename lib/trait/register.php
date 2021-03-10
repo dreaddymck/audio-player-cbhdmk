@@ -24,7 +24,8 @@ trait _register {
         'chart_rgb',
         'chart_rgb_enabled',
         'audio_control_enabled',
-        'audio_control_slider_height'
+        'audio_control_slider_height',
+        'playlist_config_opt'
     );
     public $userpreferences 		= array('userpreferences');       
 	
