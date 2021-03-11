@@ -1,15 +1,12 @@
 <?php ?>
 <div class="loading" style="text-align: center; width: 100%;"><img src="<?php echo plugins_url( 'assets/images/loading-nerd.gif', dirname(__FILE__) )?>" /></div>
-<div class="notice notice-success" style="display:none;"></div>
-<div class="notice notice-error" style="display:none;"></div>
-<div class="notice notice-warning" style="display:none;"></div>
-<div class="notice notice-info" style="display:none;"></div>
+<?php notices() ?>
 <form name="admin-settings-form" name="admin-settings-form" method="post" action="options.php">
 <?php settings_fields( self::SETTINGS_GROUP ); ?>
 <?php do_settings_sections( self::SETTINGS_GROUP ); ?>
 <div class="admin-container" style="display:none;">
-<?php submit_button(); ?>
 	<ul class="parent-tabs tabs">
+		
 		<li class="tab-link current" data-tab="parent-tabs-1">Settings</li>
 		<li class="tab-link" data-tab="parent-tabs-4">Playlists</li>
 		<?php if( get_option('charts_enabled') ){ ?>
@@ -19,33 +16,33 @@
 		<li class="tab-link" data-tab="parent-tabs-6">Git Commits</li>
 		<li class="tab-link" data-tab="parent-tabs-3">About</li>
 	</ul>
-	
+	<?php submit_button(null,"primary small"); ?>
 	<div id="parent-tabs-1" class="parent-tab-content tab-content current">
 		<div class="row">
 			<div class="col-lg-6 form-group">
 				<label for="default_album_cover"><?php _e('Default Album Cover'); ?></label>
-				<input type="text" name="default_album_cover"  title="Image url"  class="form-control" value="<?php echo esc_attr( get_option('default_album_cover') ); ?>"  required placeholder="Required">
+				<input type="text" name="default_album_cover"  title="Image url"  class="form-control form-control-sm" value="<?php echo esc_attr( get_option('default_album_cover') ); ?>"  required placeholder="Required">
 				<hr />
 				<label for="favicon" ><?php _e('Favicon'); ?></label>
-				<textarea  name="favicon" class="form-control" title="ico url or base64"><?php echo esc_attr( get_option('favicon') ); ?></textarea>
+				<textarea  name="favicon" class="form-control form-control-sm" title="ico url or base64"><?php echo esc_attr( get_option('favicon') ); ?></textarea>
 				<br />
 				<label><?php _e('More info (HTML or TEXT)'); ?></label>
-				<input type="text" name="moreinfo"  class="form-control" value="<?php echo esc_attr( get_option('moreinfo') ); ?>" title="This is useless atm">
+				<input type="text" name="moreinfo"  class="form-control form-control-sm" value="<?php echo esc_attr( get_option('moreinfo') ); ?>" title="This is useless atm">
 			</div>
 			<div class="col-lg-6      form-group">
-				<input type="checkbox" name="drop_table_on_inactive"  class="form-control" value="1" <?php if (1 == get_option('drop_table_on_inactive')) echo 'checked="checked"'; ?> >
+				<input type="checkbox" name="drop_table_on_inactive"  class="form-control form-control-sm" value="1" <?php if (1 == get_option('drop_table_on_inactive')) echo 'checked="checked"'; ?> >
 				<label>Drop <?php echo $this->plugin_title ?> tables when deactivated</label>
 				<hr>
-				<input type="checkbox" name="delete_options_on_inactive"  class="form-control" value="1" <?php if (1 == get_option('delete_options_on_inactive')) echo 'checked="checked"'; ?> >
+				<input type="checkbox" name="delete_options_on_inactive"  class="form-control form-control-sm" value="1" <?php if (1 == get_option('delete_options_on_inactive')) echo 'checked="checked"'; ?> >
 				<label>Delete <?php echo $this->plugin_title ?> saved options</label>
 				<hr>
-				<input type="checkbox" name="audio_control_enabled"  class="form-control" value="1" <?php if (1 == get_option('audio_control_enabled')) echo 'checked="checked"'; ?> >
+				<input type="checkbox" name="audio_control_enabled"  class="form-control form-control-sm" value="1" <?php if (1 == get_option('audio_control_enabled')) echo 'checked="checked"'; ?> >
 				<label>Audio Control Display</label>
 				<br>
 				<label>Audio Control slider height:</label>
 				<input type="text" name="audio_control_slider_height" class="form_control" value="<?php if(get_option('audio_control_slider_height')){ echo esc_attr( get_option('audio_control_slider_height') ); }else{ echo "200"; } ?>" <?php if (0 == get_option('audio_control_enabled')) echo 'disabled'; ?> > px
 				<hr>
-				<input type="checkbox" name="charts_enabled"  class="form-control" value="1" <?php if (1 == get_option('charts_enabled')) echo 'checked="checked"'; ?> >
+				<input type="checkbox" name="charts_enabled"  class="form-control form-control-sm" value="1" <?php if (1 == get_option('charts_enabled')) echo 'checked="checked"'; ?> >
 				<label>Charts</label>
 				<hr>
 			</div>
@@ -56,27 +53,34 @@
 	<div id="parent-tabs-4" class="parent-tab-content tab-content tab-playlists">
 		<div class="row">
 			<div class="col-lg-8 form-group">
-			<label>Playlist Configuration</label>
-			<a href="#" id="playlist_config_add" class="button">Add playlist item</a>
-			<?php
+				<label>Playlist Configuration</label>
+				<a class="button playlist_config_add">Add playlist item</a>
+				<?php notices() ?>			
+				<?php
+$playlist_config_default = playlist_config_default();
+$playlist_config = json_decode($playlist_config_default);
 $playlist_config_tabs="";
 $playlist_config_tabs_content = "";
 $playlist_config_tabs_content_inputs = "";
-$playlist_config = json_decode(playlist_config_default());
+
 $playlist_config_x = 1;
 $playlist_top_media = false;
 if($playlist_config){
 	foreach($playlist_config as $pconfig){
 		if(isset($pconfig->id)){
-			$playlist_config_tabs = $playlist_config_tabs."<li class=\"tab-link\" data-tab=\"playlist-config-tab-$playlist_config_x\">{$pconfig->id}</li>";
+			$playlist_config_tabs = $playlist_config_tabs."
+				<li class='tab-link' data-tab='playlist-config-tab-$playlist_config_x'>
+					{$pconfig->id} <a href='#' class='playlist_config_del'><i class='fa fa-minus-circle' aria-hidden='true' title='Click to remove'></i></a>
+				</li>
+			";
 			$playlist_config_tabs_content_inputs . $playlist_config_tabs_content_inputs = "
-				<label>id</label>: <input type=\"text\" name=\"playlist_config_id\" value=\"{$pconfig->id}\" class=\"form-control form-control-sm \" />
-				<label>title</label>: <input type=\"text\" name=\"playlist_config_title\" value=\"{$pconfig->title}\" class=\"form-control form-control-sm \" />
-				<label>tag</label>: <input type=\"text\" name=\"playlist_config_tag\" value=\"{$pconfig->tag}\" class=\"form-control form-control-sm \" />
-				<label>tag_slug__and</label>: <input type=\"text\" name=\"playlist_config_tag_slug__and\" value=\"{$pconfig->tag_slug__and}\" class=\"form-control form-control-sm \" />
+				<label>id</label>: <input type='text' name='id' value='{$pconfig->id}' class='form-control form-control-sm ' />
+				<label>title</label>: <input type='text' name='title' value='{$pconfig->title}' class='form-control form-control-sm ' />
+				<label>tag</label>: <input type='text' name='tag' value='{$pconfig->tag}' class='form-control form-control-sm ' />
+				<label>tag_slug__and</label>: <input type='text' name='tag_slug__and' value='{$pconfig->tag_slug__and}' class='form-control form-control-sm ' />
 			";
 			$playlist_config_tabs_content = $playlist_config_tabs_content. "
-			<div id=\"playlist-config-tab-$playlist_config_x\" class=\"playlist-config-tab-content tab-content\">
+			<div id='playlist-config-tab-$playlist_config_x' class='playlist-config-tab-content tab-content'>
 				$playlist_config_tabs_content_inputs
 			</div>
 			";
@@ -92,25 +96,25 @@ if($playlist_config){
 				<div class="playlist-config-content-container">
 					<?php echo $playlist_config_tabs_content ?>
 				</div>
-
-
 				<div>
 					<label>Enable Top requests:</label>
-					<input type="checkbox" name="playlist_top_media"  class="form-control" value="1" <?php if (1 == $playlist_top_media) echo 'checked="checked"'; ?> >
+					<input type="checkbox" name="playlist_top_media"  class="form-control form-control-sm" value="1" <?php if (1 == $playlist_top_media) echo 'checked="checked"'; ?> >
 				</div>
+
 				<hr>
 
 				<label>playlist json</label>
-				<textarea name="playlist_config" class="form-control" rows="12"><?php echo playlist_config_default(); ?></textarea>
-				<textarea id="playlist_config_test" class="form-control" rows="12" style="display:none"></textarea>
+				<textarea name="playlist_config" class="form-control form-control-sm" rows="12"><?php echo $playlist_config_default; ?></textarea>
+				<textarea id="playlist_config_test" class="form-control form-control-sm" rows="12" style="display:"></textarea>
+
 				<hr>
 
 			</div>
 			<div class="col-lg-4 form-group">
 				<label>Media Filename REGEX</label>:
-				<input name="media_filename_regex"  class="form-control" value="<?php if(get_option('media_filename_regex')){ echo esc_attr( get_option('media_filename_regex') ); } ?>" title="Regex replace media filename" />
+				<input name="media_filename_regex"  class="form-control form-control-sm" value="<?php if(get_option('media_filename_regex')){ echo esc_attr( get_option('media_filename_regex') ); } ?>" title="Regex replace media filename" />
 				<hr>
-				<label>Visualizer Enable: <input type="checkbox" name="visualizer_rgb_enabled"  class="form-control" value="1" <?php if (1 == get_option('visualizer_rgb_enabled')) echo 'checked="checked"'; ?> ></label>
+				<label>Visualizer Enable: <input type="checkbox" name="visualizer_rgb_enabled"  class="form-control form-control-sm" value="1" <?php if (1 == get_option('visualizer_rgb_enabled')) echo 'checked="checked"'; ?> ></label>
 				<div>
 					<label>Colors: </label><br>
 					<input name="visualizer_rgb_init" data-jscolor="{preset:'large dark'}" value="<?php if(get_option('visualizer_rgb_init')){ echo esc_attr( get_option('visualizer_rgb_init') ); }else{ echo "rgba(0,0,0,1.0)"; } ?>" title="Initial visualizer fill color"  <?php if (1 != get_option('visualizer_rgb_enabled')) echo 'disabled'; ?>>
@@ -136,27 +140,29 @@ if($playlist_config){
 	</div>
 	<div id="parent-tabs-5" class="parent-tab-content tab-content tab-charts form-group">
 		<div class="row">
-			<div class="col-lg-6   form-group">
+			<div class="col-lg-8   form-group">
 				<label><?php _e('Access log filter '); ?></label>
-				<input type="text" name="access_log_pattern"  class="form-control" value="<?php echo esc_attr( get_option('access_log_pattern') ); ?>"  placeholder="/.mp3/i">
+				<input type="text" name="access_log_pattern"  class="form-control form-control-sm" value="<?php echo esc_attr( get_option('access_log_pattern') ); ?>"  placeholder="/.mp3/i">
 				<small>Simple regex. The default is <code>/.mp3/i</code>.</small>
 				<hr>
 				<label><?php _e('Access Log location')?></label>
-				<input type="text" name="access_log"  class="form-control" value="<?php echo esc_attr( get_option('access_log') ); ?>">
+				<input type="text" name="access_log"  class="form-control form-control-sm" value="<?php echo esc_attr( get_option('access_log') ); ?>">
 				<small>Add the following to cron: <code>* * * * * $(which php) <?php echo plugin_dir_path(__DIR__)?>lib/reports.php put > /dev/null 2>&1</code></small>
 				<hr>
 				<label><?php _e('Chart fill colors array ( <small>Example <code>["#ffffff","#F0F0F0","#E0E0E0","#D0D0D0","#C0C0C0","#B0B0B0","#A0A0A0","#909090","#808080","#707070"]</code></small> )'); ?></label>
-				<input type="text" name="chart_color_array"  class="form-control" value="<?php echo esc_attr( get_option('chart_color_array') ); ?>">
+				<input type="text" name="chart_color_array"  class="form-control form-control-sm" value="<?php echo esc_attr( get_option('chart_color_array') ); ?>">
 				<hr>
 			</div>
-			<div class="col-lg-6   form-group">
-				<label>Enable charts on posts: </label> <input type="checkbox" name="chart_rgb_enabled"  class="form-control" value="1" <?php if (1 == get_option('chart_rgb_enabled')) echo 'checked="checked"'; ?> >:
+			<div class="col-lg-4   form-group">
+				<label>Enable charts on posts: </label> <input type="checkbox" name="chart_rgb_enabled"  class="form-control form-control-sm" value="1" <?php if (1 == get_option('chart_rgb_enabled')) echo 'checked="checked"'; ?> >:
 				<br>
-				<label>Colors: </label> <input name="chart_rgb_init" data-jscolor="{preset:'large dark'}" value="<?php if(get_option('chart_rgb_init')){ echo esc_attr( get_option('chart_rgb_init') ); }else{ echo "rgba(0,0,0,1.0)"; } ?>" title="Initial chart fill color" <?php if (1 != get_option('chart_rgb_enabled')) echo 'disabled'; ?>>
+				<label>Colors: </label>
+				<br>
+				<input name="chart_rgb_init" data-jscolor="{preset:'large dark'}" value="<?php if(get_option('chart_rgb_init')){ echo esc_attr( get_option('chart_rgb_init') ); }else{ echo "rgba(0,0,0,1.0)"; } ?>" title="Initial chart fill color" <?php if (1 != get_option('chart_rgb_enabled')) echo 'disabled'; ?>>
 				<input name="chart_rgb" data-jscolor="{preset:'large dark'}" value="<?php if(get_option('chart_rgb')){ echo esc_attr( get_option('chart_rgb') ); }else{ echo "rgba(255,255,255,1.0)"; } ?>" title="chart fill color" <?php if (1 != get_option('chart_rgb_enabled')) echo 'disabled'; ?>>
 				<hr>
-				<label><?php _e('Ignore admin ip addresses'); ?>: </label> <input type="checkbox" name="ignore_ip_enabled"  class="form-control" value="1" <?php if (1 == get_option('ignore_ip_enabled')) echo 'checked="checked"'; ?> >
-				<textarea  name="ignore_ip_json" class="form-control" title="ignore ip json"  <?php if (1 != get_option('ignore_ip_enabled')) echo 'disabled'; ?> ><?php echo esc_attr( get_option('ignore_ip_json') ); ?></textarea>
+				<label><?php _e('Ignore admin ip addresses'); ?>: </label> <input type="checkbox" name="ignore_ip_enabled"  class="form-control form-control-sm" value="1" <?php if (1 == get_option('ignore_ip_enabled')) echo 'checked="checked"'; ?> >
+				<textarea  name="ignore_ip_json" class="form-control form-control-sm" title="ignore ip json"  <?php if (1 != get_option('ignore_ip_enabled')) echo 'disabled'; ?> ><?php echo esc_attr( get_option('ignore_ip_json') ); ?></textarea>
 				<hr>
 			</div>
 		</div>
@@ -165,7 +171,7 @@ if($playlist_config){
 		<div class="row">
 			<div class="col-lg-12">
 				<label><?php _e("Media Requests Today"); ?></label>
-				<textarea  class="form-control" rows="12"><?php
+				<textarea  class="form-control form-control-sm" rows="12"><?php
 					if( get_option('charts_enabled') ){
 						$access_log_activity = $this->media_activity_today();
 						if(is_array($access_log_activity)){
@@ -196,8 +202,8 @@ if($playlist_config){
 <?php
 function playlist_config_default(){
 	$json = get_option("playlist_config");
-	if( !$json ){
-		$json = <<<EOF
+	if(!$json){
+		$json = '
 [
 	{
 		"id" : "",
@@ -208,11 +214,17 @@ function playlist_config_default(){
 	{
 		"topten" : "false"
 	}
-]
-EOF;
-
+]';
 		update_option("playlist_config", $json);
 	}
 	return $json;
+}
+function notices(){
+	echo  '
+<div class="notice notice-success" style="display:none;"></div>
+<div class="notice notice-error" style="display:none;"></div>
+<div class="notice notice-warning" style="display:none;"></div>
+<div class="notice notice-info" style="display:none;"></div>	
+';
 }
 ?>

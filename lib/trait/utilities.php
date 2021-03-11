@@ -89,6 +89,17 @@ Update upon login.
 		if(!empty($timezone)){ date_default_timezone_set($timezone); }	
 		return $timezone;
 	}
+	function has_shortcode($shortcode = '') {		
+		$post_to_check = get_post(get_the_ID());
+		$found = false;
+	
+		if ($shortcode && $post_to_check) {
+			if ( stripos($post_to_check->post_content, '[' . $shortcode) !== false ) {
+				$found = true;
+			}
+		}
+		return $found;
+	}	
     function progressBar($done, $total) {
         $perc = floor(($done / $total) * 100);
         $left = 100 - $perc;

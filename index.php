@@ -42,8 +42,8 @@ if (!class_exists("dmck_audioplayer")) {
 
 		const PLUGIN_SLUG				= 'dmck_audioplayer';
 		const SETTINGS_GROUP			= 'dmck-audioplayer-settings-group';
-		public $shortcode				= "dmck-audioplayer";
 
+		public $shortcode				= "dmck-audioplayer";
 		public $github_url				= "https://github.com/dreaddy/audio-player-cbhdmk";
 		public $debug					= false;
 
@@ -56,11 +56,10 @@ if (!class_exists("dmck_audioplayer")) {
 		public $tag;
 		public $path;		
 
-		public $cron_name;
-		public $cron_jobs;
 		public $site_url;
 		
-		function __construct() {		
+		function __construct() {
+
 			$this->setTimezone();
 			$this->set_plugin_version();
 			$this->plugin_title = '(DMCK)Audio-ver:' . $this->plugin_version;
@@ -121,6 +120,7 @@ if (!class_exists("dmck_audioplayer")) {
 				$this->shared_scripts();				
 				wp_enqueue_style( 'admin.css',  $this->plugin_url . "admin/admin.css", array(), $this->plugin_version);
 				wp_enqueue_script( 'marked.min.js', $this->plugin_url . 'assets/js/marked.min.js', array('jquery'), $this->plugin_version, true );				
+				wp_enqueue_script( 'admin-events.js', $this->plugin_url . 'admin/admin-events.js', array('jquery'), $this->plugin_version, true );
 				wp_enqueue_script( 'admin-functions.js', $this->plugin_url . 'admin/admin-functions.js', array('jquery'), $this->plugin_version, true );
 				wp_enqueue_script( 'admin.js', $this->plugin_url . 'admin/admin.js', array('jquery'), $this->plugin_version, true );
 				wp_enqueue_script( 'jscolor.js', $this->plugin_url . 'node_modules/@eastdesire/jscolor/jscolor.js', '', '', true );				
@@ -221,33 +221,21 @@ if (!class_exists("dmck_audioplayer")) {
 			);
 			wp_localize_script( 'functions.js', self::PLUGIN_SLUG, $local);
 		}
-		function has_shortcode($shortcode = '') {		
-			$post_to_check = get_post(get_the_ID());
-			$found = false;
-		
-			if ($shortcode && $post_to_check) {
-				if ( stripos($post_to_check->post_content, '[' . $shortcode) !== false ) {
-					$found = true;
-				}
-			}
-			return $found;
-		}
 		function admin_bar_setup(){
 			global $wp_admin_bar;
 			if ( !is_super_admin() || !is_admin_bar_showing() ) return;
 			$url_to = admin_url( 'options-general.php?page='.self::PLUGIN_SLUG);			
 			$wp_admin_bar->add_menu(
-									array(
-											'id' => self::PLUGIN_SLUG,
-											'title' => __( $this->plugin_title, self::PLUGIN_SLUG ),
-											'href' => $url_to,
-											'meta'  => array(
-															'title' => $this->plugin_title,
-															'class' => self::PLUGIN_SLUG
-															)
-											
-										)
-									);
+				array(
+					'id' => self::PLUGIN_SLUG,
+					'title' => __( $this->plugin_title, self::PLUGIN_SLUG ),
+					'href' => $url_to,
+					'meta' => array( 
+						'title' => $this->plugin_title, 
+						'class' => self::PLUGIN_SLUG 
+					)						
+				)
+			);
 		}
 		function include_file($options) {		
 			ob_start();

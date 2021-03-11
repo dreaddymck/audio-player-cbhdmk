@@ -3,6 +3,9 @@
 namespace DMCK_WP_MEDIA_PLUGIN;
 
 trait _cron {
+
+    public $cron_name;
+    public $cron_jobs;    
 	
     function __construct(){}  
     function wp_cron_functions_daily() {

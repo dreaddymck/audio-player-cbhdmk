@@ -110,13 +110,7 @@ trait _requests {
 		}
 		return $json;
 	}
-	function playlist_data_get(){
-		$arr = array();
-		if( empty( get_option("playlist_config") ) ){ return; }
-		$arr["playlist_json"] = json_decode(get_option("playlist_config"));
-		$arr["top_10_json"] = $this->media_activity_today($limit=10);
-		return $arr;
-	}
+
 	function render_elements($posts) {
 		$response = array();
 		$is_secure = $this->isSecure();
@@ -224,4 +218,11 @@ trait _requests {
 		}
 		return $matches;
 	}
+	function playlist_data_get(){
+		$arr = array();
+		if( empty( get_option("playlist_config") ) ){ return; }
+		$arr["playlist_json"] = json_decode(get_option("playlist_config"));
+		$arr["top_10_json"] = $this->media_activity_today($limit=10);
+		return $arr;
+	}	
 }

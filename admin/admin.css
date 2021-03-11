@@ -11,20 +11,20 @@ pre {
 .admin-container label {
     font-variant: all-petite-caps;
 }
-ul.tabs {
+ul.parent-tabs, ul.playlist-config-tabs {
     margin: 0px;
     padding: 0px;
     list-style: none;
 }
-ul.tabs li {
+ul.parent-tabs li, ul.playlist-config-tabs li {
     background: none;
     color: #222;
     display: inline-block;
     padding: 10px 15px;
     cursor: pointer;
 }
-ul.tabs li.current {
-    /* background: #ededed; */
+ul.parent-tabs li.current, ul.playlist-config-tabs li.current {
+    background: #ededed;
     color: #222;
     border-left: 1px solid #ddd;
     border-right: 1px solid #ddd;
@@ -34,7 +34,7 @@ ul.tabs li.current {
 }
 .tab-content {
     display: none;
-    /* background: #ededed; */
+    background: #ededed;
     padding: 15px;
 }
 .tab-content.current {
