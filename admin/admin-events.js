@@ -21,6 +21,7 @@ const admin_events = {
             e.preventDefault();
             let id = prompt("Enter unique identifier","");
             if (!id) { return false; }
+            id = admin_functions.string_to_slug(id);
             let dupecheck = jQuery(".playlist-config-tab-content").children('input[name="id"]').filter(function(){
                 return this.value.toUpperCase() == id.toUpperCase();
             });
@@ -28,15 +29,40 @@ const admin_events = {
                 admin_functions.notice(".notice-error", "Duplicate identifier");
                 return false;
             }
+            let playlist_config = jQuery("textarea[name='playlist_config']").val();
+            if(playlist_config){
+                playlist_config = JSON.parse(playlist_config);
+                playlist_config.find(function(key, value){
+                    console.log(key)
+                    if(key == "topten"){
+                        value = jQuery("input[type='checkbox'][name='playlist_top_media']").prop("checked"); 
+                    }    
+                })                
+            }
         })        
         jQuery('.playlist_config_del').click(function(e){
             e.preventDefault();
             if (!confirm('Please confirm')) { return false; }
-        })        
+            let id = jQuery(this).closest("li").text().trim();
+            console.log(id);
+        })  
+        jQuery("input[name='playlist_top_media']").click(function(e){            
+            let playlist_config = jQuery("textarea[name='playlist_config']").val();
+            if(playlist_config){
+                playlist_config = JSON.parse(playlist_config);
+                playlist_config.find(function(obj, index){
+                    if(typeof(obj.topten) !== 'undefined'){
+                        obj.topten = jQuery("input[type='checkbox'][name='playlist_top_media']").prop("checked"); 
+                    }    
+                })                
+            }            
+            jQuery("textarea[name='playlist_config']").val(JSON.stringify(playlist_config,"",8));
+        })      
         jQuery('form[name*="admin-settings-form"]').submit(function (e) {
 
             //TEST retrieving JSON from HTML
-            let array = []
+            // Not sure I need this anymore
+            /*let array = [];
             let json;
             jQuery(".playlist-config-tab-content").each(
                 function()  {
@@ -44,43 +70,15 @@ const admin_events = {
                     array.push(json); 
                 }
             );
-            array.push({"topten" : jQuery("input[type='checkbox'][name='playlist_top_media']").prop("checked")})
+            array.push({ "topten" : jQuery("input[type='checkbox'][name='playlist_top_media']").prop("checked") });
 
             jQuery("#playlist_config_test").text(JSON.stringify(array,null, 8));
+             */
             //TEST retrieving JSON from HTML
-            
             
             e.preventDefault();
             if (!confirm('Please confirm')) { return false; }
-            jQuery(document.body).css({'cursor' : 'wait'});
-
-            let url = "options.php"
-            let data = jQuery(this).serializeArray();
-            new Promise(function (resolve, reject) {
-                    jQuery.ajax({
-                        type: "POST",
-                        url: url,
-                        data: data,
-                        beforeSend: function (xhr) {
-                            xhr.setRequestHeader('X-WP-Nonce', dmck_audioplayer.nonce);
-                        },
-                    })
-                    .done(function (data) { resolve(data); })
-                    .fail(function (xhr, textStatus, errorThrown) {
-                        // console.log(errorThrown);
-                        reject(false);
-                    });
-                })
-                .then(
-                    function (results) { 
-                        jQuery(document.body).css({'cursor' : 'default'});
-                        document.location.reload(true);                        
-                     },
-                    function (error) { 
-                        jQuery(document.body).css({'cursor' : 'default'});
-                        admin_functions.notice(".notice-error", error);
-                     }
-                );
+            admin_functions.submit_form();
             return;
         });
         jQuery("input[type='checkbox'][name='ignore_ip_enabled']").click(function (e) {
@@ -106,7 +104,7 @@ const admin_events = {
                 console.log(resp);
                 return;
             }
-            admin_functions.upload(callback);
+            upload.init(callback);
         });
     }
 }

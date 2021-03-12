@@ -1,6 +1,6 @@
 <?php ?>
 <div class="loading" style="text-align: center; width: 100%;"><img src="<?php echo plugins_url( 'assets/images/loading-nerd.gif', dirname(__FILE__) )?>" /></div>
-<?php notices() ?>
+<?php $this->notices() ?>
 <form name="admin-settings-form" name="admin-settings-form" method="post" action="options.php">
 <?php settings_fields( self::SETTINGS_GROUP ); ?>
 <?php do_settings_sections( self::SETTINGS_GROUP ); ?>
@@ -30,11 +30,13 @@
 				<input type="text" name="moreinfo"  class="form-control form-control-sm" value="<?php echo esc_attr( get_option('moreinfo') ); ?>" title="This is useless atm">
 			</div>
 			<div class="col-lg-6      form-group">
+				<label>When plugin deactivated</label>
+				<br>
 				<input type="checkbox" name="drop_table_on_inactive"  class="form-control form-control-sm" value="1" <?php if (1 == get_option('drop_table_on_inactive')) echo 'checked="checked"'; ?> >
-				<label>Drop <?php echo $this->plugin_title ?> tables when deactivated</label>
-				<hr>
+				<label>Drop tables</label>
+				<br>
 				<input type="checkbox" name="delete_options_on_inactive"  class="form-control form-control-sm" value="1" <?php if (1 == get_option('delete_options_on_inactive')) echo 'checked="checked"'; ?> >
-				<label>Delete <?php echo $this->plugin_title ?> saved options</label>
+				<label>Delete saved options</label>
 				<hr>
 				<input type="checkbox" name="audio_control_enabled"  class="form-control form-control-sm" value="1" <?php if (1 == get_option('audio_control_enabled')) echo 'checked="checked"'; ?> >
 				<label>Audio Control Display</label>
@@ -52,63 +54,8 @@
 	<div id="parent-tabs-3" class="parent-tab-content tab-content tab-about"></div>
 	<div id="parent-tabs-4" class="parent-tab-content tab-content tab-playlists">
 		<div class="row">
-			<div class="col-lg-8 form-group">
-				<label>Playlist Configuration</label>
-				<a class="button playlist_config_add">Add playlist item</a>
-				<?php notices() ?>			
-				<?php
-$playlist_config_default = playlist_config_default();
-$playlist_config = json_decode($playlist_config_default);
-$playlist_config_tabs="";
-$playlist_config_tabs_content = "";
-$playlist_config_tabs_content_inputs = "";
-
-$playlist_config_x = 1;
-$playlist_top_media = false;
-if($playlist_config){
-	foreach($playlist_config as $pconfig){
-		if(isset($pconfig->id)){
-			$playlist_config_tabs = $playlist_config_tabs."
-				<li class='tab-link' data-tab='playlist-config-tab-$playlist_config_x'>
-					{$pconfig->id} <a href='#' class='playlist_config_del'><i class='fa fa-minus-circle' aria-hidden='true' title='Click to remove'></i></a>
-				</li>
-			";
-			$playlist_config_tabs_content_inputs . $playlist_config_tabs_content_inputs = "
-				<label>id</label>: <input type='text' name='id' value='{$pconfig->id}' class='form-control form-control-sm ' />
-				<label>title</label>: <input type='text' name='title' value='{$pconfig->title}' class='form-control form-control-sm ' />
-				<label>tag</label>: <input type='text' name='tag' value='{$pconfig->tag}' class='form-control form-control-sm ' />
-				<label>tag_slug__and</label>: <input type='text' name='tag_slug__and' value='{$pconfig->tag_slug__and}' class='form-control form-control-sm ' />
-			";
-			$playlist_config_tabs_content = $playlist_config_tabs_content. "
-			<div id='playlist-config-tab-$playlist_config_x' class='playlist-config-tab-content tab-content'>
-				$playlist_config_tabs_content_inputs
-			</div>
-			";
-			$playlist_config_x ++;
-		}
-		if(isset($pconfig->topten)){$playlist_top_media = filter_var($pconfig->topten, FILTER_VALIDATE_BOOLEAN); }
-	}
-}
-?>
-				<ul class="playlist-config-tabs tabs">
-					<?php echo $playlist_config_tabs ?>
-				</ul>
-				<div class="playlist-config-content-container">
-					<?php echo $playlist_config_tabs_content ?>
-				</div>
-				<div>
-					<label>Enable Top requests:</label>
-					<input type="checkbox" name="playlist_top_media"  class="form-control form-control-sm" value="1" <?php if (1 == $playlist_top_media) echo 'checked="checked"'; ?> >
-				</div>
-
-				<hr>
-
-				<label>playlist json</label>
-				<textarea name="playlist_config" class="form-control form-control-sm" rows="12"><?php echo $playlist_config_default; ?></textarea>
-				<textarea id="playlist_config_test" class="form-control form-control-sm" rows="12" style="display:"></textarea>
-
-				<hr>
-
+			<div class="col-lg-8 form-group admin-playlist-config-container">
+				<?php include_once(plugin_dir_path(__FILE__)."admin-playlist-config.php"); ?>
 			</div>
 			<div class="col-lg-4 form-group">
 				<label>Media Filename REGEX</label>:
@@ -200,31 +147,5 @@ if($playlist_config){
 </div><!-- container -->
 </form>
 <?php
-function playlist_config_default(){
-	$json = get_option("playlist_config");
-	if(!$json){
-		$json = '
-[
-	{
-		"id" : "",
-		"title" : "",
-		"tag" : "",
-		"tag_slug__and" : ""
-	},
-	{
-		"topten" : "false"
-	}
-]';
-		update_option("playlist_config", $json);
-	}
-	return $json;
-}
-function notices(){
-	echo  '
-<div class="notice notice-success" style="display:none;"></div>
-<div class="notice notice-error" style="display:none;"></div>
-<div class="notice notice-warning" style="display:none;"></div>
-<div class="notice notice-info" style="display:none;"></div>	
-';
-}
+
 ?>

@@ -11,12 +11,12 @@ trait _utilities {
 	}
 	function get_my_ip(){
 		$ip = "";
-		if ( !empty($_SERVER['HTTP_CLIENT_IP']) ) {			
+		if ( !empty($_SERVER['HTTP_CLIENT_IP']) ) {
 			$ip = $_SERVER['HTTP_CLIENT_IP']; // Check IP from internet.
-		} 
+		}
 		elseif (!empty($_SERVER['HTTP_X_FORWARDED_FOR']) ) {
 			$ip = $_SERVER['HTTP_X_FORWARDED_FOR']; // Check IP is passed from proxy.
-		} 
+		}
 		else {
 			$ip = $_SERVER['REMOTE_ADDR']; // Get IP address from remote address.
 		}
@@ -28,48 +28,44 @@ Purge old entries on the fly.
 Update upon login.
 */
 	function _utilities_ignore_ip_auto_set(){
-
 		$ignore_ip_enabled = get_option('ignore_ip_enabled') ? esc_attr( get_option('ignore_ip_enabled') ) : "";
-
-		if( $ignore_ip_enabled && is_super_admin() ){                            
-			
-			$ignore_ip_json = get_option('ignore_ip_json') ? get_option('ignore_ip_json') : "";			
+		if( $ignore_ip_enabled && is_super_admin() ){
+			$ignore_ip_json = get_option('ignore_ip_json') ? get_option('ignore_ip_json') : "";
 			$ip = $this->get_my_ip();
 			$curr = (object) [
 				'uid' => get_current_user_id(),
 				'ip' => $ip,
-				'date' => time(),					
+				'date' => time(),
 			];
-
 			if( $ignore_ip_json ){
 				$ignore_ip_json = json_decode($ignore_ip_json);
 				$ip_exists = false;
 				foreach($ignore_ip_json as $key=>$value) {
 					/*
-					The access log cron task collects data only for current day. 
+					The access log cron task collects data only for current day.
 					So ignored IP addresses will be purged after that one day.
 					*/
 					if($value->date < strtotime('-1 day')){ // remove old ip addresses
 						unset($ignore_ip_json[$key]);
-					}else	
+					}else
 					if( $value->ip == $ip ){
-						$ip_exists = true;						
-					}			
+						$ip_exists = true;
+					}
 				}
 				if(!$ip_exists){
-					array_push($ignore_ip_json, $curr);					
+					array_push($ignore_ip_json, $curr);
 				}
-				$ignore_ip_json = array_values($ignore_ip_json);			
+				$ignore_ip_json = array_values($ignore_ip_json);
 			}else{
 				$ignore_ip_json = [];
 				array_push($ignore_ip_json, $curr);
-			}	
-			$ignore_ip_json = json_encode($ignore_ip_json);		
-			update_option( 'ignore_ip_json', $ignore_ip_json);			
+			}
+			$ignore_ip_json = json_encode($ignore_ip_json);
+			update_option( 'ignore_ip_json', $ignore_ip_json);
 		}
 	}
-	
-	function setTimezone(){		
+
+	function setTimezone(){
 		$timezone = get_option('timezone_string');
 		if(empty($timezone)){
 			switch(true){
@@ -80,30 +76,30 @@ Update upon login.
 					break;
 				case(date_default_timezone_get()):
 					$timezone = date_default_timezone_get();
-					break;				
+					break;
 				case(ini_get('date.timezone')):
 					$timezone =  ini_get('date.timezone');
 					break;
 			}
 		}
-		if(!empty($timezone)){ date_default_timezone_set($timezone); }	
+		if(!empty($timezone)){ date_default_timezone_set($timezone); }
 		return $timezone;
 	}
-	function has_shortcode($shortcode = '') {		
+	function has_shortcode($shortcode = '') {
 		$post_to_check = get_post(get_the_ID());
 		$found = false;
-	
+
 		if ($shortcode && $post_to_check) {
 			if ( stripos($post_to_check->post_content, '[' . $shortcode) !== false ) {
 				$found = true;
 			}
 		}
 		return $found;
-	}	
+	}
     function progressBar($done, $total) {
         $perc = floor(($done / $total) * 100);
         $left = 100 - $perc;
         $write = sprintf("\033[0G\033[2K[%'={$perc}s>%-{$left}s] - $perc%% - $done/$total", "", "");
         fwrite(STDERR, $write);
-    }		
+    }
 }

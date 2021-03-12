@@ -123,6 +123,7 @@ if (!class_exists("dmck_audioplayer")) {
 				wp_enqueue_script( 'admin-events.js', $this->plugin_url . 'admin/admin-events.js', array('jquery'), $this->plugin_version, true );
 				wp_enqueue_script( 'admin-functions.js', $this->plugin_url . 'admin/admin-functions.js', array('jquery'), $this->plugin_version, true );
 				wp_enqueue_script( 'admin.js', $this->plugin_url . 'admin/admin.js', array('jquery'), $this->plugin_version, true );
+				wp_enqueue_script( 'upload.js', $this->plugin_url . 'assets/js/upload.js', array('jquery'), $this->plugin_version, true );
 				wp_enqueue_script( 'jscolor.js', $this->plugin_url . 'node_modules/@eastdesire/jscolor/jscolor.js', '', '', true );				
 				$this->localize_vars();
 			}

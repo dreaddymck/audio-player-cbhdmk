@@ -1,38 +1,6 @@
 "use strict";
 
 const admin_functions = {
-    onload: function () {
-
-        admin_events.init();
-        
-        /**
-         * Tabs
-         */
-        let cookie = admin_functions.cookie.get();
-        if (cookie) {
-            cookie = JSON.parse(cookie);
-            if (typeof cookie.tab !== 'undefined') {
-                jQuery("ul.parent-tabs > li").removeClass('current');
-                jQuery(".parent-tab-content").removeClass('current');
-                jQuery("ul.parent-tabs > li[data-tab*='" + cookie.tab + "']").addClass('current');
-                jQuery("#" + cookie.tab).addClass('current');
-            }
-            if (typeof cookie.playlist_config_tab !== 'undefined') {
-                jQuery("ul.playlist-config-tabs > li").removeClass('current');
-                jQuery(".playlist-config-tab-content").removeClass('current');
-                jQuery("ul.playlist-config-tabs > li[data-tab*='" + cookie.playlist_config_tab + "']").addClass('current');
-                jQuery("#" + cookie.playlist_config_tab).addClass('current');
-            }            
-        }
-        /**
-         * ReadME
-         */
-        jQuery.get(dmck_audioplayer.plugin_url + 'README.md', function (data) {
-            // let content = data.replace(/(?:\r\n|\r|\n)/g, '<br />');
-            let content = marked(data);
-            jQuery('.tab-about').html(content);
-        });
-    },
     cookie: {
         set: function (obj) {
             let cookie = admin_functions.cookie.get()
@@ -52,7 +20,83 @@ const admin_functions = {
         get: function () {
             return jQuery.cookie(dmck_audioplayer.plugin_slug);
         }
+    },    
+    onload: function () {
+        admin_events.init();
+        let cookie = admin_functions.cookie.get();
+        if (cookie) {
+            cookie = JSON.parse(cookie);
+            if (typeof cookie.tab !== 'undefined') {
+                jQuery("ul.parent-tabs > li").removeClass('current');
+                jQuery(".parent-tab-content").removeClass('current');
+                jQuery("ul.parent-tabs > li[data-tab*='" + cookie.tab + "']").addClass('current');
+                jQuery("#" + cookie.tab).addClass('current');
+            }
+            if (typeof cookie.playlist_config_tab !== 'undefined') {
+                jQuery("ul.playlist-config-tabs > li").removeClass('current');
+                jQuery(".playlist-config-tab-content").removeClass('current');
+                jQuery("ul.playlist-config-tabs > li[data-tab*='" + cookie.playlist_config_tab + "']").addClass('current');
+                jQuery("#" + cookie.playlist_config_tab).addClass('current');
+            }            
+        }
+        jQuery.get(dmck_audioplayer.plugin_url + 'README.md', function (data) {
+            let content = marked(data);
+            jQuery('.tab-about').html(content);
+        });
     },
+    submit_form(){
+        jQuery(document.body).css({'cursor' : 'wait'});
+        let form = jQuery('form[name*="admin-settings-form"]');
+        let url = "options.php"
+        let data = jQuery(form).serializeArray();        
+        new Promise(function (resolve, reject) {
+            jQuery.ajax({
+                type: "POST",
+                url: url,
+                data: data,
+                beforeSend: function (xhr) {
+                    xhr.setRequestHeader('X-WP-Nonce', dmck_audioplayer.nonce);
+                },
+            })
+            .done(function (data) { resolve(data); })
+            .fail(function (xhr, textStatus, errorThrown) {
+                // console.log(errorThrown);
+                reject(false);
+            });
+        })
+        .then(
+            function (results) { 
+                jQuery(document.body).css({'cursor' : 'default'});
+                document.location.reload(true);                        
+             },
+            function (error) { 
+                jQuery(document.body).css({'cursor' : 'default'});
+                admin_functions.notice(".notice-error", error);
+             }
+        );
+    },
+    string_to_slug: function (str)
+    {
+        str = str.replace(/^\s+|\s+$/g, ''); // trim
+        str = str.toLowerCase();
+    
+        // remove accents, swap ñ for n, etc
+        var from = "àáäâèéëêìíïîòóöôùúüûñçěščřžýúůďťň·/_,:;";
+        var to   = "aaaaeeeeiiiioooouuuuncescrzyuudtn------";
+    
+        for (var i=0, l=from.length ; i<l ; i++)
+        {
+            str = str.replace(new RegExp(from.charAt(i), 'g'), to.charAt(i));
+        }
+    
+        str = str.replace('.', '-') // replace a dot by a dash 
+            .replace(/[^a-z0-9 -]/g, '') // remove invalid chars
+            .replace(/\s+/g, '-') // collapse whitespace and replace by a dash
+            .replace(/-+/g, '-') // collapse dashes
+            .replace( /\//g, '' ); // collapse all forward-slashes
+    
+        return str;
+    },   
     notice: function(ident,text,timeout){
         if(!ident && !text){return false};
         timeout = timeout ? timeout : 2000;
@@ -60,81 +104,5 @@ const admin_functions = {
         setTimeout(function() {  jQuery(".notice").hide("slow").text(""); }, timeout);                  
         return false;
     },
-    upload: function (callback) {
 
-        jQuery("body").css("cursor", "progress");
-        jQuery(".progress .progress-bar").width("0%");
-
-        function progress(e) {
-            if (e.lengthComputable) {
-                var max = e.total;
-                var current = e.loaded;
-                var Percentage = (current * 100) / max;
-                Percentage = parseInt(Percentage);
-                jQuery(".progress .progress-bar")
-                    .width(Percentage + "%")
-                    .attr("aria-valuenow", Percentage)
-                    .text(Percentage + "%");
-                // jQuery( ".progressbar" ).progressbar( "option", "value", parseInt(Percentage) );
-                if (Percentage >= 100) {
-                    // jQuery( ".progress .progress-bar" ).width("0%");
-                }
-            }
-        }
-
-        let url = dmck_audioplayer.site_url + "/wp-json/" + dmck_audioplayer.plugin_slug + "/v" + dmck_audioplayer.plugin_version + "/upload";
-
-        new Promise(function (resolve, reject) {
-
-            let elem = jQuery('input[name*="admin-upload"]');
-            let form = new FormData();
-            form.append(elem[0].files[0]["name"], elem[0].files[0]);
-
-            let xhr = (window.XMLHttpRequest) ? new XMLHttpRequest() : new activeXObject("Microsoft.XMLHTTP");
-            xhr.upload.addEventListener('progress', progress, false);
-            xhr.upload.addEventListener("load", function (evt) {
-                let msg = "Transfer complete.";
-                jQuery(".notice").html(msg);
-                console.log(evt);
-            });
-            xhr.upload.addEventListener("error", function (evt) {
-                let msg = "Transfer error";
-                jQuery(".notice").html(msg);
-                console.log(evt);
-            });
-            xhr.upload.addEventListener("abort", function (evt) {
-                let msg = "Transfer aborted";
-                jQuery(".notice").html(msg);
-                console.log(evt);
-            });
-            xhr.open('POST', url, true);
-            xhr.setRequestHeader("X-WP-Nonce", dmck_audioplayer.nonce);
-            xhr.onload = function () {
-                if (this.status >= 200 && this.status < 300) {
-                    resolve(xhr.response);
-                } else {
-                    reject({
-                        status: this.status,
-                        statusText: xhr.statusText
-                    });
-                }
-            };
-            xhr.onerror = function () {
-                reject({
-                    status: this.status,
-                    statusText: xhr.statusText
-                });
-            };
-            xhr.send(form);
-        }).then(
-            function (resp) {
-                jQuery("body").css("cursor", "default");
-                callback(resp);
-            },
-            function (e) {
-                jQuery("body").css("cursor", "default");
-                jQuery(".notice").html(e);
-            }
-        );
-    },
 }

@@ -67,5 +67,32 @@ trait _content {
 		$param = preg_replace('/(\[.*\])/', "", $param);
 		$param = preg_replace('/(Sorry, your browser doesn\'t support HTML5 audio\.|Sorry, your browser doesn&#8217;t support HTML5 audio.)/i', "", $param);
 		return $param;
-	}        
+	}
+	function playlist_config_default(){
+		$json = get_option("playlist_config");
+		if(!$json){
+			$json = '
+	[
+		{
+			"id" : "",
+			"title" : "",
+			"tag" : "",
+			"tag_slug__and" : ""
+		},
+		{
+			"topten" : "false"
+		}
+	]';
+			update_option("playlist_config", $json);
+		}
+		return $json;
+	}
+	function notices(){
+		echo  '
+	<div class="notice notice-success" style="display:none;"></div>
+	<div class="notice notice-error" style="display:none;"></div>
+	<div class="notice notice-warning" style="display:none;"></div>
+	<div class="notice notice-info" style="display:none;"></div>	
+	';
+	}	        
 }
