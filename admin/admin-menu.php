@@ -119,6 +119,7 @@
 			<div class="col-lg-12">
 				<label><?php _e("Media Requests Today"); ?></label>
 				<textarea  class="form-control form-control-sm" rows="12"><?php
+					$access_log_activity = array();
 					if( get_option('charts_enabled') ){
 						$access_log_activity = $this->media_activity_today();
 						if(is_array($access_log_activity)){

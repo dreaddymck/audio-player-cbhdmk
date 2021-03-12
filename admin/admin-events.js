@@ -32,19 +32,38 @@ const admin_events = {
             let playlist_config = jQuery("textarea[name='playlist_config']").val();
             if(playlist_config){
                 playlist_config = JSON.parse(playlist_config);
-                playlist_config.find(function(key, value){
-                    console.log(key)
-                    if(key == "topten"){
-                        value = jQuery("input[type='checkbox'][name='playlist_top_media']").prop("checked"); 
-                    }    
-                })                
+                playlist_config.find(function(key, value){                    
+                    if(key == "topten"){ value = jQuery("input[type='checkbox'][name='playlist_top_media']").prop("checked"); }    
+                })  
+                if(typeof playlist_config_default_json !== "undefined"){
+                    let default_json = playlist_config_default_json[0];
+                    default_json.id = id;
+                    let position = playlist_config.length - 1;
+                    playlist_config.splice(position, 0, default_json);
+                    jQuery("textarea[name='playlist_config']").val(JSON.stringify(playlist_config,"",8));
+                    admin_functions.cookie.set({ "playlist_config_tab": "playlist-config-tab-" + ( position + 1 ) });
+                    admin_functions.submit_form();
+                }
+                              
             }
+            console.log(playlist_config);
         })        
         jQuery('.playlist_config_del').click(function(e){
             e.preventDefault();
-            if (!confirm('Please confirm')) { return false; }
             let id = jQuery(this).closest("li").text().trim();
-            console.log(id);
+            let playlist_config = jQuery("textarea[name='playlist_config']").val();
+            if(playlist_config){
+                playlist_config = JSON.parse(playlist_config);
+                playlist_config.find(function(obj, index){
+                    if(typeof(obj) !== 'undefined' && typeof(obj.id) !== 'undefined' && obj.id == id){
+                        playlist_config.splice(index,1);
+                        return;
+                    }    
+                });                                
+            }            
+            jQuery("textarea[name='playlist_config']").val(JSON.stringify(playlist_config,"",8));
+            admin_functions.submit_form();
+
         })  
         jQuery("input[name='playlist_top_media']").click(function(e){            
             let playlist_config = jQuery("textarea[name='playlist_config']").val();
@@ -60,22 +79,6 @@ const admin_events = {
         })      
         jQuery('form[name*="admin-settings-form"]').submit(function (e) {
 
-            //TEST retrieving JSON from HTML
-            // Not sure I need this anymore
-            /*let array = [];
-            let json;
-            jQuery(".playlist-config-tab-content").each(
-                function()  {
-                    json = jQuery(this).find("input").serializeObject();                    
-                    array.push(json); 
-                }
-            );
-            array.push({ "topten" : jQuery("input[type='checkbox'][name='playlist_top_media']").prop("checked") });
-
-            jQuery("#playlist_config_test").text(JSON.stringify(array,null, 8));
-             */
-            //TEST retrieving JSON from HTML
-            
             e.preventDefault();
             if (!confirm('Please confirm')) { return false; }
             admin_functions.submit_form();

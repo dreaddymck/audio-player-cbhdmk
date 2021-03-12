@@ -68,11 +68,8 @@ trait _content {
 		$param = preg_replace('/(Sorry, your browser doesn\'t support HTML5 audio\.|Sorry, your browser doesn&#8217;t support HTML5 audio.)/i', "", $param);
 		return $param;
 	}
-	function playlist_config_default(){
-		$json = get_option("playlist_config");
-		if(!$json){
-			$json = '
-	[
+	function playlist_config_default_json(){
+		return  '[
 		{
 			"id" : "",
 			"title" : "",
@@ -82,7 +79,12 @@ trait _content {
 		{
 			"topten" : "false"
 		}
-	]';
+	]';		
+	}
+	function playlist_config_default(){
+		$json = get_option("playlist_config");
+		if(!$json){
+			$json = $this->playlist_config_default_json();
 			update_option("playlist_config", $json);
 		}
 		return $json;

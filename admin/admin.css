@@ -23,7 +23,7 @@ ul.parent-tabs li, ul.playlist-config-tabs li {
     padding: 10px 15px;
     cursor: pointer;
 }
-ul.parent-tabs li.current, ul.playlist-config-tabs li.current {
+ul.parent-tabs li.current {
     background: #ededed;
     color: #222;
     border-left: 1px solid #ddd;
@@ -32,13 +32,20 @@ ul.parent-tabs li.current, ul.playlist-config-tabs li.current {
     border-radius: 5px;
     padding: 10px;    
 }
+ul.playlist-config-tabs li.current {
+    background: #f7f7f7;
+}
 .tab-content {
     display: none;
     background: #ededed;
+    border-radius: 5px;
     padding: 15px;
 }
 .tab-content.current {
     display: inherit;
+}
+.playlist-config-tab-content{
+    background: #f7f7f7;
 }
 
 

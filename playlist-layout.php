@@ -38,7 +38,7 @@ $playlist_data = $this->playlist_data_get();
 	<ul class="nav nav-tabs" id="info-tabs" role="tablist">
 <?php 
 		foreach($playlist_data["playlist_json"] as $p) { 
-			if(isset($p->id)) {
+			if(isset($p->id) && $p->title) {
 				nav_item($p);
 			}else
 			if(isset($p->topten) && filter_var($p->topten, FILTER_VALIDATE_BOOLEAN)){
@@ -52,7 +52,7 @@ $playlist_data = $this->playlist_data_get();
 	<div class="tab-content">
 <?php
 		foreach($playlist_data["playlist_json"] as $p) { 
-			if(isset($p->id)) {
+			if(isset($p->id) && $p->title) {
 				nav_pane($this, $p);
 			}else
 			if(isset($p->topten) && filter_var($p->topten, FILTER_VALIDATE_BOOLEAN)){
