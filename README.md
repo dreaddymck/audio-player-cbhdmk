@@ -2,20 +2,6 @@
 
 ## Always a work in progress
 
-NOTICE: Meta data used with Charts and top ten display will be migrated to a new table. The migration process requires command line access.
-
-Migration command
-
-php lib/reports_migrate.php [flag] [Int] [bool]
-
-flag = "migrate" (required).
-Int = Number of months (defaults to 1).
-Bool = display debugs (defaults to false).
-
-example: php lib/reports_migrate.php migrate 12
-
-----------------------------------------------------------------
-
 SHORTCODE: [dmck-audioplayer]
 
 Another media thingy. Can be used to generate playlists embeded in posts and simple charts. Application will grab the first mp3 located in published posts then render a tabbed playlist.
@@ -32,6 +18,22 @@ https://www.script-tutorials.com/html5-audio-player-with-playlist/
 3. Configure the playlist json object and other options in the admin menu in the admin section.
 4. Add shortcode to pages or posts as needed.
 5. Something something...
+
+### NOTICE: 
+
+Meta data used with Charts and top ten display has been migrated to a new table. The migration process requires command line access.
+Migration command
+
+0. command = lib/reports_migrate.php
+1. flag = "migrate" (required).
+2. Int = Number of months (defaults to 1).
+3. Bool = optional, display debugs (defaults to false).
+
+```bash
+
+# example: 
+php lib/reports_migrate.php migrate 12
+```
 
 ### Wavform
 
