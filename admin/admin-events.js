@@ -49,6 +49,7 @@ const admin_events = {
         })        
         jQuery('.playlist_config_del').click(function(e){
             e.preventDefault();
+            if (!confirm('Please confirm delete')) { return false; }
             let id = jQuery(this).closest("li").text().trim();
             let playlist_config = jQuery("textarea[name='playlist_config']").val();
             if(playlist_config){

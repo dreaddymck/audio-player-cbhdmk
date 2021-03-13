@@ -2,8 +2,11 @@
 
 const admin_functions = {
     cookie: {
+        id: function(id){
+            return id ? id : (dmck_audioplayer.plugin_slug + "-" + window.location.hostname);
+        },
         set: function (obj) {
-            let cookie = admin_functions.cookie.get()
+            let cookie = admin_functions.cookie.get();
             if (cookie) {
                 cookie = JSON.parse(cookie);
                 let keys = Object.keys(obj);
@@ -13,12 +16,12 @@ const admin_functions = {
             } else {
                 cookie = obj;
             }
-            jQuery.cookie(dmck_audioplayer.plugin_slug, JSON.stringify(cookie), {
+            jQuery.cookie(admin_functions.cookie.id(), JSON.stringify(cookie), {
                 expires: 30
             })
         },
         get: function () {
-            return jQuery.cookie(dmck_audioplayer.plugin_slug);
+            return jQuery.cookie(admin_functions.cookie.id());
         }
     },    
     onload: function () {
