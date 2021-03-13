@@ -26,18 +26,19 @@ const admin_functions = {
         let cookie = admin_functions.cookie.get();
         if (cookie) {
             cookie = JSON.parse(cookie);
-            if (typeof cookie.tab !== 'undefined') {
-                jQuery("ul.parent-tabs > li").removeClass('current');
-                jQuery(".parent-tab-content").removeClass('current');
-                jQuery("ul.parent-tabs > li[data-tab*='" + cookie.tab + "']").addClass('current');
-                jQuery("#" + cookie.tab).addClass('current');
-            }
-            if (typeof cookie.playlist_config_tab !== 'undefined') {
-                jQuery("ul.playlist-config-tabs > li").removeClass('current');
-                jQuery(".playlist-config-tab-content").removeClass('current');
-                jQuery("ul.playlist-config-tabs > li[data-tab*='" + cookie.playlist_config_tab + "']").addClass('current');
-                jQuery("#" + cookie.playlist_config_tab).addClass('current');
-            }            
+            
+            cookie.tab = (typeof cookie.tab !== 'undefined') ? cookie.tab : "parent-tabs-1";
+            jQuery("ul.parent-tabs > li").removeClass('current');
+            jQuery(".parent-tab-content").removeClass('current');
+            jQuery("ul.parent-tabs > li[data-tab*='" + cookie.tab + "']").addClass('current');
+            jQuery("#" + cookie.tab).addClass('current');
+            
+            cookie.playlist_config_tab = (typeof cookie.playlist_config_tab !== 'undefined') ? cookie.playlist_config_tab : "cookie.playlist-config-tab-1";
+            jQuery("ul.playlist-config-tabs > li").removeClass('current');
+            jQuery(".playlist-config-tab-content").removeClass('current');
+            jQuery("ul.playlist-config-tabs > li[data-tab*='" + cookie.playlist_config_tab + "']").addClass('current');
+            jQuery("#" + cookie.playlist_config_tab).addClass('current');
+                 
         }
         jQuery.get(dmck_audioplayer.plugin_url + 'README.md', function (data) {
             let content = marked(data);

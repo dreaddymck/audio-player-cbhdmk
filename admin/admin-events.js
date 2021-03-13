@@ -46,7 +46,6 @@ const admin_events = {
                 }
                               
             }
-            console.log(playlist_config);
         })        
         jQuery('.playlist_config_del').click(function(e){
             e.preventDefault();
