@@ -140,7 +140,7 @@
 					class="form-control form-control-sm rounded-0"
 					id="git-log"
 					rows="18"
-					><?php echo shell_exec('cd ' .__DIR__.  '; git log -n 50 --graph --abbrev-commit --decorate --date=relative --all'); ?></textarea>
+					><?php echo shell_exec('cd ' .__DIR__.  '; git log -n 25 --graph --abbrev-commit --decorate --date=relative --all'); ?></textarea>
 			</div>
 		</div>
 		<?php endif; ?>

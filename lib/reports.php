@@ -30,7 +30,7 @@ class dmck_reports{
                     $response = $this->accesslog_activity_put();
                     break;
                 case "wavform":
-                    $response = _wavform::wavform();        
+                    $response = $this->wavform();        
                     break;                                
                 default:
             }   

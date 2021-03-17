@@ -30,7 +30,7 @@ trait _wavform {
             }				
         }
         if($folder){
-            foreach (new DirectoryIterator($folder) as $fileInfo) {				
+            foreach (new \DirectoryIterator($folder) as $fileInfo) {				
                 if($fileInfo->isDir() && !$fileInfo->isDot()) {
                     // Do whatever
                     continue;
