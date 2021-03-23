@@ -62,7 +62,7 @@ if (!class_exists("dmck_audioplayer")) {
 
 			$this->setTimezone();
 			$this->set_plugin_version();
-			$this->plugin_title = '(DMCK)Audio-ver:' . $this->plugin_version;
+			$this->plugin_title = '(DMCK)Audio:' . $this->plugin_version;
 			$this->plugin_url 	= plugins_url("/",__FILE__);
 			$this->theme_url	= dirname( get_bloginfo('stylesheet_url') );			
 			$this->site_url     = get_site_url();
