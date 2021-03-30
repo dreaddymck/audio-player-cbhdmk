@@ -20,23 +20,23 @@ trait _requests {
     }
 	function obj_request($obj) {
 		$args = array(
-			's'					=> isset($obj->s) && !empty($obj->s) ? "/".urldecode($obj->s)  : "",
+			's'					=> isset($obj->s) && !empty($obj->s) ? "/".urldecode($obj->s)  : null,
 			'posts_per_page' 	=> isset($obj->posts_per_page) && !empty($obj->posts_per_page) ? $obj->posts_per_page : -1,
 			'post_status'      	=> isset($obj->publish) && !empty($obj->publish) ? $obj->publish  : "publish",
-			'orderby'          	=> isset($obj->orderby) && !empty($obj->orderby) ? $obj->orderby  : "",
-			'order'            	=> isset($obj->order) && !empty($obj->order) ? $obj->order  : "",
-			'tag'				=> isset($obj->tag) && !empty($obj->tag) ? $obj->tag  : "",
-			'tag_id'			=> isset($obj->tag_id) && !empty($obj->tag_id) ? $obj->tag_id  : "",
-			'tag__and'			=> isset($obj->tag__and) && !empty($obj->tag__and) ? $obj->tag__and  : "",
-			'tag__in' 			=> isset($obj->tag_in) && !empty($obj->tag_in) ? $obj->tag_in : "", //array (id)
-			'tag__not_in'		=> isset($obj->tag_not_in) && !empty($obj->tag_not_in) ? $obj->tag_not_in : "", //array (id)
-			'tag_slug__and'		=> isset($obj->tag_slug__and) && !empty($obj->tag_slug__and) ? $obj->tag_slug__and : "",
-			'tag_slug__in'		=> isset($obj->tag_slug__in) && !empty($obj->tag_slug__in) ? $obj->tag_slug__in : "",
-			'cat'				=> isset($obj->cat) && !empty($obj->cat) ? $obj->cat : "",
-			'category_name'		=> isset($obj->category_name) && !empty($obj->category_name) ? $obj->category_name : "",
-			'category__and'		=> isset($obj->category__and) && !empty($obj->category__and) ? $obj->category__and : "",
-			'category__in'		=> isset($obj->category__in) && !empty($obj->category__in) ? $obj->category__in : "",
-			'category__not_in'	=> isset($obj->category__not_in) && !empty($obj->category__not_in) ? $obj->category__not_in : "",
+			'orderby'          	=> isset($obj->orderby) && !empty($obj->orderby) ? $obj->orderby  : null,
+			'order'            	=> isset($obj->order) && !empty($obj->order) ? $obj->order  : null,
+			'tag'				=> isset($obj->tag) && !empty($obj->tag) ? $obj->tag  : null,
+			'tag_id'			=> isset($obj->tag_id) && !empty($obj->tag_id) ? $obj->tag_id  : null,
+			'tag__and'			=> isset($obj->tag__and) && !empty($obj->tag__and) ? $obj->tag__and  : null,
+			'tag__in' 			=> isset($obj->tag_in) && !empty($obj->tag_in) ? $obj->tag_in : null, //array (id)
+			'tag__not_in'		=> isset($obj->tag_not_in) && !empty($obj->tag_not_in) ? $obj->tag_not_in : null, //array (id)
+			'tag_slug__and'		=> isset($obj->tag_slug__and) && !empty($obj->tag_slug__and) ? $obj->tag_slug__and : null,
+			'tag_slug__in'		=> isset($obj->tag_slug__in) && !empty($obj->tag_slug__in) ? $obj->tag_slug__in : null,
+			'cat'				=> isset($obj->cat) && !empty($obj->cat) ? $obj->cat : null,
+			'category_name'		=> isset($obj->category_name) && !empty($obj->category_name) ? $obj->category_name : null,
+			'category__and'		=> isset($obj->category__and) && !empty($obj->category__and) ? $obj->category__and : null,
+			'category__in'		=> isset($obj->category__in) && !empty($obj->category__in) ? $obj->category__in : null,
+			'category__not_in'	=> isset($obj->category__not_in) && !empty($obj->category__not_in) ? $obj->category__not_in : null,
 		);
 		return $this->_requests_get_posts($args);
 	}

@@ -22,16 +22,16 @@ function playlist_config_default_json(){
 		"order": "",
 		"tag":"",
 		"tag_id":0,
-		"tag__and":[],
-		"tag__in":[],
-		"tag__not_in":[],
-		"tag_slug__and":[],
-		"tag_slug__in": [],	
+		"tag__and":[""],
+		"tag__in":[""],
+		"tag__not_in":[""],
+		"tag_slug__and":[""],
+		"tag_slug__in": [""],	
 		"cat":0,
 		"category_name":"",
-		"category__and":[],
-		"category__in":[],
-		"category__not_in":[]
+		"category__and":[""],
+		"category__in":[""],
+		"category__not_in":[""]
 
 	},
 	{
@@ -50,7 +50,7 @@ function playlist_config_default(){
 }
 function playlist_config_options($arry,$selected,$custom){
 	
-	$options="";
+	$options="<option value=''>empty</option>";
 	foreach($arry as $arr){
 		switch ($custom) {
 			case "string":
@@ -240,9 +240,9 @@ if($playlist_config){
 		<?php echo $playlist_config_selection ?>
 	</select>
 	<?php endif; ?>
-	<?php $this->notices() ?>
 	<a class="button playlist_config_add">Add</a>
 	<a class="button playlist_config_del">Remove</a>
+	<?php $this->notices() ?>	
 	<div class="playlist-config-content-container">
 		<?php echo $playlist_config_tabs_content ?>
 	</div>

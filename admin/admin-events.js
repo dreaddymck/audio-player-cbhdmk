@@ -14,7 +14,7 @@ const admin_events = {
             let index = jQuery(this)[0].selectedIndex;
             jQuery('.playlist-config-tab-content').removeClass('current');
             jQuery("#playlist-config-tab-" + index).addClass('current');
-            admin_functions.cookie.set({ "playlist_selected": index });
+            admin_functions.cookie.set({ "playlist_config_selected": index });
         });        
         jQuery('.playlist_config_add').click(function(e){
             e.preventDefault();
@@ -39,8 +39,8 @@ const admin_events = {
                     default_json.id = id;
                     let position = playlist_config.length - 1;
                     playlist_config.splice(position, 0, default_json);
-                    jQuery("textarea[name='playlist_config']").val(JSON.stringify(playlist_config,"",8));
-                    admin_functions.cookie.set({ "playlist_config_tab": "playlist-config-tab-" + ( position + 1 ) });
+                    admin_functions.cookie.set({ "playlist_config_selected": position });
+                    jQuery("textarea[name='playlist_config']").val(JSON.stringify(playlist_config,"",8));                    
                     admin_functions.submit_form();
                 }
                               
@@ -49,20 +49,20 @@ const admin_events = {
         jQuery('.playlist_config_del').click(function(e){
             e.preventDefault();
             if (!confirm('Please confirm delete')) { return false; }
-            let id = jQuery(this).closest("li").text().trim();
+            let id = jQuery('select[name="playlist_config_selection"]').val();
             let playlist_config = jQuery("textarea[name='playlist_config']").val();
             if(playlist_config){
                 playlist_config = JSON.parse(playlist_config);
                 playlist_config.find(function(obj, index){
                     if(typeof(obj) !== 'undefined' && typeof(obj.id) !== 'undefined' && obj.id == id){
                         playlist_config.splice(index,1);
-                        return;
+                        index = ((index - 1) >= 0) ? (index - 1) : 0;
+                        admin_functions.cookie.set({ "playlist_config_selected": index });        
+                        jQuery("textarea[name='playlist_config']").val(JSON.stringify(playlist_config,"",8));
+                        admin_functions.submit_form();                        
                     }    
                 });                                
-            }            
-            jQuery("textarea[name='playlist_config']").val(JSON.stringify(playlist_config,"",8));
-            admin_functions.submit_form();
-
+            }    
         })  
         jQuery("input[name='playlist_top_media']").click(function(e){            
             let playlist_config = jQuery("textarea[name='playlist_config']").val();

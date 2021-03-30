@@ -35,11 +35,11 @@ const admin_functions = {
             jQuery("ul.parent-tabs > li[data-tab*='" + cookie.tab + "']").addClass('current');
             jQuery("#" + cookie.tab).addClass('current');
 
-            cookie.playlist_selected = (typeof cookie.playlist_selected !== 'undefined') ? cookie.playlist_selected : 0;
-            jQuery('select[name="playlist_config_selection"]')[0].selectedIndex = cookie.playlist_selected
+            cookie.playlist_config_selected = (typeof cookie.playlist_config_selected !== 'undefined') ? cookie.playlist_config_selected : 0;
+            jQuery('select[name="playlist_config_selection"]')[0].selectedIndex = cookie.playlist_config_selected
             jQuery('.playlist-config-tab-content').removeClass('current');
-            jQuery("#playlist-config-tab-" + cookie.playlist_selected).addClass('current');
-            admin_functions.cookie.set({ "playlist_selected": cookie.playlist_selected });
+            jQuery("#playlist-config-tab-" + cookie.playlist_config_selected).addClass('current');
+            admin_functions.cookie.set({ "playlist_config_selected": cookie.playlist_config_selected });
         }
         jQuery.get(dmck_audioplayer.plugin_url + 'README.md', function (data) {
             let content = marked(data);
