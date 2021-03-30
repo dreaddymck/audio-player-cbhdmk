@@ -19,35 +19,45 @@ trait _requests {
         return $response;
     }
 	function obj_request($obj) {
-		global $wpdb;
 		$args = array(
-			's'					=> !empty($obj->s) ? "/".urldecode($obj->s)  : "",
-			'posts_per_page' 	=> !empty($obj->posts_per_page) ? $obj->posts_per_page : -1,
-			'post_status'      	=> !empty($obj->publish) ? $obj->publish  : "publish",
-			'orderby'          	=> !empty($obj->orderby) ? $obj->orderby  : "",
-			'order'            	=> !empty($obj->order) ? $obj->order  : "",
-			'tag'				=> !empty($obj->tag) ? $obj->tag  : "",
-			'tag__in' 			=> !empty($obj->tag_in) ? array( $obj->tag_in ) : "", //array (id)
-			'tag__not_in'		=> !empty($obj->tag_not_in) ? array( $obj->tag_not_in ) : "", //array (id)
-			'tag_slug__and'		=> !empty($obj->tag_slug__and) ? array( $obj->tag_slug__and ) : "",
+			's'					=> isset($obj->s) && !empty($obj->s) ? "/".urldecode($obj->s)  : "",
+			'posts_per_page' 	=> isset($obj->posts_per_page) && !empty($obj->posts_per_page) ? $obj->posts_per_page : -1,
+			'post_status'      	=> isset($obj->publish) && !empty($obj->publish) ? $obj->publish  : "publish",
+			'orderby'          	=> isset($obj->orderby) && !empty($obj->orderby) ? $obj->orderby  : "",
+			'order'            	=> isset($obj->order) && !empty($obj->order) ? $obj->order  : "",
+			'tag'				=> isset($obj->tag) && !empty($obj->tag) ? $obj->tag  : "",
+			'tag_id'			=> isset($obj->tag_id) && !empty($obj->tag_id) ? $obj->tag_id  : "",
+			'tag__and'			=> isset($obj->tag__and) && !empty($obj->tag__and) ? $obj->tag__and  : "",
+			'tag__in' 			=> isset($obj->tag_in) && !empty($obj->tag_in) ? $obj->tag_in : "", //array (id)
+			'tag__not_in'		=> isset($obj->tag_not_in) && !empty($obj->tag_not_in) ? $obj->tag_not_in : "", //array (id)
+			'tag_slug__and'		=> isset($obj->tag_slug__and) && !empty($obj->tag_slug__and) ? $obj->tag_slug__and : "",
+			'tag_slug__in'		=> isset($obj->tag_slug__in) && !empty($obj->tag_slug__in) ? $obj->tag_slug__in : "",
+			'cat'				=> isset($obj->cat) && !empty($obj->cat) ? $obj->cat : "",
+			'category_name'		=> isset($obj->category_name) && !empty($obj->category_name) ? $obj->category_name : "",
+			'category__and'		=> isset($obj->category__and) && !empty($obj->category__and) ? $obj->category__and : "",
+			'category__in'		=> isset($obj->category__in) && !empty($obj->category__in) ? $obj->category__in : "",
+			'category__not_in'	=> isset($obj->category__not_in) && !empty($obj->category__not_in) ? $obj->category__not_in : "",
 		);
 		return $this->_requests_get_posts($args);
 	}
 	function param_request($data){
-		global $wpdb;
+		// global $wpdb;
 		$params 				= $data->get_params();
-		$args = array(
-			's'					=> !empty($params["s"]) ? urldecode($params["s"] ) : "",
-			'posts_per_page' 	=> !empty($params["posts_per_page"]) ? $params["posts_per_page"]  : -1,
-			'post_status'   	=> !empty($params["post_status"]) ? $params["post_status"] : "published",
-			'orderby'          	=> !empty($params["orderby"]) ? $params["orderby"] : "",
-			'order'            	=> !empty($params["order"]) ? $params["order"] : "",
-			'tag'				=> !empty($params["tag"]) ? $params["tag"] : "",
-			'tag__in' 			=> !empty($params["tag_in"]) ? $params["tag_in"] : "",
-			'tag__not_in'		=> !empty($params["tag_not_in"]) ? $params["tag_not_in"] : "",
-			'tag_slug__and'		=> !empty($params["tag_slug__and"]) ? $params["tag_slug__and"] : "",
-		);
-		return $this->_requests_get_posts($args);
+		$response				= $this->obj_request((object)$params);
+		// $args = array(
+		// 	's'					=> !empty($params["s"]) ? urldecode($params["s"] ) : "",
+		// 	'posts_per_page' 	=> !empty($params["posts_per_page"]) ? $params["posts_per_page"]  : -1,
+		// 	'post_status'   	=> !empty($params["post_status"]) ? $params["post_status"] : "published",
+		// 	'orderby'          	=> !empty($params["orderby"]) ? $params["orderby"] : "",
+		// 	'order'            	=> !empty($params["order"]) ? $params["order"] : "",
+		// 	'tag'				=> !empty($params["tag"]) ? $params["tag"] : "",
+		// 	'tag__in' 			=> !empty($params["tag_in"]) ? $params["tag_in"] : "",
+		// 	'tag__not_in'		=> !empty($params["tag_not_in"]) ? $params["tag_not_in"] : "",
+		// 	'tag_slug__and'		=> !empty($params["tag_slug__and"]) ? $params["tag_slug__and"] : "",
+		// );
+		// return $this->_requests_get_posts($args);
+
+		return $response;
 	}
 	function _requests_get_posts($args){
 		$posts 	    = get_posts( $args );

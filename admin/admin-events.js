@@ -10,13 +10,12 @@ const admin_events = {
             jQuery("#" + tab_id).addClass('current');
             admin_functions.cookie.set({ "tab": tab_id });
         });
-        jQuery('ul.playlist-config-tabs li').click(function () {
-            var tab_id = jQuery(this).attr('data-tab');
-            jQuery('ul.playlist-config-tabs li, .playlist-config-tab-content').removeClass('current');
-            jQuery(this).addClass('current');
-            jQuery("#" + tab_id).addClass('current');
-            admin_functions.cookie.set({ "playlist_config_tab": tab_id });
-        });
+        jQuery('select[name="playlist_config_selection"]').change(function () {
+            let index = jQuery(this)[0].selectedIndex;
+            jQuery('.playlist-config-tab-content').removeClass('current');
+            jQuery("#playlist-config-tab-" + index).addClass('current');
+            admin_functions.cookie.set({ "playlist_selected": index });
+        });        
         jQuery('.playlist_config_add').click(function(e){
             e.preventDefault();
             let id = prompt("Enter unique identifier","");

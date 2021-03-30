@@ -23,25 +23,23 @@ const admin_functions = {
         get: function () {
             return jQuery.cookie(admin_functions.cookie.id());
         }
-    },    
+    },
     onload: function () {
         admin_events.init();
         let cookie = admin_functions.cookie.get();
         if (cookie) {
             cookie = JSON.parse(cookie);
-            
             cookie.tab = (typeof cookie.tab !== 'undefined') ? cookie.tab : "parent-tabs-1";
             jQuery("ul.parent-tabs > li").removeClass('current');
             jQuery(".parent-tab-content").removeClass('current');
             jQuery("ul.parent-tabs > li[data-tab*='" + cookie.tab + "']").addClass('current');
             jQuery("#" + cookie.tab).addClass('current');
-            
-            cookie.playlist_config_tab = (typeof cookie.playlist_config_tab !== 'undefined') ? cookie.playlist_config_tab : "cookie.playlist-config-tab-1";
-            jQuery("ul.playlist-config-tabs > li").removeClass('current');
-            jQuery(".playlist-config-tab-content").removeClass('current');
-            jQuery("ul.playlist-config-tabs > li[data-tab*='" + cookie.playlist_config_tab + "']").addClass('current');
-            jQuery("#" + cookie.playlist_config_tab).addClass('current');
-                 
+
+            cookie.playlist_selected = (typeof cookie.playlist_selected !== 'undefined') ? cookie.playlist_selected : 0;
+            jQuery('select[name="playlist_config_selection"]')[0].selectedIndex = cookie.playlist_selected
+            jQuery('.playlist-config-tab-content').removeClass('current');
+            jQuery("#playlist-config-tab-" + cookie.playlist_selected).addClass('current');
+            admin_functions.cookie.set({ "playlist_selected": cookie.playlist_selected });
         }
         jQuery.get(dmck_audioplayer.plugin_url + 'README.md', function (data) {
             let content = marked(data);
@@ -52,7 +50,7 @@ const admin_functions = {
         jQuery(document.body).css({'cursor' : 'wait'});
         let form = jQuery('form[name*="admin-settings-form"]');
         let url = "options.php"
-        let data = jQuery(form).serializeArray();        
+        let data = jQuery(form).serializeArray();
         new Promise(function (resolve, reject) {
             jQuery.ajax({
                 type: "POST",
@@ -69,44 +67,51 @@ const admin_functions = {
             });
         })
         .then(
-            function (results) { 
+            function (results) {
                 jQuery(document.body).css({'cursor' : 'default'});
-                document.location.reload(true);                        
+                document.location.reload();
              },
-            function (error) { 
+            function (error) {
                 jQuery(document.body).css({'cursor' : 'default'});
                 admin_functions.notice(".notice-error", error);
              }
         );
     },
+    config_update: function(elem,id){
+
+        let target = elem.name.replace("select_config_", "");
+        let config = JSON.parse(jQuery("textarea[name='playlist_config']").val());
+        config.find(x => x.id === id)[target] = jQuery(elem).val();
+        jQuery(elem).parent("div").children("input[name='" + target + "']").val(JSON.stringify(jQuery(elem).val()));
+        jQuery("textarea[name='playlist_config']").val(JSON.stringify(config,"",8));
+
+    },
     string_to_slug: function (str)
     {
         str = str.replace(/^\s+|\s+$/g, ''); // trim
         str = str.toLowerCase();
-    
+
         // remove accents, swap ñ for n, etc
         var from = "àáäâèéëêìíïîòóöôùúüûñçěščřžýúůďťň·/_,:;";
         var to   = "aaaaeeeeiiiioooouuuuncescrzyuudtn------";
-    
-        for (var i=0, l=from.length ; i<l ; i++)
-        {
+
+        for (var i=0, l=from.length ; i<l ; i++)  {
             str = str.replace(new RegExp(from.charAt(i), 'g'), to.charAt(i));
         }
-    
-        str = str.replace('.', '-') // replace a dot by a dash 
+
+        str = str.replace('.', '-') // replace a dot by a dash
             .replace(/[^a-z0-9 -]/g, '') // remove invalid chars
             .replace(/\s+/g, '-') // collapse whitespace and replace by a dash
             .replace(/-+/g, '-') // collapse dashes
             .replace( /\//g, '' ); // collapse all forward-slashes
-    
+
         return str;
-    },   
+    },
     notice: function(ident,text,timeout){
         if(!ident && !text){return false};
         timeout = timeout ? timeout : 2000;
         jQuery(ident).text(text).show("slow");
-        setTimeout(function() {  jQuery(".notice").hide("slow").text(""); }, timeout);                  
+        setTimeout(function() {  jQuery(".notice").hide("slow").text(""); }, timeout);
         return false;
     },
-
 }
