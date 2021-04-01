@@ -45,6 +45,7 @@ const admin_functions = {
             let content = marked(data);
             jQuery('.tab-about').html(content);
         });
+        jQuery("#wp-admin-bar-" + dmck_audioplayer.plugin_slug).css("font-style","italic");
     },
     submit_form(){
         jQuery(document.body).css({'cursor' : 'wait'});

@@ -141,7 +141,7 @@ if($playlist_config){
 <label>tag:</label> 
 <input type='text' name='tag' value='{$config->tag}' class='form-control form-control-sm' readonly />
 <select name='select_config_tag' onchange='admin_functions.config_update(this,\"{$config->id}\")'>
-	".playlist_config_options($tags, $config->tag, "string")."
+	".playlist_config_options($tags, $config->tag, "slug")."
 </select>
 
 <br>
