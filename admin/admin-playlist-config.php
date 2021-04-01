@@ -50,31 +50,34 @@ function playlist_config_default(){
 }
 function playlist_config_options($arry,$selected,$custom){
 	
-	$options="<option value=''>empty</option>";
+	$options = "";
+	$sel = " selected ";
 	foreach($arry as $arr){
 		switch ($custom) {
 			case "string":
 				$options .=  "
-<option value='$arr->name' ". (( $arr->name == $selected ) ? "selected" : "") .">( ID: $arr->term_id ) - $arr->name</option>";
+<option value='$arr->name' ". (( $arr->name == $selected ) ? $sel : "") .">$arr->name</option>";
 				break;
 			case "slug":
 				$options .=  "
-<option value='$arr->slug' ". (( $arr->slug == $selected ) ? "selected" : "") .">( ID: $arr->term_id ) - $arr->slug</option>";
+<option value='$arr->slug' ". (( $arr->slug == $selected ) ? $sel : "") .">$arr->slug</option>";
 				break;				
 			case "int":
 				$options .=  "
-<option value='$arr->term_id' ". (( $arr->term_id == $selected ) ? "selected" : "") .">( ID: $arr->term_id ) - $arr->name</option>";   
+<option value='$arr->term_id' ". (( $arr->term_id == $selected ) ? $sel : "") .">$arr->name - ( ID: $arr->term_id )</option>";   
 				break;
 			case "int(array)":
                 $options .=  "
-<option value='$arr->term_id' ". ( in_array($arr->term_id, $selected) ? "selected" : "" ) .">( ID: $arr->term_id ) - $arr->name</option>";  
+<option value='$arr->term_id' ". ( in_array($arr->term_id, $selected) ? $sel : "" ) .">$arr->name - ( ID: $arr->term_id )</option>";  
 				break;
 			case "slug(array)":
 				$options .=  "
-<option value='$arr->slug' ". ( in_array($arr->slug, $selected) ? "selected" : "" ) .">( ID: $arr->term_id ) - $arr->slug</option>";  
+<option value='$arr->slug' ". ( in_array($arr->slug, $selected) ? $sel : "" ) .">$arr->slug</option>";  
 				break;				
 		}
 	}
+	if(strpos($options, $sel)){ $sel = ""; }
+	$options = "<option value='' $sel >empty</option>". $options;
 	return $options;
 }
 
