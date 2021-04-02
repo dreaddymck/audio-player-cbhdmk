@@ -90,9 +90,10 @@ const admin_functions = {
     export_tables: function(){
         let url = dmck_audioplayer.site_url + "/wp-json/" + dmck_audioplayer.plugin_slug + "/" + dmck_audioplayer.plugin_version + "/api/export_tables";
         function download(str){
-            var elem = document.createElement('a');
+            let doc = window.location.hostname + "-" + dmck_audioplayer.plugin_slug + ".export." + Date.now() + ".sql"
+            let elem = document.createElement('a');
             elem.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(str));
-            elem.setAttribute('download', dmck_audioplayer.plugin_slug +".export."+ Date.now() +".sql");
+            elem.setAttribute('download', doc);
             elem.style.display = 'none';
             document.body.appendChild(elem);
             elem.click();

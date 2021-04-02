@@ -36,7 +36,7 @@ create table IF NOT EXISTS dmck_media_activity_referer_log (
         if ( !is_super_admin() ) return false;
         // $export_dir = $this->plug_dir_path ."export/";
         // if (!file_exists($export_dir)) { mkdir($export_dir, 0777, true); }        
-        $export_name = self::PLUGIN_SLUG . "-export-tables.sql";
+        // $export_name = self::PLUGIN_SLUG . "-export-tables.sql";
         $tables = array('dmck_media_activity_log','dmck_media_activity_referer_log');
         $mysqli = new \mysqli(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME );
         if ($mysqli->connect_error) { die("Connection failed: " . $mysqli->connect_error); }
