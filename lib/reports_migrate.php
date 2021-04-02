@@ -1,15 +1,17 @@
 <?php
 /*
 Migrates access log activity content to the latest version.
-Option: migrate
-Value(months history) : 12
-Flag(drop tables if exist):1 
+option:         Arg[1] - \"migrate\"
+value months:   Arg[2] - null value or number > 0
+drop tables:    Arg[3] - null value or 1
+debug:          Arg[4] - null value or 1
+NOTICE: if plugin is symlinked, then require '.../wp-load.php' path MUST modified to reflect sandbox being migrated
 
 */
 
 namespace DMCK_WP_MEDIA_PLUGIN;
 try{
-    require_once(dirname(__FILE__) . "/../../../../wp-load.php");
+    require_once(preg_replace('/wp-content.*$/','',__DIR__)."/wp-load.php");
     require_once(dirname(__FILE__) . "/trait/access-logs.php");
 	require_once(dirname(__FILE__) . "/trait/wavform.php");
     require_once(dirname(__FILE__) . "/trait/utilities.php");
@@ -31,6 +33,7 @@ class dmck_reports_migrate{
 
     function __construct() {
         $this->setTimezone();
+
         if ( isset($_SERVER['REQUEST_METHOD'] )) { exit( header("Location: ".get_bloginfo('url')) ); }
         if($this::parameters()) {
             switch ($this->option) {
@@ -41,7 +44,7 @@ class dmck_reports_migrate{
                         $this->migrate();
                         $this->response = "\r\nFinished\r\n";
                     }else{
-                        $this->response = "\r\nTable dmck_audio_log_reports does not exist. Exiting\r\n";
+                        $this->response = "\r\n". DB_NAME . ".dmck_audio_log_reports does not exist. Exiting\r\n";
                     }
                     break;
                 default:
@@ -49,15 +52,29 @@ class dmck_reports_migrate{
             
         }else{
             $this->response = "
-DMCK database migration script, parameters subject to change.
-
-Parameter[1] - text: \"migrate\"
-Parameter[2] - numeric default: 1
-Parameter[3] - bool: true
+Migration script for ". DB_NAME . ".(dmck_media_activity_log|dmck_media_activity_referer_log). 
+Plugin directory: ".ABSPATH."
+Arguments below subject to change.
+option:         Arg[1] - \"migrate\"
+value months:   Arg[2] - null value or number > 0
+drop tables:    Arg[3] - null value or 1
+debug:          Arg[4] - null value or 1
+NOTICE: if plugin is symlinked, then require '.../wp-load.php' path MUST modified to reflect sandbox being migrated
 ";
         }
         exit($this->response);
     }
+    function parameters()
+    {
+        if( !empty( $_SERVER["argv"] ) ){
+            $this->option  = !empty($_SERVER["argv"][1]) ? $_SERVER["argv"][1] : "";
+            $this->value  = !empty($_SERVER["argv"][2]) ? $_SERVER["argv"][2] : "";
+            $this->flag  = !empty($_SERVER["argv"][3]) ? $_SERVER["argv"][3] : "";
+            $this->debug  = !empty($_SERVER["argv"][4]) ? $_SERVER["argv"][4] : "";
+            if( !empty($this->option) && !empty($this->value) ){ return true; }
+        }
+        return false;
+    }    
     function table_exists(){ return $this->query("SHOW TABLES LIKE 'dmck_audio_log_reports'"); }
     function table(){
 
@@ -102,17 +119,7 @@ Parameter[3] - bool: true
         }
         return;
     }
-    function parameters()
-    {
-        if( !empty( $_SERVER["argv"] ) ){
-            $this->option  = !empty($_SERVER["argv"][1]) ? $_SERVER["argv"][1] : "";
-            $this->value  = !empty($_SERVER["argv"][2]) ? $_SERVER["argv"][2] : "";
-            $this->flag  = !empty($_SERVER["argv"][3]) ? $_SERVER["argv"][3] : "";
-            $this->debug  = !empty($_SERVER["argv"][4]) ? $_SERVER["argv"][4] : false;            
-            if( !empty($this->option) && !empty($this->value) ){ return true; }
-        }
-        return false;
-    }
+
 
 }
 
