@@ -3,7 +3,7 @@
 Plugin Name: (DMCK) audio player
 Plugin URI: dreaddymck.com
 Description: Just another audio thingy. Can be used to generate playlists and simple charts. Shortcode [dmck-audioplayer]
-Version: v1.0.2-243-g6dea4b1
+Version: v1.0.2-245-gfc33499
 Author: dreaddymck
 Author URI: dreaddymck.com
 License: GPL2
@@ -51,6 +51,7 @@ if (!class_exists("dmck_audioplayer")) {
 		public $plugin_version;
 		public $plugin_url;
 		public $theme_url;
+		public $plugin_dir_path;
 		
 		public $posts_per_page;
 		public $tag;
@@ -64,6 +65,7 @@ if (!class_exists("dmck_audioplayer")) {
 			$this->set_plugin_version();
 			$this->plugin_title = '(DMCK)Audio:' . $this->plugin_version;
 			$this->plugin_url 	= plugins_url("/",__FILE__);
+			$this->plug_dir_path = plugin_dir_path( __FILE__ );
 			$this->theme_url	= dirname( get_bloginfo('stylesheet_url') );			
 			$this->site_url     = get_site_url();
 			$this->cron_name 	= self::PLUGIN_SLUG . "_cronjob";
@@ -73,8 +75,8 @@ if (!class_exists("dmck_audioplayer")) {
 
 			add_action( 'init', array( $this, '_init_actions'));
 			add_action( 'admin_init', array( $this, 'register_settings') );
-			add_action('add_meta_boxes', array($this, 'add_meta_box_hook') );
-			add_action('save_post',      array( $this, 'save_meta_box_hook') );			
+			add_action( 'add_meta_boxes', array($this, 'add_meta_box_hook') );
+			add_action( 'save_post',      array( $this, 'save_meta_box_hook') );			
 			add_action( 'admin_menu', array( $this, 'admin_menu' ));			
 			add_action( 'admin_enqueue_scripts', array($this, 'admin_scripts') );
 			add_action( 'admin_bar_menu', array( $this, 'admin_bar_setup'), 999);
@@ -85,7 +87,7 @@ if (!class_exists("dmck_audioplayer")) {
 			add_action( 'wp', array($this, 'cronstarter_activation'));
 			add_action( $this->cron_name."_daily", array($this, 'wp_cron_functions_daily')); 
 			add_action( 'rest_api_init', function () {
-				$namespace = self::PLUGIN_SLUG.'/v'.$this->plugin_version;
+				$namespace = self::PLUGIN_SLUG.'/'.$this->plugin_version;
 				register_rest_route( $namespace,'api/(?P<option>[\w]+)' ,array(
 					'methods'   =>  \WP_REST_Server::READABLE,
 					'callback'  =>  array($this, 'handle_requests'),

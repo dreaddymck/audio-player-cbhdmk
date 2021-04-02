@@ -87,6 +87,43 @@ const admin_functions = {
         jQuery("textarea[name='playlist_config']").val(JSON.stringify(config,"",8));
 
     },
+    export_tables: function(){
+        let url = dmck_audioplayer.site_url + "/wp-json/" + dmck_audioplayer.plugin_slug + "/" + dmck_audioplayer.plugin_version + "/api/export_tables";
+        function download(str){
+            var elem = document.createElement('a');
+            elem.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(str));
+            elem.setAttribute('download', dmck_audioplayer.plugin_slug +".export."+ Date.now() +".sql");
+            elem.style.display = 'none';
+            document.body.appendChild(elem);
+            elem.click();
+            document.body.removeChild(elem);            
+        }
+        new Promise(function (resolve, reject) {
+            jQuery.ajax({
+                type: "GET",
+                url: url,
+                beforeSend: function (xhr) {
+                    xhr.setRequestHeader('X-WP-Nonce', dmck_audioplayer.nonce);
+                },
+            })
+            .done(function (data) { resolve(data); })
+            .fail(function (xhr, textStatus, errorThrown) {
+                // console.log(errorThrown);
+                reject(false);
+            });
+        })
+        .then(
+            function (results) {
+                jQuery(document.body).css({'cursor' : 'default'});
+                console.log(results);
+                download(results)
+             },
+            function (error) {
+                jQuery(document.body).css({'cursor' : 'default'});
+                admin_functions.notice(".notice-error", error);
+             }
+        );        
+    },
     string_to_slug: function (str)
     {
         str = str.replace(/^\s+|\s+$/g, ''); // trim

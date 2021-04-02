@@ -86,7 +86,7 @@ EOF;
 $unset_queue = array();
 
 foreach($playlist_data["top_10_json"] as $key => $value) { 
-	if( !$value["ID"] ){
+	if( !isset($value["ID"]) || empty($value["ID"]) ){
 		$unset_queue[] = $key;
 		continue;
 	}

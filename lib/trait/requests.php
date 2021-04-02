@@ -14,6 +14,9 @@ trait _requests {
 			case "get_my_ip":
 				$response = $this->get_my_ip();
 				break;
+			case "export_tables":
+				$response = $this->export_tables();
+				break;				
             default:
         }
         return $response;
@@ -41,22 +44,8 @@ trait _requests {
 		return $this->_requests_get_posts($args);
 	}
 	function param_request($data){
-		// global $wpdb;
 		$params 				= $data->get_params();
 		$response				= $this->obj_request((object)$params);
-		// $args = array(
-		// 	's'					=> !empty($params["s"]) ? urldecode($params["s"] ) : "",
-		// 	'posts_per_page' 	=> !empty($params["posts_per_page"]) ? $params["posts_per_page"]  : -1,
-		// 	'post_status'   	=> !empty($params["post_status"]) ? $params["post_status"] : "published",
-		// 	'orderby'          	=> !empty($params["orderby"]) ? $params["orderby"] : "",
-		// 	'order'            	=> !empty($params["order"]) ? $params["order"] : "",
-		// 	'tag'				=> !empty($params["tag"]) ? $params["tag"] : "",
-		// 	'tag__in' 			=> !empty($params["tag_in"]) ? $params["tag_in"] : "",
-		// 	'tag__not_in'		=> !empty($params["tag_not_in"]) ? $params["tag_not_in"] : "",
-		// 	'tag_slug__and'		=> !empty($params["tag_slug__and"]) ? $params["tag_slug__and"] : "",
-		// );
-		// return $this->_requests_get_posts($args);
-
 		return $response;
 	}
 	function _requests_get_posts($args){
