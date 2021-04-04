@@ -1,7 +1,6 @@
 "use strict";
 
 const admin_events = {
-
     init: function(){
         jQuery('ul.parent-tabs li').click(function () {
             var tab_id = jQuery(this).attr('data-tab');
@@ -106,7 +105,10 @@ const admin_events = {
                 console.log(resp);
                 return;
             }
-            upload.init(callback);
+            upload.init({
+                "callback": callback,
+                "input": jQuery('input[name*="admin-upload"]')
+            });
         });
     }
 }

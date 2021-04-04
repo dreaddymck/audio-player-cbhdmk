@@ -99,6 +99,7 @@ create table IF NOT EXISTS dmck_media_activity_referer_log (
                 }
             } $content .="\n\n\n";            
         }
+        $content = "DROP TABLE IF EXISTS dmck_media_activity_log;\n\rDROP TABLE IF EXISTS dmck_media_activity_referer_log;".$content;
         //$backup_name = $backup_name ? $backup_name : $name."___(".date('H-i-s')."_".date('d-m-Y').")__rand".rand(1,11111111).".sql";
         // header('Content-Type: application/octet-stream');   
         // header("Content-Transfer-Encoding: Binary"); 

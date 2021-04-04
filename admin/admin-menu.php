@@ -38,7 +38,7 @@
 				<input type="checkbox" name="delete_options_on_inactive"  class="form-control form-control-sm" value="1" <?php if (1 == get_option('delete_options_on_inactive')) echo 'checked="checked"'; ?> >
 				<label>Delete saved options</label>
 				<br>
-				<a class="button" id="export-tables" onclick="admin_functions.export_tables()">Export Tables</a>
+				<a class="button" id="export-tables" onclick="admin_functions.export_tables()">Export</a>
 				<hr>
 				<input type="checkbox" name="audio_control_enabled"  class="form-control form-control-sm" value="1" <?php if (1 == get_option('audio_control_enabled')) echo 'checked="checked"'; ?> >
 				<label>Audio Control Display</label>

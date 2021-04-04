@@ -2,7 +2,6 @@
 namespace DMCK_WP_MEDIA_PLUGIN;
 trait _requests {
 	public $path;
-	function handle_requests($data){ return $this->requests($data); }
     function requests($data){
 		$response = "{}";
 		$opt = $data;
@@ -14,6 +13,9 @@ trait _requests {
 			case "get_my_ip":
 				$response = $this->get_my_ip();
 				break;
+			case "upload":
+				$response = $this->upload();
+				break;				
 			case "export_tables":
 				$response = $this->export_tables();
 				break;				
@@ -21,6 +23,16 @@ trait _requests {
         }
         return $response;
     }
+	function upload(){
+		//TODO: handle multiple files.
+		$response  = (object) array();	
+		$response->status = false;
+		foreach($_FILES as $file){
+			$response->location = "/tmp/".basename($file['name']);
+			$response->status = move_uploaded_file($file['tmp_name'], $response->location); 
+		}
+		return json_encode($response);
+	}
 	function obj_request($obj) {
 		$args = array(
 			's'					=> isset($obj->s) && !empty($obj->s) ? "/".urldecode($obj->s)  : null,
@@ -31,8 +43,8 @@ trait _requests {
 			'tag'				=> isset($obj->tag) && !empty($obj->tag) ? $obj->tag  : null,
 			'tag_id'			=> isset($obj->tag_id) && !empty($obj->tag_id) ? $obj->tag_id  : null,
 			'tag__and'			=> isset($obj->tag__and) && !empty($obj->tag__and) ? $obj->tag__and  : null,
-			'tag__in' 			=> isset($obj->tag_in) && !empty($obj->tag_in) ? $obj->tag_in : null, //array (id)
-			'tag__not_in'		=> isset($obj->tag_not_in) && !empty($obj->tag_not_in) ? $obj->tag_not_in : null, //array (id)
+			'tag__in' 			=> isset($obj->tag_in) && !empty($obj->tag_in) ? $obj->tag_in : null,
+			'tag__not_in'		=> isset($obj->tag_not_in) && !empty($obj->tag_not_in) ? $obj->tag_not_in : null, 
 			'tag_slug__and'		=> isset($obj->tag_slug__and) && !empty($obj->tag_slug__and) ? $obj->tag_slug__and : null,
 			'tag_slug__in'		=> isset($obj->tag_slug__in) && !empty($obj->tag_slug__in) ? $obj->tag_slug__in : null,
 			'cat'				=> isset($obj->cat) && !empty($obj->cat) ? $obj->cat : null,
