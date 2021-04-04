@@ -3,7 +3,7 @@
 Plugin Name: (DMCK) audio player
 Plugin URI: dreaddymck.com
 Description: Just another audio thingy. Can be used to generate playlists and simple charts. Shortcode [dmck-audioplayer]
-Version: v1.0.2-247-gad46874
+Version: v1.0.2-248-gae5937a
 Author: dreaddymck
 Author URI: dreaddymck.com
 License: GPL2
@@ -11,6 +11,7 @@ License: GPL2
 TODO: Add support for youtube/libry.tv support
 TODO: check to see if insert on duplicate update is better option.
 TODO: render week, month, request activity per item.
+TODO: clean duplicate post meta _thumbnail_id
 
 */
 namespace DMCK_WP_MEDIA_PLUGIN;

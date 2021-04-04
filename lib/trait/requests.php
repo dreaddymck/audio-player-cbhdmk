@@ -15,21 +15,21 @@ trait _requests {
 				break;
 			case "upload":
 				$response = $this->upload();
-				break;				
+				break;
 			case "export_tables":
 				$response = $this->export_tables();
-				break;				
+				break;
             default:
         }
         return $response;
     }
 	function upload(){
 		//TODO: handle multiple files.
-		$response  = (object) array();	
+		$response  = (object) array();
 		$response->status = false;
 		foreach($_FILES as $file){
 			$response->location = "/tmp/".basename($file['name']);
-			$response->status = move_uploaded_file($file['tmp_name'], $response->location); 
+			$response->status = move_uploaded_file($file['tmp_name'], $response->location);
 		}
 		return json_encode($response);
 	}
@@ -44,7 +44,7 @@ trait _requests {
 			'tag_id'			=> isset($obj->tag_id) && !empty($obj->tag_id) ? $obj->tag_id  : null,
 			'tag__and'			=> isset($obj->tag__and) && !empty($obj->tag__and) ? $obj->tag__and  : null,
 			'tag__in' 			=> isset($obj->tag_in) && !empty($obj->tag_in) ? $obj->tag_in : null,
-			'tag__not_in'		=> isset($obj->tag_not_in) && !empty($obj->tag_not_in) ? $obj->tag_not_in : null, 
+			'tag__not_in'		=> isset($obj->tag_not_in) && !empty($obj->tag_not_in) ? $obj->tag_not_in : null,
 			'tag_slug__and'		=> isset($obj->tag_slug__and) && !empty($obj->tag_slug__and) ? $obj->tag_slug__and : null,
 			'tag_slug__in'		=> isset($obj->tag_slug__in) && !empty($obj->tag_slug__in) ? $obj->tag_slug__in : null,
 			'cat'				=> isset($obj->cat) && !empty($obj->cat) ? $obj->cat : null,
@@ -74,8 +74,8 @@ trait _requests {
         $resp = $conn->query($query);
         if( $resp instanceof \mysqli_result ) { while ($row = $resp->fetch_assoc()) { array_push($results, $row); } }
         $conn->close();
-        return $results;        
-    }	
+        return $results;
+    }
 	function query($sql){
 		$conn = new \mysqli(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME );
 		if ($conn->connect_error) { die("Connection failed: " . $conn->connect_error); }
@@ -94,19 +94,20 @@ trait _requests {
 			if( $b["count"] < $a["count"] ) return -1;
 			return ($b["time"] < $a["time"]) ? -1 : 1;
 		});
-		if($limit){ $json = array_slice($json,0,$limit); }		
+		if($limit){ $json = array_slice($json,0,$limit); }
 		foreach($json as $key=>$value) {
 
 			$param = (object) array('s' => $value["name"]);
-			$p = json_decode($this->obj_request( $param ));
+			$p = json_decode( $this->obj_request( $param ));
 
 			foreach($p as $e){
-
 				if(basename($e->mp3) == $value["name"]){
-
-					$title = pathinfo($e->mp3, PATHINFO_FILENAME); 
-					$title = preg_replace('/^\w*\s?.\-/', '', $title);					
-					$date = date('m/d/Y h:i:s a', $value["time"]);		
+					$title = pathinfo($e->mp3, PATHINFO_FILENAME);
+					$media_filename_regex = esc_attr( get_option('media_filename_regex') );
+					if($media_filename_regex){
+						$title = preg_replace($media_filename_regex, '', $title);
+					}
+					$date = date('m/d/Y h:i:s a', $value["time"]);
 					$json[$key]["title"] = $title;
 					$json[$key]["date"] = $date;
 					$json[$key]["ID"] = $e->ID;
@@ -125,12 +126,12 @@ trait _requests {
 	function render_elements($posts) {
 		$response = array();
 		$is_secure = $this->isSecure();
-		foreach ( $posts as $post ) { 
+		foreach ( $posts as $post ) {
 			setup_postdata( $post );
 			if(get_post_status($post->ID) != "publish" ){ continue; }
 			$audio 		= $this->extract_embedded_media( $post->post_content );
-			if(empty($audio[0])) { continue; }			
-			foreach($audio as $a){			
+			if(empty($audio[0])) { continue; }
+			foreach($audio as $a){
 				$a = urldecode($a);
 				$object 				= new \stdClass();
 				$object->ID		        = $post->ID;
@@ -144,10 +145,10 @@ trait _requests {
 					$object->wavformjson	= preg_replace("/^http:/i", "https:", $object->wavformjson);
 				}
 				$title = pathinfo($a, PATHINFO_FILENAME);
-				$media_filename_regex = esc_attr( get_option('media_filename_regex') ); 
-				if($media_filename_regex){ 
-					$title = preg_replace($media_filename_regex, '', $title); // /^\w*\s?.\-/i /dreaddymck.?[.*\-]\s?/i
-				}				
+				$media_filename_regex = esc_attr( get_option('media_filename_regex') );
+				if($media_filename_regex){
+					$title = preg_replace($media_filename_regex, '', $title);
+				}
 				$object->title		= esc_attr($title);
 				$object->rating		= 0;
 				$object->cover		= $this->fetch_the_post_thumbnail_src( $post );
@@ -174,7 +175,7 @@ trait _requests {
 			libxml_use_internal_errors(true);
 			$dom->loadHTML($post->post_content);
 			$xpath = new \DOMXpath($dom);
-			$src = $xpath->query("//img/attribute::src");			
+			$src = $xpath->query("//img/attribute::src");
 			if($src->length){
 				foreach( $src as $s ) {
 					$img = $s->nodeValue;
@@ -235,7 +236,7 @@ trait _requests {
 		$arr = array();
 		if( empty( get_option("playlist_config") ) ){ return; }
 		$arr["playlist_json"] = json_decode(get_option("playlist_config"));
-		$arr["top_10_json"] = $this->media_activity_today($limit=10);
+		$arr["top_10_json"] = $this->media_activity_today($limit=10); //TODO: make limit an admin option
 		return $arr;
-	}	
+	}
 }
