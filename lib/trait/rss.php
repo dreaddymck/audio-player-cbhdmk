@@ -49,6 +49,6 @@ trait _rss {
         );
         // var_dump($args);
         query_posts($args);
-        include('wp-includes/feed-rss2.php');
+        include('wp-includes/feed-atom.php');
     }
 }
