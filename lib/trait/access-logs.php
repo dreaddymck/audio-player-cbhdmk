@@ -73,7 +73,7 @@ order by
         $pattern = $access_log_pattern ? $access_log_pattern : "/.mp3/i";
         if($this->debug){
             $pattern = $this->filename  ? $this->filename : $pattern;
-            $this->_log("PATTERN: " . $pattern);
+            echo ("PATTERN: " . $pattern."\n");
         }
         try{
             $handle = fopen($this->filepath,'r');
@@ -94,8 +94,10 @@ order by
             while (!feof($handle)) {
                 $dd = fgets($handle);
                 preg_match($regex , urldecode($dd), $matches);
-                // echo( urldecode($dd) ."\n\r");
-                // echo( print_r($matches,1) );
+                if($this->debug){                
+                    echo( urldecode($dd) ."\n\r");
+                    // echo( print_r($matches,1) );
+                }
                 if(!empty($matches) && preg_match( $pattern , $matches[8] ) ){
                     if( $ignore_ip_enabled && $ignore_ip_json ){
                         $found_ip = false;
@@ -107,7 +109,7 @@ order by
                         }
                         if($found_ip){ continue; }
                     }
-                    if($this->debug){ $this->_log($matches); }
+                    if($this->debug){ echo (print_r($matches,1))."\n"; }
                     $name = basename($matches[8]);
                     $time = $matches[4] .":".$matches[5]." ".$matches[6];
                     $time = strtotime( $time );
@@ -116,29 +118,31 @@ order by
                     if( isset( $arr[$name] ) ) {
                         $arr[$name]["count"] += 1;
                         $arr[$name]["time"]  =  $time ? $time : $arr[$name]["time"];
-                        $arr[$name]["referer"]  =  $referer;
+                        if( ! in_array( $referer, $arr[$name]["referer"] ) ){
+                            $arr[$name]["referer"][]  =  $referer;
+                        }
+                        
                     } else {
                         $arr[$name] = array(
                             "count" => 1,
                             "time" => $time,
                             "name" => $name,
-                            "referer" => $referer );
+                            "referer" => array($referer) );
                     }
                 }
             }
 
             fclose($handle);
-
             foreach($arr as $a){
                 $elements = json_decode($this->obj_request( (object) array('s' => $a["name"]) ));
                 foreach($elements as $e){
                     if(basename($e->mp3) == $a["name"]){
                         $a["ID"] = $e->ID;
-                        $this->dmck_media_activity_tables($a);
+                        $results = $this->dmck_media_activity_tables($a);
                     }
                 }
             }
-            return json_encode($results);
+            return "Done\n\r";
         }
         catch (\Exception $e) { echo 'Caught \Exception: ', $e->getMessage(), "\n"; }
         return;
@@ -147,7 +151,7 @@ order by
 
         $a = (object) $a;
 
-        $query = "SELECT id FROM dmck_media_activity_log WHERE `post_id`=$a->ID AND media = '$a->name' AND DATE(time)=DATE(FROM_UNIXTIME($a->time))";
+        $query = "SELECT id FROM dmck_media_activity_log WHERE LOWER(media) = LOWER('$a->name') AND DATE(time)=DATE(FROM_UNIXTIME($a->time))";
         if($this->debug){error_log($query);}
         $results = $this->query($query);
         if(empty($results)){
@@ -160,11 +164,19 @@ order by
             $results = $this->query( $query );
         }
 
-        $query = "SELECT id FROM dmck_media_activity_referer_log WHERE post_id={$a->ID} AND UNIX_TIMESTAMP(time)='{$a->time}' AND referer='{$a->referer}'";
+
+        $query = "SELECT id FROM dmck_media_activity_referer_log WHERE post_id={$a->ID} AND UNIX_TIMESTAMP(time)='{$a->time}'";
         if($this->debug){error_log($query);}
         $results = $this->query($query);
+        
+        $referer = implode(",",$a->referer);
+
         if(empty($results)){
-            $query = "INSERT INTO dmck_media_activity_referer_log (post_id,referer,time) VALUES ({$a->ID},'{$a->referer}',FROM_UNIXTIME({$a->time}))";
+            $query = "INSERT INTO dmck_media_activity_referer_log (post_id,referer,time) VALUES ({$a->ID},'{$referer}',FROM_UNIXTIME({$a->time}))";
+            if($this->debug){error_log($query);}
+            $results = $this->query( $query );
+        }else{
+            $query = "UPDATE dmck_media_activity_referer_log set referer='{$referer}', time=FROM_UNIXTIME({$a->time})) WHERE id={$results[0][0]}";
             if($this->debug){error_log($query);}
             $results = $this->query( $query );
         }

@@ -33,6 +33,13 @@ class dmck_reports{
                     $response = $this->wavform();        
                     break;                                
                 default:
+                    $response = "
+Missing parameters.
+Argv[0]: (commands) (put|wavform)
+Argv[1]: Path
+Argv[2]: Filename
+Argv[3]: (debug) true
+";
             }   
             exit($response);
         }

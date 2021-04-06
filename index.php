@@ -2,18 +2,18 @@
 /*
 Plugin Name: (DMCK) audio player
 Plugin URI: dreaddymck.com
-Description: Just another audio thingy. Can be used to generate playlists and simple charts. Shortcode [dmck-audioplayer]
-Version: v1.0.2-249-g6aba513
+Description: Just another media thingy. Can be used to generate playlists and simple charts. Shortcode [dmck-audioplayer]
+Version: v1.0.2-250-g90558a7
 Author: dreaddymck
 Author URI: dreaddymck.com
 License: GPL2
 
-TODO: Fix rss feed not rendering media correctly
-TODO: Add support for youtube/libry.tv support
-TODO: check to see if insert on duplicate update is better option.
+TODO: expand rss.php parameters.
+TODO: Test atom rss feeds with vlc
+TODO: Add support for embedded videos as playlist items
 TODO: render week, month, request activity per item.
-TODO: clean duplicate post meta _thumbnail_id
-
+TODO: Gutenberg block support.
+TODO: Widget support
 */
 namespace DMCK_WP_MEDIA_PLUGIN;
 // error_reporting(E_ALL);
@@ -86,8 +86,8 @@ if (!class_exists("dmck_audioplayer")) {
 			add_action( 'wp_head', array($this, 'head_hook') );
 			add_action( 'login_head', array($this, 'head_hook') );
 			add_action( 'admin_head', array($this, 'head_hook') );
-			add_action( 'wp', array($this, 'cronstarter_activation'));
-			add_action( $this->cron_name."_daily", array($this, 'wp_cron_functions_daily')); 
+			// add_action( 'wp', array($this, 'cronstarter_activation'));
+			// add_action( $this->cron_name."_daily", array($this, 'wp_cron_functions_daily')); 
 			add_action( 'rest_api_init', function () {
 				$namespace = self::PLUGIN_SLUG.'/'.$this->plugin_version;
 				register_rest_route( $namespace,'api/(?P<option>[\w]+)' ,array(
@@ -99,7 +99,7 @@ if (!class_exists("dmck_audioplayer")) {
 			});			
 			add_filter( 'get_the_excerpt', array($this,'the_exerpt_filter'));
 			add_filter( 'the_content', array($this,'content_handler'));			
-			add_filter( 'cron_schedules', array($this, 'cron_add_minute'));
+			// add_filter( 'cron_schedules', array($this, 'cron_add_minute'));
 			require_once(plugin_dir_path(__FILE__)."blocks/example-block/example-block.php");			
 		}
 		function _init_actions(){
