@@ -14,7 +14,15 @@ const admin_events = {
             jQuery('.playlist-config-tab-content').removeClass('current');
             jQuery("#playlist-config-tab-" + index).addClass('current');
             admin_functions.cookie.set({ "playlist_config_selected": index });
-        });        
+        });  
+        jQuery('select[name="select_config_meta_tags"]').change(function () {
+            let id = jQuery(this).val();
+            jQuery('div.config_post_meta_tags').removeClass('current');
+            if(id){
+                jQuery("div#" + id).addClass('current');
+                // admin_functions.cookie.set({ "playlist_config_selected": index });
+            }
+        });               
         jQuery('.playlist_config_add').click(function(e){
             e.preventDefault();
             let id = prompt("Enter unique identifier","");

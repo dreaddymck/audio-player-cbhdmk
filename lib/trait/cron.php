@@ -8,12 +8,7 @@ trait _cron {
     public $cron_jobs;    
 	
     function __construct(){}  
-    function wp_cron_functions_daily() {
-        // try{
-        //     $this->accesslog_activity_purge();
-        // }
-        // catch (Exception $e) { error_log($e); }   
-    }
+    function wp_cron_functions_daily() {}
     function cronstarter_deactivate() {	
         $timestamp = wp_next_scheduled ($this->cron_name);			
         // unschedule previous event if any

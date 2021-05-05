@@ -3,17 +3,16 @@
 Plugin Name: (DMCK) audio player
 Plugin URI: dreaddymck.com
 Description: Just another media thingy. Can be used to generate playlists and simple charts. Shortcode [dmck-audioplayer]
-Version: v1.0.2-250-g90558a7
+Version: v1.0.2-251-g8f2d79d
 Author: dreaddymck
 Author URI: dreaddymck.com
 License: GPL2
 
 TODO: expand rss.php parameters.
-TODO: Test atom rss feeds with vlc
+TODO: Fix rss feeds to properly include media files
 TODO: Add support for embedded videos as playlist items
 TODO: render week, month, request activity per item.
 TODO: Gutenberg block support.
-TODO: Widget support
 */
 namespace DMCK_WP_MEDIA_PLUGIN;
 // error_reporting(E_ALL);
@@ -24,7 +23,7 @@ if (!class_exists("dmck_audioplayer")) {
 	require_once(plugin_dir_path(__FILE__)."lib/trait/wavform.php");	
 	require_once(plugin_dir_path(__FILE__)."lib/trait/utilities.php");
 	require_once(plugin_dir_path(__FILE__)."lib/trait/tables.php");
-	require_once(plugin_dir_path(__FILE__)."lib/trait/cron.php");
+	// require_once(plugin_dir_path(__FILE__)."lib/trait/cron.php");
 	require_once(plugin_dir_path(__FILE__)."lib/trait/rss.php");
 	require_once(plugin_dir_path(__FILE__)."lib/trait/requests.php");
 	require_once(plugin_dir_path(__FILE__)."lib/trait/meta_box.php");
@@ -36,7 +35,7 @@ if (!class_exists("dmck_audioplayer")) {
 		use _wavform;
 		use _utilities;
 		use _tables;
-		use _cron;
+		// use _cron;
 		use _rss;
 		use _requests;
 		use _meta_box;
@@ -70,7 +69,7 @@ if (!class_exists("dmck_audioplayer")) {
 			$this->plug_dir_path = plugin_dir_path( __FILE__ );
 			$this->theme_url	= dirname( get_bloginfo('stylesheet_url') );			
 			$this->site_url     = get_site_url();
-			$this->cron_name 	= self::PLUGIN_SLUG . "_cronjob";
+			// $this->cron_name 	= self::PLUGIN_SLUG . "_cronjob";
 
 			register_activation_hook( __FILE__, array($this, 'register_activation' ) );
 			register_deactivation_hook (__FILE__, array($this, 'register_deactivation'));
@@ -124,7 +123,11 @@ if (!class_exists("dmck_audioplayer")) {
 		}
 		function admin_scripts($hook_suffix) {			
 			if ( $this->settings_page == $hook_suffix ) {
-				$this->shared_scripts();				
+				$this->shared_scripts();	
+				wp_enqueue_style( 'pure.css',  $this->plugin_url . "node_modules/purecss/build/pure-min.css", array(), $this->plugin_version);
+				wp_enqueue_style( 'base-min.css',  $this->plugin_url . "node_modules/purecss/build/base-min.css", array(), $this->plugin_version);
+				wp_enqueue_style( 'grids-min.css',  $this->plugin_url . "node_modules/purecss/build/grids-min.css", array(), $this->plugin_version);
+				wp_enqueue_style( 'grids-responsive-min.css',  $this->plugin_url . "node_modules/purecss/build/grids-responsive-min.css", array(), $this->plugin_version);
 				wp_enqueue_style( 'admin.css',  $this->plugin_url . "admin/admin.css", array(), $this->plugin_version);
 				wp_enqueue_script( 'marked.min.js', $this->plugin_url . 'assets/js/marked.min.js', array('jquery'), $this->plugin_version, true );				
 				wp_enqueue_script( 'admin-events.js', $this->plugin_url . 'admin/admin-events.js', array('jquery'), $this->plugin_version, true );
@@ -154,8 +157,6 @@ if (!class_exists("dmck_audioplayer")) {
 			wp_enqueue_script( 'jquery.cookie.js', $this->plugin_url . 'node_modules/jquery.cookie/jquery.cookie.js', array('jquery'), $this->plugin_version, true );
 			wp_enqueue_style( 'font-awesome.min.css',  $this->plugin_url . "/node_modules/font-awesome/css/font-awesome.min.css", array(), $this->plugin_version);
 			wp_enqueue_script( 'functions.js', $this->plugin_url . 'assets/js/functions.js', array('jquery'), $this->plugin_version, true );	
-			wp_enqueue_style( 'bootstrap.css',  $this->plugin_url . "node_modules/bootstrap/dist/css/bootstrap.min.css", array(), $this->plugin_version);		
-			wp_enqueue_script( 'bootstrap.js', $this->plugin_url . 'node_modules/bootstrap/dist/js/bootstrap.min.js', array( 'jquery' ), '', true );					
 		}
 		function localize_vars(){
 			global $post,$wp_query;

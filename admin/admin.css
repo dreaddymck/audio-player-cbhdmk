@@ -1,52 +1,50 @@
 pre {
-    white-space: pre-wrap;       /* Since CSS 2.1 */
-    white-space: -moz-pre-wrap;  /* Mozilla, since 1999 */
-    white-space: -pre-wrap;      /* Opera 4-6 */
-    white-space: -o-pre-wrap;    /* Opera 7 */
-    word-wrap: break-word;       /* Internet Explorer 5.5+ */
+    white-space: pre-wrap;
+    /* Since CSS 2.1 */
+    white-space: -moz-pre-wrap;
+    /* Mozilla, since 1999 */
+    white-space: -pre-wrap;
+    /* Opera 4-6 */
+    white-space: -o-pre-wrap;
+    /* Opera 7 */
+    word-wrap: break-word;
+    /* Internet Explorer 5.5+ */
 }
+.pure-menu-horizontal { white-space: inherit; }
+.pure-form select{width: 100%;}
+.pure-form select[multiple]{width: 100%;}
+.wp-core-ui select {
+	line-height:inherit;
+	height:inherit
+}
+select {
+    width: 100%;
+}
+
 .container {
     margin: 0 auto;
 }
+
 .admin-container label {
-	text-transform: capitalize;
-	font-weight: bolder;
+    text-transform: capitalize;
+    font-weight: bolder;
 }
-ul.parent-tabs, ul.playlist-config-tabs {
-    margin: 0px;
-    padding: 0px;
-    list-style: none;
-}
-ul.parent-tabs li, ul.playlist-config-tabs li {
-    background: none;
-    color: #222;
-    display: inline-block;
-    padding: 10px 15px;
-    cursor: pointer;
-}
-ul.parent-tabs li.current {
-    background: #ededed;
-    color: #222;
-    border-left: 1px solid #ddd;
-    border-right: 1px solid #ddd;
-    border-top: 1px solid #ddd;
-    border-radius: 5px;
-    padding: 10px;    
-}
-ul.playlist-config-tabs li.current {
-    background: #f7f7f7;
-}
+
 .tab-content {
     display: none;
     background: #ededed;
     border-radius: 5px;
     padding: 15px;
 }
+
 .tab-content.current {
     display: inherit;
 }
-.playlist-config-tab-content{
-    background: #f7f7f7;
+
+div.config_post_meta_tags {
+    display:none;
 }
 
-
+div.config_post_meta_tags.current {
+    display:inherit;
+}

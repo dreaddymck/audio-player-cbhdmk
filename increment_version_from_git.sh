@@ -1,0 +1,1 @@
+/home/dreaddy/run/increment_version_from_git.sh

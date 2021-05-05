@@ -6,4 +6,3 @@ npm-debug.log
 error_log                                                                                                                                                   
 lib/error_log
 reports.sql 
-increment_version_from_git.sh

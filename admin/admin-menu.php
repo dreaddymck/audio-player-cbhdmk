@@ -1,52 +1,57 @@
 <?php ?>
 <div class="loading" style="text-align: center; width: 100%;"><img src="<?php echo plugins_url( 'assets/images/loading-nerd.gif', dirname(__FILE__) )?>" /></div>
 <?php $this->notices() ?>
-<form name="admin-settings-form" name="admin-settings-form" method="post" action="options.php">
+<form name="admin-settings-form" method="post" action="options.php" class="pure-form pure-form-stacked">
 <?php settings_fields( self::SETTINGS_GROUP ); ?>
 <?php do_settings_sections( self::SETTINGS_GROUP ); ?>
 <div class="admin-container" style="display:none;">
-	<ul class="parent-tabs tabs">
-		
-		<li class="tab-link current" data-tab="parent-tabs-1">Settings</li>
-		<li class="tab-link" data-tab="parent-tabs-4">Playlists</li>
-		<?php if( get_option('charts_enabled') ){ ?>
-		<li class="tab-link" data-tab="parent-tabs-5">Charts</li>
-		<li class="tab-link" data-tab="parent-tabs-7">Data</li>
-		<?php } ?>
-		<li class="tab-link" data-tab="parent-tabs-6">Git Commits</li>
-		<li class="tab-link" data-tab="parent-tabs-3">About</li>
-	</ul>
+
+
+	<div class="pure-menu pure-menu-horizontal">
+		<a class="pure-menu-heading pure-menu-link"><?php echo $this->plugin_title ?></a>
+		<ul class="pure-menu-list tabs-settings parent-tabs tabs">
+			<li class="pure-menu-item" data-tab="parent-tabs-1"><a href="#" class="pure-menu-link">Settings</a></li>
+			<li class="pure-menu-item" data-tab="parent-tabs-4"><a href="#" class="pure-menu-link">Playlists</a></li>
+			<?php if( get_option('charts_enabled') ){ ?>
+			<li class="pure-menu-item" data-tab="parent-tabs-5"><a href="#" class="pure-menu-link">Charts</a></li>
+			<li class="pure-menu-item" data-tab="parent-tabs-7"><a href="#" class="pure-menu-link">Data</a></li>
+			<?php } ?>
+			<li class="pure-menu-item" data-tab="parent-tabs-6"><a href="#" class="pure-menu-link">Plugin git commits</a></li>
+			<li class="pure-menu-item" data-tab="parent-tabs-3"><a href="#" class="pure-menu-link">About</a></li>                
+		</ul>
+	</div>
 	<?php submit_button(null,"primary small"); ?>
 	<div id="parent-tabs-1" class="parent-tab-content tab-content current">
-		<div class="row">
-			<div class="col-lg-6 form-group">
+		<div class="pure-g">
+			<div class="pure-u-1 pure-u-md-3-5">
 				<label for="default_album_cover"><?php _e('Default Album Cover'); ?></label>
-				<input type="text" name="default_album_cover"  title="Image url"  class="form-control form-control-sm" value="<?php echo esc_attr( get_option('default_album_cover') ); ?>"  required placeholder="Required">
+				<input type="text" name="default_album_cover"  title="Image url"  class="pure-input-1" value="<?php echo esc_attr( get_option('default_album_cover') ); ?>"  required placeholder="Required">
 				<hr />
 				<label for="favicon" ><?php _e('Favicon'); ?></label>
-				<textarea  name="favicon" class="form-control form-control-sm" title="ico url or base64"><?php echo esc_attr( get_option('favicon') ); ?></textarea>
-				<br />
+				<textarea  name="favicon" class="pure-input-1" title="ico url or base64"><?php echo esc_attr( get_option('favicon') ); ?></textarea>
+
 				<label><?php _e('More info (HTML or TEXT)'); ?></label>
-				<input type="text" name="moreinfo"  class="form-control form-control-sm" value="<?php echo esc_attr( get_option('moreinfo') ); ?>" title="This is useless atm">
+				<input type="text" name="moreinfo"  class="pure-input-1" value="<?php echo esc_attr( get_option('moreinfo') ); ?>" title="This is useless atm">
 			</div>
-			<div class="col-lg-6      form-group">
+			<div class="pure-u-1 pure-u-md-1-5">
 				<label>When plugin deactivated</label>
-				<br>
-				<input type="checkbox" name="drop_table_on_inactive"  class="form-control form-control-sm" value="1" <?php if (1 == get_option('drop_table_on_inactive')) echo 'checked="checked"'; ?> >
+				
+				<input type="checkbox" name="drop_table_on_inactive"  class="" value="1" <?php if (1 == get_option('drop_table_on_inactive')) echo 'checked="checked"'; ?> >
 				<label>Drop tables</label>
-				<br>
-				<input type="checkbox" name="delete_options_on_inactive"  class="form-control form-control-sm" value="1" <?php if (1 == get_option('delete_options_on_inactive')) echo 'checked="checked"'; ?> >
+				
+				<input type="checkbox" name="delete_options_on_inactive"  class="" value="1" <?php if (1 == get_option('delete_options_on_inactive')) echo 'checked="checked"'; ?> >
 				<label>Delete saved options</label>
-				<br>
+				
 				<a class="button" id="export-tables" onclick="admin_functions.export_tables()">Export</a>
 				<hr>
-				<input type="checkbox" name="audio_control_enabled"  class="form-control form-control-sm" value="1" <?php if (1 == get_option('audio_control_enabled')) echo 'checked="checked"'; ?> >
 				<label>Audio Control Display</label>
-				<br>
+				<input type="checkbox" name="audio_control_enabled"  class="" value="1" <?php if (1 == get_option('audio_control_enabled')) echo 'checked="checked"'; ?> >
+				
+				
 				<label>Audio Control slider height:</label>
-				<input type="text" name="audio_control_slider_height" class="form_control" value="<?php if(get_option('audio_control_slider_height')){ echo esc_attr( get_option('audio_control_slider_height') ); }else{ echo "200"; } ?>" <?php if (0 == get_option('audio_control_enabled')) echo 'disabled'; ?> > px
+				<input type="text" name="audio_control_slider_height" class="" value="<?php if(get_option('audio_control_slider_height')){ echo esc_attr( get_option('audio_control_slider_height') ); }else{ echo "200"; } ?>" <?php if (0 == get_option('audio_control_enabled')) echo 'disabled'; ?> > px
 				<hr>
-				<input type="checkbox" name="charts_enabled"  class="form-control form-control-sm" value="1" <?php if (1 == get_option('charts_enabled')) echo 'checked="checked"'; ?> >
+				<input type="checkbox" name="charts_enabled"  class="" value="1" <?php if (1 == get_option('charts_enabled')) echo 'checked="checked"'; ?> >
 				<label>Charts</label>
 				<hr>
 			</div>
@@ -55,17 +60,17 @@
 	<div id="parent-tabs-2" class="parent-tab-content tab-content tab-files"></div>
 	<div id="parent-tabs-3" class="parent-tab-content tab-content tab-about"></div>
 	<div id="parent-tabs-4" class="parent-tab-content tab-content tab-playlists">
-		<div class="row">
-			<div class="col-lg-8 form-group admin-playlist-config-container">
+		<div class="pure-g">
+			<div class="pure-u-1 pure-u-md-3-5 admin-playlist-config-container">
 				<?php include_once(plugin_dir_path(__FILE__)."admin-playlist-config.php"); ?>
 			</div>
-			<div class="col-lg-4 form-group">
+			<div class="pure-u-1 pure-u-md-2-5">
 				<label>Media Filename REGEX</label>:
-				<input name="media_filename_regex"  class="form-control form-control-sm" value="<?php if(get_option('media_filename_regex')){ echo esc_attr( get_option('media_filename_regex') ); } ?>" title="Regex replace media filename" />
+				<input name="media_filename_regex"  class="pure-input-1" value="<?php if(get_option('media_filename_regex')){ echo esc_attr( get_option('media_filename_regex') ); } ?>" title="Regex replace media filename" />
 				<hr>
-				<label>Visualizer Enable: <input type="checkbox" name="visualizer_rgb_enabled"  class="form-control form-control-sm" value="1" <?php if (1 == get_option('visualizer_rgb_enabled')) echo 'checked="checked"'; ?> ></label>
+				<label>Visualizer Enable: <input type="checkbox" name="visualizer_rgb_enabled"  class="" value="1" <?php if (1 == get_option('visualizer_rgb_enabled')) echo 'checked="checked"'; ?> ></label>
 				<div>
-					<label>Colors: </label><br>
+					<label>Colors: </label>
 					<input name="visualizer_rgb_init" data-jscolor="{preset:'large dark'}" value="<?php if(get_option('visualizer_rgb_init')){ echo esc_attr( get_option('visualizer_rgb_init') ); }else{ echo "rgba(0,0,0,1.0)"; } ?>" title="Initial visualizer fill color"  <?php if (1 != get_option('visualizer_rgb_enabled')) echo 'disabled'; ?>>
 					<input name="visualizer_rgb" data-jscolor="{preset:'large dark'}" value="<?php if(get_option('visualizer_rgb')){ echo esc_attr( get_option('visualizer_rgb') ); }else{ echo "rgba(255,255,255,1.0)"; } ?>" title="Visualizer fill color" <?php if (1 != get_option('visualizer_rgb_enabled')) echo 'disabled'; ?>>
 				</div>
@@ -87,40 +92,38 @@
 			</div>
 		</div>
 	</div>
-	<div id="parent-tabs-5" class="parent-tab-content tab-content tab-charts form-group">
-		<div class="row">
-			<div class="col-lg-8   form-group">
+	<div id="parent-tabs-5" class="parent-tab-content tab-content tab-charts ">
+		<div class="pure-g">
+			<div class="pure-u-1 pure-u-md-3-5">
 				<label><?php _e('Access log filter '); ?></label>
-				<input type="text" name="access_log_pattern"  class="form-control form-control-sm" value="<?php echo esc_attr( get_option('access_log_pattern') ); ?>"  placeholder="/.mp3/i">
+				<input type="text" name="access_log_pattern"  class="pure-input-1" value="<?php echo esc_attr( get_option('access_log_pattern') ); ?>"  placeholder="/.mp3/i">
 				<small>Simple regex. The default is <code>/.mp3/i</code>.</small>
 				<hr>
 				<label><?php _e('Access Log location')?></label>
-				<input type="text" name="access_log"  class="form-control form-control-sm" value="<?php echo esc_attr( get_option('access_log') ); ?>">
+				<input type="text" name="access_log"  class="pure-input-1" value="<?php echo esc_attr( get_option('access_log') ); ?>">
 				<small>Add the following to cron: <code>* * * * * $(which php) <?php echo plugin_dir_path(__DIR__)?>lib/reports.php put > /dev/null 2>&1</code></small>
 				<hr>
 				<label><?php _e('Chart fill colors array ( <small>Example <code>["#ffffff","#F0F0F0","#E0E0E0","#D0D0D0","#C0C0C0","#B0B0B0","#A0A0A0","#909090","#808080","#707070"]</code></small> )'); ?></label>
-				<input type="text" name="chart_color_array"  class="form-control form-control-sm" value="<?php echo esc_attr( get_option('chart_color_array') ); ?>">
+				<input type="text" name="chart_color_array"  class="pure-input-1" value="<?php echo esc_attr( get_option('chart_color_array') ); ?>">
 				<hr>
 			</div>
-			<div class="col-lg-4   form-group">
-				<label>Enable charts on posts: </label> <input type="checkbox" name="chart_rgb_enabled"  class="form-control form-control-sm" value="1" <?php if (1 == get_option('chart_rgb_enabled')) echo 'checked="checked"'; ?> >:
-				<br>
+			<div class="pure-u-1 pure-u-md-2-5">
+				<label>Enable charts on posts: </label> <input type="checkbox" name="chart_rgb_enabled"  class="" value="1" <?php if (1 == get_option('chart_rgb_enabled')) echo 'checked="checked"'; ?> >:
 				<label>Colors: </label>
-				<br>
 				<input name="chart_rgb_init" data-jscolor="{preset:'large dark'}" value="<?php if(get_option('chart_rgb_init')){ echo esc_attr( get_option('chart_rgb_init') ); }else{ echo "rgba(0,0,0,1.0)"; } ?>" title="Initial chart fill color" <?php if (1 != get_option('chart_rgb_enabled')) echo 'disabled'; ?>>
 				<input name="chart_rgb" data-jscolor="{preset:'large dark'}" value="<?php if(get_option('chart_rgb')){ echo esc_attr( get_option('chart_rgb') ); }else{ echo "rgba(255,255,255,1.0)"; } ?>" title="chart fill color" <?php if (1 != get_option('chart_rgb_enabled')) echo 'disabled'; ?>>
 				<hr>
-				<label><?php _e('Ignore admin ip addresses'); ?>: </label> <input type="checkbox" name="ignore_ip_enabled"  class="form-control form-control-sm" value="1" <?php if (1 == get_option('ignore_ip_enabled')) echo 'checked="checked"'; ?> >
-				<textarea  name="ignore_ip_json" class="form-control form-control-sm" title="ignore ip json"  <?php if (1 != get_option('ignore_ip_enabled')) echo 'disabled'; ?> ><?php echo esc_attr( get_option('ignore_ip_json') ); ?></textarea>
+				<label><?php _e('Ignore admin ip addresses'); ?>: </label> <input type="checkbox" name="ignore_ip_enabled"  class="" value="1" <?php if (1 == get_option('ignore_ip_enabled')) echo 'checked="checked"'; ?> >
+				<textarea  name="ignore_ip_json" class="pure-input-1" title="ignore ip json"  <?php if (1 != get_option('ignore_ip_enabled')) echo 'disabled'; ?> ><?php echo esc_attr( get_option('ignore_ip_json') ); ?></textarea>
 				<hr>
 			</div>
 		</div>
 	</div>
-	<div id="parent-tabs-7" class="parent-tab-content tab-content tab-charts-data form-group">
-		<div class="row">
-			<div class="col-lg-12">
+	<div id="parent-tabs-7" class="parent-tab-content tab-content tab-charts-data ">
+		<div class="pure-g">
+			<div class="pure-u-1 pure-u-md-5-5">
 				<label><?php _e("Media Requests Today"); ?></label>
-				<textarea  class="form-control form-control-sm" rows="12"><?php
+				<textarea  class="pure-input-1" rows="12"><?php
 					$access_log_activity = array();
 					if( get_option('charts_enabled') ){
 						$access_log_activity = $this->media_activity_today();
@@ -135,11 +138,11 @@
 	</div>
 	<div id="parent-tabs-6" class="parent-tab-content tab-content tab-gitlog">
 		<?php if (current_user_can('activate_plugins')) : ?>
-		<div class="row">
-			<div class="col-sm-12 form-group">
+		<div class="pure-g">
+			<div class="pure-u-1 pure-u-md-5-5">
 				<label>git: <a href="https://github.com/dreaddymck/audio-player-cbhdmk" target="_blank">https://github.com/dreaddymck/audio-player-cbhdmk</a></label>
 				<textarea
-					class="form-control form-control-sm rounded-0"
+					class="pure-input-1 rounded-0"
 					id="git-log"
 					rows="18"
 					><?php echo shell_exec('cd ' .__DIR__.  '; git log -n 25 --graph --abbrev-commit --decorate --date=relative --all'); ?></textarea>

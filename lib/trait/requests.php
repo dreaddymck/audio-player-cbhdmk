@@ -156,6 +156,9 @@ trait _requests {
 				$object->moreinfo	= get_option('moreinfo') ? get_option('moreinfo') : "";
 				$object->playlist_thumb = $object->cover;
 				$object->tags 		=  implode( ', ', wp_get_post_tags( $post->ID, array( 'fields' => 'names' )) );
+				$object->post_date  = $post->post_date;
+				$object->post_date_gmt  = $post->post_date_gmt;
+
 				array_push( $response, $object );
 			}
 		}
