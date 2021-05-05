@@ -23,36 +23,40 @@
 	<?php submit_button(null,"primary small"); ?>
 	<div id="parent-tabs-1" class="parent-tab-content tab-content current">
 		<div class="pure-g">
-			<div class="pure-u-1 pure-u-md-3-5">
-				<label for="default_album_cover"><?php _e('Default Album Cover'); ?></label>
+			<div class="pure-u-1 pure-u-md-5-5">
+				
+				<label for="default_album_cover"><?php _e('Default Album Cover'); ?>
 				<input type="text" name="default_album_cover"  title="Image url"  class="pure-input-1" value="<?php echo esc_attr( get_option('default_album_cover') ); ?>"  required placeholder="Required">
+				</label>				
 				<hr />
-				<label for="favicon" ><?php _e('Favicon'); ?></label>
+				<label for="favicon" ><?php _e('Favicon'); ?>
 				<textarea  name="favicon" class="pure-input-1" title="ico url or base64"><?php echo esc_attr( get_option('favicon') ); ?></textarea>
-
-				<label><?php _e('More info (HTML or TEXT)'); ?></label>
+				</label>				
+				<label><?php _e('More info (HTML or TEXT)'); ?>
 				<input type="text" name="moreinfo"  class="pure-input-1" value="<?php echo esc_attr( get_option('moreinfo') ); ?>" title="This is useless atm">
-			</div>
-			<div class="pure-u-1 pure-u-md-1-5">
-				<label>When plugin deactivated</label>
-				
+				</label>				
+				<h2>When plugin deactivated</h2>				
+				<label>Drop tables
 				<input type="checkbox" name="drop_table_on_inactive"  class="" value="1" <?php if (1 == get_option('drop_table_on_inactive')) echo 'checked="checked"'; ?> >
-				<label>Drop tables</label>
-				
+				</label>
+				<label>	Delete saved options
 				<input type="checkbox" name="delete_options_on_inactive"  class="" value="1" <?php if (1 == get_option('delete_options_on_inactive')) echo 'checked="checked"'; ?> >
-				<label>Delete saved options</label>
-				
-				<a class="button" id="export-tables" onclick="admin_functions.export_tables()">Export</a>
+				</label>
+				<label>	data 				
+				<a class="secondary small" id="export-tables" onclick="admin_functions.export_tables()">Export</a>
+				</label>
 				<hr>
-				<label>Audio Control Display</label>
+				<h2>Controls</h2>
+				<label>Audio Control Display
 				<input type="checkbox" name="audio_control_enabled"  class="" value="1" <?php if (1 == get_option('audio_control_enabled')) echo 'checked="checked"'; ?> >
-				
-				
-				<label>Audio Control slider height:</label>
-				<input type="text" name="audio_control_slider_height" class="" value="<?php if(get_option('audio_control_slider_height')){ echo esc_attr( get_option('audio_control_slider_height') ); }else{ echo "200"; } ?>" <?php if (0 == get_option('audio_control_enabled')) echo 'disabled'; ?> > px
+				</label>
+				<label>Audio Control slider height (pixels):
+				<input type="text" name="audio_control_slider_height" class="pure-input-1" value="<?php if(get_option('audio_control_slider_height')){ echo esc_attr( get_option('audio_control_slider_height') ); }else{ echo "200"; } ?>" <?php if (0 == get_option('audio_control_enabled')) echo 'disabled'; ?> >
+				</label>
 				<hr>
+				<label>Charts activate
 				<input type="checkbox" name="charts_enabled"  class="" value="1" <?php if (1 == get_option('charts_enabled')) echo 'checked="checked"'; ?> >
-				<label>Charts</label>
+				</label>
 				<hr>
 			</div>
 		</div>
@@ -65,16 +69,19 @@
 				<?php include_once(plugin_dir_path(__FILE__)."admin-playlist-config.php"); ?>
 			</div>
 			<div class="pure-u-1 pure-u-md-2-5">
-				<label>Media Filename REGEX</label>:
+				<label>Media Filename REGEX:
 				<input name="media_filename_regex"  class="pure-input-1" value="<?php if(get_option('media_filename_regex')){ echo esc_attr( get_option('media_filename_regex') ); } ?>" title="Regex replace media filename" />
+				</label>
 				<hr>
-				<label>Visualizer Enable: <input type="checkbox" name="visualizer_rgb_enabled"  class="" value="1" <?php if (1 == get_option('visualizer_rgb_enabled')) echo 'checked="checked"'; ?> ></label>
+				<label>Visualizer Enable: <input type="checkbox" name="visualizer_rgb_enabled"  class="" value="1" <?php if (1 == get_option('visualizer_rgb_enabled')) echo 'checked="checked"'; ?> >
+				</label>
 				<div>
-					<label>Colors: </label>
+					<label>Colors: 
 					<input name="visualizer_rgb_init" data-jscolor="{preset:'large dark'}" value="<?php if(get_option('visualizer_rgb_init')){ echo esc_attr( get_option('visualizer_rgb_init') ); }else{ echo "rgba(0,0,0,1.0)"; } ?>" title="Initial visualizer fill color"  <?php if (1 != get_option('visualizer_rgb_enabled')) echo 'disabled'; ?>>
 					<input name="visualizer_rgb" data-jscolor="{preset:'large dark'}" value="<?php if(get_option('visualizer_rgb')){ echo esc_attr( get_option('visualizer_rgb') ); }else{ echo "rgba(255,255,255,1.0)"; } ?>" title="Visualizer fill color" <?php if (1 != get_option('visualizer_rgb_enabled')) echo 'disabled'; ?>>
+					</label>
 				</div>
-				<label>Samples: </label>
+				<label>Samples:
 				<select name='visualizer_samples' <?php if (1 != get_option('visualizer_rgb_enabled')) echo 'disabled'; ?>>
 					<option value='' <?php selected( get_option('visualizer_samples'), "" ); ?>>Select</option>
 					<option value='32' <?php selected( get_option('visualizer_samples'), "32" ); ?>>32</option>
@@ -89,6 +96,7 @@
 					<option value='16384' <?php selected( get_option('visualizer_samples'), "16384" ); ?>>16384</option>
 					<option value='32768' <?php selected( get_option('visualizer_samples'), "32768" ); ?>>32768</option>
 				</select>
+				</label>
 			</div>
 		</div>
 	</div>
@@ -103,17 +111,24 @@
 				<input type="text" name="access_log"  class="pure-input-1" value="<?php echo esc_attr( get_option('access_log') ); ?>">
 				<small>Add the following to cron: <code>* * * * * $(which php) <?php echo plugin_dir_path(__DIR__)?>lib/reports.php put > /dev/null 2>&1</code></small>
 				<hr>
-				<label><?php _e('Chart fill colors array ( <small>Example <code>["#ffffff","#F0F0F0","#E0E0E0","#D0D0D0","#C0C0C0","#B0B0B0","#A0A0A0","#909090","#808080","#707070"]</code></small> )'); ?></label>
+				<label><?php _e('Chart fill colors array'); ?><br>
+				( <small>Example <code>["#ffffff","#F0F0F0","#E0E0E0","#D0D0D0","#C0C0C0","#B0B0B0","#A0A0A0","#909090","#808080","#707070"]</code></small> )
 				<input type="text" name="chart_color_array"  class="pure-input-1" value="<?php echo esc_attr( get_option('chart_color_array') ); ?>">
+				</label>
 				<hr>
 			</div>
 			<div class="pure-u-1 pure-u-md-2-5">
-				<label>Enable charts on posts: </label> <input type="checkbox" name="chart_rgb_enabled"  class="" value="1" <?php if (1 == get_option('chart_rgb_enabled')) echo 'checked="checked"'; ?> >:
-				<label>Colors: </label>
+				<label>Enable charts on posts: 
+				<input type="checkbox" name="chart_rgb_enabled"  class="" value="1" <?php if (1 == get_option('chart_rgb_enabled')) echo 'checked="checked"'; ?> >
+				</label> 
+				<label>Colors: 
 				<input name="chart_rgb_init" data-jscolor="{preset:'large dark'}" value="<?php if(get_option('chart_rgb_init')){ echo esc_attr( get_option('chart_rgb_init') ); }else{ echo "rgba(0,0,0,1.0)"; } ?>" title="Initial chart fill color" <?php if (1 != get_option('chart_rgb_enabled')) echo 'disabled'; ?>>
 				<input name="chart_rgb" data-jscolor="{preset:'large dark'}" value="<?php if(get_option('chart_rgb')){ echo esc_attr( get_option('chart_rgb') ); }else{ echo "rgba(255,255,255,1.0)"; } ?>" title="chart fill color" <?php if (1 != get_option('chart_rgb_enabled')) echo 'disabled'; ?>>
+				</label>
 				<hr>
-				<label><?php _e('Ignore admin ip addresses'); ?>: </label> <input type="checkbox" name="ignore_ip_enabled"  class="" value="1" <?php if (1 == get_option('ignore_ip_enabled')) echo 'checked="checked"'; ?> >
+				<label><?php _e('Ignore admin ip addresses'); ?>:  
+				<input type="checkbox" name="ignore_ip_enabled"  class="" value="1" <?php if (1 == get_option('ignore_ip_enabled')) echo 'checked="checked"'; ?> >
+				</label>
 				<textarea  name="ignore_ip_json" class="pure-input-1" title="ignore ip json"  <?php if (1 != get_option('ignore_ip_enabled')) echo 'disabled'; ?> ><?php echo esc_attr( get_option('ignore_ip_json') ); ?></textarea>
 				<hr>
 			</div>
