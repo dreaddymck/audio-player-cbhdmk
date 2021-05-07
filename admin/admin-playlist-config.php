@@ -118,19 +118,19 @@ if($playlist_config){
 
 			$playlist_config_tabs_content_inputs . $playlist_config_tabs_content_inputs = "
 <input type='hidden' name='id' value='{$config->id}' />
-<label>title: 
+<label>Title: 
 <input type='text' name='title' value='{$config->title}' class='pure-input-1' />
 </label>
 
-<label>order: 
+<label>Order: 
 <select name='order' onchange='admin_functions.config_update(this,\"{$config->id}\")'> $config_order_selection</select>
 </label>
 
-<label>orderby:
+<label>Orderby:
 <input type='text' name='orderby' value='{$config->orderby}' class='pure-input-1' />
 </label> 
 
-<label>Select post meta tag: 
+<label>Select meta tag: 
 <select name='select_config_meta_tags'>
 	<option value='sel_tag'>tag</option>
 	<option value='sel_tag_id'>tag_id</option> 
@@ -148,115 +148,89 @@ if($playlist_config){
 </label>
 
 <div id='sel_tag' class='config_post_meta_tags current'>
-<label>tag: 
-<input type='text' name='tag' value='{$config->tag}' class='pure-input-1' readonly />
+<input type='hidden' name='tag' value='{$config->tag}' class='pure-input-1' readonly />
 <select name='select_config_tag' onchange='admin_functions.config_update(this,\"{$config->id}\")'>
 	".playlist_config_options($tags, $config->tag, "slug")."
 </select>
-</label>
 </div>
 
 <div id='sel_tag_id' class='config_post_meta_tags'>
-<label>tag_id: 
-<input type='text' name='tag_id' value='{$config->tag_id}' class='pure-input-1' readonly/>
+<input type='hidden' name='tag_id' value='{$config->tag_id}' class='pure-input-1' readonly/>
 <select name='select_config_tag_id' onchange='admin_functions.config_update(this,\"{$config->id}\")'>
 	".playlist_config_options($tags, $config->tag_id, "int")."
 </select>
-</label>
 </div>
 
 <div id='sel_tag__and' class='config_post_meta_tags'>
-<label>tag__and: 
-<input type='text' name='tag__and' value='{$config->tag__and}' class='pure-input-1' readonly/>
+<input type='hidden' name='tag__and' value='{$config->tag__and}' class='pure-input-1' readonly/>
 <select name='select_config_tag__and' multiple onchange='admin_functions.config_update(this,\"{$config->id}\")'>
 	".playlist_config_options($tags, json_decode($config->tag__and), "int(array)")."
 </select>
-</label>
 </div>
 
-
 <div id='sel_tag__in' class='config_post_meta_tags'>
-<label>tag__in: 
-<input type='text' name='tag__in' value='{$config->tag__in}' class='pure-input-1' readonly/>
+<input type='hidden' name='tag__in' value='{$config->tag__in}' class='pure-input-1' readonly/>
 <select name='select_config_tag__in' multiple onchange='admin_functions.config_update(this,\"{$config->id}\")'>
 ".playlist_config_options($tags, json_decode($config->tag__in), "int(array)")."
 </select>
-</label>
 </div>
 
 <div id='sel_tag__not_in' class='config_post_meta_tags'>
-<label>tag__not_in: 
-<input type='text' name='tag__not_in' value='{$config->tag__not_in}' class='pure-input-1' readonly/>
+<input type='hidden' name='tag__not_in' value='{$config->tag__not_in}' class='pure-input-1' readonly/>
 <select name='select_config_tag__not_in' multiple onchange='admin_functions.config_update(this,\"{$config->id}\")'>
 ".playlist_config_options($tags, json_decode($config->tag__not_in), "int(array)")."
 </select>
-</label>
 </div>
 
 <div id='sel_tag_slug__and' class='config_post_meta_tags'>
-<label>tag_slug__and: 
-<input type='text' name='tag_slug__and' value='{$config->tag_slug__and}' class='pure-input-1' readonly/>
+<input type='hidden' name='tag_slug__and' value='{$config->tag_slug__and}' class='pure-input-1' readonly/>
 <select name='select_config_tag_slug__and' multiple onchange='admin_functions.config_update(this,\"{$config->id}\")'>
 ".playlist_config_options($tags, json_decode($config->tag_slug__and), "slug(array)")."
 </select>
-</label>
 </div>
 
 <div id='sel_tag_slug__in' class='config_post_meta_tags'>
-<label>tag_slug__in: 
-<input type='text' name='tag_slug__in' value='{$config->tag_slug__in}' class='pure-input-1' readonly/>
+<input type='hidden' name='tag_slug__in' value='{$config->tag_slug__in}' class='pure-input-1' readonly/>
 <select name='select_config_tag_slug__in' multiple onchange='admin_functions.config_update(this,\"{$config->id}\")'>
 ".playlist_config_options($tags, json_decode($config->tag_slug__in), "slug(array)")."
 </select>
-</label>
 </div>
 
 <div id='sel_cat' class='config_post_meta_tags'>
-<label>cat: 
-<input type='text' name='cat' value='{$config->cat}' class='pure-input-1' readonly/>
+<input type='hidden' name='cat' value='{$config->cat}' class='pure-input-1' readonly/>
 <select name='select_config_cat' onchange='admin_functions.config_update(this,\"{$config->id}\")'>
 ".playlist_config_options($cats, json_decode($config->cat), "int")."
 </select>
-</label>
 </div>
 
 <div id='sel_category_name' class='config_post_meta_tags'>
-<label>category_name: 
-<input type='text' name='category_name' value='{$config->category_name}' class='pure-input-1' readonly/>
+<input type='hidden' name='category_name' value='{$config->category_name}' class='pure-input-1' readonly/>
 <select name='select_config_category_name' onchange='admin_functions.config_update(this,\"{$config->id}\")'>
 ".playlist_config_options($cats, json_decode($config->category_name), "slug")."
 </select>
-</label>
 </div>
 
 <div id='sel_category__and' class='config_post_meta_tags'>
-<label>category__and: 
-<input type='text' name='category__and' value='{$config->category__and}' class='pure-input-1' readonly/>
+<input type='hidden' name='category__and' value='{$config->category__and}' class='pure-input-1' readonly/>
 <select name='select_config_category__and' multiple onchange='admin_functions.config_update(this,\"{$config->id}\")'>
 ".playlist_config_options($cats, json_decode($config->category__and), "int(array)")."
 </select>
-</label>
 </div>
 
 <div id='sel_category__in' class='config_post_meta_tags'>
-<label>category__in: 
-<input type='text' name='category__in' value='{$config->category__in}' class='pure-input-1' readonly/>
+<input type='hidden' name='category__in' value='{$config->category__in}' class='pure-input-1' readonly/>
 <select name='select_config_category__in' multiple onchange='admin_functions.config_update(this,\"{$config->id}\")'>
 ".playlist_config_options($cats, json_decode($config->category__in), "int(array)")."
 </select>
-</label>
 </div>
 
 <div id='sel_category__not_in' class='config_post_meta_tags'>
-<label>category__not_in: 
-<input type='text' name='category__not_in' value='{$config->category__not_in}' class='pure-input-1' readonly/>
+<input type='hidden' name='category__not_in' value='{$config->category__not_in}' class='pure-input-1' readonly/>
 <select name='select_config_category__not_in' multiple onchange='admin_functions.config_update(this,\"{$config->id}\")'>
 ".playlist_config_options($cats, json_decode($config->category__not_in), "int(array)")."
 </select>
-</label>
 </div>
 
-<br>
 ";
 
 			$playlist_config_tabs_content = $playlist_config_tabs_content. "
@@ -280,7 +254,7 @@ if($playlist_config){
 		</label>
 	</div>
 	<?php if ($playlist_config_selection) : ?>
-	<select name="playlist_config_selection" size="3">
+	<select name="playlist_config_selection" size="4">
 		<?php echo $playlist_config_selection ?>
 	</select>
 	<?php endif; ?>
@@ -294,6 +268,7 @@ if($playlist_config){
 	</div>
 	
 	<hr>
+	
 	<label>playlist json</label> (<i><small>Double-click input to expand</small></i>)
 	<textarea name="playlist_config" class="pure-input-1 rounded-0" rows="3" ondblclick="this.style.height = '';this.style.height = (this.scrollHeight + 12) + 'px'"><?php echo $playlist_config_default; ?></textarea>
 	<script>let playlist_config_default_json = <?php echo playlist_config_default_json(); ?></script>

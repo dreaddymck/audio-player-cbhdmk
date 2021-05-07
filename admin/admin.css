@@ -14,6 +14,9 @@ pre {
 .pure-form select{width: 100%;}
 .pure-form select[multiple]{width: 100%;}
 .pure-padding-box {padding: 1em;}
+.pure-menu-item.current{
+    text-decoration: underline;
+}
 .wp-core-ui select {
 	line-height:inherit;
 	height:inherit
@@ -27,12 +30,16 @@ select {
 }
 .tab-content {
     display: none;
-    background: #ededed;
     border-radius: 5px;
-    padding: 15px;
 }
 .tab-content.current {
     display: inherit;
+}
+div.playlist-config-tab-content.current {
+    display:inherit;
+}
+div.playlist-config-tab-content {
+    display:none;
 }
 div.config_post_meta_tags {
     display:none;

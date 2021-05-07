@@ -5,8 +5,6 @@
 <?php settings_fields( self::SETTINGS_GROUP ); ?>
 <?php do_settings_sections( self::SETTINGS_GROUP ); ?>
 <div class="admin-container" style="display:none;">
-
-
 	<div class="pure-menu pure-menu-horizontal">
 		<a class="pure-menu-heading pure-menu-link"><?php echo $this->plugin_title ?></a>
 		<ul class="pure-menu-list tabs-settings parent-tabs tabs">
@@ -35,15 +33,15 @@
 				<label><?php _e('More info (HTML or TEXT)'); ?>
 				<input type="text" name="moreinfo"  class="pure-input-1" value="<?php echo esc_attr( get_option('moreinfo') ); ?>" title="This is useless atm">
 				</label>				
-				<h2>When plugin deactivated</h2>				
-				<label>Drop tables
+				<h2>Plugin data</h2>				
+				<label>	 				
+				<a class="secondary small" id="export-tables" onclick="admin_functions.export_tables()">Export</a> plugin data
+				</label> 
+				<label>Drop tables when deactivated
 				<input type="checkbox" name="drop_table_on_inactive"  class="" value="1" <?php if (1 == get_option('drop_table_on_inactive')) echo 'checked="checked"'; ?> >
 				</label>
-				<label>	Delete saved options
+				<label>	Delete saved options when deactivated
 				<input type="checkbox" name="delete_options_on_inactive"  class="" value="1" <?php if (1 == get_option('delete_options_on_inactive')) echo 'checked="checked"'; ?> >
-				</label>
-				<label>	data 				
-				<a class="secondary small" id="export-tables" onclick="admin_functions.export_tables()">Export</a>
 				</label>
 				<hr>
 				<h2>Controls</h2>
