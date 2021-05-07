@@ -260,7 +260,7 @@ if($playlist_config){
 ";
 
 			$playlist_config_tabs_content = $playlist_config_tabs_content. "
-<div id='playlist-config-tab-$playlist_config_x' class='playlist-config-tab-content tab-content  $default_current'>
+<div id='playlist-config-tab-$playlist_config_x' class='playlist-config-tab-content $default_current'>
     $playlist_config_tabs_content_inputs
 </div>
 			";
@@ -280,12 +280,14 @@ if($playlist_config){
 		</label>
 	</div>
 	<?php if ($playlist_config_selection) : ?>
-	<select name="playlist_config_selection">
+	<select name="playlist_config_selection" size="3">
 		<?php echo $playlist_config_selection ?>
 	</select>
 	<?php endif; ?>
-	<a class="button playlist_config_add">Add</a>
-	<a class="button playlist_config_del">Remove</a>
+	<a class="button secondary-small playlist_config_add" title="Add item">Add</a>
+	<a class="button secondary-small playlist_config_del" title="Remove item">Remove</a>
+	<a class="button secondary-small playlist_config_up" title="Move up"><strong>&#8593;</strong></a>
+	<a class="button secondary-small playlist_config_down" title="Move down"><strong>&#8595;</strong></a>	
 	<?php $this->notices() ?>	
 	<div class="playlist-config-content-container">
 		<?php echo $playlist_config_tabs_content ?>

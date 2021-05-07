@@ -13,6 +13,7 @@ pre {
 .pure-menu-horizontal { white-space: inherit; }
 .pure-form select{width: 100%;}
 .pure-form select[multiple]{width: 100%;}
+.pure-padding-box {padding: 1em;}
 .wp-core-ui select {
 	line-height:inherit;
 	height:inherit
@@ -24,23 +25,15 @@ select {
 .container {
     margin: 0 auto;
 }
-
-.admin-container label {
-    text-transform: capitalize;
-    font-weight: bolder;
-}
-
 .tab-content {
     display: none;
     background: #ededed;
     border-radius: 5px;
     padding: 15px;
 }
-
 .tab-content.current {
     display: inherit;
 }
-
 div.config_post_meta_tags {
     display:none;
 }

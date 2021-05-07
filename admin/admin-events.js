@@ -22,7 +22,27 @@ const admin_events = {
                 jQuery("div#" + id).addClass('current');
                 // admin_functions.cookie.set({ "playlist_config_selected": index });
             }
-        });               
+        });  
+        jQuery('.playlist_config_up').click(function(){
+            let config = JSON.parse(jQuery("textarea[name='playlist_config']").val());
+            let index =  jQuery('select[name="playlist_config_selection"]')[0].selectedIndex;
+            if((index) < 1){return;}
+            [config[index], config[index-1]] = [config[index-1], config[index]];
+            jQuery('select[name="playlist_config_selection"] option:eq('+index+')').insertBefore(
+                jQuery('select[name="playlist_config_selection"] option:eq('+ (index - 1) +')')
+            );
+            jQuery("textarea[name='playlist_config']").val(JSON.stringify(config,"",8));            
+        })	
+        jQuery('.playlist_config_down').click(function(e){
+            let config = JSON.parse(jQuery("textarea[name='playlist_config']").val());
+            let index =  jQuery('select[name="playlist_config_selection"]')[0].selectedIndex;
+            if((index + 1) > config.length){return;}
+            [config[index], config[index+1]] = [config[index+1], config[index]];
+            jQuery('select[name="playlist_config_selection"] option:eq('+index+')').insertAfter(
+                jQuery('select[name="playlist_config_selection"] option:eq('+ (index + 1) +')')
+            );
+            jQuery("textarea[name='playlist_config']").val(JSON.stringify(config,"",8));   	
+        })                     
         jQuery('.playlist_config_add').click(function(e){
             e.preventDefault();
             let id = prompt("Enter unique identifier","");

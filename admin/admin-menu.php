@@ -66,9 +66,12 @@
 	<div id="parent-tabs-4" class="parent-tab-content tab-content tab-playlists">
 		<div class="pure-g">
 			<div class="pure-u-1 pure-u-md-3-5 admin-playlist-config-container">
-				<?php include_once(plugin_dir_path(__FILE__)."admin-playlist-config.php"); ?>
+				<div class="pure-padding-box">
+					<?php include_once(plugin_dir_path(__FILE__)."admin-playlist-config.php"); ?>
+				</div>
 			</div>
 			<div class="pure-u-1 pure-u-md-2-5">
+				<div class="pure-padding-box">
 				<label>Media Filename REGEX:
 				<input name="media_filename_regex"  class="pure-input-1" value="<?php if(get_option('media_filename_regex')){ echo esc_attr( get_option('media_filename_regex') ); } ?>" title="Regex replace media filename" />
 				</label>
@@ -97,27 +100,31 @@
 					<option value='32768' <?php selected( get_option('visualizer_samples'), "32768" ); ?>>32768</option>
 				</select>
 				</label>
+				</div>
 			</div>
 		</div>
 	</div>
 	<div id="parent-tabs-5" class="parent-tab-content tab-content tab-charts ">
 		<div class="pure-g">
 			<div class="pure-u-1 pure-u-md-3-5">
+				<div class="pure-padding-box">	
 				<label><?php _e('Access log filter '); ?></label>
 				<input type="text" name="access_log_pattern"  class="pure-input-1" value="<?php echo esc_attr( get_option('access_log_pattern') ); ?>"  placeholder="/.mp3/i">
 				<small>Simple regex. The default is <code>/.mp3/i</code>.</small>
 				<hr>
 				<label><?php _e('Access Log location')?></label>
 				<input type="text" name="access_log"  class="pure-input-1" value="<?php echo esc_attr( get_option('access_log') ); ?>">
-				<small>Add the following to cron: <code>* * * * * $(which php) <?php echo plugin_dir_path(__DIR__)?>lib/reports.php put > /dev/null 2>&1</code></small>
+				<small>Add the following to cron:<br><code>* * * * * $(which php) <?php echo plugin_dir_path(__DIR__)?>lib/reports.php put > /dev/null 2>&1</code></small>
 				<hr>
 				<label><?php _e('Chart fill colors array'); ?><br>
 				( <small>Example <code>["#ffffff","#F0F0F0","#E0E0E0","#D0D0D0","#C0C0C0","#B0B0B0","#A0A0A0","#909090","#808080","#707070"]</code></small> )
 				<input type="text" name="chart_color_array"  class="pure-input-1" value="<?php echo esc_attr( get_option('chart_color_array') ); ?>">
 				</label>
 				<hr>
+				</div>
 			</div>
 			<div class="pure-u-1 pure-u-md-2-5">
+				<div class="pure-padding-box">
 				<label>Enable charts on posts: 
 				<input type="checkbox" name="chart_rgb_enabled"  class="" value="1" <?php if (1 == get_option('chart_rgb_enabled')) echo 'checked="checked"'; ?> >
 				</label> 
@@ -131,6 +138,7 @@
 				</label>
 				<textarea  name="ignore_ip_json" class="pure-input-1" title="ignore ip json"  <?php if (1 != get_option('ignore_ip_enabled')) echo 'disabled'; ?> ><?php echo esc_attr( get_option('ignore_ip_json') ); ?></textarea>
 				<hr>
+				</div>
 			</div>
 		</div>
 	</div>
