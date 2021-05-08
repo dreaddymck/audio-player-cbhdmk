@@ -86,7 +86,6 @@ img.ui-li-img {
 
 .dmck-audio-playlist-track {
     list-style-type: none;
-    /* margin: -1px 0 0 0px; */
     padding: 6px;
     position: relative;
     width: 100%;
@@ -99,7 +98,6 @@ img.ui-li-img {
 }
 
 .dmck-row-cover h1 {
-    background-color: rgba(0, 0, 0, 0.75);
     line-height: 100px;
 }
 
@@ -124,6 +122,7 @@ img.ui-li-img {
 }
 
 .controls div {
+    -webkit-text-stroke: 2px black;
     float: none;
     margin: 0 auto;
     text-align: center;
@@ -132,24 +131,10 @@ img.ui-li-img {
     cursor: pointer;
 }
 
-.controls div:active:hover {
-    color: rgb(8, 8, 8);
-}
-
-.circle {
-    width: auto;
-    height: auto;
-    background: red;
-    -moz-border-radius: 70px;
-    -webkit-border-radius: 70px;
-    border-radius: 70px;
-}
-
 #fixed-controls {
     position: fixed;
     top: 10px;
     z-index: 10;
-    text-shadow: 5px 5px #000;
 }
 
 .active-highlight {
