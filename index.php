@@ -3,7 +3,7 @@
 Plugin Name: (DMCK) audio player
 Plugin URI: dreaddymck.com
 Description: Just another media thingy. Can be used to generate playlists and simple charts. Shortcode [dmck-audioplayer]
-Version: v1.0.2-256-gef32fb6
+Version: v1.0.2-257-g7bc63b3
 Author: dreaddymck
 Author URI: dreaddymck.com
 License: GPL2
@@ -18,7 +18,8 @@ namespace DMCK_WP_MEDIA_PLUGIN;
 // error_reporting(E_ALL);
 // ini_set("display_errors","On");
 if (!class_exists("dmck_audioplayer")) {
-	require_once(plugin_dir_path(__FILE__)."lib/trait/register.php");
+
+	require_once(plugin_dir_path(__FILE__).'admin/admin.php');
 	require_once(plugin_dir_path(__FILE__)."lib/trait/access-logs.php");
 	require_once(plugin_dir_path(__FILE__)."lib/trait/wavform.php");	
 	require_once(plugin_dir_path(__FILE__)."lib/trait/utilities.php");
@@ -28,9 +29,11 @@ if (!class_exists("dmck_audioplayer")) {
 	require_once(plugin_dir_path(__FILE__)."lib/trait/requests.php");
 	require_once(plugin_dir_path(__FILE__)."lib/trait/meta_box.php");
 	require_once(plugin_dir_path(__FILE__)."lib/trait/content.php");
+	require_once(plugin_dir_path(__FILE__)."/lib/dmck.php");
+	
 	
 	class dmck_audioplayer {
-		use _register;
+
 		use _accesslog;
 		use _wavform;
 		use _utilities;
@@ -40,6 +43,7 @@ if (!class_exists("dmck_audioplayer")) {
 		use _requests;
 		use _meta_box;
 		use _content;
+		use _admin;
 
 		const PLUGIN_SLUG				= 'dmck_audioplayer';
 		const SETTINGS_GROUP			= 'dmck-audioplayer-settings-group';
@@ -64,7 +68,7 @@ if (!class_exists("dmck_audioplayer")) {
 
 			$this->setTimezone();
 			$this->set_plugin_version();
-			$this->plugin_title = '(DMCK)Audio:' . $this->plugin_version;
+			$this->plugin_title = '(DMCK) Audio:' . $this->plugin_version;
 			$this->plugin_url 	= plugins_url("/",__FILE__);
 			$this->plug_dir_path = plugin_dir_path( __FILE__ );
 			$this->theme_url	= dirname( get_bloginfo('stylesheet_url') );			
@@ -99,7 +103,7 @@ if (!class_exists("dmck_audioplayer")) {
 			add_filter( 'get_the_excerpt', array($this,'the_exerpt_filter'));
 			add_filter( 'the_content', array($this,'content_handler'));			
 			// add_filter( 'cron_schedules', array($this, 'cron_add_minute'));
-			require_once(plugin_dir_path(__FILE__)."blocks/example-block/example-block.php");			
+			// require_once(plugin_dir_path(__FILE__)."blocks/example-block/example-block.php");			
 		}
 		function _init_actions(){
 			add_shortcode( $this->shortcode, array( $this, 'include_file') );
@@ -111,32 +115,6 @@ if (!class_exists("dmck_audioplayer")) {
 				$this->plugin_version = $v[1];
 			}
 			return $this->plugin_version;
-		}	
-		function admin_menu(){
-			$this->settings_page = add_options_page(
-				$this->plugin_title,
-				$this->plugin_title,
-				'read',
-				self::PLUGIN_SLUG,
-				array( $this, 'admin_menu_include')
-			);
-		}
-		function admin_scripts($hook_suffix) {			
-			if ( $this->settings_page == $hook_suffix ) {
-				$this->shared_scripts();	
-				wp_enqueue_style( 'pure.css',  $this->plugin_url . "node_modules/purecss/build/pure-min.css", array(), $this->plugin_version);
-				wp_enqueue_style( 'base-min.css',  $this->plugin_url . "node_modules/purecss/build/base-min.css", array(), $this->plugin_version);
-				wp_enqueue_style( 'grids-min.css',  $this->plugin_url . "node_modules/purecss/build/grids-min.css", array(), $this->plugin_version);
-				wp_enqueue_style( 'grids-responsive-min.css',  $this->plugin_url . "node_modules/purecss/build/grids-responsive-min.css", array(), $this->plugin_version);
-				wp_enqueue_style( 'admin.css',  $this->plugin_url . "admin/admin.css", array(), $this->plugin_version);
-				wp_enqueue_script( 'marked.min.js', $this->plugin_url . 'assets/js/marked.min.js', array('jquery'), $this->plugin_version, true );				
-				wp_enqueue_script( 'admin-events.js', $this->plugin_url . 'admin/admin-events.js', array('jquery'), $this->plugin_version, true );
-				wp_enqueue_script( 'admin-functions.js', $this->plugin_url . 'admin/admin-functions.js', array('jquery'), $this->plugin_version, true );
-				wp_enqueue_script( 'admin.js', $this->plugin_url . 'admin/admin.js', array('jquery'), $this->plugin_version, true );
-				wp_enqueue_script( 'upload.js', $this->plugin_url . 'assets/js/upload.js', array('jquery'), $this->plugin_version, true );
-				wp_enqueue_script( 'jscolor.js', $this->plugin_url . 'node_modules/@eastdesire/jscolor/jscolor.js', '', '', true );				
-				$this->localize_vars();
-			}
 		}
 		function user_scripts() {			
 			if( $this->has_shortcode( $this->shortcode ) ) {}			
@@ -230,39 +208,17 @@ if (!class_exists("dmck_audioplayer")) {
 			);
 			wp_localize_script( 'functions.js', self::PLUGIN_SLUG, $local);
 		}
-		function admin_bar_setup(){
-			global $wp_admin_bar;
-			if ( !is_super_admin() || !is_admin_bar_showing() ) return;
-			$url_to = admin_url( 'options-general.php?page='.self::PLUGIN_SLUG);			
-			$wp_admin_bar->add_menu(
-				array(
-					'id' => self::PLUGIN_SLUG,
-					'title' => __( $this->plugin_title, self::PLUGIN_SLUG ),
-					'href' => $url_to,
-					'meta' => array( 
-						'title' => $this->plugin_title, 
-						'class' => self::PLUGIN_SLUG 
-					)						
-				)
-			);
-		}
 		function include_file($options) {		
 			ob_start();
 			include (plugin_dir_path(__FILE__).'playlist-layout.php');	
 			return ob_get_clean();		
-		}
-		function admin_menu_include() {
-			if ( !current_user_can( 'read' ) )  {
-				wp_die( __( 'You do not have sufficient permissions to access this page.' ) );
-			}
-			include ( plugin_dir_path(__FILE__).'admin/admin-menu.php' );
 		}
 		function head_hook() {
 			$favicon = esc_attr( get_option('favicon') );
 			if( $favicon ){
 				echo  '<link href="'.$favicon.'" rel="icon" type="image/x-icon"></link>';
 			}
-		}
+		}		
 	}
 	new dmck_audioplayer;
 }
