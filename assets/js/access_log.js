@@ -27,7 +27,7 @@ const access_log = {
                 let date = new Date(top_10_json[index].time*1000 ).toLocaleString();
                 let cover = jQuery(this).attr('cover');
                 jQuery(this).find("td.dmck-row-cover div").css({   
-                    'background-image': 'url(' + cover + ')',                   
+                    'background-image': 'linear-gradient( rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5) ), url(' + cover + ')',                   
                 })
                 jQuery(this).find("td.dmck-row-cover h1").attr("title",date + "\nClick for details");               
                 

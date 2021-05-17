@@ -3,14 +3,14 @@
 const playlist_control = {	
 	globals: {
 		cfg: {
-			duration: "#" + dmck_audioplayer.plugin_slug + ' .duration',
-			volume: "#" + dmck_audioplayer.plugin_slug + ' .volume',
-			play: "#" + dmck_audioplayer.plugin_slug + ' .play',
-			title: "#" + dmck_audioplayer.plugin_slug + ' .title',
-			pause: "#" + dmck_audioplayer.plugin_slug + ' .pause',
-			fwd: "#" + dmck_audioplayer.plugin_slug + ' .fwd',
-			rew: "#" + dmck_audioplayer.plugin_slug + ' .rew',
-			cover: "#" + dmck_audioplayer.plugin_slug + ' .cover',
+			duration: "." + dmck_audioplayer.plugin_slug + ' .duration',
+			volume: "." + dmck_audioplayer.plugin_slug + ' .volume',
+			play: "." + dmck_audioplayer.plugin_slug + ' .play',
+			title: "." + dmck_audioplayer.plugin_slug + ' .title',
+			pause: "." + dmck_audioplayer.plugin_slug + ' .pause',
+			fwd: "." + dmck_audioplayer.plugin_slug + ' .fwd',
+			rew: "." + dmck_audioplayer.plugin_slug + ' .rew',
+			cover: "." + dmck_audioplayer.plugin_slug + ' .cover',
 			playing: false,
 			song: null,
 		},
@@ -54,7 +54,7 @@ const playlist_control = {
 			let active = playlist_control.globals.container.children().filter(function(){ return( jQuery(this).hasClass("active") ); })
 			playlist_control.initAudio(active);
 			let id = (jQuery(playlist_control.globals.container).attr("id") || jQuery(playlist_control.globals.container).parents(".tab-pane").attr("id"));
-			jQuery('#info-tabs a[href="#' + id + '"]').tab('show');
+			jQuery("." + dmck_audioplayer.plugin_slug + ' a[href="#' + id + '"]').tab('show');
 		});
 		jQuery(playlist_control.globals.cfg.title).click(function (e) {
 			e.preventDefault()
@@ -80,7 +80,7 @@ const playlist_control = {
 			}
 			playlist_control.initAudio(next)
 			let id = (jQuery(playlist_control.globals.container).attr("id") || jQuery(playlist_control.globals.container).parents(".tab-pane").attr("id"));
-			jQuery('#info-tabs a[href="#' + id + '"]').tab('show');
+			jQuery("." + dmck_audioplayer.plugin_slug + ' a[href="#' + id + '"]').tab('show');
 		});
 		// rewind click
 		jQuery(playlist_control.globals.cfg.rew).click(function (e) {
@@ -96,11 +96,7 @@ const playlist_control = {
 			}			
 			playlist_control.initAudio(next);
 			let id = (jQuery(playlist_control.globals.container).attr("id") || jQuery(playlist_control.globals.container).parents(".tab-pane").attr("id"));
-			jQuery('#info-tabs a[href="#' + id + '"]').tab('show');
-		});
-		jQuery('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
-			let target = jQuery(e.target).attr("href") // activated tab
-			_functions.cookie.set({ "tab": target });
+			jQuery("." + dmck_audioplayer.plugin_slug + ' a[href="#' + id + '"]').tab('show');
 		});
 	},
 	initAudio: function (elem) {
@@ -163,8 +159,8 @@ const playlist_control = {
 
 		playlist_control.globals.cfg.playing = true;
 
-		jQuery('#info-tabs a').removeClass("active-highlight");
-		jQuery('#info-tabs a[href="#' + (jQuery(playlist_control.globals.container).attr("id") || jQuery(playlist_control.globals.container).parents(".tab-pane").attr("id")) + '"]').addClass("active-highlight");
+		jQuery("." + dmck_audioplayer.plugin_slug + ' a').removeClass("active-highlight");
+		jQuery("." + dmck_audioplayer.plugin_slug + ' a[href="#' + (jQuery(playlist_control.globals.container).attr("id") || jQuery(playlist_control.globals.container).parents(".tab-pane").attr("id")) + '"]').addClass("active-highlight");
 
 	},
 	playAudio: function (e) {		
@@ -200,8 +196,8 @@ const playlist_control = {
 		}
 	},
 	popupcontrol: function(){		
-		jQuery("#" + dmck_audioplayer.plugin_slug).prepend(
-			jQuery('<div id="fixed-controls" class="hidden"></div>').append( jQuery('#dmck_audioplayer .panel-heading.options').clone() )
+		jQuery("." + dmck_audioplayer.plugin_slug).prepend(
+			jQuery('<div id="fixed-controls" class="hidden"></div>').append( jQuery('#dmck_audioplayer .controls').clone() )
 		);
 		// jQuery('#fixed-controls .controls.row').children().removeClass('fa-3x').addClass('fa-2x'); 
 		jQuery('#fixed-controls .controls.row').children(); 

@@ -8,14 +8,8 @@ const dmck_visualizer = {
     init: function(audio,id) {
 
         if(!dmck_audioplayer.visualizer_rgb_enabled){ return; }
-
-        let canvas = document.getElementById(id);
-        let ctx = canvas.getContext("2d");
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
-        
+       
         dmck_visualizer.context = new (window.AudioContext || window.webkitAudioContext);
-
         if(dmck_visualizer.MEDIA_ELEMENT_NODES.has(audio)){
             dmck_visualizer.audio_node = dmck_visualizer.MEDIA_ELEMENT_NODES.get(audio)
         }else{
@@ -29,33 +23,42 @@ const dmck_visualizer = {
 
         analyser.fftSize = (dmck_audioplayer && dmck_audioplayer.visualizer_samples) ? dmck_audioplayer.visualizer_samples : 512;
 
+        let canvas = document.getElementById(id);
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
         let bufferLength = analyser.frequencyBinCount;
         let dataArray = new Uint8Array(bufferLength);
-        let WIDTH = canvas.width;
-        let HEIGHT = canvas.height;
-        let barWidth = (WIDTH / bufferLength) * 1.0;
+        // let WIDTH = canvas.width;
+        // let HEIGHT = canvas.height;
+        let barWidth = (canvas.width / bufferLength) * 1.0;
         let barHeight;
         let x = 0;
         let visualizer_rgb_init = getComputedStyle(document.body).getPropertyValue("background-color"); //"rgba(0, 0, 0, 1.0)";
         let visualizer_rgb = getComputedStyle(document.body).getPropertyValue("color"); //"rgba(255, 255, 255, 1.0)";
-
         if(dmck_audioplayer){
             if(dmck_audioplayer.visualizer_rgb_init){ visualizer_rgb_init = dmck_audioplayer.visualizer_rgb_init; }
             if(dmck_audioplayer.visualizer_rgb){ visualizer_rgb = dmck_audioplayer.visualizer_rgb; }
-        }         
+        }
+
+        let ctx = canvas.getContext("2d");  
+         
 
         function renderFrame() {
             requestAnimationFrame(renderFrame);
             x = 0;
             analyser.getByteFrequencyData(dataArray);
+
+            ctx.globalCompositeOperation = 'source-in'
             ctx.fillStyle = visualizer_rgb_init;
-            ctx.fillRect(0, 0, WIDTH, HEIGHT);
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
 
             for (let i = 0; i < bufferLength; i++) {
      
                 barHeight = dataArray[i];
+                ctx.globalCompositeOperation = 'source-over'
                 ctx.fillStyle = visualizer_rgb
-                ctx.fillRect(x, HEIGHT - barHeight, barWidth, barHeight);
+                ctx.fillRect(x, canvas.height - barHeight, barWidth, barHeight);
                 x += barWidth + 1;
             }
         }

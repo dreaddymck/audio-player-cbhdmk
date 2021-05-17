@@ -6,7 +6,7 @@ echo <<<EOF
 
 	<li class="nav-item">
 		<a class="nav-link" id="tab-{$p->id}" data-toggle="tab" href="#{$p->id}" role="tab" aria-controls="{$p->id}" aria-selected="true">
-			<h4>{$p->title}</h4> 
+			<p>{$p->title}</p>
 		</a>			
 	</li>
 
@@ -19,7 +19,7 @@ echo <<<EOF
 
 	<li class="nav-item">
 		<a class="nav-link" id="tab-top-10" data-toggle="tab" href="#top-10" role="tab" aria-controls="top-10" aria-selected="true">
-			<h4>Today's Top 10</h4>
+			<p>Today's Top 10</p>
 		</a>
 	</li>
 
@@ -30,9 +30,9 @@ function nav_pane($obj, $pj){
 
 echo <<<EOF
 
-	<div class="tab-pane" id="{$pj->id}" role="tabpanel" aria-labelledby="tab-{$pj->id}">
+	<li class="tab-pane" id="{$pj->id}" role="tabpanel" aria-labelledby="tab-{$pj->id}">
 	<div id="{$pj->id}-rss"></div>
-	<table class="table table-responsive-lg top-requests-data">
+	<table class="table top-requests-data">
 	<tbody>	
 
 EOF;
@@ -51,7 +51,7 @@ echo <<<EOF
 			wavformpng="{$p->wavformpng}"
 			title="{$p->title}">
 			<td title="{$p->title}\nClick to play">
-				<h5 class="">$p->title</h5>
+				<p class="track-title">$p->title</p>
 				<span class=""> {$p->tags} {$p->moreinfo} </span>
 			</td>	
 			<td title="Click for details" class="text-center dmck-row-cover">
@@ -63,7 +63,7 @@ EOF;
 
 	}
 
-echo "</tbody></table></div>";
+echo "</tbody></table></li>";
 
 }
 
@@ -103,11 +103,11 @@ echo <<<EOF
 			style="color:"
 			title="{$value["title"]}">
 			<td title="{$value["title"]}\nClick to play">
-				<h5>{$value["title"]}</h5>
+				<p class="track-title">{$value["title"]}</p>
 				<span class="">{$value["tags"]} {$value["moreinfo"]}</span>
 			</td>
 			<td class="text-center dmck-row-cover" title="{$value["date"]}">
-				<div><h1 class="dmck_top10_count">{$value["count"]}</h1></div>							
+				<div><h1 class="top-count">{$value["count"]}</h1></div>							
 			</td> 
 		</tr>
 
