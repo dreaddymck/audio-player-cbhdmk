@@ -20,7 +20,8 @@ const playlist_control = {
 	},
 	init: function () {
 		if(dmck_audioplayer.audio_control_enabled){
-			playlist_control.popupcontrol();
+			//TODO: FIX this: disabled as it doesn't work properly
+			// playlist_control.popupcontrol(); 
 		}		
 		playlist_control.globals.cfg.playing = false;
 		playlist_control.globals.cfg.song = null;

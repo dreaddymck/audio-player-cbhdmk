@@ -83,6 +83,7 @@
     padding: 0;    
 }
 .dmck_audioplayer table {
+    overflow-x:auto;
     border-collapse: collapse;
 }
 .dmck_audioplayer .table tr td {

@@ -5,7 +5,7 @@ $playlist_data = $this->playlist_data_get();
 
 <div class="<?php echo self::PLUGIN_SLUG ?>">
 
-	<div class="w3-panel w3-card-4 panel panel-box box-background <?php if (0 == get_option('audio_control_enabled')) echo "hidden"; ?>">
+	<div class="panel panel-box box-background <?php if (0 == get_option('audio_control_enabled')) echo "hidden"; ?>">
 		<div class="heading">
 			<h1 class="title" title="click for more information"></h1>
 		</div>
