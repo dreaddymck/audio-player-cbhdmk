@@ -30,6 +30,7 @@ $playlist_data = $this->playlist_data_get();
 		</div>			
 	</div>
 
+	<i id="now-playing" class="fa fa-music fa-3x" style="display:none"></i>
 	<canvas id="canvas_visualizer"  style="display:none"></canvas>
 	
 	<ul class="tabs" id="info-tabs" role="tablist">

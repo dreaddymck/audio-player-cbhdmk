@@ -1,7 +1,7 @@
 "use strict";
 
 const playlist = {
-	powered_by: `| A crappy <a href="https://github.com/dreaddymck/audio-player-cbhdmk" target="_blank">Dreaddymck plugin</a>`,	
+	powered_by: `| A <a href="https://github.com/dreaddymck/audio-player-cbhdmk" target="_blank">Dreaddymck plugin</a>`,	
 	init: function(){ this.defer( this.setup ) },		
 	defer: function (method) {
 		if (window.jQuery) {

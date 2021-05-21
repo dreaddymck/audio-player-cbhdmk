@@ -52,7 +52,7 @@ echo <<<EOF
 			title="{$p->title}">
 			<td title="{$p->title}\nClick to play">
 				<p class="track-title">$p->title</p>
-				<span class=""> {$p->tags} {$p->moreinfo} </span>
+				<span class=""> {$p->tags} </span>
 			</td>	
 			<td title="Click for details" class="text-center dmck-row-cover">
 				<div style="background-image: url('{$p->cover}')"></div>

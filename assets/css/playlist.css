@@ -69,6 +69,7 @@
     position: relative;
     margin: 0;
     padding: 0;    
+    border-bottom: 1px solid;
 }
 .dmck_audioplayer .tabs li {
     display: inline-block;
@@ -144,14 +145,19 @@
 }
 .dmck_audioplayer .active-highlight {
     text-shadow: 0 0 20px #fff;
-    text-decoration: underline;
+    font-weight: bold;
 }
 .dmck_audioplayer .text-center {
     text-align: center !important;
 }
 .dmck_audioplayer .top-count {
     -webkit-text-stroke: 1px inherit;
-    font-size: 2.34375rem;
+
+}
+#now-playing {
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 canvas[id^="canvas_visualizer"] {
     width: 100%;

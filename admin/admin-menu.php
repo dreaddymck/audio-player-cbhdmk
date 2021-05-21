@@ -30,9 +30,6 @@
 				<label for="favicon" ><?php _e('Favicon'); ?>
 				<textarea  name="favicon" class="pure-input-1" title="ico url or base64"><?php echo esc_attr( get_option('favicon') ); ?></textarea>
 				</label>				
-				<label><?php _e('More info (HTML or TEXT)'); ?>
-				<input type="text" name="moreinfo"  class="pure-input-1" value="<?php echo esc_attr( get_option('moreinfo') ); ?>" title="This is useless atm">
-				</label>				
 				<h2>Plugin data</h2>				
 				<label>	 				
 				<a class="secondary small" id="export-tables" onclick="admin_functions.export_tables()">Export</a> plugin data

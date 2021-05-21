@@ -156,6 +156,7 @@ const playlist_control = {
 			return( this.id == elem[0].id )
 		}).addClass('active').addClass("active-highlight")
 
+		jQuery("#now-playing").detach().appendTo( elem.children('td:eq(0)') ).show();
 		jQuery("#canvas_visualizer").detach().appendTo( elem.children('td:eq(0)') ).show("slow");		
 
 		playlist_control.globals.cfg.playing = true;
