@@ -22,15 +22,15 @@ $playlist_data = $this->playlist_data_get();
 		</div>
 		<div class="options">
 			<div class="controls">
-				<div class="play fa fa-play fa-3x"  aria-hidden="true" title="Play"></div>
-				<div class="pause fa fa-stop fa-3x"  aria-hidden="true" title="Pause"></div>	
-				<div class="rew fa fa-step-backward fa-3x" aria-hidden="true" title="Back"></div>
-				<div class="fwd fa fa-step-forward fa-3x"  aria-hidden="true" title="Forward"></div>
+				<div class="play fa fa-play fa-2x"  aria-hidden="true" title="Play"></div>
+				<div class="pause fa fa-stop fa-2x"  aria-hidden="true" title="Pause"></div>	
+				<div class="rew fa fa-step-backward fa-2x" aria-hidden="true" title="Back"></div>
+				<div class="fwd fa fa-step-forward fa-2x"  aria-hidden="true" title="Forward"></div>
 			</div> 
 		</div>			
 	</div>
 
-	<i id="now-playing" class="fa fa-music fa-3x" style="display:none"></i>
+	<i id="now-playing" class="fa fa-music fa-2x" style="display:none"></i>
 	<canvas id="canvas_visualizer"  style="display:none"></canvas>
 	
 	<ul class="tabs" id="info-tabs" role="tablist">

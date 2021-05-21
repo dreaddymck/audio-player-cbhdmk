@@ -169,10 +169,12 @@ const playlist_control = {
 		dmck_visualizer.init(playlist_control.globals.cfg.song, "canvas_visualizer");
 		playlist_control.globals.cfg.song.play();
 		jQuery(playlist_control.globals.cfg.duration).slider('option', 'max', playlist_control.globals.cfg.song.duration);
+		jQuery("#now-playing").addClass("bounce");
 	},
 	stopAudio: function () {
 		if(playlist_control.globals.cfg.song){ playlist_control.globals.cfg.song.pause(); }	
-		playlist_control.globals.cfg.playing = false;	
+		playlist_control.globals.cfg.playing = false;
+		jQuery("#now-playing").removeClass("bounce");	
 	},
 	set_cover_background: function (img) {
 		jQuery(playlist_control.globals.cfg.cover).css({

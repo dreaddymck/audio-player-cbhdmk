@@ -154,6 +154,29 @@
     -webkit-text-stroke: 1px inherit;
 
 }
+.bounce {
+    animation: bounce 2s infinite alternate;
+    -webkit-animation: bounce 2s infinite alternate;
+}
+@keyframes bounce {
+    from {
+        transform: translateY(0px);
+    }
+
+    to {
+        transform: translateY(-15px);
+    }
+}
+
+@-webkit-keyframes bounce {
+    from {
+        transform: translateY(0px);
+    }
+
+    to {
+        transform: translateY(-15px);
+    }
+}
 #now-playing {
     display: flex;
     justify-content: center;
