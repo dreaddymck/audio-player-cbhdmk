@@ -75,8 +75,7 @@
     display: inline-block;
     cursor: pointer;
     text-transform: uppercase;
-    margin: 12px;
-    padding: 0;  
+    margin: .5em;
 }
 .dmck_audioplayer .tabs-content {
 	list-style: none;

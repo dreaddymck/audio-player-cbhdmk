@@ -164,7 +164,9 @@ const playlist_control = {
 		playlist_control.globals.cfg.playing = true;
 
 		jQuery("." + dmck_audioplayer.plugin_slug + ' a').removeClass("active-highlight");
-		jQuery("." + dmck_audioplayer.plugin_slug + ' a[href="#' + (jQuery(playlist_control.globals.container).attr("id") || jQuery(playlist_control.globals.container).parents(".tab-pane").attr("id")) + '"]').addClass("active-highlight");
+		jQuery("." + dmck_audioplayer.plugin_slug + ' a[href="#' + (jQuery(playlist_control.globals.container).attr("id") || jQuery(playlist_control.globals.container)
+			.parents(".tab-pane").attr("id")) + '"]')
+			.addClass("active-highlight");
 
 	},
 	playAudio: function (e) {		
