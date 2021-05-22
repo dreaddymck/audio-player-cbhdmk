@@ -16,7 +16,8 @@ const playlist_control = {
 		},
 		container: "",
 		target: "",
-		playlists : [],		
+		playlists : [],
+		bpm:"",		
 	},
 	init: function () {
 		if(dmck_audioplayer.audio_control_enabled){
@@ -111,6 +112,7 @@ const playlist_control = {
 		let permalink = elem.attr('permalink')
 		let id = elem.attr('id')
 
+		playlist_control.globals.bpm = playlist_control.bpm(elem);
 		playlist_control.globals.container = jQuery(elem).parent();
 		playlist_control.globals.target = elem[0].className;
 
@@ -157,7 +159,7 @@ const playlist_control = {
 		}).addClass('active').addClass("active-highlight")
 
 		jQuery("#now-playing").detach().appendTo( elem.children('td:eq(0)') ).show();
-		jQuery("#canvas_visualizer").detach().appendTo( elem.children('td:eq(0)') ).show("slow");		
+		jQuery("#canvas_visualizer").detach().appendTo( elem.children('td:eq(0)') ).show("slow");	
 
 		playlist_control.globals.cfg.playing = true;
 
@@ -169,12 +171,24 @@ const playlist_control = {
 		dmck_visualizer.init(playlist_control.globals.cfg.song, "canvas_visualizer");
 		playlist_control.globals.cfg.song.play();
 		jQuery(playlist_control.globals.cfg.duration).slider('option', 'max', playlist_control.globals.cfg.song.duration);
-		jQuery("#now-playing").addClass("bounce");
+
+		//TODO: Need a check for bars example 4/4 or 3/4
+		let animation=1
+		if(jQuery.isNumeric(playlist_control.globals.bpm)){ 
+			animation = ((60 / playlist_control.globals.bpm) * 4).toFixed(2) 
+		}
+		jQuery("#now-playing").addClass("bounce").css({
+			"animation": "bounce " + animation + "s infinite alternate",
+			"-webkit-animation": "bounce " + animation + "s infinite alternate"
+		});
 	},
 	stopAudio: function () {
 		if(playlist_control.globals.cfg.song){ playlist_control.globals.cfg.song.pause(); }	
 		playlist_control.globals.cfg.playing = false;
-		jQuery("#now-playing").removeClass("bounce");	
+		jQuery("#now-playing").removeClass("bounce").css({
+			"animation": "",
+			"-webkit-animation": ""
+		});	
 	},
 	set_cover_background: function (img) {
 		jQuery(playlist_control.globals.cfg.cover).css({
@@ -243,6 +257,12 @@ const playlist_control = {
 		if (min < 10) { min = '0' + min; }
 		if (sec < 10) { sec = '0' + sec; }
 		return min + ':' + sec;
+	},
+	bpm: function(elem){
+		let tagsarr = elem.attr('tags').match(/(\d.+bpm)/i);
+		let bpm=0;
+		if(tagsarr && tagsarr.length){ bpm = tagsarr[0].replace(/\D/g,''); }
+		return bpm;				
 	},
 	// Encode/decode htmlentities
 	EncodeEntities: function (s) {

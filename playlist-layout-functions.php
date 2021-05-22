@@ -49,6 +49,7 @@ echo <<<EOF
 			cover="{$p->cover}" 
 			permalink="{$p->permalink}" 
 			wavformpng="{$p->wavformpng}"
+			tags="{$p->tags}"
 			title="{$p->title}">
 			<td title="{$p->title}\nClick to play">
 				<p class="track-title">$p->title</p>
@@ -101,6 +102,7 @@ echo <<<EOF
 			permalink="{$value["permalink"]}" 
 			wavformpng="{$value["wavformpng"]}"
 			style="color:"
+			tags="{$value["tags"]}}
 			title="{$value["title"]}">
 			<td title="{$value["title"]}\nClick to play">
 				<p class="track-title">{$value["title"]}</p>

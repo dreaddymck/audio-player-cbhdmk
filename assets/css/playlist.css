@@ -155,8 +155,8 @@
 
 }
 .bounce {
-    animation: bounce 2s infinite alternate;
-    -webkit-animation: bounce 2s infinite alternate;
+    animation: bounce 1s infinite alternate;
+    -webkit-animation: bounce 1s infinite alternate;
 }
 @keyframes bounce {
     from {
