@@ -25,7 +25,10 @@ trait _admin {
         'chart_rgb_enabled',
         'audio_control_enabled',
         'audio_control_slider_height',
-        'playlist_config_opt'
+        'playlist_config_opt',
+        'playlist_html_pane',
+        'playlist_html_tabs'
+
     );
     public $userpreferences 		= array('userpreferences');       
 	

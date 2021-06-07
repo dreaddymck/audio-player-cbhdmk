@@ -102,4 +102,8 @@ Update upon login.
         $write = sprintf("\033[0G\033[2K[%'={$perc}s>%-{$left}s] - $perc%% - $done/$total", "", "");
         fwrite(STDERR, $write);
     }
+	function memory_usage(){
+		echo "\n Memory Consumption is   ";
+		echo round(memory_get_usage()/1048576,2).''.' MB';		
+	}
 }

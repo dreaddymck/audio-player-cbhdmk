@@ -1,8 +1,3 @@
-<?php
-require_once(plugin_dir_path(__FILE__)."playlist-layout-functions.php");
-$playlist_data = $this->playlist_data_get(); 
-?>
-
 <div class="<?php echo self::PLUGIN_SLUG ?>">
 
 	<div class="panel panel-box box-background <?php if (0 == get_option('audio_control_enabled')) echo "hidden"; ?>">
@@ -32,30 +27,56 @@ $playlist_data = $this->playlist_data_get();
 
 	<i id="now-playing" class="fa fa-music fa-2x" style="display:none"></i>
 	<canvas id="canvas_visualizer"  style="display:none"></canvas>
+
+<?php
+
+$html_tabs = get_option("playlist_html_tabs");
+$html_pane = get_option("playlist_html_pane");
+$playlist_data = "";
+
+if( ! $html_tabs || ! $html_pane ){
+	$playlist_data = $this->playlist_data_get();
+}
+
+?>
 	
 	<ul class="tabs" id="info-tabs" role="tablist">
-<?php 
-		foreach($playlist_data["playlist_json"] as $p) { 
-			if(isset($p->id) && $p->title) {
-				nav_item($p);
-			}else
-			if(isset($p->topten) && filter_var($p->topten, FILTER_VALIDATE_BOOLEAN)){
-				nav_item_topten();
-			}			
-		}		
-?>
-	</ul>
 
-	<ul class="tabs-content">
 <?php
-		foreach($playlist_data["playlist_json"] as $p) { 
-			if(isset($p->id) && $p->title) {
-				nav_pane($this, $p);
-			}else
-			if(isset($p->topten) && filter_var($p->topten, FILTER_VALIDATE_BOOLEAN)){
-				nav_pane_topten($playlist_data);
-			}
+
+if(!$playlist_data){
+	echo $html_tabs;
+}else{
+	foreach($playlist_data["playlist_json"] as $p) { 
+		if(isset($p->id) && $p->title) {
+			echo nav_item($p);
+		}else
+		if(isset($p->topten) && filter_var($p->topten, FILTER_VALIDATE_BOOLEAN)){
+			echo nav_item_topten();
+		}			
+	}
+}
+		
+?>
+
+	</ul>
+	<ul class="tabs-content">
+
+<?php
+
+if(!$playlist_data){
+	echo $html_pane;
+}else{
+	foreach($playlist_data["playlist_json"] as $p) { 
+		if(isset($p->id) && $p->title) {
+			nav_pane($this, $p);
+		}else
+		if(isset($p->topten) && filter_var($p->topten, FILTER_VALIDATE_BOOLEAN)){
+			nav_pane_topten($playlist_data);
 		}
+	}
+}
+
 ?>
 	</ul>
 </div>

@@ -2,9 +2,14 @@
 
 namespace DMCK_WP_MEDIA_PLUGIN;
 
-trait _accesslog {
+require_once("playlist-html.php");
+
+trait _accesslog {   
+
+    use DMCK_playlist_html;
 
     public $filepath;
+
     function dmck_media_activity_today() {
 
     $query = "
@@ -49,23 +54,6 @@ ORDER BY time ASC
 ";
         return $this->mysqli_query($query);
     }
-    //TODO: remove after migration
-    function accesslog_activity_get_month($name="", $num=1) {
-        $filter = "";
-        if($name){ $filter = " AND JSON_EXTRACT(data, '$.*.name') REGEXP'$name' "; }
-
-        $query = "
-SELECT
-    data FROM dmck_audio_log_reports
-WHERE
-    DATE(`updated`) >= DATE_SUB(NOW(), INTERVAL $num MONTH)
-    $filter
-order by
-    updated ASC
-";
-        $results = $this->query($query);
-        return $results ? $results : "";
-    }
     function accesslog_activity_put()
     {
         if( !file_exists( $this->filepath ) ){ die("Missing access log location"); }
@@ -75,6 +63,12 @@ order by
             $pattern = $this->filename  ? $this->filename : $pattern;
             echo ("PATTERN: " . $pattern."\n");
         }
+        if($this->debug){
+            echo "\n\r";
+            echo __FUNCTION__;
+            $this->memory_usage();
+            echo "\n\r";
+        }          
         try{
             $handle = fopen($this->filepath,'r');
             if ( !$handle ) { throw new \Exception('File open failed: ' . $this->filepath); }
@@ -95,7 +89,7 @@ order by
                 $dd = fgets($handle);
                 preg_match($regex , urldecode($dd), $matches);
                 if($this->debug){                
-                    echo( urldecode($dd) ."\n\r");
+                    // echo( urldecode($dd) ."\n\r");
                     // echo( print_r($matches,1) );
                 }
                 if(!empty($matches) && preg_match( $pattern , $matches[8] ) ){
@@ -142,7 +136,16 @@ order by
                     }
                 }
             }
-            return "Done\n\r";
+            if($this->debug){
+                echo "\n\r";
+                echo __FUNCTION__;
+                $this->memory_usage();
+                echo "\n\r";
+            }             
+
+            $this->dmck_playlist_html_run();
+
+            return "\n\rFinished\n\r";
         }
         catch (\Exception $e) { echo 'Caught \Exception: ', $e->getMessage(), "\n"; }
         return;
@@ -180,6 +183,15 @@ order by
             if($this->debug){error_log($query);}
             $results = $this->query( $query );
         }
+
+        if($this->debug){
+            echo "\n\r";
+            echo __FUNCTION__;
+            $this->memory_usage();
+            echo "\n\r";
+        }  
+
         return $results;
     }
+
 }

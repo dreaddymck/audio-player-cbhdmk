@@ -236,10 +236,15 @@ trait _requests {
 		return $matches;
 	}
 	function playlist_data_get(){
-		$arr = array();
+		$playlist_data = array();
 		if( empty( get_option("playlist_config") ) ){ return; }
-		$arr["playlist_json"] = json_decode(get_option("playlist_config"));
-		$arr["top_10_json"] = $this->media_activity_today($limit=10); //TODO: make limit an admin option
-		return $arr;
+		$playlist_data["playlist_json"] = json_decode(get_option("playlist_config"));
+		$playlist_data["top_10_json"] = array();
+		foreach($playlist_data["playlist_json"] as $p) { 
+			if(isset($p->topten) && filter_var($p->topten, FILTER_VALIDATE_BOOLEAN)){
+				$playlist_data["top_10_json"] = $this->media_activity_today($limit=10); //TODO: make limit an admin option
+			}
+		}
+		return $playlist_data;
 	}
 }
