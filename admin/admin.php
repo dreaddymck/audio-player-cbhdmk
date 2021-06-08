@@ -25,10 +25,7 @@ trait _admin {
         'chart_rgb_enabled',
         'audio_control_enabled',
         'audio_control_slider_height',
-        'playlist_config_opt',
-        'playlist_html_pane',
-        'playlist_html_tabs'
-
+        'playlist_config_opt'
     );
     public $userpreferences 		= array('userpreferences');       
 	
@@ -51,6 +48,8 @@ trait _admin {
     function unregister_settings() {
         foreach($this->adminpreferences as $settings ) { 
             delete_option($settings);
+            delete_option('playlist_html_pane');
+            delete_option('playlist_html_tabs');
             unregister_setting( self::SETTINGS_GROUP, $settings ); 
         }
         foreach($this->userpreferences as $settings ){ 
