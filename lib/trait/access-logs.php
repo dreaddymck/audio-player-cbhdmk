@@ -107,35 +107,44 @@ ORDER BY time ASC
                     $name = basename($matches[8]);
                     $time = $matches[4] .":".$matches[5]." ".$matches[6];
                     $time = strtotime( $time );
-                    $referer = $matches[1]." ".$matches[2]." ".$matches[3];
-                    
-                    if( isset( $arr[$name] ) ) {
-                        $arr[$name]["count"] += 1;
-                        $arr[$name]["time"]  =  $time ? $time : $arr[$name]["time"];
-                        if( ! in_array( $referer, $arr[$name]["referer"] ) ){
-                            $arr[$name]["referer"][]  =  $referer;
-                        }
-                        
+                    $referer = $matches[1]." ".$matches[2]." ".$matches[3];                    
+                    if( isset( $arr[$name] ) ) {                        
+                        if( $arr[$name]["time"] == $time && $arr[$name]["referer"] == $referer ){
+                            break;
+                        }                        
+                        $arr[$name]["count"]    += 1;
+                        $arr[$name]["time"]     =  $time;
+                        $arr[$name]["referer"]  =  $referer;
                     } else {
                         $arr[$name] = array(
                             "count" => 1,
                             "time" => $time,
                             "name" => $name,
-                            "referer" => array($referer) );
+                            "referer" => $referer
+                        );
                     }
+                    $elements = json_decode($this->obj_request( (object) array('s' => $name) ));
+                    foreach($elements as $e){
+                        if(basename($e->mp3) == $name){
+                            $arr[$name]["ID"] = $e->ID;
+                            $results = $this->dmck_media_activity_tables( (object) $arr[$name] );
+                        }
+                    }                    
                 }
             }
 
             fclose($handle);
-            foreach($arr as $a){
-                $elements = json_decode($this->obj_request( (object) array('s' => $a["name"]) ));
-                foreach($elements as $e){
-                    if(basename($e->mp3) == $a["name"]){
-                        $a["ID"] = $e->ID;
-                        $results = $this->dmck_media_activity_tables($a);
-                    }
-                }
-            }
+
+            // foreach($arr as $a){
+            //     $elements = json_decode($this->obj_request( (object) array('s' => $a["name"]) ));
+            //     foreach($elements as $e){
+            //         if(basename($e->mp3) == $a["name"]){
+            //             $a["ID"] = $e->ID;
+            //             $results = $this->dmck_media_activity_tables($a);
+            //         }
+            //     }
+            // }
+
             if($this->debug){
                 echo "\n\r";
                 echo __FUNCTION__;
@@ -157,32 +166,24 @@ ORDER BY time ASC
         $query = "SELECT id FROM dmck_media_activity_log WHERE LOWER(media) = LOWER('$a->name') AND DATE(time)=DATE(FROM_UNIXTIME($a->time))";
         if($this->debug){error_log($query);}
         $results = $this->query($query);
-        if(empty($results)){
-            $query = "INSERT INTO dmck_media_activity_log (post_id,media,time,count) VALUES($a->ID,'$a->name',FROM_UNIXTIME($a->time),'$a->count')";
-            if($this->debug){error_log($query);}
-            $results = $this->query( $query );
-        }else{
-            $query = "UPDATE dmck_media_activity_log SET media='{$a->name}', count={$a->count}, time=FROM_UNIXTIME({$a->time}) WHERE id={$results[0][0]}";
-            if($this->debug){error_log($query);}
-            $results = $this->query( $query );
+        
+        $query = "INSERT INTO dmck_media_activity_log (post_id,media,time,count) VALUES($a->ID,'$a->name',FROM_UNIXTIME($a->time),'$a->count')";
+        if(!empty($results)){
+            $query = "UPDATE dmck_media_activity_log SET media='{$a->name}', count={$a->count}, time=FROM_UNIXTIME({$a->time}) WHERE id={$results[0][0]}";   
         }
+        if($this->debug){error_log($query);}
+        $this->query( $query );
 
-
-        $query = "SELECT id FROM dmck_media_activity_referer_log WHERE post_id={$a->ID} AND UNIX_TIMESTAMP(time)='{$a->time}'";
+        $query = "SELECT id FROM dmck_media_activity_referer_log WHERE post_id={$a->ID} AND referer = '{$a->referer}' AND UNIX_TIMESTAMP(time)='{$a->time}'";
         if($this->debug){error_log($query);}
         $results = $this->query($query);
-        
-        $referer = implode(",",$a->referer);
 
-        if(empty($results)){
-            $query = "INSERT INTO dmck_media_activity_referer_log (post_id,referer,time) VALUES ({$a->ID},'{$referer}',FROM_UNIXTIME({$a->time}))";
-            if($this->debug){error_log($query);}
-            $results = $this->query( $query );
-        }else{
-            $query = "UPDATE dmck_media_activity_referer_log set referer='{$referer}', time=FROM_UNIXTIME({$a->time})) WHERE id={$results[0][0]}";
-            if($this->debug){error_log($query);}
-            $results = $this->query( $query );
-        }
+        $query = "INSERT INTO dmck_media_activity_referer_log (post_id,referer,time) VALUES ({$a->ID},'{$a->referer}',FROM_UNIXTIME({$a->time}))";
+        if(! empty($results)){
+            $query = "UPDATE dmck_media_activity_referer_log set referer='{$a->referer}', time=FROM_UNIXTIME({$a->time})) WHERE id={$results[0][0]}";
+        }        
+        if($this->debug){error_log($query);}
+        $this->query( $query );
 
         if($this->debug){
             echo "\n\r";
