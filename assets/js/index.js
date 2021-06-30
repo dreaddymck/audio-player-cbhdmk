@@ -31,14 +31,15 @@ jQuery(document).ready(function () {
 			if (typeof cookie.tab !== 'undefined') {
                 jQuery('.' + dmck_audioplayer.plugin_slug + ' a[href="' + cookie["tab"] + '"]').trigger('click');
                 jQuery('.' + dmck_audioplayer.plugin_slug + " .dmck-audio-playlist-track").removeClass('active');	
-                playlist_control.initAudio( jQuery("." + dmck_audioplayer.plugin_slug + " .tab-pane.active .dmck-audio-playlist-track").first() );
+                // playlist_control.initAudio( jQuery("." + dmck_audioplayer.plugin_slug + " .tab-pane.active .dmck-audio-playlist-track").first() );
 			}
 		}else		
 		if(playlist_config){
             jQuery('.' + dmck_audioplayer.plugin_slug + ' a[href="#'+ playlist_config[0].id  +'"]').trigger('click');
             jQuery('.' + dmck_audioplayer.plugin_slug + " .dmck-audio-playlist-track").removeClass('active');	
-            playlist_control.initAudio( jQuery("." + dmck_audioplayer.plugin_slug + " .tab-pane.active .dmck-audio-playlist-track").first() );
+            // playlist_control.initAudio( jQuery("." + dmck_audioplayer.plugin_slug + " .tab-pane.active .dmck-audio-playlist-track").first() );
         }
+        playlist_control.set_cover_background(dmck_audioplayer.default_album_cover);
         playlist_control.globals.cfg.playing = false;
 		
 	}
