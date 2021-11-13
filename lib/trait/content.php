@@ -71,10 +71,14 @@ trait _content {
 
 	function notices(){
 		echo  '
-	<div class="notice notice-success" style="display:none;"></div>
-	<div class="notice notice-error" style="display:none;"></div>
-	<div class="notice notice-warning" style="display:none;"></div>
-	<div class="notice notice-info" style="display:none;"></div>	
+	<div class="notice notice-success is-dismissible" style="display:none;"></div>
+	<div class="notice notice-error is-dismissible" style="display:none;"></div>
+	<div class="notice notice-warning is-dismissible" style="display:none;"></div>
+	<div class="notice notice-info is-dismissible" style="display:none;"></div>	
 	';
+		$access_logs_message = get_option('access_logs_message');
+		if($access_logs_message){
+			echo "<div class='notice notice-error is-dismissible'>$access_logs_message</div>";
+		} 	
 	}	        
 }

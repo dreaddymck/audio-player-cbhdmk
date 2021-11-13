@@ -56,8 +56,8 @@ ORDER BY time ASC
     }
     function accesslog_activity_put()
     {
-        if($this->debug){ echo "start | ".__FUNCTION__. " | ". $this->memory_usage()."\n\r"; } 
-                
+        if($this->debug){ echo __FUNCTION__. " | ". $this->memory_usage()."\n\r"; } 
+        update_option("access_logs_message","");        
         // expecting a string: filepath OR json array 
         if(!$this->json_validate($this->filepath)){
             $this->filepath = json_encode(array($this->filepath));          
@@ -76,7 +76,10 @@ ORDER BY time ASC
 
         foreach(json_decode($this->filepath) as $value) {
 
-            if( !file_exists( $value ) ){ die("Invalid access log location"); }         
+            if( !file_exists( $value ) ){
+                update_option("access_logs_message","Invalid access log location:".$value);
+                continue;
+            }         
             try{
                 $handle = fopen($value,'r');
                 if ( !$handle ) { throw new \Exception('File open failed: ' . $value); }

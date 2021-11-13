@@ -110,6 +110,9 @@
 				<label><?php _e('Access Log location')?></label>
 				<small>accepts /path/to/access_log, ["/path/to/access_log","/path/to/access_log_other"]</small>
 				<input type="text" name="access_log"  class="pure-input-1" value="<?php echo esc_attr( get_option('access_log') ); ?>">
+<?php
+
+?>
 				<small>Add the following to cron:<br><code>* * * * * $(which php) <?php echo plugin_dir_path(__DIR__)?>lib/reports.php put > /dev/null 2>&1</code></small>
 				<hr>
 				<label><?php _e('Chart fill colors array'); ?><br>
