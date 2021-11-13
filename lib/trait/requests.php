@@ -101,7 +101,8 @@ trait _requests {
 			$p = json_decode( $this->obj_request( $param ));
 
 			foreach($p as $e){
-				if(basename($e->mp3) == $value["name"]){
+				//TODO Follow up on this bit of comparison this method is slow, find out why the string compare difference
+				if(strtolower(basename($e->mp3)) == strtolower($value["name"]) || strcasecmp(basename($e->mp3), $value["name"]) ){
 					$title = pathinfo($e->mp3, PATHINFO_FILENAME);
 					$media_filename_regex = esc_attr( get_option('media_filename_regex') );
 					if($media_filename_regex){

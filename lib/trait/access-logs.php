@@ -145,7 +145,8 @@ ORDER BY time ASC
             $aname = $a["name"];
             $elements = json_decode($this->obj_request( (object) array('s' => $aname) ));
             foreach($elements as $e){
-                if(basename($e->mp3) == $aname){
+                //TODO Follow up on this bit of comparison this method is slow, find out why the string compare difference
+                if(strtolower(basename($e->mp3)) == strtolower($aname) || strcasecmp(basename($e->mp3), $aname) ){        
                     $arr[$aname]["ID"] = $e->ID;
                     $results = $this->dmck_media_activity_tables( (object) $arr[$aname] );
                 }
