@@ -67,7 +67,7 @@
 			</div>
 			<div class="pure-u-1 pure-u-md-2-5">
 				<div class="pure-padding-box">
-				<label>Media Filename REGEX:
+				<label>Custom Filename REGEX (Filename is used as title):
 				<input name="media_filename_regex"  class="pure-input-1" value="<?php if(get_option('media_filename_regex')){ echo esc_attr( get_option('media_filename_regex') ); } ?>" title="Regex replace media filename" />
 				</label>
 				<hr>
@@ -108,11 +108,12 @@
 				<small>Simple regex. The default is <code>/.mp3/i</code>.</small>
 				<hr>
 				<label><?php _e('Access Log location')?></label>
+				<small>accepts /path/to/access_log, ["/path/to/access_log","/path/to/access_log_other"]</small>
 				<input type="text" name="access_log"  class="pure-input-1" value="<?php echo esc_attr( get_option('access_log') ); ?>">
 				<small>Add the following to cron:<br><code>* * * * * $(which php) <?php echo plugin_dir_path(__DIR__)?>lib/reports.php put > /dev/null 2>&1</code></small>
 				<hr>
 				<label><?php _e('Chart fill colors array'); ?><br>
-				( <small>Example <code>["#ffffff","#F0F0F0","#E0E0E0","#D0D0D0","#C0C0C0","#B0B0B0","#A0A0A0","#909090","#808080","#707070"]</code></small> )
+				<small>Example <code>["#ffffff","#F0F0F0","#E0E0E0","#D0D0D0","#C0C0C0","#B0B0B0","#A0A0A0","#909090","#808080","#707070"]</code></small>
 				<input type="text" name="chart_color_array"  class="pure-input-1" value="<?php echo esc_attr( get_option('chart_color_array') ); ?>">
 				</label>
 				<hr>

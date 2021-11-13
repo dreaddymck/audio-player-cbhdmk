@@ -103,7 +103,13 @@ Update upon login.
         fwrite(STDERR, $write);
     }
 	function memory_usage(){
-		echo "\n Memory Consumption is   ";
-		echo round(memory_get_usage()/1048576,2).''.' MB';		
+		return round(memory_get_usage()/1048576,2).''.' MB';		
 	}
+    function json_validate($string) {
+        if (is_string($string)) {
+            @json_decode($string);
+            return (json_last_error() === JSON_ERROR_NONE);
+        }
+        return false;
+    }	
 }

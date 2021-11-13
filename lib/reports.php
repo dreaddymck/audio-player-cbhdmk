@@ -24,6 +24,7 @@ class dmck_reports{
         $this->setTimezone();
         if ( isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] ) { exit( header("Location: ".get_bloginfo('url')) ); }        
         if($this::parameters()) {
+            if($this->debug){ echo __FUNCTION__. " | ". $this->memory_usage()."\n\r"; } 
             $response = "{}";
             switch ($this->options) {
                 case "put":
@@ -34,11 +35,11 @@ class dmck_reports{
                     break;                                
                 default:
                     $response = "
-Missing parameters.
-Argv[0]: (commands) (put|wavform)
-Argv[1]: Path
-Argv[2]: Filename
-Argv[3]: (debug) true
+Supported parameters.
+argv[0]: put|wavform ( commands )
+argv[1]: path ( wavform / access_log )
+argv[2]: filename ( wavform / access_log custom regex pattern )
+argv[3]: true/1 ( debug )
 ";
             }   
             exit($response);
