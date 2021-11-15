@@ -4,11 +4,11 @@
 
 SHORTCODE: [dmck-audioplayer]
 
-Another media thingy. Can be used to generate playlists embeded in posts and simple charts. Application will grab the first mp3 located in published posts then render a tabbed playlist.
+Another media thingy. Can be used to generate a tabbed playlists and simple charts from mp3 urls embeded in posts.
 
-If the access log is available, a top 10 playlist and some charts can be rendered.
+If an access log is available this applicaton can generate a rudimentary top 10 playlist.
 
-Based on this html5 audio playlist tutorial:
+Based originally on this html5 audio playlist tutorial:
 https://www.script-tutorials.com/html5-audio-player-with-playlist/
 
 ## Installation
@@ -19,57 +19,44 @@ https://www.script-tutorials.com/html5-audio-player-with-playlist/
 4. Add shortcode to pages or posts as needed.
 5. Something something...
 
-### NOTICE: 
-
-Meta data used with Charts and top ten display has been migrated to a new table. The migration process requires command line access.
-Migration command
-
-0. command = lib/reports_migrate.php
-1. flag = "migrate" (required).
-2. Int = Number of months (defaults to 1).
-3. Bool = optional, display debugs (defaults to false).
-
-```bash
-
-# example: 
-php lib/reports_migrate.php migrate 12
-```
-
 ### Wavform
 
-Add wavform image url to the available "DMCK Audio meta options" post meta box section..
+Add wavform image url to the available "DMCK Audio meta options" post meta box section.
 
 Default location for the wav form image is the same directory as the mp3. 
-The default can be overriden by creating a custom field for the post document called *dmck_wavformpng*. Value is the url to the alternate wav form image location.
+The default can be overriden with a custom field in post document name *dmck_wavformpng*, value is the url to the wav form image.
 
 The script below may be used to manually create wavforms (Requires an ffmpeg Installation on server).
 _Parameters:_
+
+
+```bash
+
+#process everything in folder. subfolders not supported
+$(which php) /home/user/site.com/wp-content/plugins/audio-player-cbhdmk/lib/reports.php wavform "/path/to/folder"
+#individual mp3 files
+$(which php) /home/user/site.com/wp-content/plugins/audio-player-cbhdmk/lib/reports.php wavform "/path/to/folder" "file-name.mp3"
+```
 
 1. wavform - _action flag, required_
 2. path - _required_
 3. name - _optional, specific file to generate wavform from_
 
-```bash
 
-$(which php) /home/user/site.com/wp-content/plugins/audio-player-cbhdmk/lib/reports.php wavform "/path/to/folder"
-# or
-$(which php) /home/user/site.com/wp-content/plugins/audio-player-cbhdmk/lib/reports.php wavform "/path/to/folder" "file-name.mp3"
-```
 
-### Filter access logs. Debugging
+### Filter access logs and debugging
 
 The script below is used to manually test the filter used when parsing the access log.
 _Parameters:_
-
-1. put - _action flag, required_
-2. path - _optional, overrides admin settings_
-3. regex - _optional, override admin settings_
-4. true - _optional, show results in error log_
 
 ```bash
 
 $(which php) /home/user/site.com/wp-content/plugins/audio-player-cbhdmk/lib/reports.php put "/path/to/accesslog" "/.mp3/i" true
 ```
+1. put - _action flag, required_
+2. path - _optional, overrides admin settings_
+3. regex - _optional, override admin settings_
+4. true - _optional, show results in error log_
 
 ## Screenshot
 

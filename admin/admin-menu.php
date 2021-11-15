@@ -19,10 +19,11 @@
 		</ul>
 	</div>
 	<?php submit_button(null,"primary small"); ?>
+	<!-- settings -->
 	<div id="parent-tabs-1" class="parent-tab-content tab-content current">
 		<div class="pure-g">
-			<div class="pure-u-1 pure-u-md-5-5">
-
+			<div class="pure-u-1 pure-u-md-3-5">
+			<div class="pure-padding-box">
 				<label><?php _e('Access Log location')?></label>
 				<small>accepts /path/to/access_log, ["/path/to/access_log","/path/to/access_log_other"]</small>
 				<input type="text" name="access_log"  class="pure-input-1" value="<?php echo esc_attr( get_option('access_log') ); ?>" required placeholder="Required">				
@@ -37,7 +38,11 @@
 				<hr>				
 				<label for="favicon" ><?php _e('Favicon'); ?>
 				<textarea  name="favicon" class="pure-input-1" title="ico url or base64"><?php echo esc_attr( get_option('favicon') ); ?></textarea>
-				</label>				
+				</label>
+			</div>	
+			</div>
+			<div class="pure-u-1 pure-u-md-2-5">	
+			<div class="pure-padding-box">		
 				<h2>Plugin data</h2>				
 				<label>	 				
 				<a class="secondary small" id="export-tables" onclick="admin_functions.export_tables()">Export</a> plugin data
@@ -62,10 +67,14 @@
 				</label>
 				<hr>
 			</div>
+			</div>
 		</div>
 	</div>
+	<!--  -->
 	<div id="parent-tabs-2" class="parent-tab-content tab-content tab-files"></div>
+	<!-- about -->
 	<div id="parent-tabs-3" class="parent-tab-content tab-content tab-about"></div>
+	<!-- playlist -->
 	<div id="parent-tabs-4" class="parent-tab-content tab-content tab-playlists">
 		<div class="pure-g">
 			<div class="pure-u-1 pure-u-md-3-5 admin-playlist-config-container">
@@ -107,11 +116,16 @@
 			</div>
 		</div>
 	</div>
+	<!-- charts -->
 	<div id="parent-tabs-5" class="parent-tab-content tab-content tab-charts ">
 		<div class="pure-g">
 			<div class="pure-u-1 pure-u-md-3-5">
-				<div class="pure-padding-box">	
+				<div class="pure-padding-box">
 
+				<label><?php _e('Ignore admin ip addresses'); ?>:  
+				<input type="checkbox" name="ignore_ip_enabled"  class="" value="1" <?php if (1 == get_option('ignore_ip_enabled')) echo 'checked="checked"'; ?> >
+				</label>
+				<textarea  name="ignore_ip_json" class="pure-input-1" title="ignore ip json"  <?php if (1 != get_option('ignore_ip_enabled')) echo 'disabled'; ?> ><?php echo esc_attr( get_option('ignore_ip_json') ); ?></textarea>
 				<hr>
 				<label><?php _e('Chart fill colors array'); ?><br>
 				<small>Example <code>["#ffffff","#F0F0F0","#E0E0E0","#D0D0D0","#C0C0C0","#B0B0B0","#A0A0A0","#909090","#808080","#707070"]</code></small>
@@ -130,18 +144,16 @@
 				<input name="chart_rgb" data-jscolor="{preset:'large dark'}" value="<?php if(get_option('chart_rgb')){ echo esc_attr( get_option('chart_rgb') ); }else{ echo "rgba(255,255,255,1.0)"; } ?>" title="chart fill color" <?php if (1 != get_option('chart_rgb_enabled')) echo 'disabled'; ?>>
 				</label>
 				<hr>
-				<label><?php _e('Ignore admin ip addresses'); ?>:  
-				<input type="checkbox" name="ignore_ip_enabled"  class="" value="1" <?php if (1 == get_option('ignore_ip_enabled')) echo 'checked="checked"'; ?> >
-				</label>
-				<textarea  name="ignore_ip_json" class="pure-input-1" title="ignore ip json"  <?php if (1 != get_option('ignore_ip_enabled')) echo 'disabled'; ?> ><?php echo esc_attr( get_option('ignore_ip_json') ); ?></textarea>
-				<hr>
+
 				</div>
 			</div>
 		</div>
 	</div>
+	<!-- activity reports -->
 	<div id="parent-tabs-7" class="parent-tab-content tab-content tab-charts-data ">
 		<div class="pure-g">
 			<div class="pure-u-1 pure-u-md-5-5">
+			<div class="pure-padding-box">
 				<label><?php _e("Media Requests Today"); ?></label>
 				<textarea  class="pure-input-1" rows="12"><?php
 					$access_log_activity = array();
@@ -153,9 +165,11 @@
 					}
 				?></textarea>
 				<label><?php echo "Total: ".sizeof($access_log_activity) ?><label>
+				</div>
 			</div>
 		</div>
 	</div>
+	<!-- git -->
 	<div id="parent-tabs-6" class="parent-tab-content tab-content tab-gitlog">
 		<?php if (current_user_can('activate_plugins')) : ?>
 		<div class="pure-g">
