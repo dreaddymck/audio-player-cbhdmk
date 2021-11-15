@@ -1,11 +1,10 @@
-		
 <?php
+//TODO order by is unfinished, remove or expand.
 function playlist_config_default_json(){
 	return  '[
 	{
 		"id" : "",
 		"title" : "",
-		"orderby":"",
 		"order": "",
 		"tag":"",
 		"tag_id":0,
@@ -91,7 +90,6 @@ if($playlist_config){
 		if(isset($config->id)){
             // content inputs defaults
 			$config->order = isset($config->order) && $config->order ? $config->order : "ASC";
-			$config->orderby = isset($config->orderby) && $config->orderby ? $config->orderby : "";
 			$config->tag = isset($config->tag) && $config->tag ? $config->tag : null;
 			$config->tag_id = isset($config->tag_id) && $config->tag_id ? $config->tag_id : 0;
 			$config->tag__and = isset($config->tag__and) && $config->tag__and ? json_encode($config->tag__and) : "[]";
@@ -125,10 +123,6 @@ if($playlist_config){
 <label>Order: 
 <select name='order' onchange='admin_functions.config_update(this,\"{$config->id}\")'> $config_order_selection</select>
 </label>
-
-<label>Orderby:
-<input type='text' name='orderby' value='{$config->orderby}' class='pure-input-1' />
-</label> 
 
 <label>Select meta tag: 
 <select name='select_config_meta_tags'>
