@@ -57,7 +57,6 @@ jQuery(document).ready(function () {
         charts_pkg.top_requests_chart();
         charts_pkg.post_chart();
         dmck_audioplayer_end();
-        jQuery(".site-info, #gutenbiz-copyright").append( playlist.powered_by );
         if(dmck_audioplayer.autoplay){
             if( jQuery('audio')[0] ){ jQuery('audio')[0].load().play(); }
         }        
