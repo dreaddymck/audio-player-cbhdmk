@@ -59,6 +59,9 @@ trait _admin {
             unregister_setting( self::SETTINGS_GROUP, $settings );
         }
     } 
+    function update_option_access_log(){
+        $this->dmck_playlist_html_run();
+    }
     function admin_menu(){
         $this->settings_page = add_options_page(
             $this->plugin_title,

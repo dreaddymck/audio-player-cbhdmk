@@ -22,11 +22,19 @@
 	<div id="parent-tabs-1" class="parent-tab-content tab-content current">
 		<div class="pure-g">
 			<div class="pure-u-1 pure-u-md-5-5">
-				
+
+				<label><?php _e('Access Log location')?></label>
+				<small>accepts /path/to/access_log, ["/path/to/access_log","/path/to/access_log_other"]</small>
+				<input type="text" name="access_log"  class="pure-input-1" value="<?php echo esc_attr( get_option('access_log') ); ?>" required placeholder="Required">				
+
 				<label for="default_album_cover"><?php _e('Default Album Cover'); ?>
 				<input type="text" name="default_album_cover"  title="Image url"  class="pure-input-1" value="<?php echo esc_attr( get_option('default_album_cover') ); ?>"  required placeholder="Required">
 				</label>				
 				<hr />
+				<label><?php _e('Access log filter '); ?></label>
+				<input type="text" name="access_log_pattern"  class="pure-input-1" value="<?php echo esc_attr( get_option('access_log_pattern') ); ?>"  placeholder="/.mp3/i">
+				<small>Simple regex. The default is <code>/.mp3/i</code>.</small>
+				<hr>				
 				<label for="favicon" ><?php _e('Favicon'); ?>
 				<textarea  name="favicon" class="pure-input-1" title="ico url or base64"><?php echo esc_attr( get_option('favicon') ); ?></textarea>
 				</label>				
@@ -103,16 +111,7 @@
 		<div class="pure-g">
 			<div class="pure-u-1 pure-u-md-3-5">
 				<div class="pure-padding-box">	
-				<label><?php _e('Access log filter '); ?></label>
-				<input type="text" name="access_log_pattern"  class="pure-input-1" value="<?php echo esc_attr( get_option('access_log_pattern') ); ?>"  placeholder="/.mp3/i">
-				<small>Simple regex. The default is <code>/.mp3/i</code>.</small>
-				<hr>
-				<label><?php _e('Access Log location')?></label>
-				<small>accepts /path/to/access_log, ["/path/to/access_log","/path/to/access_log_other"]</small>
-				<input type="text" name="access_log"  class="pure-input-1" value="<?php echo esc_attr( get_option('access_log') ); ?>">
-<?php
 
-?>
 				<hr>
 				<label><?php _e('Chart fill colors array'); ?><br>
 				<small>Example <code>["#ffffff","#F0F0F0","#E0E0E0","#D0D0D0","#C0C0C0","#B0B0B0","#A0A0A0","#909090","#808080","#707070"]</code></small>

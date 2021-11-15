@@ -77,6 +77,7 @@ if (!class_exists("dmck_audioplayer")) {
 
 			register_activation_hook( __FILE__, array($this, 'register_activation' ) );
 			register_deactivation_hook (__FILE__, array($this, 'register_deactivation'));
+			
 
 			add_action( 'init', array( $this, '_init_actions'));
 			add_action( 'admin_init', array( $this, 'register_settings') );
@@ -89,6 +90,10 @@ if (!class_exists("dmck_audioplayer")) {
 			add_action( 'wp_head', array($this, 'head_hook') );
 			add_action( 'login_head', array($this, 'head_hook') );
 			add_action( 'admin_head', array($this, 'head_hook') );
+			
+			//TODO after update event thing here, find better solution
+			// add_action( 'update_option_access_log', array($this, 'update_option_access_log'), 10, 3 );
+			
 			// add_action( 'wp', array($this, 'cronstarter_activation'));
 			// add_action( $this->cron_name."_daily", array($this, 'wp_cron_functions_daily')); 
 			add_action( 'rest_api_init', function () {
