@@ -59,7 +59,8 @@ const admin_events = {
             if(playlist_config){
                 playlist_config = JSON.parse(playlist_config);
                 playlist_config.find(function(key, value){                    
-                    if(key == "topten"){ value = jQuery("input[type='checkbox'][name='playlist_top_media']").prop("checked"); }    
+                    if(key == "top_request"){ value = jQuery("input[type='checkbox'][name='playlist_top_media']").prop("checked"); }    
+                    if(key == "top_count"){ value = jQuery("input[type='text'][name='playlist_top_media_count']").val(); }    
                 })  
                 if(typeof playlist_config_default_json !== "undefined"){
                     let default_json = playlist_config_default_json[0];
@@ -96,13 +97,53 @@ const admin_events = {
             if(playlist_config){
                 playlist_config = JSON.parse(playlist_config);
                 playlist_config.find(function(obj, index){
-                    if(typeof(obj.topten) !== 'undefined'){
-                        obj.topten = jQuery("input[type='checkbox'][name='playlist_top_media']").prop("checked"); 
+                    if(typeof(obj.top_request) !== 'undefined'){
+                        obj.top_request = jQuery("input[type='checkbox'][name='playlist_top_media']").prop("checked");
+                        obj.top_count = jQuery("input[type='text'][name='playlist_top_media_count']").val();
+                        obj.top_title = jQuery("input[type='text'][name='playlist_top_media_title']").val(); 
+                        if(obj.top_request){
+                            jQuery("input[type='text'][name='playlist_top_media_count']").css("display","inline");
+                            jQuery("input[type='text'][name='playlist_top_media_title']").css("display","inline");
+                        }else{
+                            jQuery("input[type='text'][name='playlist_top_media_count']").css("display","none");
+                            jQuery("input[type='text'][name='playlist_top_media_title']").css("display","none");
+                        }
                     }    
                 })                
             }            
             jQuery("textarea[name='playlist_config']").val(JSON.stringify(playlist_config,"",8));
-        })      
+        })
+        jQuery("input[name='playlist_top_media_count']").change(function(e){            
+            let count = this.value;
+            let playlist_config = jQuery("textarea[name='playlist_config']").val();
+            if(playlist_config){
+                playlist_config = JSON.parse(playlist_config);
+                playlist_config.find(function(obj, index){
+                    if(typeof(obj.top_count) !== 'undefined'){
+                        if( ! Number(count) > 0 ){                        
+                            jQuery("input[type='text'][name='playlist_top_media_count']").val(obj.top_count);
+                        }else{
+                            obj.top_count = jQuery("input[type='text'][name='playlist_top_media_count']").val();
+                        } 
+                    }    
+                })                
+            }
+            jQuery("textarea[name='playlist_config']").val(JSON.stringify(playlist_config,"",8));
+        })
+        jQuery("input[name='playlist_top_media_title']").change(function(e){             
+            let title = this.value;
+            let playlist_config = jQuery("textarea[name='playlist_config']").val();
+            if(playlist_config){
+                playlist_config = JSON.parse(playlist_config);
+                playlist_config.find(function(obj, index){
+                    if(typeof(obj.top_title) !== 'undefined'){
+                        obj.top_title = jQuery('<div>').text(title).html();
+                       return; 
+                    }    
+                })                
+            }
+            jQuery("textarea[name='playlist_config']").val(JSON.stringify(playlist_config,"",8));
+        })        
         jQuery('form[name*="admin-settings-form"]').submit(function (e) {
 
             e.preventDefault();

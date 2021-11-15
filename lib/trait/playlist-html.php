@@ -9,8 +9,8 @@ trait DMCK_playlist_html {
 			if(isset($p->id) && $p->title) {
 				$playlist_html_tabs .= $this->nav_item($p);
 			}else
-			if(isset($p->topten) && filter_var($p->topten, FILTER_VALIDATE_BOOLEAN)){
-				$playlist_html_tabs .= $this->nav_item_topten();
+			if(isset($p->top_request) && filter_var($p->top_request, FILTER_VALIDATE_BOOLEAN)){
+				$playlist_html_tabs .= $this->nav_item_top_request($p);
 			}
 		}
         // NOTE: playlist_html_tabs is registered in admin.php so it can be unregistered
@@ -21,8 +21,8 @@ trait DMCK_playlist_html {
 			if(isset($p->id) && $p->title) {
 				$playlist_html_pane .= $this->nav_pane($this, $p);
 			}else
-			if(isset($p->topten) && filter_var($p->topten, FILTER_VALIDATE_BOOLEAN)){
-				$playlist_html_pane .= $this->nav_pane_topten($playlist_data);
+			if(isset($p->top_request) && filter_var($p->top_request, FILTER_VALIDATE_BOOLEAN)){
+				$playlist_html_pane .= $this->nav_pane_top_request($playlist_data);
 			}
 		}
         // NOTE: playlist_html_pane is registered in admin.php so it can be unregistered        
@@ -38,12 +38,12 @@ trait DMCK_playlist_html {
         </li>
 EOF;
     }
-    function nav_item_topten(){
+    function nav_item_top_request($p){
         return <<<EOF
 
         <li class="nav-item">
             <a class="nav-link" id="tab-top-10" data-toggle="tab" href="#top-10" role="tab" aria-controls="top-10" aria-selected="true">
-                <p>Today's Top 10</p>
+                <p>{$p->top_title}</p>
             </a>
         </li>
 
@@ -99,7 +99,7 @@ EOF;
         return $html;
 
     }
-    function nav_pane_topten($playlist_data){
+    function nav_pane_top_request($playlist_data){
 
         $html = <<<EOF
 

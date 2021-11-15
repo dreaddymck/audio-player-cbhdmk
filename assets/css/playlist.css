@@ -1,14 +1,9 @@
-.dmck_audioplayer .title {
-    cursor: pointer;
-}
+.hidden{ display:none; }
+.dmck_audioplayer .title { cursor: pointer; }
 .dmck_audioplayer .title,
 .dmck_audioplayer .track-title,
-.dmck_audioplayer .top-played-track {
-    text-transform: uppercase;
-}
-.dmck_audioplayer .this_excerpt {
-    word-wrap: break-word;
-}
+.dmck_audioplayer .top-played-track { text-transform: uppercase; }
+.dmck_audioplayer .this_excerpt { word-wrap: break-word; }
 .dmck_audioplayer .cover {
     height: 100%;
     background-size: 100%;

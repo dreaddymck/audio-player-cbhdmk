@@ -49,6 +49,12 @@ const admin_functions = {
     },
     submit_form(){
         jQuery(document.body).css({'cursor' : 'wait'});
+        //invalid json will break the submit.
+        if(!admin_functions.json_validate( jQuery("textarea[name='playlist_config']").val()) ){
+            admin_functions.notice(".notice-error", "Invalid json configuration");
+            jQuery(document.body).css({'cursor' : 'default'});
+            return;
+        }
         let form = jQuery('form[name*="admin-settings-form"]');
         let url = "options.php"
         let data = jQuery(form).serializeArray();
@@ -153,4 +159,12 @@ const admin_functions = {
         setTimeout(function() {  jQuery(".notice").hide("slow").text(""); }, timeout);
         return false;
     },
+    json_validate(json){
+        try {
+            JSON.parse(json);
+        } catch (e) {
+            return false;
+        }
+        return true;
+    }
 }

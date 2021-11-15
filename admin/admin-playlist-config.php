@@ -22,14 +22,15 @@ function playlist_config_default_json(){
 
 	},
 	{
-		"topten" : "false"
+		"top_request" : "false",
+		"top_count" : "10",
+		"top_title" : "Top"
 	}
 ]';		
 }
 function playlist_config_default(){
 	$json = get_option("playlist_config");
 	if(!$json){
-		error_log("????");
 		$json = playlist_config_default_json();
 		update_option("playlist_config", $json);
 	}
@@ -72,16 +73,15 @@ $playlist_config_default = playlist_config_default();
 $playlist_config = json_decode($playlist_config_default);
 
 if($playlist_config){
-
+	$playlist_top_media = "";
+	$playlist_top_media_count = "";
+	$playlist_top_media_title = "";
 	$playlist_config_selection = "";
 	$playlist_config_tabs_content = "";
 	$playlist_config_tabs_content_inputs = "";
 	$playlist_config_x = 0;
-	$playlist_top_media = false;
-
 	$default_current = "current";
-	$default_selected = "selected";
-	
+	$default_selected = "selected";	
 	$tags = get_tags( array( 'hide_empty' => 0 ) );
 	$cats = get_categories( array(
 		'orderby' => 'name',
@@ -242,17 +242,15 @@ if($playlist_config){
 			if($default_current){$default_current="";}
 			if($default_selected){$default_selected="";}
 		}
-		if(isset($config->topten)){$playlist_top_media = filter_var($config->topten, FILTER_VALIDATE_BOOLEAN); }
+		if(isset($config->top_request)){$playlist_top_media = filter_var($config->top_request, FILTER_VALIDATE_BOOLEAN); }
+		if(isset($config->top_count)){$playlist_top_media_count = $config->top_count; }
+		if(isset($config->top_title)){$playlist_top_media_title = $config->top_title; }
 	}
 
 	?>
 	<h2>Playlist Configuration</h2>
 	
-	<div>
-		<label>Enable Top requests:
-		<input type="checkbox" name="playlist_top_media"  class="" value="1" <?php if (1 == $playlist_top_media) echo 'checked="checked"'; ?> >
-		</label>
-	</div>
+
 	<?php if ($playlist_config_selection) : ?>
 	<select name="playlist_config_selection" size="4">
 		<?php echo $playlist_config_selection ?>
@@ -265,6 +263,14 @@ if($playlist_config){
 	<?php $this->notices() ?>	
 	<div class="playlist-config-content-container">
 		<?php echo $playlist_config_tabs_content ?>
+	</div>
+	<div>
+		<label  class="pure-checkbox">Enable Top requests:
+			<input type="checkbox" name="playlist_top_media"  value="1" <?php if (1 == $playlist_top_media) echo 'checked="checked"'; ?> class="">
+		</label>
+		<input type='text' name='playlist_top_media_title' value="<?php echo $playlist_top_media_title ?>" class='pure-input-1-4' style="display:<?php echo (1 == $playlist_top_media) ? 'inline' : 'none'; ?>" placeholder="The Title"/>
+		<input type='text' name='playlist_top_media_count' value="<?php echo $playlist_top_media_count ?>" class='pure-input-1-4' style="display:<?php echo (1 == $playlist_top_media) ? 'inline' : 'none'; ?>" placeholder="Count"/>
+		
 	</div>
 	
 	<hr>

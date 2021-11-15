@@ -1,4 +1,6 @@
 <?php
+//TODO reload cached chart content after saving configuration.
+
 namespace DMCK_WP_MEDIA_PLUGIN;
 trait _admin {
     public $adminpreferences		= array(

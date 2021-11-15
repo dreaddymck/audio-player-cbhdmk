@@ -242,8 +242,8 @@ trait _requests {
 		$playlist_data["playlist_json"] = json_decode(get_option("playlist_config"));
 		$playlist_data["top_10_json"] = array();
 		foreach($playlist_data["playlist_json"] as $p) { 
-			if(isset($p->topten) && filter_var($p->topten, FILTER_VALIDATE_BOOLEAN)){
-				$playlist_data["top_10_json"] = $this->media_activity_today($limit=10); //TODO: make limit an admin option
+			if(isset($p->top_request) && filter_var($p->top_request, FILTER_VALIDATE_BOOLEAN)){
+				$playlist_data["top_10_json"] = $this->media_activity_today($p->top_count);
 			}
 		}
 		return $playlist_data;

@@ -51,8 +51,8 @@ if(!$playlist_data){
 		if(isset($p->id) && $p->title) {
 			echo nav_item($p);
 		}else
-		if(isset($p->topten) && filter_var($p->topten, FILTER_VALIDATE_BOOLEAN)){
-			echo nav_item_topten();
+		if(isset($p->top_request) && filter_var($p->top_request, FILTER_VALIDATE_BOOLEAN)){
+			echo nav_item_top_request();
 		}			
 	}
 }
@@ -71,8 +71,8 @@ if(!$playlist_data){
 		if(isset($p->id) && $p->title) {
 			nav_pane($this, $p);
 		}else
-		if(isset($p->topten) && filter_var($p->topten, FILTER_VALIDATE_BOOLEAN)){
-			nav_pane_topten($playlist_data);
+		if(isset($p->top_request) && filter_var($p->top_request, FILTER_VALIDATE_BOOLEAN)){
+			nav_pane_top_request($playlist_data);
 		}
 	}
 }
