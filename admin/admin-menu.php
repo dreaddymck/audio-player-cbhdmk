@@ -113,7 +113,6 @@
 <?php
 
 ?>
-				<small>Add the following to cron:<br><code>* * * * * $(which php) <?php echo plugin_dir_path(__DIR__)?>lib/reports.php put > /dev/null 2>&1</code></small>
 				<hr>
 				<label><?php _e('Chart fill colors array'); ?><br>
 				<small>Example <code>["#ffffff","#F0F0F0","#E0E0E0","#D0D0D0","#C0C0C0","#B0B0B0","#A0A0A0","#909090","#808080","#707070"]</code></small>

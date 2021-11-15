@@ -249,7 +249,7 @@ if($playlist_config){
 
 	?>
 	<h2>Playlist Configuration</h2>
-	
+	<small>The following cron task is currently required:<br><code>* * * * * $(which php) <?php echo plugin_dir_path(__DIR__)?>lib/reports.php put > /dev/null 2>&1</code></small>
 
 	<?php if ($playlist_config_selection) : ?>
 	<select name="playlist_config_selection" size="4">
