@@ -98,7 +98,6 @@
 				</div>
 				<label>Samples:
 				<select name='visualizer_samples' <?php if (1 != get_option('visualizer_rgb_enabled')) echo 'disabled'; ?>>
-					<option value='' <?php selected( get_option('visualizer_samples'), "" ); ?>>Select</option>
 					<option value='32' <?php selected( get_option('visualizer_samples'), "32" ); ?>>32</option>
 					<option value='64' <?php selected( get_option('visualizer_samples'), "64" ); ?>>64</option>
 					<option value='128' <?php selected( get_option('visualizer_samples'), "128" ); ?>>128</option>
