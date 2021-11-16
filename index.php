@@ -3,7 +3,7 @@
 Plugin Name: (DMCK) audio player
 Plugin URI: dreaddymck.com
 Description: Just another media thingy. Can be used to generate playlists and simple charts. Shortcode [dmck-audioplayer]
-Version: 1.1.1-9bfb5d7
+Version: 1.1.1-0b06dad
 Author: dreaddymck
 Author URI: dreaddymck.com
 License: GPL2

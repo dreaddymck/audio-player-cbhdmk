@@ -24,10 +24,6 @@
 		<div class="pure-g">
 			<div class="pure-u-1 pure-u-md-3-5">
 			<div class="pure-padding-box">
-				<label><?php _e('Access Log location')?></label>
-				<small>accepts /path/to/access_log, ["/path/to/access_log","/path/to/access_log_other"]</small>
-				<input type="text" name="access_log"  class="pure-input-1" value="<?php echo esc_attr( get_option('access_log') ); ?>" required placeholder="Required">				
-
 				<label for="default_album_cover"><?php _e('Default Album Cover'); ?>
 				<input type="text" name="default_album_cover"  title="Image url"  class="pure-input-1" value="<?php echo esc_attr( get_option('default_album_cover') ); ?>"  required placeholder="Required">
 				</label>				
@@ -126,6 +122,10 @@
 				</label>
 				<textarea  name="ignore_ip_json" class="pure-input-1" title="ignore ip json"  <?php if (1 != get_option('ignore_ip_enabled')) echo 'disabled'; ?> ><?php echo esc_attr( get_option('ignore_ip_json') ); ?></textarea>
 				<hr>
+				<label><?php _e('Access Log location')?></label>
+				<small>accepts /path/to/access_log, ["/path/to/access_log","/path/to/access_log_other"]</small>
+				<input type="text" name="access_log"  class="pure-input-1" value="<?php echo esc_attr( get_option('access_log') ); ?>" required placeholder="Required">				
+				<hr />				
 				<label><?php _e('Chart fill colors array'); ?><br>
 				<small>Example <code>["#ffffff","#F0F0F0","#E0E0E0","#D0D0D0","#C0C0C0","#B0B0B0","#A0A0A0","#909090","#808080","#707070"]</code></small>
 				<input type="text" name="chart_color_array"  class="pure-input-1" value="<?php echo esc_attr( get_option('chart_color_array') ); ?>">
