@@ -8,7 +8,6 @@ then
 else
 	PWD=$(pwd)
 	echo "Current working directory $PWD"
-	cd $PWD
 	VAR=$(eval "git describe")
 	if [ ! -z "$VAR" ]; 
 	then
