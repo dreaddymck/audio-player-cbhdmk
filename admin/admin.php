@@ -1,5 +1,5 @@
 <?php
-//TODO reload cached chart content after saving configuration.
+//TODO: Admin data: render week, month, request activity with charts.
 
 namespace DMCK_WP_MEDIA_PLUGIN;
 trait _admin {

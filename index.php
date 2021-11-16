@@ -3,16 +3,17 @@
 Plugin Name: (DMCK) audio player
 Plugin URI: dreaddymck.com
 Description: Just another media thingy. Can be used to generate playlists and simple charts. Shortcode [dmck-audioplayer]
-Version: 1.1.1-fd0fbae
+Version: 1.1.1-f72ec48
 Author: dreaddymck
 Author URI: dreaddymck.com
 License: GPL2
 
+TODO: Gutenberg block support.
 TODO: expand rss.php parameters.
 TODO: Fix rss feeds to properly include media files
 TODO: Add support for embedded videos as playlist items
-TODO: render week, month, request activity per item.
-TODO: Gutenberg block support.
+
+
 */
 namespace DMCK_WP_MEDIA_PLUGIN;
 // error_reporting(E_ALL);

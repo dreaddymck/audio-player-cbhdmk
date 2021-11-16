@@ -21,14 +21,9 @@ https://www.script-tutorials.com/html5-audio-player-with-playlist/
 
 ### Wavform
 
-Add wavform image url to the available "DMCK Audio meta options" post meta box section.
-
-Default location for the wav form image is the same directory as the mp3. 
-The default can be overriden with a custom field in post document name *dmck_wavformpng*, value is the url to the wav form image.
-
-The script below may be used to manually create wavforms (Requires an ffmpeg Installation on server).
-_Parameters:_
-
+Default location for wavform images is in the same directory as the associated mp3. 
+Default location override is a custom field in post called *dmck_wavformpng*, value is the url to the wav form image.
+Application supports creating wavforms manually via commad line (Requires ffmpeg Installed on server).
 
 ```bash
 
@@ -37,6 +32,7 @@ $(which php) /home/user/site.com/wp-content/plugins/audio-player-cbhdmk/lib/repo
 #individual mp3 files
 $(which php) /home/user/site.com/wp-content/plugins/audio-player-cbhdmk/lib/reports.php wavform "/path/to/folder" "file-name.mp3"
 ```
+_Parameters:_
 
 1. wavform - _action flag, required_
 2. path - _required_
@@ -44,15 +40,16 @@ $(which php) /home/user/site.com/wp-content/plugins/audio-player-cbhdmk/lib/repo
 
 
 
-### Filter access logs and debugging
+### Access logs, filters and debugging
 
-The script below is used to manually test the filter used when parsing the access log.
-_Parameters:_
+Manually test regex filter used to parse the access log.
 
 ```bash
 
 $(which php) /home/user/site.com/wp-content/plugins/audio-player-cbhdmk/lib/reports.php put "/path/to/accesslog" "/.mp3/i" true
 ```
+_Parameters:_
+
 1. put - _action flag, required_
 2. path - _optional, overrides admin settings_
 3. regex - _optional, override admin settings_
