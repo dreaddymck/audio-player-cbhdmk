@@ -234,5 +234,4 @@ if (!class_exists("dmck_audioplayer")) {
 	}
 	new dmck_audioplayer;
 }
-
 ?>
