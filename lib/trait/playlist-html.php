@@ -139,7 +139,7 @@ EOF;
                         <span class="">{$value["tags"]} {$value["moreinfo"]}</span>
                     </td>
                     <td class="text-center dmck-row-cover" title="{$value["date"]}">
-                        <div class="top-count">{$value["count"]}</div>
+                        <div><h1 class="top-count">{$value["count"]}</h1></div>
                     </td>
                 </tr>
 
