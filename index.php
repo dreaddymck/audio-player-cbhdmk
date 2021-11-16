@@ -92,7 +92,8 @@ if (!class_exists("dmck_audioplayer")) {
 			add_action( 'admin_head', array($this, 'head_hook') );
 			
 			//TODO after update event thing here, find better solution
-			// add_action( 'update_option_access_log', array($this, 'update_option_access_log'), 10, 3 );
+			//do_action( 'updated_option', string $option, mixed $old_value, mixed $value )
+			add_action( 'update_option_access_log', array($this, 'update_option_access_log'), 10, 3 );
 			
 			// add_action( 'wp', array($this, 'cronstarter_activation'));
 			// add_action( $this->cron_name."_daily", array($this, 'wp_cron_functions_daily')); 
@@ -224,7 +225,12 @@ if (!class_exists("dmck_audioplayer")) {
 			if( $favicon ){
 				echo  '<link href="'.$favicon.'" rel="icon" type="image/x-icon"></link>';
 			}
-		}		
+		}
+		function update_option_access_log( $old, $new){
+			if(($old && $new) && ($old != $new)){
+				$this->dmck_playlist_html_run();
+			}				
+		}				
 	}
 	new dmck_audioplayer;
 }
