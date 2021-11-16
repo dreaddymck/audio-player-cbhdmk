@@ -1,0 +1,19 @@
+#!/bin/bash
+if [ $# -eq 0 ]; 
+
+then
+	echo "Missing filename to update"
+	echo "Note: create versions with following"
+	echo "npm version major|minor|patch|etc.......see npm version options"
+else
+	PWD=$(pwd)
+	echo "Current working directory $PWD"
+	cd $PWD
+	VAR=$(eval "git describe")
+	echo "Cuurent git version $VAR"
+	$(eval "sed -i '0,/Version:.*/{s/Version:.*/Version: $VAR/}' '$PWD/$1'")
+	## $(eval "sed -i 's/Version:.*/Version: $VAR/' '$PWD/$1'")
+	echo "Done, please confirm changes applied to $PWD/$1"
+fi
+
+exit 0
