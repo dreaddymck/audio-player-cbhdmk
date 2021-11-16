@@ -140,7 +140,7 @@ if (!class_exists("dmck_audioplayer")) {
 		}
 		function shared_scripts(){
 			wp_enqueue_script( 'jquery.cookie.js', $this->plugin_url . 'node_modules/jquery.cookie/jquery.cookie.js', array('jquery'), $this->plugin_version, true );
-			wp_enqueue_style( 'font-awesome.min.css',  $this->plugin_url . "/node_modules/font-awesome/css/font-awesome.min.css", array(), $this->plugin_version);
+			wp_enqueue_style( 'font-awesome.min.css',  $this->plugin_url . "node_modules/font-awesome/css/font-awesome.min.css", array(), $this->plugin_version);
 			wp_enqueue_script( 'functions.js', $this->plugin_url . 'assets/js/functions.js', array('jquery'), $this->plugin_version, true );	
 		}
 		function localize_vars(){

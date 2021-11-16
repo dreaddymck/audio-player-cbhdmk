@@ -132,7 +132,6 @@ EOF;
                     cover="{$value["cover"]}"
                     permalink="{$value["permalink"]}"
                     wavformpng="{$value["wavformpng"]}"
-                    style="color:"
                     tags="{$value["tags"]}}
                     title="{$value["title"]}">
                     <td title="{$value["title"]}\nClick to play">
@@ -140,7 +139,7 @@ EOF;
                         <span class="">{$value["tags"]} {$value["moreinfo"]}</span>
                     </td>
                     <td class="text-center dmck-row-cover" title="{$value["date"]}">
-                        <div><h1 class="top-count">{$value["count"]}</h1></div>
+                        <div class="top-count">{$value["count"]}</div>
                     </td>
                 </tr>
 

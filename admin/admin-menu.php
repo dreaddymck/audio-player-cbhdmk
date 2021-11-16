@@ -129,7 +129,7 @@
 				<small>accepts /path/to/access_log, ["/path/to/access_log","/path/to/access_log_other"]</small>
 				<input type="text" name="access_log"  class="pure-input-1" value="<?php echo esc_attr( get_option('access_log') ); ?>" required placeholder="Required">				
 				<hr />				
-				<label><?php _e('Chart fill colors array'); ?><br>
+				<label><?php _e('Top Chart font color override.'); ?><br>
 				<small>Example <code>["#ffffff","#F0F0F0","#E0E0E0","#D0D0D0","#C0C0C0","#B0B0B0","#A0A0A0","#909090","#808080","#707070"]</code></small>
 				<input type="text" name="chart_color_array"  class="pure-input-1" value="<?php echo esc_attr( get_option('chart_color_array') ); ?>">
 				</label>

@@ -7,7 +7,7 @@
 .dmck_audioplayer .cover {
     height: 100%;
     background-size: 100%;
-    opacity: 0.8;
+    /* opacity: 0.5; */
 }
 .dmck_audioplayer .top-played {
     list-style-type: none;
@@ -30,7 +30,6 @@
     height: 25px;
     padding: 12px;
 }
-
 .dmck_audioplayer .ui-icon {
     -ms-transform: scale(1.0);
     /* IE 9 */
@@ -38,11 +37,9 @@
     /* Chrome, Safari, Opera */
     transform: scale(1.0);
 }
-
 .dmck_audioplayer .ui-li-title,.ui-li-moreinfo {
     font-weight: bolder;
 }
-
 .dmck_audioplayer .ui-slider-range {
     background: rgba(0, 0, 0, .3);
     height: 100%;
@@ -81,30 +78,14 @@
     overflow-x:auto;
     border-collapse: collapse;
 }
-.dmck_audioplayer .table tr td {
-    cursor: pointer;
-    border-bottom: 1pt solid white;   
-}
 .dmck_audioplayer .dmck-cover {
     background-size: 100%;
-    opacity: 0.8;
+    /* opacity: 0.5; */
 }
 .dmck_audioplayer .dmck-row-cover {
     width: 100px;
 }
-.dmck_audioplayer .dmck-row-cover img {
-    border-radius: 50%;
-}
-.dmck_audioplayer .dmck-row-cover h1 {
-    /* background-color: rgba(0, 0, 0, 0.75); */
-    text-shadow: 2px 5px #000;
-    -webkit-text-stroke: 2px inherit;
-    line-height: 100px;
-}
 .dmck_audioplayer .dmck-row-cover div {
-    -webkit-border-radius: 50px;
-    -moz-border-radius: 50px;
-    border-radius: 50px;
     border: none;
     height: 100px;
     width: 100px;
@@ -112,6 +93,17 @@
     background-repeat: no-repeat;
     background-position: center;
 }
+/* .dmck_audioplayer .dmck-row-cover img,
+.dmck_audioplayer .dmck-row-cover div {
+    -webkit-border-radius: 50px;
+    -moz-border-radius: 50px;
+    border-radius: 50px;
+} */
+/* .dmck_audioplayer .dmck-row-cover h1 {
+    text-shadow: 2px 5px #000;
+    -webkit-text-stroke: 2px inherit;
+    line-height: 100px;
+} */
 .dmck_audioplayer .options {
     border: 1px solid;      
 }
@@ -124,14 +116,6 @@
     grid-template-rows: auto;
     gap: 0px 0px;      
 }
-/* .dmck_audioplayer .circle {
-    width: auto;
-    height: auto;
-    background: red;
-    -moz-border-radius: 70px;
-    -webkit-border-radius: 70px;
-    border-radius: 70px;
-} */
 .dmck_audioplayer #fixed-controls {
     position: fixed;
     top: 10px;
@@ -141,7 +125,6 @@
     padding-bottom: 24px;    
 }
 .dmck_audioplayer .active-highlight {
-    text-shadow: 0 0 20px #fff;
     font-weight: bold;
 }
 .dmck_audioplayer .text-center {
