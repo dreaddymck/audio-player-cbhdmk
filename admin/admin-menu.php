@@ -50,18 +50,8 @@
 				<input type="checkbox" name="delete_options_on_inactive"  class="" value="1" <?php if (1 == get_option('delete_options_on_inactive')) echo 'checked="checked"'; ?> >
 				</label>
 				<hr>
-				<h2>Controls</h2>
-				<label>Audio Control Display
-				<input type="checkbox" name="audio_control_enabled"  class="" value="1" <?php if (1 == get_option('audio_control_enabled')) echo 'checked="checked"'; ?> >
-				</label>
-				<label>Audio Control slider height (pixels):
-				<input type="text" name="audio_control_slider_height" class="pure-input-1" value="<?php if(get_option('audio_control_slider_height')){ echo esc_attr( get_option('audio_control_slider_height') ); }else{ echo "200"; } ?>" <?php if (0 == get_option('audio_control_enabled')) echo 'disabled'; ?> >
-				</label>
-				<hr>
-				<label>Charts activate
-				<input type="checkbox" name="charts_enabled"  class="" value="1" <?php if (1 == get_option('charts_enabled')) echo 'checked="checked"'; ?> >
-				</label>
-				<hr>
+
+
 			</div>
 			</div>
 		</div>
@@ -80,11 +70,23 @@
 			</div>
 			<div class="pure-u-1 pure-u-md-2-5">
 				<div class="pure-padding-box">
+				<h2>Controls</h2>
+				<label>Audio Control Display
+				<input type="checkbox" name="audio_control_enabled"  class="" value="1" <?php if (1 == get_option('audio_control_enabled')) echo 'checked="checked"'; ?> >
+				</label>
+				<label>Audio Control slider height (pixels):
+				<input type="text" name="audio_control_slider_height" class="pure-input-1" value="<?php if(get_option('audio_control_slider_height')){ echo esc_attr( get_option('audio_control_slider_height') ); }else{ echo "200"; } ?>" <?php if (0 == get_option('audio_control_enabled')) echo 'disabled'; ?> >
+				</label>
+				<hr>					
+				<label>Charts
+				<input type="checkbox" name="charts_enabled"  class="" value="1" <?php if (1 == get_option('charts_enabled')) echo 'checked="checked"'; ?> >
+				</label>
+				<hr>					
 				<label>Custom Filename REGEX (Filename is used as title):
 				<input name="media_filename_regex"  class="pure-input-1" value="<?php if(get_option('media_filename_regex')){ echo esc_attr( get_option('media_filename_regex') ); } ?>" title="Regex replace media filename" />
 				</label>
 				<hr>
-				<label>Visualizer Enable: <input type="checkbox" name="visualizer_rgb_enabled"  class="" value="1" <?php if (1 == get_option('visualizer_rgb_enabled')) echo 'checked="checked"'; ?> >
+				<label>Visualizer: <input type="checkbox" name="visualizer_rgb_enabled"  class="" value="1" <?php if (1 == get_option('visualizer_rgb_enabled')) echo 'checked="checked"'; ?> >
 				</label>
 				<div>
 					<label>Colors: 
@@ -117,6 +119,7 @@
 			<div class="pure-u-1 pure-u-md-3-5">
 				<div class="pure-padding-box">
 
+				<small>The following background cron task is a requirement:<br><code>* * * * * $(which php) <?php echo plugin_dir_path(__DIR__)?>lib/reports.php put > /dev/null 2>&1</code></small>
 				<label><?php _e('Ignore admin ip addresses'); ?>:  
 				<input type="checkbox" name="ignore_ip_enabled"  class="" value="1" <?php if (1 == get_option('ignore_ip_enabled')) echo 'checked="checked"'; ?> >
 				</label>
@@ -131,6 +134,7 @@
 				<input type="text" name="chart_color_array"  class="pure-input-1" value="<?php echo esc_attr( get_option('chart_color_array') ); ?>">
 				</label>
 				<hr>
+				
 				</div>
 			</div>
 			<div class="pure-u-1 pure-u-md-2-5">

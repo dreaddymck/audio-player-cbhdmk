@@ -51,12 +51,17 @@ const playlist_control = {
 		 */
 		jQuery(playlist_control.globals.cfg.play).click(function (e) {
 			e.preventDefault();
-			playlist_control.stopAudio();
-			// playlist_control.playAudio(e)
-			let active = playlist_control.globals.container.children().filter(function(){ return( jQuery(this).hasClass("active") ); })
-			playlist_control.initAudio(active);
-			let id = (jQuery(playlist_control.globals.container).attr("id") || jQuery(playlist_control.globals.container).parents(".tab-pane").attr("id"));
-			jQuery("." + dmck_audioplayer.plugin_slug + ' a[href="#' + id + '"]').tab('show');
+			if(playlist_control.globals.container){
+				playlist_control.stopAudio();
+				// playlist_control.playAudio(e)
+				let active = playlist_control.globals.container.children().filter(function(){ return( jQuery(this).hasClass("active") ); })
+				playlist_control.initAudio(active);
+				let id = (jQuery(playlist_control.globals.container).attr("id") || jQuery(playlist_control.globals.container).parents(".tab-pane").attr("id"));
+				// jQuery("." + dmck_audioplayer.plugin_slug + ' a[href="#' + id + '"]').tab('show');
+			}else{
+				playlist_control.play_on_click(jQuery("." + dmck_audioplayer.plugin_slug + " .tab-pane.active .dmck-audio-playlist-track").first());
+			}
+
 		});
 		jQuery(playlist_control.globals.cfg.title).click(function (e) {
 			e.preventDefault()
