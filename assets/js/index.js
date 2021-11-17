@@ -54,7 +54,7 @@ jQuery(document).ready(function () {
             p2
         ]
     ).then(function() {
-        charts_pkg.top_requests_chart();
+        charts_pkg.top_requests_chart("#top-10");
         charts_pkg.post_chart();
         dmck_audioplayer_end();
         if(dmck_audioplayer.autoplay){

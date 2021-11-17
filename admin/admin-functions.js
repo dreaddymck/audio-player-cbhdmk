@@ -46,6 +46,7 @@ const admin_functions = {
             jQuery('.tab-about').html(content);
         });
         jQuery("#wp-admin-bar-" + dmck_audioplayer.plugin_slug).css("font-style","italic");
+        charts_pkg.top_requests_chart("#admin-charts");
     },
     submit_form(){
         jQuery(document.body).css({'cursor' : 'wait'});

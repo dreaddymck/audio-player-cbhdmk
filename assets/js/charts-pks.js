@@ -19,7 +19,7 @@ Chart.plugins.register({
 });
 
 const charts_pkg = {
-    top_requests_chart: function(){
+    top_requests_chart: function(selector){
         if(!dmck_audioplayer.chart_rgb_enabled){ return; }
         /**
          * top_10_json is currently embeded in html - playlist-layout.php
@@ -33,7 +33,7 @@ const charts_pkg = {
             labels.push( arr[x].title ? unescape(arr[x].title.toUpperCase()) : unescape(arr[x].name) );
             data.push(arr[x].count)                
         }
-        jQuery("#top-10").append(`<canvas id="top-requests-chart" width="auto" height="auto"></canvas>`);            
+        jQuery(selector).append(`<canvas id="top-requests-chart" width="auto" height="auto"></canvas>`);            
         let ctx = jQuery("#top-requests-chart");
         new Chart(ctx, {
             type: 'horizontalBar',

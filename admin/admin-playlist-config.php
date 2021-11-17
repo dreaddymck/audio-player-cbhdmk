@@ -269,7 +269,7 @@ if($playlist_config){
 	<hr>
 	
 	<label>playlist json</label> (<i><small>Double-click input to expand</small></i>)
-	<textarea name="playlist_config" class="pure-input-1 rounded-0" rows="3" ondblclick="this.style.height = '';this.style.height = (this.scrollHeight + 12) + 'px'"><?php echo $playlist_config_default; ?></textarea>
+	<textarea name="playlist_config" class="pure-input-1 rounded-0" rows="5" ondblclick="this.style.height = '';this.style.height = (this.scrollHeight + 12) + 'px'"><?php echo $playlist_config_default; ?></textarea>
 	<script>let playlist_config_default_json = <?php echo playlist_config_default_json(); ?></script>
 	<hr>
 	<?php	

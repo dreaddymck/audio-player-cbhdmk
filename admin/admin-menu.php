@@ -12,7 +12,7 @@
 			<li class="pure-menu-item" data-tab="parent-tabs-4"><a href="#" class="pure-menu-link">Playlists</a></li>
 			<?php if( get_option('charts_enabled') ){ ?>
 			<li class="pure-menu-item" data-tab="parent-tabs-5"><a href="#" class="pure-menu-link">Charts</a></li>
-			<li class="pure-menu-item" data-tab="parent-tabs-7"><a href="#" class="pure-menu-link">Data</a></li>
+			<li class="pure-menu-item" data-tab="parent-tabs-7"><a href="#" class="pure-menu-link">Stats</a></li>
 			<?php } ?>
 			<li class="pure-menu-item" data-tab="parent-tabs-6"><a href="#" class="pure-menu-link">Plugin git commits</a></li>
 			<li class="pure-menu-item" data-tab="parent-tabs-3"><a href="#" class="pure-menu-link">About</a></li>                
@@ -50,8 +50,6 @@
 				<input type="checkbox" name="delete_options_on_inactive"  class="" value="1" <?php if (1 == get_option('delete_options_on_inactive')) echo 'checked="checked"'; ?> >
 				</label>
 				<hr>
-
-
 			</div>
 			</div>
 		</div>
@@ -157,16 +155,22 @@
 		<div class="pure-g">
 			<div class="pure-u-1 pure-u-md-5-5">
 			<div class="pure-padding-box">
-				<label><?php _e("Media Requests Today"); ?></label>
-				<textarea  class="pure-input-1" rows="12"><?php
+				<label>Today</label>
+				<?php
 					$access_log_activity = array();
+					$activity="";
 					if( get_option('charts_enabled') ){
 						$access_log_activity = $this->media_activity_today();
 						if(is_array($access_log_activity)){
-							echo json_encode($access_log_activity, JSON_PRETTY_PRINT);
+							$activity = json_encode($access_log_activity, JSON_PRETTY_PRINT);
 						}
 					}
-				?></textarea>
+				?>
+				<script>let top_10_json=<?php echo ($activity ? $activity : '') ?></script>
+				<div id="admin-charts"></div>
+				(<i><small>Double-click input to expand</small></i>)				
+				<textarea  class="pure-input-1 rounded-0" rows="5" ondblclick="this.style.height = '';this.style.height = (this.scrollHeight + 12) + 'px'">
+					<?php echo $activity ?></textarea>				
 				<label><?php echo "Total: ".sizeof($access_log_activity) ?><label>
 				</div>
 			</div>

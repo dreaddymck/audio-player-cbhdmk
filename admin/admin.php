@@ -106,7 +106,9 @@ trait _admin {
             wp_enqueue_script( 'admin-functions.js', $this->plugin_url . 'admin/admin-functions.js', array('jquery'), $this->plugin_version, true );
             wp_enqueue_script( 'admin.js', $this->plugin_url . 'admin/admin.js', array('jquery'), $this->plugin_version, true );
             wp_enqueue_script( 'upload.js', $this->plugin_url . 'assets/js/upload.js', array('jquery'), $this->plugin_version, true );
-            wp_enqueue_script( 'jscolor.js', $this->plugin_url . 'node_modules/@eastdesire/jscolor/jscolor.js', '', '', true );				
+            wp_enqueue_script( 'jscolor.js', $this->plugin_url . 'node_modules/@eastdesire/jscolor/jscolor.js', '', '', true );
+            wp_enqueue_script( 'Chart.bundle.js', $this->plugin_url . 'assets/js/Chart.bundle.js', array('jquery'), $this->plugin_version, true );
+			wp_enqueue_script( 'charts-pks.js', $this->plugin_url . 'assets/js/charts-pks.js', array('jquery'), $this->plugin_version, true );	            			
             $this->localize_vars();
         }
     }    
