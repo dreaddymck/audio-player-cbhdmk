@@ -10,10 +10,9 @@
 		<ul class="pure-menu-list tabs-settings parent-tabs tabs">
 			<li class="pure-menu-item" data-tab="parent-tabs-1"><a href="#" class="pure-menu-link">Settings</a></li>
 			<li class="pure-menu-item" data-tab="parent-tabs-4"><a href="#" class="pure-menu-link">Playlists</a></li>
-			<?php if( get_option('charts_enabled') ){ ?>
-			<li class="pure-menu-item" data-tab="parent-tabs-5"><a href="#" class="pure-menu-link">Charts</a></li>
-			<li class="pure-menu-item" data-tab="parent-tabs-7"><a href="#" class="pure-menu-link">Stats</a></li>
-			<?php } ?>
+			<?php $charts_en = get_option('charts_enabled') ?>
+			<li class="pure-menu-item <?php echo (!$charts_en ? "hidden" : "") ?>" data-tab="parent-tabs-5"><a href="#" class="pure-menu-link">Charts</a></li>
+			<li class="pure-menu-item <?php echo (!$charts_en ? "hidden" : "") ?>" data-tab="parent-tabs-7"><a href="#" class="pure-menu-link">Stats</a></li>
 			<li class="pure-menu-item" data-tab="parent-tabs-6"><a href="#" class="pure-menu-link">Plugin git commits</a></li>
 			<li class="pure-menu-item" data-tab="parent-tabs-3"><a href="#" class="pure-menu-link">About</a></li>                
 		</ul>
@@ -75,14 +74,7 @@
 				<label>Audio Control slider height (pixels):
 				<input type="text" name="audio_control_slider_height" class="pure-input-1" value="<?php if(get_option('audio_control_slider_height')){ echo esc_attr( get_option('audio_control_slider_height') ); }else{ echo "200"; } ?>" <?php if (0 == get_option('audio_control_enabled')) echo 'disabled'; ?> >
 				</label>
-				<hr>					
-				<label>Charts
-				<input type="checkbox" name="charts_enabled"  class="" value="1" <?php if (1 == get_option('charts_enabled')) echo 'checked="checked"'; ?> >
-				</label>
-				<hr>					
-				<label>Custom Filename REGEX (Filename is used as title):
-				<input name="media_filename_regex"  class="pure-input-1" value="<?php if(get_option('media_filename_regex')){ echo esc_attr( get_option('media_filename_regex') ); } ?>" title="Regex replace media filename" />
-				</label>
+
 				<hr>
 				<label>Visualizer: <input type="checkbox" name="visualizer_rgb_enabled"  class="" value="1" <?php if (1 == get_option('visualizer_rgb_enabled')) echo 'checked="checked"'; ?> >
 				</label>
@@ -107,6 +99,10 @@
 					<option value='32768' <?php selected( get_option('visualizer_samples'), "32768" ); ?>>32768</option>
 				</select>
 				</label>
+				<hr>					
+				<label>Charts
+				<input type="checkbox" name="charts_enabled"  class="" value="1" <?php if (1 == get_option('charts_enabled')) echo 'checked="checked"'; ?> >
+				</label>				
 				</div>
 			</div>
 		</div>

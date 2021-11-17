@@ -265,8 +265,12 @@ if($playlist_config){
 		<input type='text' name='playlist_top_media_count' value="<?php echo $playlist_top_media_count ?>" class='pure-input-1-4' style="display:<?php echo (1 == $playlist_top_media) ? 'inline' : 'none'; ?>" placeholder="Count"/>
 		
 	</div>
-	
+	<hr>					
+	<label>Custom Filename REGEX (Filename is used as title):
+		<input name="media_filename_regex"  class="pure-input-1" value="<?php if(get_option('media_filename_regex')){ echo esc_attr( get_option('media_filename_regex') ); } ?>" title="Regex replace media filename" />
+	</label>
 	<hr>
+
 	
 	<label>playlist json</label> (<i><small>Double-click input to expand</small></i>)
 	<textarea name="playlist_config" class="pure-input-1 rounded-0" rows="5" ondblclick="this.style.height = '';this.style.height = (this.scrollHeight + 12) + 'px'"><?php echo $playlist_config_default; ?></textarea>

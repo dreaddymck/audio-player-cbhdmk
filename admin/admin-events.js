@@ -179,5 +179,14 @@ const admin_events = {
                 "input": jQuery('input[name*="admin-upload"]')
             });
         });
+        jQuery("input[type='checkbox'][name='charts_enabled']").click(function (e) {
+            if( jQuery(this).prop("checked")){
+                jQuery("li[data-tab='parent-tabs-5']").removeClass("hidden");
+                jQuery("li[data-tab='parent-tabs-7']").removeClass("hidden");
+            }else{
+                jQuery("li[data-tab='parent-tabs-5']").addClass("hidden");
+                jQuery("li[data-tab='parent-tabs-7']").addClass("hidden");                
+            }
+        });
     }
 }
