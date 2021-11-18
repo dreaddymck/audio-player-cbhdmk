@@ -57,6 +57,6 @@ _Parameters:_
 
 ## Screenshot
 
-![Alt Text](https://github.com/dreaddymck/audio-player-cbhdmk/blob/master/screenshot.gif)
+![Alt Text](https://github.com/dreaddymck/audio-player-cbhdmk/blob/master/screenshot.gif?raw=true)
 ![alt tag](https://github.com/dreaddymck/audio-player-cbhdmk/blob/master/screenshot.png?raw=true)
 
