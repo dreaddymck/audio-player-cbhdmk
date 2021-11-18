@@ -242,7 +242,6 @@ if($playlist_config){
 	}
 
 	?>
-	<h2>Playlist Configuration</h2>
 
 	<?php if ($playlist_config_selection) : ?>
 	<select name="playlist_config_selection" size="4">
@@ -266,10 +265,7 @@ if($playlist_config){
 		
 	</div>
 	<hr>					
-	<label>Custom Filename REGEX (Filename is used as title):
-		<input name="media_filename_regex"  class="pure-input-1" value="<?php if(get_option('media_filename_regex')){ echo esc_attr( get_option('media_filename_regex') ); } ?>" title="Regex replace media filename" />
-	</label>
-	<hr>
+
 
 	
 	<label>playlist json</label> (<i><small>Double-click input to expand</small></i>)
