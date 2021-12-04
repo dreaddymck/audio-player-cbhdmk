@@ -42,15 +42,16 @@ _Parameters:_
 
 ### Access logs, filters and debugging
 
-Manually test regex filter used to parse the access log.
+Test regex used to parse the access log.
+Refresh logs after permalink change.
 
 ```bash
 
-$(which php) /home/user/site.com/wp-content/plugins/audio-player-cbhdmk/lib/reports.php put "/path/to/accesslog" "/.mp3/i" true
+$(which php) /home/user/site.com/wp-content/plugins/audio-player-cbhdmk/lib/reports.php logs "/path/to/accesslog" "/.mp3/i" true
 ```
 _Parameters:_
 
-1. put - _action flag, required_
+1. logs - _action flag, required_
 2. path - _optional, overrides admin settings_
 3. regex - _optional, override admin settings_
 4. true - _optional, show results in error log_

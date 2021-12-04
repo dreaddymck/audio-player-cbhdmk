@@ -154,7 +154,7 @@
                     <div class="pure-padding-box">
 
                         <small>The following background cron task is a
-                            requirement:<br><code>* * * * * $(which php) <?php echo plugin_dir_path(__DIR__)?>lib/reports.php put > /dev/null 2>&1</code></small>
+                            requirement:<br><code>* * * * * $(which php) <?php echo plugin_dir_path(__DIR__)?>lib/reports.php logs > /dev/null 2>&1</code></small>
                         <label><?php _e('Ignore admin ip addresses'); ?>:
                             <input type="checkbox" name="ignore_ip_enabled" class="" value="1"
                                 <?php if (1 == get_option('ignore_ip_enabled')) echo 'checked="checked"'; ?>>
@@ -216,7 +216,7 @@
 					}
 				?>
                         <script>
-                        let top_10_json = <?php echo ($activity ? $activity : '') ?>
+                        let top_10_json = <?php echo ($activity ? $activity :"[]") ?>
                         </script>
                         <div id="admin-charts"></div>
                         (<i><small>Double-click input to expand</small></i>)

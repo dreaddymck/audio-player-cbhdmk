@@ -1,18 +1,19 @@
 {
   "name": "audio-player-cbhdmk",
   "version": "1.1.1",
-  "description": "wordpress audio player plugin",
+  "description": "wordpress media playlist plugin",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "wp-env": "wp-env"
   },
   "repository": {
     "type": "git",
-    "url": "/opt/gitrepo/audio-player-cbhdmk/"
+    "url": "https://github.com/dreaddymck/audio-player-cbhdmk"
   },
   "author": "dreaddymck",
   "license": "ISC",
   "devDependencies": {
+    "@wordpress/env": "^4.1.3",
     "eslint-config-google": "^0.9.1"
   },
   "dependencies": {

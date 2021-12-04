@@ -1,8 +1,5 @@
-/config.js
-config.js
-.nodemonignore
+node_modules
 nohup.out
 npm-debug.log
 error_log                                                                                                                                                   
-lib/error_log
 reports.sql 

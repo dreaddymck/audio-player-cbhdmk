@@ -9,6 +9,7 @@ try{
 	require_once(dirname(__FILE__) . "/trait/wavform.php");
     require_once(dirname(__FILE__) . "/trait/utilities.php");   
     require_once(dirname(__FILE__) . "/trait/requests.php"); 
+    require_once(dirname(__FILE__) . "/trait/attachments.php"); 
 }
 catch (Exception $e) { exit($e); }
 class dmck_reports{
@@ -16,6 +17,7 @@ class dmck_reports{
     use _wavform;
     use _utilities;
     use _requests;
+    use _attachments;
     public $debug;
     public $options;
     public $filepath;
@@ -27,19 +29,28 @@ class dmck_reports{
             if($this->debug){ echo __FUNCTION__. " | ". $this->memory_usage()."\n\r"; } 
             $response = "{}";
             switch ($this->options) {
-                case "put":
+                case "logs":
                     $response = $this->accesslog_activity_put();
                     break;
+                case "attach":
+                    $response = $this->attachments();
+                    break;                    
                 case "wavform":
                     $response = $this->wavform();        
                     break;                                
                 default:
                     $response = "
 Supported parameters.
-argv[0]: put|wavform ( commands )
+argv[0]: logs|wavform|attach ( commands )
 argv[1]: path ( wavform / access_log )
 argv[2]: filename ( wavform / access_log custom regex pattern )
-argv[3]: true/1 ( debug )
+argv[3]: 0/1 ( debug )
+
+Commands
+--------
+logs: parse access logs for charts.
+wavform: generate audio wavform.
+attach: attach embeded media to post.  
 ";
             }   
             exit($response);

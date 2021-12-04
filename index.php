@@ -1,11 +1,11 @@
 <?php
 /*
 Plugin Name: (DMCK) audio player
-Plugin URI: dreaddymck.com
-Description: Just another media thingy. Can be used to generate playlists and simple charts. Shortcode [dmck-audioplayer]
-Version: 1.1.1-17690d3
+Plugin URI: https://github.com/dreaddymck/audio-player-cbhdmk
+Description: Generates a media playlists and simple charts. Shortcode [dmck-audioplayer]
+Version: 1.1.1-59ae61d
 Author: dreaddymck
-Author URI: dreaddymck.com
+Author URI: https://github.com/dreaddymck
 License: GPL2
 
 TODO: Gutenberg block support.

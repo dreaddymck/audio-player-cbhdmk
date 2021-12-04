@@ -33,8 +33,8 @@ trait _requests {
 		}
 		return json_encode($response);
 	}
-	function obj_request($obj) {
-		$args = array(
+	function obj_request_args($obj){
+		return array(
 			's'					=> isset($obj->s) && !empty($obj->s) ? "/".urldecode($obj->s)  : null,
 			'posts_per_page' 	=> isset($obj->posts_per_page) && !empty($obj->posts_per_page) ? $obj->posts_per_page : -1,
 			'post_status'      	=> isset($obj->publish) && !empty($obj->publish) ? $obj->publish  : "publish",
@@ -53,6 +53,9 @@ trait _requests {
 			'category__in'		=> isset($obj->category__in) && !empty($obj->category__in) ? $obj->category__in : null,
 			'category__not_in'	=> isset($obj->category__not_in) && !empty($obj->category__not_in) ? $obj->category__not_in : null,
 		);
+	}
+	function obj_request($obj) {
+		$args = $this->obj_request_args($obj);
 		return $this->_requests_get_posts($args);
 	}
 	function param_request($data){
@@ -102,7 +105,7 @@ trait _requests {
 
 			foreach($p as $e){
 				//TODO Follow up on this bit of comparison this method is slow, find out why the string compare difference
-				if(strtolower(basename($e->mp3)) == strtolower($value["name"]) || strcasecmp(basename($e->mp3), $value["name"]) ){
+				if(strtolower(basename($e->mp3)) == strtolower($value["name"]) || strcasecmp(basename($e->mp3), $value["name"]) == 0){
 					$title = pathinfo($e->mp3, PATHINFO_FILENAME);
 					$media_filename_regex = esc_attr( get_option('media_filename_regex') );
 					if($media_filename_regex){
@@ -230,8 +233,7 @@ trait _requests {
 
 		if($src->length){
 			foreach( $src as $s ) {
-				$value = $s->nodeValue;
-				array_push($matches,$value);
+				array_push($matches,trim($s->nodeValue));
 			}
 		}
 		return $matches;

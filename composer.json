@@ -1,6 +1,6 @@
 {
     "name": "dreaddy/audio-player-cbhdmk",
-    "description": "mp3 audio player app",
+    "description": "wordpress media playlist plugin",
     "require": {
         "maximal/audio-waveform": "~1.0"
     }
