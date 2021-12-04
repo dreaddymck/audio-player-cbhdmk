@@ -89,7 +89,7 @@
     border: none;
     height: 100px;
     width: 100px;
-    background-size: 100px 100px;
+    background-size: 100px auto;
     background-repeat: no-repeat;
     background-position: center;
 }
