@@ -85,6 +85,10 @@
 .dmck_audioplayer .dmck-row-cover {
     width: 100px;
 }
+.dmck_audioplayer .dmck-row-content div,
+.dmck_audioplayer .dmck-row-cover div {
+    cursor: pointer;
+}
 .dmck_audioplayer .dmck-row-cover div {
     border: none;
     height: 100px;
@@ -93,17 +97,6 @@
     background-repeat: no-repeat;
     background-position: center;
 }
-/* .dmck_audioplayer .dmck-row-cover img,
-.dmck_audioplayer .dmck-row-cover div {
-    -webkit-border-radius: 50px;
-    -moz-border-radius: 50px;
-    border-radius: 50px;
-} */
-/* .dmck_audioplayer .dmck-row-cover h1 {
-    text-shadow: 2px 5px #000;
-    -webkit-text-stroke: 2px inherit;
-    line-height: 100px;
-} */
 .dmck_audioplayer .options {
     border: 1px solid;      
 }

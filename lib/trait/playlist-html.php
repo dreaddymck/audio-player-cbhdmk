@@ -81,9 +81,11 @@ EOF;
                     wavformpng="{$p->wavformpng}"
                     tags="{$p->tags}"
                     title="{$p->title}">
-                    <td title="{$p->title}\nClick to play">
-                        <p class="track-title">$p->title</p>
-                        <span class=""> {$p->tags} </span>
+                    <td  class="dmck-row-content" title="{$p->title}\nClick to play">
+                        <div>
+                            <p class="track-title">$p->title</p>
+                            <span class=""> {$p->tags} </span>
+                        </div>
                     </td>
                     <td title="Click for details" class="text-center dmck-row-cover">
                         <div style="background-image: url('{$p->cover}')"></div>
@@ -134,11 +136,13 @@ EOF;
                     wavformpng="{$value["wavformpng"]}"
                     tags="{$value["tags"]}}
                     title="{$value["title"]}">
-                    <td title="{$value["title"]}\nClick to play">
-                        <p class="track-title">{$value["title"]}</p>
-                        <span class="">{$value["tags"]} {$value["moreinfo"]}</span>
+                    <td class="dmck-row-content" title="{$value["title"]}\nClick to play">
+                        <div>
+                            <p class="track-title">{$value["title"]}</p>
+                            <span class="">{$value["tags"]} {$value["moreinfo"]}</span>
+                        </div>
                     </td>
-                    <td class="text-center dmck-row-cover" title="{$value["date"]}">
+                    <td class="dmck-row-cover text-center " title="{$value["date"]}">
                         <div><h1 class="top-count">{$value["count"]}</h1></div>
                     </td>
                 </tr>
