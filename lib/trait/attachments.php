@@ -45,7 +45,6 @@ trait _attachments {
 				$attach_id = wp_insert_attachment( $attachment, $a, $post->ID );
 				array_push( $response, $attachment );				
 			}
-            if($this->debug){ echo __FUNCTION__. " | ". $this->memory_usage()."\n\r"; } 
 		} 
 		if($this->debug){ 
 			echo __FUNCTION__. " | ". $this->memory_usage()."\n\r"; 

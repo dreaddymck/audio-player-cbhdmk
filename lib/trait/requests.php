@@ -195,6 +195,7 @@ trait _requests {
 	}
 	function extract_embedded_media($str) { //renamed from fetch_audio_from_string
 		$matches = array();
+		if(!$str){return $matches;}
 
 		// This REGEX solution fails on classic html pages/posts imported from blogspot
 		//
