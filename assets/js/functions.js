@@ -1,6 +1,6 @@
 "use strict";
 
-const _functions = {
+window._functions = {
 
 	cookie : {
 		name: dmck_audioplayer.plugin_slug + "-cookie",

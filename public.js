@@ -1,0 +1,15 @@
+import '@fortawesome/fontawesome-free/js/fontawesome'
+import '@fortawesome/fontawesome-free/js/solid'
+import '@fortawesome/fontawesome-free/js/regular'
+import '@fortawesome/fontawesome-free/js/brands'
+import './assets/css/playlist.css';
+import "jquery-ui-slider";
+import "jquery.cookie";
+import './assets/js/functions.js';
+import './assets/js/playlist-control.js';
+import './assets/js/access_log.js';
+import './assets/js/playlist.js';
+import './assets/js/visualizer.js';
+import './assets/js/Chart.bundle.js';
+import './assets/js/charts-pks.js'
+import './assets/js/index.js';

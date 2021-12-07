@@ -95,20 +95,8 @@ trait _admin {
     }
     function admin_scripts($hook_suffix) {			
         if ( $this->settings_page == $hook_suffix ) {
-            $this->shared_scripts();	
-            wp_enqueue_style( 'pure.css',  $this->plugin_url . "node_modules/purecss/build/pure-min.css", array(), $this->plugin_version);
-            wp_enqueue_style( 'base-min.css',  $this->plugin_url . "node_modules/purecss/build/base-min.css", array(), $this->plugin_version);
-            wp_enqueue_style( 'grids-min.css',  $this->plugin_url . "node_modules/purecss/build/grids-min.css", array(), $this->plugin_version);
-            wp_enqueue_style( 'grids-responsive-min.css',  $this->plugin_url . "node_modules/purecss/build/grids-responsive-min.css", array(), $this->plugin_version);
-            wp_enqueue_style( 'admin.css',  $this->plugin_url . "admin/admin.css", array(), $this->plugin_version);
-            wp_enqueue_script( 'marked.min.js', $this->plugin_url . 'assets/js/marked.min.js', array('jquery'), $this->plugin_version, true );				
-            wp_enqueue_script( 'admin-events.js', $this->plugin_url . 'admin/admin-events.js', array('jquery'), $this->plugin_version, true );
-            wp_enqueue_script( 'admin-functions.js', $this->plugin_url . 'admin/admin-functions.js', array('jquery'), $this->plugin_version, true );
-            wp_enqueue_script( 'admin.js', $this->plugin_url . 'admin/admin.js', array('jquery'), $this->plugin_version, true );
-            wp_enqueue_script( 'upload.js', $this->plugin_url . 'assets/js/upload.js', array('jquery'), $this->plugin_version, true );
-            wp_enqueue_script( 'jscolor.js', $this->plugin_url . 'node_modules/@eastdesire/jscolor/jscolor.js', '', '', true );
-            wp_enqueue_script( 'Chart.bundle.js', $this->plugin_url . 'assets/js/Chart.bundle.js', array('jquery'), $this->plugin_version, true );
-			wp_enqueue_script( 'charts-pks.js', $this->plugin_url . 'assets/js/charts-pks.js', array('jquery'), $this->plugin_version, true );	            			
+            wp_enqueue_script( 'marked.min.js', $this->plugin_url . 'assets/js/marked.min.js', array('jquery'), $this->plugin_version, true );	
+            wp_enqueue_script( 'bundle.js', $this->plugin_url . 'dist/private.bundle.js', array('jquery'), $this->plugin_version, true );            			
             $this->localize_vars();
         }
     }    

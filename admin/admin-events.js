@@ -1,6 +1,6 @@
 "use strict";
 
-const admin_events = {
+window.admin_events = {
     init: function(){
         jQuery('ul.parent-tabs li').click(function () {
             var tab_id = jQuery(this).attr('data-tab');

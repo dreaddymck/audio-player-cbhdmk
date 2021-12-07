@@ -1,6 +1,6 @@
 "use strict";
 
-const admin_functions = {
+window.admin_functions = {
     cookie: {
         id: function(id){
             return id ? id : (dmck_audioplayer.plugin_slug + "-" + window.location.hostname);

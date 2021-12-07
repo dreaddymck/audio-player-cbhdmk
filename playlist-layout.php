@@ -4,7 +4,7 @@
 		<div class="heading">
 			<h1 class="title" title="click for more information"></h1>
 		</div>
-		<div class="body" style="height:<?php echo esc_attr( get_option('audio_control_slider_height') ); ?>px">				
+		<div class="audio_control_box" style="height:<?php echo esc_attr( get_option('audio_control_slider_height') ); ?>px">				
 			<div class="cover" style="background-image: url('<?php echo esc_attr( get_option('audio_control_slider_height') ); ?>');">
 				<div class="h-100">
 					<div class="volume" style="display:none"></div>						
@@ -16,7 +16,7 @@
 			</div>
 		</div>
 		<div class="options">
-			<div class="controls">
+			<div class="controls" style="text-align:center">
 				<div class="play fa fa-play fa-2x"  aria-hidden="true" title="Play"></div>
 				<div class="pause fa fa-stop fa-2x"  aria-hidden="true" title="Pause"></div>	
 				<div class="rew fa fa-step-backward fa-2x" aria-hidden="true" title="Back"></div>

@@ -1,6 +1,6 @@
 "use strict"
 
-const playlist_control = {	
+window.playlist_control = {	
 	globals: {
 		cfg: {
 			duration: "." + dmck_audioplayer.plugin_slug + ' .duration',

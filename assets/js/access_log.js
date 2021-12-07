@@ -1,6 +1,6 @@
 "use strict";
 
-const access_log = {
+window.access_log = {
 
 	init: function(){ 
         this.defer( this.reports.top_requests ) 

@@ -18,7 +18,7 @@ Chart.plugins.register({
     }
 });
 
-const charts_pkg = {
+window.charts_pkg = {
     top_requests_chart: function(selector){
         if(!dmck_audioplayer.chart_rgb_enabled){ return; }
         /**

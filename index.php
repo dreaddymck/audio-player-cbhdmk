@@ -3,7 +3,7 @@
 Plugin Name: (DMCK) audio player
 Plugin URI: https://github.com/dreaddymck/audio-player-cbhdmk
 Description: Generates a media playlists and simple charts. Shortcode [dmck-audioplayer]
-Version: 1.1.1-863a443
+Version: 1.1.1-eb903a1
 Author: dreaddymck
 Author URI: https://github.com/dreaddymck
 License: GPL2
@@ -125,23 +125,8 @@ if (!class_exists("dmck_audioplayer")) {
 		}
 		function user_scripts() {			
 			if( $this->has_shortcode( $this->shortcode ) ) {}			
-			$this->shared_scripts();			
-			wp_enqueue_script( 'jquery-ui.min.js', $this->plugin_url . 'assets/js/jquery-ui-1.12.1/jquery-ui.js', array('jquery'), $this->plugin_version, true );
-			wp_enqueue_style( 'jquery-ui.min.css',  $this->plugin_url . "assets/js/jquery-ui-1.12.1/jquery-ui.min.css", array(), $this->plugin_version);
-			wp_enqueue_style( 'playlist.css',  $this->plugin_url . "assets/css/playlist.css", array(), $this->plugin_version);
-			wp_enqueue_script( 'playlist-control.js', $this->plugin_url . 'assets/js/playlist-control.js', array('jquery'), $this->plugin_version, true );
-			wp_enqueue_script( 'playlist.js', $this->plugin_url . 'assets/js/playlist.js', array('jquery'), $this->plugin_version, true );
-			wp_enqueue_script( 'Chart.bundle.js', $this->plugin_url . 'assets/js/Chart.bundle.js', array('jquery'), $this->plugin_version, true );
-			wp_enqueue_script( 'visualizer.js', $this->plugin_url . 'assets/js/visualizer.js', array('jquery'), $this->plugin_version, true );
-			wp_enqueue_script( 'index.js', $this->plugin_url . 'assets/js/index.js', array('jquery'), $this->plugin_version, true );	
-			wp_enqueue_script( 'access_log.js', $this->plugin_url . 'assets/js/access_log.js', array('jquery'), $this->plugin_version, true );
-			wp_enqueue_script( 'charts-pks.js', $this->plugin_url . 'assets/js/charts-pks.js', array('jquery'), $this->plugin_version, true );			
+			wp_enqueue_script( 'bundle.js', $this->plugin_url . 'dist/public.bundle.js', array('jquery'), $this->plugin_version, true );			
 			$this->localize_vars();
-		}
-		function shared_scripts(){
-			wp_enqueue_script( 'jquery.cookie.js', $this->plugin_url . 'node_modules/jquery.cookie/jquery.cookie.js', array('jquery'), $this->plugin_version, true );
-			wp_enqueue_style( 'font-awesome.min.css',  $this->plugin_url . "node_modules/font-awesome/css/font-awesome.min.css", array(), $this->plugin_version);
-			wp_enqueue_script( 'functions.js', $this->plugin_url . 'assets/js/functions.js', array('jquery'), $this->plugin_version, true );	
 		}
 		function localize_vars(){
 			global $post,$wp_query;
@@ -149,13 +134,9 @@ if (!class_exists("dmck_audioplayer")) {
 			$category = "";
 			if($post){
 				$tags = wp_get_post_terms( $post->ID,'post_tag',array( 'fields' => 'names') );
-				if($tags){
-					$tags = implode("|", $tags);
-				}
+				if($tags){ $tags = implode("|", $tags); }
 				$category = wp_get_post_terms( $post->ID,'category',array( 'fields' => 'names') );
-				if($category){
-					$category = implode("|", $category);
-				}				
+				if($category){ $category = implode("|", $category); }				
 			}			
 			$page 	= get_query_var ( 'paged' ) ? get_query_var ( 'paged' ) : 1;
 			$limit	= $wp_query->post_count ? $wp_query->post_count : 1;
@@ -214,7 +195,12 @@ if (!class_exists("dmck_audioplayer")) {
 				'audio_control_enabled' => get_option("audio_control_enabled"),
 				'default_album_cover' => esc_attr( get_option('default_album_cover'))				
 			);
-			wp_localize_script( 'functions.js', self::PLUGIN_SLUG, $local);
+			// wp_localize_script( 'bundle.js', self::PLUGIN_SLUG, $local);
+?>
+<script type="text/javascript">
+const <?php echo self::PLUGIN_SLUG ?> = <?php echo json_encode($local); ?>;
+</script>
+<?php			
 		}
 		function include_file($options) {		
 			ob_start();
@@ -226,6 +212,7 @@ if (!class_exists("dmck_audioplayer")) {
 			if( $favicon ){
 				echo  '<link href="'.$favicon.'" rel="icon" type="image/x-icon"></link>';
 			}
+			
 		}
 		function update_option_access_log( $old, $new){
 			if(($old && $new) && ($old != $new)){

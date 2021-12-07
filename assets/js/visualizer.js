@@ -1,6 +1,6 @@
 "use strict"
 
-const dmck_visualizer = {
+window.dmck_visualizer = {
 
     context:null,
     audio_node:null,

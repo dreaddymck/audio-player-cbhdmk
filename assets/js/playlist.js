@@ -1,6 +1,6 @@
 "use strict";
 
-const playlist = {
+window.playlist = {
 	init: function(){ this.defer( this.setup ) },		
 	defer: function (method) {
 		if (window.jQuery) {
