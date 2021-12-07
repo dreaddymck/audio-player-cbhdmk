@@ -6,7 +6,6 @@ import 'pure';
 import 'base';
 import 'grids';
 import 'grids-responsive';
-import 'purecss';
 import './admin/admin.css';
 import 'jscolor';
 import 'jquery.cookie';

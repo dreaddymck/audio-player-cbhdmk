@@ -102,12 +102,8 @@
 }
 .dmck_audioplayer .controls {
     -webkit-text-stroke: 2px black;
-    text-align: center;
     cursor: pointer;
-    display: grid;
-    grid-template-columns: repeat( auto-fit, minmax(25%, 1fr) );
-    grid-template-rows: auto;
-    gap: 0px 0px;      
+    text-align: center;    
 }
 .dmck_audioplayer #fixed-controls {
     position: fixed;
