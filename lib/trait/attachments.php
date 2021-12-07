@@ -4,6 +4,9 @@ namespace DMCK_WP_MEDIA_PLUGIN;
 
 trait _attachments {  
     function attachments(){    
+		
+		ini_set('memory_limit','64M');
+
 		if ( ! function_exists( 'wp_crop_image' ) ) {
 			include( ABSPATH . 'wp-admin/includes/image.php' );
 		}
