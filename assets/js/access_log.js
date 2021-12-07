@@ -24,7 +24,7 @@ window.access_log = {
                  * overriding date values with javascript created date value for reasons
                  */
                 if(typeof top_10_json === 'undefined'){return;}
-                let date = new Date(top_10_json[index].time*1000 ).toLocaleString();
+                let date = new Date(top_10_json.data[index].time*1000 ).toLocaleString();
                 let cover = jQuery(this).attr('cover');
                 jQuery(this).find("td.dmck-row-cover div").css({   
                     'background-image': 'linear-gradient( rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5) ), url(' + cover + ')',                   
@@ -45,7 +45,7 @@ window.access_log = {
                  * add rss link for this list
                  */
                 let param = { type: "top-count" }
-                let title = "Todays top 10 RSS";
+                let title = (top_10_json.title ? (top_10_json.title) + " " : "") + " RSS";
                 
                 jQuery("<div />",{ class: "text-center" })
                 .append(

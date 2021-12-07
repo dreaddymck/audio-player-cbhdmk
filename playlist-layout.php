@@ -60,7 +60,7 @@ if(!$playlist_data){
 			echo nav_item($p);
 		}else
 		if(isset($p->top_request) && filter_var($p->top_request, FILTER_VALIDATE_BOOLEAN)){
-			echo nav_item_top_request();
+			echo nav_item_top_request($p);
 		}			
 	}
 }
@@ -80,7 +80,7 @@ if(!$playlist_data){
 			nav_pane($this, $p);
 		}else
 		if(isset($p->top_request) && filter_var($p->top_request, FILTER_VALIDATE_BOOLEAN)){
-			nav_pane_top_request($playlist_data);
+			nav_pane_top_request($playlist_data, $p->top_title);
 		}
 	}
 }

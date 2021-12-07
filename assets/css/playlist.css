@@ -66,8 +66,6 @@
 .dmck_audioplayer .tabs li {
     display: inline-block;
     cursor: pointer;
-    text-transform: uppercase;
-    margin: .5em;
 }
 .dmck_audioplayer .tabs-content {
 	list-style: none;
