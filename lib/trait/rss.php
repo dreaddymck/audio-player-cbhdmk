@@ -1,7 +1,7 @@
 <?php
 
 namespace DMCK_WP_MEDIA_PLUGIN;
-//TODO change _rss_render_feed to query new rss caching table by uuid.
+//TODO rss cache cleanup: delete ids not in playlist.
 
 trait _rss {
 

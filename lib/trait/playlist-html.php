@@ -153,12 +153,13 @@ EOF;
         foreach ( $unset_queue as $index ){ unset($playlist_data["top_10_json"][$index]); }
         $playlist_data["top_10_json"] = array_values($playlist_data["top_10_json"]); // rebase the array
         $html .= "</tbody></table>";
+        
         if (get_option('charts_enabled')) {
             $html .= "
             <script>
                 let top_10_json = {
                     data: ".($playlist_data["top_10_json"] ? json_encode($playlist_data["top_10_json"]) : "[]" ).",
-                    title: ".json_encode($p->title).",
+                    title: ".json_encode($p->top_title).",
                     id: ".json_encode($p->id).",
                 }
             </script>
