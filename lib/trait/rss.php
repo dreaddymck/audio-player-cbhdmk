@@ -41,14 +41,13 @@ trait _rss {
     public function _rss_feed_cache()
     {
         $playlist_data = $this->playlist_data_get();
+        $listid = array();
         if(!$playlist_data){
             return;
-        }else{
-            
+        }else{            
             foreach($playlist_data["playlist_json"] as $p) {
-
                 if(isset($p->id)) {
-                
+                    array_push($listid, $p->id);                
                     if(isset($p->title)){
                         $args = $this->obj_request_args($p);
                     }else
@@ -77,6 +76,15 @@ ON DUPLICATE KEY UPDATE xml='$output';
                 }
                 if($this->debug){ echo __FUNCTION__. " | ". $this->memory_usage()."\n\r"; } 
             }
+            if(!empty($listid)){
+                $listid = "'".implode("','", $listid)."'";       
+                $this->_rss_feed_cache_clean($listid);
+            } 
         }
-    }     
+    }
+    public function _rss_feed_cache_clean($listid){
+        $query = "DELETE FROM dmck_media_activity_rss where uuid NOT IN ($listid)";
+        $this->mysqli_query($query);
+        if($this->debug){ echo __FUNCTION__. " | ". $this->memory_usage()."\n\r"; } 
+    }         
 }
