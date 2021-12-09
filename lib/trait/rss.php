@@ -32,7 +32,10 @@ trait _rss {
             $query = "select xml from dmck_media_activity_rss where uuid = '$id'";    
             $response = $this->mysqli_query($query);
             header( 'Content-Type: ' . feed_content_type( 'rss2' ) . '; charset=' . get_option( 'blog_charset' ), true );
-            echo $response[0]["xml"];
+            if(isset($response[0]["xml"]))
+            {
+                echo $response[0]["xml"];
+            }            
         }
     }
     public function _rss_feed_cache()
