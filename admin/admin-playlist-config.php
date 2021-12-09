@@ -108,7 +108,7 @@ if($playlist_config){
             $config_cat_selection=playlist_config_options($cats, $config->cat,1);
 			
 			if($config->id != 'top.media.requests'){
-				$playlist_config_selection_label = $config->title ? $config->title : $config->id;
+				$playlist_config_selection_label = isset($config->title) ? $config->title : $config->id;
 				$playlist_config_selection = $playlist_config_selection."
 <option value='$config->id' draggable=true $default_selected>$playlist_config_selection_label</option>
 				";
@@ -118,7 +118,7 @@ if($playlist_config){
 <input type='hidden' name='id' value='{$config->id}' />
 <br>
 <label>Title: 
-<input type='text' name='title' value='{$config->title}' class='pure-input-1' />
+<input type='text' name='title' value='".(isset($config->title) ? $config->title : "")."' class='pure-input-1' />
 </label>
 <br>
 <label>Order: 
