@@ -110,7 +110,7 @@ window.admin_events = {
             if(playlist_config){
                 playlist_config = JSON.parse(playlist_config);
                 playlist_config.find(function(obj, index){
-                    if(typeof(obj.top_request) !== 'undefined'){
+                    if(obj.id == 'top.media.requests'){
                         obj.top_request = jQuery("input[type='checkbox'][name='playlist_top_media']").prop("checked");
                         obj.top_count = jQuery("input[type='text'][name='playlist_top_media_count']").val();
                         obj.top_title = jQuery("input[type='text'][name='playlist_top_media_title']").val(); 
