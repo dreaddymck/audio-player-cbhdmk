@@ -78,6 +78,14 @@
                 </div>
                 <div class="pure-u-1 pure-u-md-2-5">
                     <div class="pure-padding-box">
+                        <!-- Do not move above without addressing dependencies -->
+                        <label  class="pure-checkbox">Enable Top requests:
+                            <input type="checkbox" name="playlist_top_media"  value="1" <?php if (1 == $playlist_top_media) echo 'checked="checked"'; ?> class="">
+                        </label>
+                        <input type='text' name='playlist_top_media_title' value="<?php echo $playlist_top_media_title ?>" class='pure-input-1-4' style="display:<?php echo (1 == $playlist_top_media) ? 'inline' : 'none'; ?>" placeholder="The Title"/>
+                        <input type='text' name='playlist_top_media_count' value="<?php echo $playlist_top_media_count ?>" class='pure-input-1-4' style="display:<?php echo (1 == $playlist_top_media) ? 'inline' : 'none'; ?>" placeholder="Count"/>
+                        <!-- Do not move above without addressing dependencies -->
+	                    <hr>                        
                          <label>Audio Control Display
                             <input type="checkbox" name="audio_control_enabled" class="" value="1"
                                 <?php if (1 == get_option('audio_control_enabled')) echo 'checked="checked"'; ?>>

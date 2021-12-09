@@ -176,7 +176,7 @@ window.playlist_control = {
 		playlist_control.globals.cfg.song.play();
 		jQuery(playlist_control.globals.cfg.duration).slider('option', 'max', playlist_control.globals.cfg.song.duration);
 
-		//TODO: Need a check for bars example 4/4 or 3/4
+		//TODO: Need a check for bars 4/4 or 3/4
 		let animation=1
 		if(jQuery.isNumeric(playlist_control.globals.bpm)){ 
 			animation = ((60 / playlist_control.globals.bpm) * 4).toFixed(2) 

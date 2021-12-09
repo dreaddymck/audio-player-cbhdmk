@@ -109,8 +109,8 @@ EOF;
             <table class="table table-responsive-lg top-requests-data">
             <thead>
                 <tr>
-                    <th>Track</th>
-                    <th class="text-center">Requests</th>
+                    <th></th>
+                    <th class="text-center"></th>
                 </tr>
             </thead>
             <tbody>

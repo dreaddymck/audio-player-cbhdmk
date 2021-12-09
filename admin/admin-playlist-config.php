@@ -1,5 +1,4 @@
 <?php
-//TODO top count incomplete, missing override queries
 function playlist_config_default_json(){
 	return  '[
 	{
@@ -125,7 +124,7 @@ if($playlist_config){
 <select name='order' onchange='admin_functions.config_update(this,\"{$config->id}\")'> $config_order_selection</select>
 </label>
 <br>
-<label>Select meta tag: 
+<label>Post meta selection: 
 <select name='select_config_meta_tags'>
 	<option value='sel_post__in'>post__in</option>			
 	<option value='sel_tag'>tag</option>
@@ -142,7 +141,6 @@ if($playlist_config){
 	<option value='sel_category__not_in'>category__not_in</option> 
 </select>
 </label>
-<br>
 <div id='sel_post__in' class='config_post_meta_tags current'>
 <input type='hidden' name='post__in' value='{$config->post__in}' class='pure-input-1' readonly />
 <select name='select_config_post__in' multiple onchange='admin_functions.config_update(this,\"{$config->id}\")'>
@@ -268,15 +266,7 @@ if($playlist_config){
 	</div>
 	<br>
 	<hr>
-	<div>
-		<label  class="pure-checkbox">Enable Top requests:
-			<input type="checkbox" name="playlist_top_media"  value="1" <?php if (1 == $playlist_top_media) echo 'checked="checked"'; ?> class="">
-		</label>
-		<input type='text' name='playlist_top_media_title' value="<?php echo $playlist_top_media_title ?>" class='pure-input-1-4' style="display:<?php echo (1 == $playlist_top_media) ? 'inline' : 'none'; ?>" placeholder="The Title"/>
-		<input type='text' name='playlist_top_media_count' value="<?php echo $playlist_top_media_count ?>" class='pure-input-1-4' style="display:<?php echo (1 == $playlist_top_media) ? 'inline' : 'none'; ?>" placeholder="Count"/>
-		
-	</div>
-	<hr>
+
 	
 	<label>playlist json</label> (<i><small>Double-click input to expand</small></i>)
 	<textarea name="playlist_config" class="pure-input-1 rounded-0" rows="5" ondblclick="this.style.height = '';this.style.height = (this.scrollHeight + 12) + 'px'"><?php echo $playlist_config_default; ?></textarea>

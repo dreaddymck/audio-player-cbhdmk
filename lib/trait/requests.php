@@ -24,7 +24,6 @@ trait _requests {
         return $response;
     }
 	function upload(){
-		//TODO: handle multiple files.
 		$response  = (object) array();
 		$response->status = false;
 		foreach($_FILES as $file){
