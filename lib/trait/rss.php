@@ -44,32 +44,37 @@ trait _rss {
         if(!$playlist_data){
             return;
         }else{
-            foreach($playlist_data["playlist_json"] as $p) { 
-                if(isset($p->id) && isset($p->title)) {
-                    $args = $this->obj_request_args($p);
-                }else
-                if(isset($p->top_request) && filter_var($p->top_request, FILTER_VALIDATE_BOOLEAN)){                    
-                    $idarray = array();
-                    $data = $this->media_activity_today($limit=10);
-                    foreach($data as $value) {                
-                        array_push($idarray, $value["ID"]);     
+            
+            foreach($playlist_data["playlist_json"] as $p) {
+
+                if(isset($p->id)) {
+                
+                    if(isset($p->title)){
+                        $args = $this->obj_request_args($p);
+                    }else
+                    if(isset($p->top_request) && filter_var($p->top_request, FILTER_VALIDATE_BOOLEAN)){                    
+                        $idarray = array();
+                        $data = $this->media_activity_today($limit=10);
+                        foreach($data as $value) {                
+                            array_push($idarray, $value["ID"]);     
+                        }
+                        $args = $this->obj_request_args( (object) array("post__in"=> $idarray));                    
                     }
-                    $args = $this->obj_request_args( (object) array("post__in"=> $idarray));                    
-                }
-                query_posts($args);
-                ob_start();
-                // include( ABSPATH .'wp-includes/feed-rss2.php');
-                include( plugin_dir_path(__DIR__) . "feed-rss2-no-header.php");
-                $output = ob_get_clean();
-                wp_reset_postdata();
-                $query = "
+                    query_posts($args);
+                    ob_start();
+                    // include( ABSPATH .'wp-includes/feed-rss2.php');
+                    include( plugin_dir_path(__DIR__) . "feed-rss2-no-header.php");
+                    $output = ob_get_clean();
+                    wp_reset_postdata();
+                    $query = "
 
 INSERT INTO dmck_media_activity_rss (uuid, xml) 
 VALUES ('$p->id','$output')
 ON DUPLICATE KEY UPDATE xml='$output';                
 
-                ";
-                $this->mysqli_query($query);
+                    ";
+                    $this->mysqli_query($query);
+                }
                 if($this->debug){ echo __FUNCTION__. " | ". $this->memory_usage()."\n\r"; } 
             }
         }
