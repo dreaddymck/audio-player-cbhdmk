@@ -3,7 +3,7 @@ const webpack = require('webpack');
 
 module.exports = {
     mode: "development",
-    watch: false,
+    watch: true,
     watchOptions: {
         aggregateTimeout: 200,
         poll: 1000,

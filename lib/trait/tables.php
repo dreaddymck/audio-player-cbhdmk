@@ -25,18 +25,26 @@ create table IF NOT EXISTS dmck_media_activity_referer_log (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 DEFAULT COLLATE utf8_unicode_ci
 ";
         $results = $this->query($query);
+
+        $query = "
+CREATE TABLE IF NOT EXISTS dmck_media_activity_rss(
+    uuid VARCHAR(255) PRIMARY KEY NOT NULL,
+    xml TEXT,
+    created TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 DEFAULT COLLATE utf8_unicode_ci
+";
+        $results = $this->query($query);
+
+
     }
     function _tables_drop(){
-        $results = $this->query("DROP TABLE IF EXISTS dmck_audio_log_reports;");
         $results = $this->query("DROP TABLE IF EXISTS dmck_media_activity_log;");
-        $results = $this->query("DROP TABLE IF EXISTS dmck_media_activity_referer_log;");         
+        $results = $this->query("DROP TABLE IF EXISTS dmck_media_activity_referer_log;");      
+        $results = $this->query("DROP TABLE IF EXISTS dmck_media_activity_rss;");      
     }      
     function export_tables()
     {        
         if ( !is_super_admin() ) return false;
-        // $export_dir = $this->plug_dir_path ."export/";
-        // if (!file_exists($export_dir)) { mkdir($export_dir, 0777, true); }        
-        // $export_name = self::PLUGIN_SLUG . "-export-tables.sql";
         $tables = array('dmck_media_activity_log','dmck_media_activity_referer_log');
         $mysqli = new \mysqli(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME );
         if ($mysqli->connect_error) { die("Connection failed: " . $mysqli->connect_error); }
@@ -100,13 +108,6 @@ create table IF NOT EXISTS dmck_media_activity_referer_log (
             } $content .="\n\n\n";            
         }
         $content = "DROP TABLE IF EXISTS dmck_media_activity_log;\n\rDROP TABLE IF EXISTS dmck_media_activity_referer_log;".$content;
-        //$backup_name = $backup_name ? $backup_name : $name."___(".date('H-i-s')."_".date('d-m-Y').")__rand".rand(1,11111111).".sql";
-        // header('Content-Type: application/octet-stream');   
-        // header("Content-Transfer-Encoding: Binary"); 
-        // header("Content-disposition: attachment; filename=\"".$export_name."\"");  
-        // exit;
         return $content;
-
-    }
-    
+    }    
 }

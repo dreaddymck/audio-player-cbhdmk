@@ -1,26 +1,14 @@
 <?php
-//TODO order by is unfinished, remove or expand.
+//TODO top count incomplete, missing override queries
 function playlist_config_default_json(){
 	return  '[
 	{
 		"id" : "",
 		"title" : "",
-		"order": "",
-		"tag":"",
-		"tag_id":0,
-		"tag__and":[""],
-		"tag__in":[""],
-		"tag__not_in":[""],
-		"tag_slug__and":[""],
-		"tag_slug__in": [""],	
-		"cat":0,
-		"category_name":"",
-		"category__and":[""],
-		"category__in":[""],
-		"category__not_in":[""]
-
+		"order": "ASC",
 	},
 	{
+		"id": "top.media.requests",
 		"top_request" : "false",
 		"top_count" : "10",
 		"top_title" : "Top"
@@ -60,14 +48,17 @@ function playlist_config_options($arry,$selected,$custom){
 			case "slug(array)":
 				$options .=  "
 <option value='$arr->slug' ". ( in_array($arr->slug, $selected) ? $sel : "" ) .">$arr->slug</option>";  
-				break;				
+				break;
+			case "id(array)":
+				$options .=  "
+<option value='$arr' ". ( in_array($arr, $selected) ? $sel : "" ) .">".get_the_title($arr)."</option>";  
+				break;								
 		}
 	}
 	if(strpos($options, $sel)){ $sel = ""; }
 	$options = "<option value='' $sel >empty</option>". $options;
 	return $options;
 }
-
 $playlist_config_default = playlist_config_default();
 $playlist_config = json_decode($playlist_config_default);
 
@@ -80,7 +71,12 @@ if($playlist_config){
 	$playlist_config_tabs_content_inputs = "";
 	$playlist_config_x = 0;
 	$default_current = "current";
-	$default_selected = "selected";	
+	$default_selected = "selected";
+	$post__in = get_posts(array(
+        'post_status' => 'publish',
+        'posts_per_page'=> -1,
+        'fields'        => 'ids',
+    ));	
 	$tags = get_tags( array( 'hide_empty' => 0 ) );
 	$cats = get_categories( array(
 		'orderby' => 'name',
@@ -90,6 +86,7 @@ if($playlist_config){
 		if(isset($config->id)){
             // content inputs defaults
 			$config->order = isset($config->order) && $config->order ? $config->order : "ASC";
+			$config->post__in = isset($config->post__in) && $config->post__in ? json_encode($config->post__in) : "[]";
 			$config->tag = isset($config->tag) && $config->tag ? $config->tag : null;
 			$config->tag_id = isset($config->tag_id) && $config->tag_id ? $config->tag_id : 0;
 			$config->tag__and = isset($config->tag__and) && $config->tag__and ? json_encode($config->tag__and) : "[]";
@@ -109,11 +106,14 @@ if($playlist_config){
 			$config_order_selection .= "<option value='DESC' ". (( "DESC" == $config->order ) ? "selected" : "") .">DESC</option>";
 
             $config_cat_selection=playlist_config_options($cats, $config->cat,1);
-
-            $playlist_config_selection = $playlist_config_selection."
-<option value='$config->id' draggable=true $default_selected>$config->id</option>
-            ";
-
+			
+			if($config->id != 'top.media.requests'){
+				$playlist_config_selection_label = $config->title ? $config->title : $config->id;
+				$playlist_config_selection = $playlist_config_selection."
+<option value='$config->id' draggable=true $default_selected>$playlist_config_selection_label</option>
+				";
+			}
+			
 			$playlist_config_tabs_content_inputs . $playlist_config_tabs_content_inputs = "
 <input type='hidden' name='id' value='{$config->id}' />
 <label>Title: 
@@ -126,6 +126,7 @@ if($playlist_config){
 
 <label>Select meta tag: 
 <select name='select_config_meta_tags'>
+	<option value='sel_post__in'>post__in</option>			
 	<option value='sel_tag'>tag</option>
 	<option value='sel_tag_id'>tag_id</option> 
 	<option value='sel_tag__and'>tag__and</option> 
@@ -141,7 +142,15 @@ if($playlist_config){
 </select>
 </label>
 
-<div id='sel_tag' class='config_post_meta_tags current'>
+<div id='sel_post__in' class='config_post_meta_tags current'>
+<input type='hidden' name='post__in' value='{$config->post__in}' class='pure-input-1' readonly />
+<select name='select_config_post__in' multiple onchange='admin_functions.config_update(this,\"{$config->id}\")'>
+	".playlist_config_options($post__in, json_decode($config->post__in), "id(array)")."
+</select>
+</div>
+
+
+<div id='sel_tag' class='config_post_meta_tags'>
 <input type='hidden' name='tag' value='{$config->tag}' class='pure-input-1' readonly />
 <select name='select_config_tag' onchange='admin_functions.config_update(this,\"{$config->id}\")'>
 	".playlist_config_options($tags, $config->tag, "slug")."

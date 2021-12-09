@@ -41,6 +41,7 @@ trait _requests {
 			'orderby'          	=> isset($obj->orderby) && !empty($obj->orderby) ? $obj->orderby  : null,
 			'order'            	=> isset($obj->order) && !empty($obj->order) ? $obj->order  : null,
 			'tag'				=> isset($obj->tag) && !empty($obj->tag) ? $obj->tag  : null,
+			'post__in'			=> isset($obj->post__in) && !empty($obj->post__in) ? $obj->post__in  : null,
 			'tag_id'			=> isset($obj->tag_id) && !empty($obj->tag_id) ? $obj->tag_id  : null,
 			'tag__and'			=> isset($obj->tag__and) && !empty($obj->tag__and) ? $obj->tag__and  : null,
 			'tag__in' 			=> isset($obj->tag_in) && !empty($obj->tag_in) ? $obj->tag_in : null,

@@ -3,6 +3,7 @@
     Command line support for cron calls.
 */
 namespace DMCK_WP_MEDIA_PLUGIN;
+if (!class_exists("dmck_reports")) {
 try{
     require_once dirname(__FILE__) . "/../../../../wp-load.php";
     require_once(dirname(__FILE__) . "/trait/access-logs.php");
@@ -10,6 +11,7 @@ try{
     require_once(dirname(__FILE__) . "/trait/utilities.php");   
     require_once(dirname(__FILE__) . "/trait/requests.php"); 
     require_once(dirname(__FILE__) . "/trait/attachments.php"); 
+    require_once(dirname(__FILE__) . "/trait/rss.php"); 
 }
 catch (Exception $e) { exit($e); }
 class dmck_reports{
@@ -18,6 +20,8 @@ class dmck_reports{
     use _utilities;
     use _requests;
     use _attachments;
+    use _rss;
+
     public $debug;
     public $options;
     public $filepath;
@@ -31,13 +35,17 @@ class dmck_reports{
             switch ($this->options) {
                 case "logs":
                     $response = $this->accesslog_activity_put();
+                    $response = $this->_rss_feed_cache(); 
                     break;
                 case "attach":
                     $response = $this->attachments();
                     break;                    
                 case "wavform":
                     $response = $this->wavform();        
-                    break;                                
+                    break; 
+                case "feed":
+                    $response = $this->_rss_feed_cache();        
+                    break;                                                    
                 default:
                     $response = "
 Supported parameters.
@@ -70,4 +78,5 @@ attach: attach embeded media to post.
     }
 }
 new dmck_reports();
+}
 

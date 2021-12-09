@@ -55,7 +55,8 @@ window.admin_functions = {
             admin_functions.notice(".notice-error", "Invalid json configuration");
             jQuery(document.body).css({'cursor' : 'default'});
             return;
-        }
+        }        
+        admin_functions.config_clean(); //remove empty elements
         let form = jQuery('form[name*="admin-settings-form"]');
         let url = "options.php"
         let data = jQuery(form).serializeArray();
@@ -85,6 +86,14 @@ window.admin_functions = {
              }
         );
     },
+    config_clean: function(obj){
+        let config = jQuery("textarea[name='playlist_config']").val();
+        config = JSON.parse(config);
+        config.find(function (obj, index) {
+            obj = _functions.clean(obj);
+        });
+        jQuery("textarea[name='playlist_config']").val(JSON.stringify(config, "", 8));     
+    },    
     config_update: function(elem,id){
 
         let target = elem.name.replace("select_config_", "");
@@ -93,7 +102,7 @@ window.admin_functions = {
         jQuery(elem).parent("div").children("input[name='" + target + "']").val(JSON.stringify(jQuery(elem).val()));
         jQuery("textarea[name='playlist_config']").val(JSON.stringify(config,"",8));
 
-    },
+    },    
     export_tables: function(){
         let url = dmck_audioplayer.site_url + "/wp-json/" + dmck_audioplayer.plugin_slug + "/" + dmck_audioplayer.plugin_version + "/api/export_tables";
         function download(str){

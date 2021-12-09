@@ -1,0 +1,11 @@
+#/bin/bash
+
+if [ -z "$1" ]
+    then
+        echo "No argument supplied"
+    else
+        fgrep -irn --exclude-dir=node_modules --exclude-dir=dist --exclude-dir=vendor "$1" .
+fi
+
+exit
+

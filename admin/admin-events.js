@@ -15,6 +15,21 @@ window.admin_events = {
             jQuery("#playlist-config-tab-" + index).addClass('current');
             admin_functions.cookie.set({ "playlist_config_selected": index });
         });  
+        jQuery("input[name='title']").change(function(e){            
+            let title = this.value;
+            let index =  jQuery('select[name="playlist_config_selection"]')[0].selectedIndex;
+            let id = jQuery('select[name="playlist_config_selection"] option:eq('+index+')').val(); 
+            let playlist_config = jQuery("textarea[name='playlist_config']").val();
+            if(playlist_config){
+                playlist_config = JSON.parse(playlist_config);
+                playlist_config.find(function(obj, index){
+                    if(typeof(obj.id) !== 'undefined' && (obj.id.localeCompare(id) == 0)){
+                        return obj.title = title;                         
+                    }    
+                })                
+            }
+            jQuery("textarea[name='playlist_config']").val(JSON.stringify(playlist_config,"",8));
+        })        
         jQuery('select[name="select_config_meta_tags"]').change(function () {
             let id = jQuery(this).val();
             jQuery('div.config_post_meta_tags').removeClass('current');
@@ -45,11 +60,9 @@ window.admin_events = {
         })                     
         jQuery('.playlist_config_add').click(function(e){
             e.preventDefault();
-            let id = prompt("Enter unique identifier","");
-            if (!id) { return false; }
-            id = admin_functions.string_to_slug(id);
+            let id = _functions.uuidv4();
             let dupecheck = jQuery(".playlist-config-tab-content").children('input[name="id"]').filter(function(){
-                return this.value.toUpperCase() == id.toUpperCase();
+                return (this.value.localeCompare(id) == 0);
             });
             if(dupecheck.length){
                 admin_functions.notice(".notice-error", "Duplicate identifier");

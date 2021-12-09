@@ -6,7 +6,7 @@ trait DMCK_playlist_html {
         $playlist_data = $this->playlist_data_get();
 		$playlist_html_tabs = "";
         foreach($playlist_data["playlist_json"] as $p) {
-			if(isset($p->id) && $p->title) {
+			if(isset($p->id) && isset($p->title)) {
 				$playlist_html_tabs .= $this->nav_item($p);
 			}else
 			if(isset($p->top_request) && filter_var($p->top_request, FILTER_VALIDATE_BOOLEAN)){
@@ -18,7 +18,7 @@ trait DMCK_playlist_html {
 
         $playlist_html_pane = "";
 		foreach($playlist_data["playlist_json"] as $p) {
-			if(isset($p->id) && $p->title) {
+			if(isset($p->id) && isset($p->title)) {
 				$playlist_html_pane .= $this->nav_pane($this, $p);
 			}else
 			if(isset($p->top_request) && filter_var($p->top_request, FILTER_VALIDATE_BOOLEAN)){

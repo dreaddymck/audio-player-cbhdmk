@@ -3,14 +3,12 @@
 Plugin Name: (DMCK) audio player
 Plugin URI: https://github.com/dreaddymck/audio-player-cbhdmk
 Description: Generates a media playlists and simple charts. Shortcode [dmck-audioplayer]
-Version: 1.1.1-908acd7
+Version: 1.1.1-56420d4
 Author: dreaddymck
 Author URI: https://github.com/dreaddymck
 License: GPL2
 
 TODO: Gutenberg block support.
-TODO: expand rss.php parameters.
-TODO: Fix rss feeds to properly include media files
 TODO: Add support for embedded videos as playlist items
 
 
@@ -48,21 +46,17 @@ if (!class_exists("dmck_audioplayer")) {
 
 		const PLUGIN_SLUG				= 'dmck_audioplayer';
 		const SETTINGS_GROUP			= 'dmck-audioplayer-settings-group';
-
 		public $shortcode				= "dmck-audioplayer";
 		public $github_url				= "https://github.com/dreaddy/audio-player-cbhdmk";
 		public $debug					= false;
-
 		public $plugin_title;
 		public $plugin_version;
 		public $plugin_url;
 		public $theme_url;
-		public $plugin_dir_path;
-		
+		public $plugin_dir_path;		
 		public $posts_per_page;
 		public $tag;
-		public $path;		
-
+		public $path;
 		public $site_url;
 		
 		function __construct() {
@@ -77,8 +71,7 @@ if (!class_exists("dmck_audioplayer")) {
 			// $this->cron_name 	= self::PLUGIN_SLUG . "_cronjob";
 
 			register_activation_hook( __FILE__, array($this, 'register_activation' ) );
-			register_deactivation_hook (__FILE__, array($this, 'register_deactivation'));
-			
+			register_deactivation_hook (__FILE__, array($this, 'register_deactivation'));			
 
 			add_action( 'init', array( $this, '_init_actions'));
 			add_action( 'admin_init', array( $this, 'register_settings') );
@@ -91,10 +84,10 @@ if (!class_exists("dmck_audioplayer")) {
 			add_action( 'wp_head', array($this, 'head_hook') );
 			add_action( 'login_head', array($this, 'head_hook') );
 			add_action( 'admin_head', array($this, 'head_hook') );
-			
-			//TODO after update event thing here, find better solution
-			//do_action( 'updated_option', string $option, mixed $old_value, mixed $value )
-			add_action( 'update_option_access_log', array($this, 'update_option_access_log'), 10, 3 );
+
+			//do_action( 'updated_option(_fieldname)', string $option, mixed $old_value, mixed $value )
+			add_action( 'update_option_access_log', array($this, 'update_option_hook'), 10, 3 );
+			add_action( 'update_option_playlist_config', array($this, 'update_option_hook'), 10, 3 );
 			
 			// add_action( 'wp', array($this, 'cronstarter_activation'));
 			// add_action( $this->cron_name."_daily", array($this, 'wp_cron_functions_daily')); 
@@ -214,8 +207,8 @@ const <?php echo self::PLUGIN_SLUG ?> = <?php echo json_encode($local); ?>;
 			}
 			
 		}
-		function update_option_access_log( $old, $new){
-			if(($old && $new) && ($old != $new)){
+		function update_option_hook( $old, $new){
+			if($old != $new){
 				$this->dmck_playlist_html_run();
 			}				
 		}				
