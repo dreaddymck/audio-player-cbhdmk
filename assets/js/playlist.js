@@ -31,7 +31,7 @@ window.playlist = {
 					/**
 					 * add rss link for this list
 					 */
-					let param = {"tag" : elem.tag, "tag_slug__and" : elem.tag_slug__and }
+					let param = {id: elem.id }
 					let title = elem.title + " RSS";
                 	jQuery("<div />",{ class: "text-center" })
 					.append(

@@ -22,7 +22,7 @@ trait DMCK_playlist_html {
 				$playlist_html_pane .= $this->nav_pane($this, $p);
 			}else
 			if(isset($p->top_request) && filter_var($p->top_request, FILTER_VALIDATE_BOOLEAN)){
-				$playlist_html_pane .= $this->nav_pane_top_request($playlist_data, $p->top_title);
+				$playlist_html_pane .= $this->nav_pane_top_request($playlist_data, $p);
 			}
 		}
         // NOTE: playlist_html_pane is registered in admin.php so it can be unregistered        
@@ -101,7 +101,7 @@ EOF;
         return $html;
 
     }
-    function nav_pane_top_request($playlist_data, $title){
+    function nav_pane_top_request($playlist_data, $p){
 
         $html = <<<EOF
 
@@ -158,7 +158,8 @@ EOF;
             <script>
                 let top_10_json = {
                     data: ".($playlist_data["top_10_json"] ? json_encode($playlist_data["top_10_json"]) : "[]" ).",
-                    title: ".json_encode($title)."
+                    title: ".json_encode($p->title).",
+                    id: ".json_encode($p->id).",
                 }
             </script>
 ";
