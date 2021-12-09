@@ -25,8 +25,8 @@ window.charts_pkg = {
          * top_10_json is currently embeded in html - playlist-layout.php
          */        
         if(typeof top_10_json === 'undefined'){return;}
-        if(!top_10_json.length){return;}
-        let arr = top_10_json;
+        if(!top_10_json.data.length){return;}
+        let arr = top_10_json.data;
         let labels = [];
         let data = [];
         for( let x in arr ){
