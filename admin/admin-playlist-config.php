@@ -117,7 +117,7 @@ if($playlist_config){
 <input type='hidden' name='id' value='{$config->id}' />
 <br>
 <label>Title: 
-<input type='text' name='title' value='".(isset($config->title) ? $config->title : "")."' class='pure-input-1' />
+<input type='text' name='title' value='".(isset($config->title) ? $config->title : "")."' class='pure-input-1-2' />
 </label>
 <br>
 <label>Order: 
