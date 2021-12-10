@@ -191,7 +191,6 @@ window.admin_events = {
         });
         jQuery("input[type='checkbox'][name='charts_enabled']").click(function (e) {
             if( jQuery(this).prop("checked")){
-                //TODO find a better way to enable options when checked.
                 jQuery("input[name='access_log']").prop("required", true);
                 jQuery("ul.parent-tabs > li").removeClass('current');
                 jQuery(".parent-tab-content").removeClass('current');

@@ -2,7 +2,9 @@
 /*
     Command line support for cron calls.
 
-    TODO: check if attachment exists before adding.
+    TODO: Attaches wavform.png located in the same folder as media. 
+    Probably not necessary. 
+    Look into it. 
 */
 namespace DMCK_WP_MEDIA_PLUGIN;
 try{

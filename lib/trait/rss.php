@@ -1,7 +1,6 @@
 <?php
 
 namespace DMCK_WP_MEDIA_PLUGIN;
-//TODO rss cache cleanup: delete ids not in playlist.
 
 trait _rss {
 

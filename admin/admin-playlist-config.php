@@ -117,7 +117,7 @@ if($playlist_config){
 <input type='hidden' name='id' value='{$config->id}' />
 <br>
 <label>Title: 
-<input type='text' name='title' value='".(isset($config->title) ? $config->title : "")."' class='pure-input-1-2' />
+<input type='text' name='title' value='".(isset($config->title) ? $config->title : "")."' class='pure-input-1' />
 </label>
 <br>
 <label>Order: 
@@ -248,32 +248,6 @@ if($playlist_config){
 		if(isset($config->top_count)){$playlist_top_media_count = $config->top_count; }
 		if(isset($config->top_title)){$playlist_top_media_title = $config->top_title; }
 	}
-
-	?>
-
-	<?php if ($playlist_config_selection) : ?>
-	<select name="playlist_config_selection" size="4">
-		<?php echo $playlist_config_selection ?>
-	</select>
-	<?php endif; ?>
-	<a class="button secondary-small playlist_config_add" title="Add item">Add</a>
-	<a class="button secondary-small playlist_config_del" title="Remove item">Remove</a>
-	<a class="button secondary-small playlist_config_up" title="Move up"><strong>&#8593;</strong></a>
-	<a class="button secondary-small playlist_config_down" title="Move down"><strong>&#8595;</strong></a>	
-	<?php $this->notices() ?>	
-	<div class="playlist-config-content-container">
-		<?php echo $playlist_config_tabs_content ?>
-	</div>
-	<br>
-	<hr>
-
-	
-	<label>playlist json</label> (<i><small>Double-click input to expand</small></i>)
-	<textarea name="playlist_config" class="pure-input-1 rounded-0" rows="5" ondblclick="this.style.height = '';this.style.height = (this.scrollHeight + 12) + 'px'"><?php echo $playlist_config_default; ?></textarea>
-	<script>let playlist_config_default_json = <?php echo playlist_config_default_json(); ?></script>
-	<hr>
-	<?php	
-
 }
 
 
