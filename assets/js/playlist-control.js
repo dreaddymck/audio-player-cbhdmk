@@ -20,10 +20,8 @@ window.playlist_control = {
 		bpm:"",		
 	},
 	init: function () {
-		if(dmck_audioplayer.audio_control_enabled){
-			//TODO: FIX this: disabled as it doesn't work properly
-			// playlist_control.popupcontrol(); 
-		}		
+		//TODO: FIX this: disabled as it doesn't work properly. But do I really need popup controls?
+		// if(dmck_audioplayer.audio_control_enabled){ playlist_control.popupcontrol(); }		
 		playlist_control.globals.cfg.playing = false;
 		playlist_control.globals.cfg.song = null;
 		// initialize the volume slider

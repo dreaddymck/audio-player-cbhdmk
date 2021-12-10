@@ -224,7 +224,9 @@
 					}
 				?>
                         <script>
-                        let top_10_json = <?php echo ($activity ? $activity :"[]") ?>
+                        let top_10_json = {
+                            data : <?php echo ($activity ? $activity :"[]") ?>,
+                        }
                         </script>
                         <div id="admin-charts"></div>
                         (<i><small>Double-click input to expand</small></i>)
