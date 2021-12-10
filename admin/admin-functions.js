@@ -141,6 +141,27 @@ window.admin_functions = {
              }
         );        
     },
+    playlist_top_media_activity: function(){
+        let playlist_config = jQuery("textarea[name='playlist_config']").val();
+        if(playlist_config){
+            playlist_config = JSON.parse(playlist_config);
+            playlist_config.find(function(obj, index){
+                if(obj.id == 'top.media.requests'){
+                    obj.top_request = jQuery("input[type='checkbox'][name='playlist_top_media']").prop("checked");
+                    obj.top_count = jQuery("input[type='text'][name='playlist_top_media_count']").val();
+                    obj.top_title = jQuery("input[type='text'][name='playlist_top_media_title']").val(); 
+                    if(obj.top_request){
+                        jQuery("input[type='text'][name='playlist_top_media_count']").css("display","inline");
+                        jQuery("input[type='text'][name='playlist_top_media_title']").css("display","inline");
+                    }else{
+                        jQuery("input[type='text'][name='playlist_top_media_count']").css("display","none");
+                        jQuery("input[type='text'][name='playlist_top_media_title']").css("display","none");
+                    }
+                }    
+            })                
+        }            
+        jQuery("textarea[name='playlist_config']").val(JSON.stringify(playlist_config,"",8));
+    },
     string_to_slug: function (str)
     {
         str = str.replace(/^\s+|\s+$/g, ''); // trim

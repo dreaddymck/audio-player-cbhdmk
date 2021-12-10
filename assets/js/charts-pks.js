@@ -20,7 +20,6 @@ Chart.plugins.register({
 
 window.charts_pkg = {
     top_requests_chart: function(selector){
-        if(!dmck_audioplayer.chart_rgb_enabled){ return; }
         /**
          * top_10_json is currently embeded in html - playlist-layout.php
          */        
@@ -72,7 +71,7 @@ window.charts_pkg = {
         }); 
     },
     post_chart: function(){
-        if(!dmck_audioplayer.chart_rgb_enabled){ return; }
+        
         /**
          * top_10_json is currently embeded in html - playlist-layout.php
          */        

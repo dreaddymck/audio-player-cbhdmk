@@ -24,7 +24,6 @@ trait _admin {
         'visualizer_rgb_enabled',
         'chart_rgb_init',
         'chart_rgb',
-        'chart_rgb_enabled',
         'audio_control_enabled',
         'audio_control_slider_height',
         'playlist_config_opt'

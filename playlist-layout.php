@@ -32,12 +32,12 @@
 			</div>			
 		</div>			
 	</div>
-
+<?php 
+if(get_option('visualizer_rgb_enabled')){?>
 	<i id="now-playing" class="fa fa-music fa-2x" style="display:none"></i>
 	<canvas id="canvas_visualizer"  style="display:none"></canvas>
-
 <?php
-
+} 
 $html_tabs = get_option("playlist_html_tabs");
 $html_pane = get_option("playlist_html_pane");
 $playlist_data = "";

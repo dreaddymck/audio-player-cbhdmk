@@ -55,9 +55,11 @@ ORDER BY time ASC
         return $this->mysqli_query($query);
     }
     function accesslog_activity_put()
-    {
+    {        
         if($this->debug){ echo __FUNCTION__. " | ". $this->memory_usage()."\n\r"; } 
-        update_option("access_logs_message","");        
+        update_option("access_logs_message","");      
+        if(!get_option('charts_enabled')){return;}
+          
         // expecting a string: filepath OR json array 
         if(!$this->json_validate($this->filepath)){
             $this->filepath = json_encode(array($this->filepath));          

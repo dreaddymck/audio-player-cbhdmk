@@ -34,11 +34,6 @@
                                 placeholder="Required">
                         </label>
                         <hr />
-                        <label><?php _e('Access log filter '); ?></label>
-                        <input type="text" name="access_log_pattern" class="pure-input-1"
-                            value="<?php echo esc_attr( get_option('access_log_pattern') ); ?>" placeholder="/.mp3/i">
-                        <small>Simple regex. The default is <code>/.mp3/i</code>.</small>
-                        <hr>
                         <label for="favicon"><?php _e('Favicon'); ?>
                             <textarea name="favicon" class="pure-input-1"
                                 title="ico url or base64"><?php echo esc_attr( get_option('favicon') ); ?></textarea>
@@ -78,14 +73,7 @@
                 </div>
                 <div class="pure-u-1 pure-u-md-2-5">
                     <div class="pure-padding-box">
-                        <!-- Do not move above without addressing dependencies -->
-                        <label  class="pure-checkbox">Enable Top requests:
-                            <input type="checkbox" name="playlist_top_media"  value="1" <?php if (1 == $playlist_top_media) echo 'checked="checked"'; ?> class="">
-                        </label>
-                        <input type='text' name='playlist_top_media_title' value="<?php echo $playlist_top_media_title ?>" class='pure-input-1-2' style="display:<?php echo (1 == $playlist_top_media) ? 'inline' : 'none'; ?>" placeholder="The Title"/>
-                        <input type='text' name='playlist_top_media_count' value="<?php echo $playlist_top_media_count ?>" class='pure-input-1-4' style="display:<?php echo (1 == $playlist_top_media) ? 'inline' : 'none'; ?>" placeholder="Count"/>
-                        <!-- Do not move above without addressing dependencies -->
-	                    <hr>                        
+                       
                          <label>Audio Control Display
                             <input type="checkbox" name="audio_control_enabled" class="" value="1"
                                 <?php if (1 == get_option('audio_control_enabled')) echo 'checked="checked"'; ?>>
@@ -139,7 +127,7 @@
                             </select>
                         </label>
                         <hr>
-                        <label>Charts
+                        <label>Charts:
                             <input type="checkbox" name="charts_enabled" class="" value="1"
                                 <?php if (1 == get_option('charts_enabled')) echo 'checked="checked"'; ?>>
                         </label>
@@ -173,8 +161,21 @@
                         <label><?php _e('Access Log location')?></label>
                         <small>accepts /path/to/access_log, ["/path/to/access_log","/path/to/access_log_other"]</small>
                         <input type="text" name="access_log" class="pure-input-1"
-                            value="<?php echo esc_attr( get_option('access_log') ); ?>" required placeholder="Required">
+                            value="<?php echo esc_attr( get_option('access_log') ); ?>" <?php if (1 == get_option('charts_enabled')) echo 'required placeholder="Required"'; ?>>
                         <hr />
+                        <!-- Do not move above without addressing dependencies -->
+                        <label  class="pure-checkbox">Enable Top requests:
+                            <input type="checkbox" name="playlist_top_media"  value="1" <?php if (1 == $playlist_top_media) echo 'checked="checked"'; ?> class="">
+                        </label>
+                        <input type='text' name='playlist_top_media_title' value="<?php echo $playlist_top_media_title ?>" class='pure-input-1-2' style="display:<?php echo (1 == $playlist_top_media) ? 'inline' : 'none'; ?>" placeholder="The Title"/>
+                        <input type='text' name='playlist_top_media_count' value="<?php echo $playlist_top_media_count ?>" class='pure-input-1-4' style="display:<?php echo (1 == $playlist_top_media) ? 'inline' : 'none'; ?>" placeholder="Count"/>
+                        <!-- Do not move above without addressing dependencies -->
+	                    <hr> 
+                        <label><?php _e('Access log filter '); ?></label>
+                        <input type="text" name="access_log_pattern" class="pure-input-1"
+                            value="<?php echo esc_attr( get_option('access_log_pattern') ); ?>" placeholder="/.mp3/i">
+                        <small>Simple regex. The default is <code>/.mp3/i</code>.</small>
+                        <hr>                                                
                         <label><?php _e('Top Chart font color override.'); ?><br>
                             <small>Example
                                 <code>["#ffffff","#F0F0F0","#E0E0E0","#D0D0D0","#C0C0C0","#B0B0B0","#A0A0A0","#909090","#808080","#707070"]</code></small>
@@ -187,19 +188,13 @@
                 </div>
                 <div class="pure-u-1 pure-u-md-2-5">
                     <div class="pure-padding-box">
-                        <label>Enable charts on posts:
-                            <input type="checkbox" name="chart_rgb_enabled" class="" value="1"
-                                <?php if (1 == get_option('chart_rgb_enabled')) echo 'checked="checked"'; ?>>
-                        </label>
                         <label>Colors:
                             <input name="chart_rgb_init" data-jscolor="{preset:'large dark'}"
                                 value="<?php if(get_option('chart_rgb_init')){ echo esc_attr( get_option('chart_rgb_init') ); }else{ echo "rgba(0,0,0,1.0)"; } ?>"
-                                title="Initial chart fill color"
-                                <?php if (1 != get_option('chart_rgb_enabled')) echo 'disabled'; ?>>
+                                title="Initial chart fill color">
                             <input name="chart_rgb" data-jscolor="{preset:'large dark'}"
                                 value="<?php if(get_option('chart_rgb')){ echo esc_attr( get_option('chart_rgb') ); }else{ echo "rgba(255,255,255,1.0)"; } ?>"
-                                title="chart fill color"
-                                <?php if (1 != get_option('chart_rgb_enabled')) echo 'disabled'; ?>>
+                                title="chart fill color">
                         </label>
                         <hr>
 
