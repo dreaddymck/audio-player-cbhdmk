@@ -242,9 +242,10 @@
 						</script>
 						<div id="admin-charts"></div>
 						(<i><small>Double-click input to expand</small></i>)
-						<textarea class="pure-input-1 rounded-0" rows="5"
-							ondblclick="this.style.height = '';this.style.height = (this.scrollHeight + 12) + 'px'">
-					<?php echo $activity ?></textarea>
+						<textarea 
+							class="pure-input-1 rounded-0" 
+							rows="5"
+							ondblclick="this.style.height = '';this.style.height = (this.scrollHeight + 12) + 'px'"><?php echo $activity ?></textarea>
 						<label><?php echo "Total: ".sizeof($access_log_activity) ?><label>
 					</div>
 				</div>

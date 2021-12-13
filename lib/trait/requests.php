@@ -189,41 +189,11 @@ trait _requests {
 				}
 			}
 		}
-		// return (preg_match('~\bsrc="([^"]++)"~', $img, $matches)) ? $matches[1] : esc_attr( get_option('default_album_cover') );
 		return $img ? $img : esc_attr( get_option('default_album_cover'));
 	}
 	function extract_embedded_media($str) { //renamed from fetch_audio_from_string
 		$matches = array();
 		if(!$str){return $matches;}
-
-		// This REGEX solution fails on classic html pages/posts imported from blogspot
-		//
-		# See http://en.wikipedia.org/wiki/Audio_file_format
-		# Adjust the list to your needs
-		// 	$suffixes = array (
-		// 		'3gp', 'aa3', 'aac', 'aiff', 'ape', 'at3', 'au',  'flac', 'm4a', 'm4b',
-		// 		'm4p', 'm4r', 'm4v', 'mpc',  'mp3', 'mp4', 'mpp', 'oga',  'ogg', 'oma',
-		// 		'pcm', 'tta', 'wav', 'wma',  'wv',
-		// 	);
-		//	$formats = join( '|', $suffixes );
-		//  $formats = "mp3";
-		//  $regex   = '~
-		//  (([^"\'])|^)            # start of string or attribute delimiter -> match 1
-		//  (https?                 # http or https
-		//     ://                 # separator
-		//     .+/                 # domain plus /
-		//     .+                  # file name at least one character
-		//     \.                  # a dot
-		//     (' . $formats . ')  # file suffixes
-		//  )                       # complete URL -> match 3
-		//  (([^"\'])|$)?           # end of string or attribute delimiter -> match 5
-		//  ~imUx';                 # case insensitive, multi-line, ungreedy, commented
-		//
-		//
-		// $regex   = '~(https?://.+/.+\.(' . $formats . '))(([^"\'])|$)?~imUx';
-		// $regex = '~((?:\'|")https?://\w.+\.(mp3)(?:\'|"))~';
-		// preg_match_all( $regex, $str, $matches, PREG_PATTERN_ORDER );
-
 		$dom = new \DOMDocument();
 		libxml_use_internal_errors(true);
 		$dom->loadHTML($str);

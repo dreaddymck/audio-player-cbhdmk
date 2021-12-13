@@ -52,7 +52,8 @@ trait _rss {
                     }else
                     if(isset($p->top_request) && filter_var($p->top_request, FILTER_VALIDATE_BOOLEAN)){                    
                         $idarray = array();
-                        $data = $this->media_activity_today($limit=10);
+                        $top_count = isset($p->top_count) ? $p->top_count : 0;
+                        $data = $this->media_activity_today($limit=$top_count);
                         foreach($data as $value) {                
                             array_push($idarray, $value["ID"]);     
                         }
@@ -72,8 +73,8 @@ ON DUPLICATE KEY UPDATE xml='$output';
 
                     ";
                     $this->mysqli_query($query);
-                }
-                if($this->debug){ echo __FUNCTION__. " | ". $this->memory_usage()."\n\r"; } 
+                    if($this->debug){ echo __FUNCTION__. " | ". $p->id . " | ".$this->memory_usage()."\n\r"; }
+                }                 
             }
             if(!empty($listid)){
                 $listid = "'".implode("','", $listid)."'";       
