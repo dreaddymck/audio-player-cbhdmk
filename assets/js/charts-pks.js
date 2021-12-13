@@ -4,7 +4,7 @@ Chart.plugins.register({
     afterDatasetsDraw: function (chartInstance) {
         let color;
         if (chartInstance.config.type == "horizontalBar") {
-            color = _functions.is_json_string(dmck_audioplayer.chart_color_array)  ? JSON.parse(dmck_audioplayer.chart_color_array) : "";
+            color = _dmck_functions.is_json_string(dmck_audioplayer.chart_color_array)  ? JSON.parse(dmck_audioplayer.chart_color_array) : "";
             chartInstance.data.datasets.forEach(function (dataset, datasetIndex) {
                 dataset.backgroundColor = color;
             });
@@ -12,13 +12,13 @@ Chart.plugins.register({
         // if (chartInstance.config.type == "line") {
         //     color = dmck_audioplayer.chart_color_static  ? dmck_audioplayer.chart_color_static : jQuery("body").css("background-color");
         //     chartInstance.data.datasets.forEach(function (dataset, datasetIndex) {
-        //         dataset.backgroundColor = _functions.hex_to_rgb(color);
+        //         dataset.backgroundColor = _dmck_functions.hex_to_rgb(color);
         //     });
         // }        
     }
 });
 
-window.charts_pkg = {
+window._dmck_charts_pkg = {
     top_requests_chart: function(selector){
         /**
          * top_10_json is currently embeded in html - playlist-layout.php

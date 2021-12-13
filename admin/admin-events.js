@@ -60,7 +60,7 @@ window.admin_events = {
         })                     
         jQuery('.playlist_config_add').click(function(e){
             e.preventDefault();
-            let id = _functions.uuidv4();
+            let id = _dmck_functions.uuidv4();
             let dupecheck = jQuery(".playlist-config-tab-content").children('input[name="id"]').filter(function(){
                 return (this.value.localeCompare(id) == 0);
             });

@@ -72,33 +72,38 @@ window.playlist_control = {
 		jQuery(playlist_control.globals.cfg.fwd).click(function (e) {
 			e.preventDefault();
 			playlist_control.stopAudio();
-			let next =playlist_control.globals.container.children().filter(function(){
-				return( jQuery(this).hasClass("active") );
-			}).next();			
-			if (next.length == 0) {
-				next = playlist_control.globals.container.children().filter(function(){
-					return( jQuery(this).hasClass(playlist_control.globals.target) );
-				}).first();
+			if(playlist_control.globals.container){
+				let next =playlist_control.globals.container.children().filter(function(){
+					return( jQuery(this).hasClass("active") );
+				}).next();			
+				if (next.length == 0) {
+					next = playlist_control.globals.container.children().filter(function(){
+						return( jQuery(this).hasClass(playlist_control.globals.target) );
+					}).first();
+				}
+				playlist_control.initAudio(next)
+				let id = (jQuery(playlist_control.globals.container).attr("id") || jQuery(playlist_control.globals.container).parents(".tab-pane").attr("id"));
+				jQuery("." + dmck_audioplayer.plugin_slug + ' a[href="#' + id + '"]').trigger('click');
 			}
-			playlist_control.initAudio(next)
-			let id = (jQuery(playlist_control.globals.container).attr("id") || jQuery(playlist_control.globals.container).parents(".tab-pane").attr("id"));
-			jQuery("." + dmck_audioplayer.plugin_slug + ' a[href="#' + id + '"]').tab('show');
 		});
 		// rewind click
 		jQuery(playlist_control.globals.cfg.rew).click(function (e) {
 			e.preventDefault();
 			playlist_control.stopAudio();
-			let next =playlist_control.globals.container.children().filter(function(){
-				return( jQuery(this).hasClass("active") );
-			}).prev();			
-			if (next.length == 0) {
-				next = playlist_control.globals.container.children().filter(function(){
-					return( jQuery(this).hasClass(playlist_control.globals.target) );
-				}).last();
-			}			
-			playlist_control.initAudio(next);
-			let id = (jQuery(playlist_control.globals.container).attr("id") || jQuery(playlist_control.globals.container).parents(".tab-pane").attr("id"));
-			jQuery("." + dmck_audioplayer.plugin_slug + ' a[href="#' + id + '"]').tab('show');
+			if(playlist_control.globals.container){
+				let next =playlist_control.globals.container.children().filter(function(){
+					return( jQuery(this).hasClass("active") );
+				}).prev();			
+				if (next.length == 0) {
+					next = playlist_control.globals.container.children().filter(function(){
+						return( jQuery(this).hasClass(playlist_control.globals.target) );
+					}).last();
+				}			
+				playlist_control.initAudio(next);
+				let id = (jQuery(playlist_control.globals.container).attr("id") || jQuery(playlist_control.globals.container).parents(".tab-pane").attr("id"));
+				jQuery("." + dmck_audioplayer.plugin_slug + ' a[href="#' + id + '"]').trigger('click');
+			}
+
 		});
 	},
 	initAudio: function (elem) {

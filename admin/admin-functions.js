@@ -46,7 +46,7 @@ window.admin_functions = {
             jQuery('.tab-about').html(content);
         });
         jQuery("#wp-admin-bar-" + dmck_audioplayer.plugin_slug).css("font-style","italic");
-        charts_pkg.top_requests_chart("#admin-charts");
+        _dmck_charts_pkg.top_requests_chart("#admin-charts");
     },
     submit_form(){
         jQuery(document.body).css({'cursor' : 'wait'});
@@ -90,7 +90,7 @@ window.admin_functions = {
         let config = jQuery("textarea[name='playlist_config']").val();
         config = JSON.parse(config);
         config.find(function (obj, index) {
-            obj = _functions.clean(obj);
+            obj = _dmck_functions.clean(obj);
         });
         jQuery("textarea[name='playlist_config']").val(JSON.stringify(config, "", 8));     
     },    

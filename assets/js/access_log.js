@@ -16,7 +16,7 @@ window.access_log = {
             if(!jQuery("#top-10").length){return;}
             let container   = jQuery('#top-10'); 
             let target      = ".top-10-track";
-            let colors      = _functions.is_json_string(dmck_audioplayer.chart_color_array)  ? JSON.parse(dmck_audioplayer.chart_color_array) : [];
+            let colors      = _dmck_functions.is_json_string(dmck_audioplayer.chart_color_array)  ? JSON.parse(dmck_audioplayer.chart_color_array) : [];
             container.find( target ).each(function(index){
                jQuery(this).attr("style","color:" + (colors[index] ? colors[index] : "") ); 
                 /**

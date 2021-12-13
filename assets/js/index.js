@@ -12,7 +12,7 @@ jQuery(document).ready(function () {
     // jQuery(".tab-pane").hide().first().show();
     // jQuery('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
     //     let target = jQuery(e.target).attr("href") // activated tab
-    //     _functions.cookie.set({ "tab": target });
+    //     _dmck_functions.cookie.set({ "tab": target });
     // });
         
     jQuery(".tab-pane").hide();
@@ -21,10 +21,10 @@ jQuery(document).ready(function () {
         let target = jQuery(this).attr("href");
         jQuery(".tab-pane").removeClass('active').hide();
         jQuery(target).addClass("active").show();
-        _functions.cookie.set({ "tab": target });
+        _dmck_functions.cookie.set({ "tab": target });
     });
 	let dmck_audioplayer_end = function() {
-		let cookie = _functions.cookie.get();
+		let cookie = _dmck_functions.cookie.get();
         let playlist_config = dmck_audioplayer.playlist_config ? JSON.parse(dmck_audioplayer.playlist_config) : "";
         let cover = dmck_audioplayer.default_album_cover;
         if (cookie) {
@@ -55,8 +55,8 @@ jQuery(document).ready(function () {
         ]
     ).then(function() {
         if(dmck_audioplayer.charts_enabled){ 
-            charts_pkg.top_requests_chart("#top-10");
-            charts_pkg.post_chart();
+            _dmck_charts_pkg.top_requests_chart("#top-10");
+            _dmck_charts_pkg.post_chart();
         }
         dmck_audioplayer_end();
         if(dmck_audioplayer.autoplay){
