@@ -108,8 +108,9 @@ if($playlist_config){
 			
 			if($config->id != 'top.media.requests'){
 				$playlist_config_selection_label = isset($config->title) ? $config->title : $config->id;
+				$playlist_config_selection_label_title = isset($config->title) ? "title='ID: $config->id'" : "";
 				$playlist_config_selection = $playlist_config_selection."
-<option value='$config->id' draggable=true $default_selected>$playlist_config_selection_label</option>
+<option value='$config->id' draggable=true $default_selected $playlist_config_selection_label_title>$playlist_config_selection_label</option>
 				";
 			}
 			
