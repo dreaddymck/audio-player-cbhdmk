@@ -185,5 +185,29 @@ ORDER BY time ASC
 
         return $results;
     }
+	function chart_data_obj($post_id,$mths=1){
+		$chart_json = "";
+		if (get_option('charts_enabled')) {
+			$resp = $this->dmck_media_activity_month($post_id,$mths);
+			if($resp){
+				$chart_json = (object) array( 
+                    "label" => "",  
+                    "labels" => array(), 
+                    "data" => array(),
+                );
+				foreach($resp as $key=>$value){
+					$json = (object)($value);
+					if( $chart_json->label !=  $json->name ){ $chart_json->label = $json->name; }
+					$json->time = date('d-m-Y', $json->time);
+					array_push($chart_json->labels, $json->time);
+					array_push($chart_json->data, (object) array(
+						"x" => $json->time,
+						"y" => $json->count
+					));								
+				}
+			}
+		}
+		return $chart_json;
+	}    
 
 }

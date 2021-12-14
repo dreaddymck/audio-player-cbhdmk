@@ -118,6 +118,8 @@ EOF;
 EOF;
 
         $unset_queue = array();
+        $chart_array = array();
+        $chart_title_array = array();
 
         foreach($playlist_data["top_10_json"] as $key => $value) {
             if( !isset($value["ID"]) || empty($value["ID"]) ){
@@ -148,15 +150,23 @@ EOF;
                 </tr>
 
 EOF;
-
+            $response = $this->chart_data_obj($value["ID"],1);
+            array_push($chart_array, $response);
+            $chart_title_array = array_unique(array_merge($chart_title_array, $response->labels));
         }
         foreach ( $unset_queue as $index ){ unset($playlist_data["top_10_json"][$index]); }
         $playlist_data["top_10_json"] = array_values($playlist_data["top_10_json"]); // rebase the array
-        $html .= "</tbody></table>";
+        $html .= "</tbody></table>";       
+        
+        usort($chart_title_array, function ($a, $b) {
+            return strtotime($a) - strtotime($b);
+        });
         
         if (get_option('charts_enabled')) {
             $html .= "
             <script>
+                let chart_labels = ".json_encode($chart_title_array).";
+                let chart_json = ".json_encode($chart_array).";
                 let top_10_json = {
                     data: ".($playlist_data["top_10_json"] ? json_encode($playlist_data["top_10_json"]) : "[]" ).",
                     title: ".json_encode($p->top_title).",

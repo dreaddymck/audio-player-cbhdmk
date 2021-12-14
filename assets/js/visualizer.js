@@ -4,10 +4,11 @@ window.dmck_visualizer = {
 
     context:null,
     audio_node:null,
-    MEDIA_ELEMENT_NODES: new WeakMap(),    
+    MEDIA_ELEMENT_NODES: new WeakMap(),
+  
     init: function(audio,id) {
 
-        if(!dmck_audioplayer.visualizer_rgb_enabled){ return; }
+        if(!dmck_audioplayer.visualizer_enabled){ return; }
        
         dmck_visualizer.context = new (window.AudioContext || window.webkitAudioContext);
         if(dmck_visualizer.MEDIA_ELEMENT_NODES.has(audio)){
@@ -21,7 +22,7 @@ window.dmck_visualizer = {
         /* Failed to execute 'connect' on 'AudioNode': cannot connect to a destination belonging to a different audio context.*/
         dmck_visualizer.audio_node.connect(analyser);        
 
-        analyser.fftSize = (dmck_audioplayer && dmck_audioplayer.visualizer_samples) ? dmck_audioplayer.visualizer_samples : 512;
+        analyser.fftSize = (dmck_audioplayer && dmck_audioplayer.visualizer_samples) ? dmck_audioplayer.visualizer_samples : 32;
 
         let canvas = document.getElementById(id);
         canvas.width = window.innerWidth;
@@ -34,13 +35,12 @@ window.dmck_visualizer = {
         let barWidth = (canvas.width / bufferLength) * 1.0;
         let barHeight;
         let x = 0;
-        let visualizer_rgb_init;
-        let visualizer_rgb;
-        if(dmck_audioplayer){
+        let visualizer_rgb_init = _dmck_functions.computed["background-color"];
+        let visualizer_rgb = _dmck_functions.computed["color"];
+        if(dmck_audioplayer && dmck_audioplayer.visualizer_rgb_enabled){
             if(dmck_audioplayer.visualizer_rgb_init){ visualizer_rgb_init = dmck_audioplayer.visualizer_rgb_init; }
             if(dmck_audioplayer.visualizer_rgb){ visualizer_rgb = dmck_audioplayer.visualizer_rgb; }
         }
-
         let ctx = canvas.getContext("2d");  
          
 

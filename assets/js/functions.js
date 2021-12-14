@@ -1,7 +1,10 @@
 "use strict";
 
 window._dmck_functions = {
-
+    computed: {
+        "background-color": window.getComputedStyle( document.body ,null).getPropertyValue('background-color'),
+        "color": window.getComputedStyle( document.body ,null).getPropertyValue('color'),
+    },  
 	cookie : {
 		name: dmck_audioplayer.plugin_slug + "-cookie",
 		set : function(obj){

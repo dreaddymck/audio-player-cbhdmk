@@ -33,7 +33,7 @@
 		</div>			
 	</div>
 <?php 
-if(get_option('visualizer_rgb_enabled')){?>
+if(get_option('visualizer_enabled')){?>
 	<i id="now-playing" class="fa fa-music fa-2x" style="display:none"></i>
 	<canvas id="canvas_visualizer"  style="display:none"></canvas>
 <?php

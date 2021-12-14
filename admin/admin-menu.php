@@ -102,24 +102,25 @@
 								<?php if (0 == get_option('audio_control_enabled')) echo 'disabled'; ?>>
 						</label>
 						<hr>
-						<label>Visualizer: <input type="checkbox" name="visualizer_rgb_enabled" class="" value="1"
-								<?php if (1 == get_option('visualizer_rgb_enabled')) echo 'checked="checked"'; ?>>
+						<label>Visualizer: <input type="checkbox" name="visualizer_enabled" class="" value="1"
+								<?php if (1 == get_option('visualizer_enabled')) echo 'checked="checked"'; ?>>
 						</label>
+						<label>Override computed colors: <input type="checkbox" name="visualizer_rgb_enabled" class="" value="1"
+								<?php if (1 == get_option('visualizer_rgb_enabled')) echo 'checked="checked"'; ?>>
+						</label>						
 						<div>
-							<label>Colors:
-								<input name="visualizer_rgb_init" data-jscolor="{preset:'large dark'}"
-									value="<?php if(get_option('visualizer_rgb_init')){ echo esc_attr( get_option('visualizer_rgb_init') ); }else{ echo "rgba(0,0,0,1.0)"; } ?>"
-									title="Initial visualizer fill color"
-									<?php if (1 != get_option('visualizer_rgb_enabled')) echo 'disabled'; ?>>
-								<input name="visualizer_rgb" data-jscolor="{preset:'large dark'}"
-									value="<?php if(get_option('visualizer_rgb')){ echo esc_attr( get_option('visualizer_rgb') ); }else{ echo "rgba(255,255,255,1.0)"; } ?>"
-									title="Visualizer fill color"
-									<?php if (1 != get_option('visualizer_rgb_enabled')) echo 'disabled'; ?>>
-							</label>
+							<input name="visualizer_rgb_init" data-jscolor="{preset:'large dark'}"
+								value="<?php if(get_option('visualizer_rgb_init')){ echo esc_attr( get_option('visualizer_rgb_init') ); }else{ echo "rgba(0,0,0,1.0)"; } ?>"
+								title="Initial visualizer fill color"
+								<?php if (1 != get_option('visualizer_rgb_enabled')) echo 'disabled'; ?>>
+							<input name="visualizer_rgb" data-jscolor="{preset:'large dark'}"
+								value="<?php if(get_option('visualizer_rgb')){ echo esc_attr( get_option('visualizer_rgb') ); }else{ echo "rgba(255,255,255,1.0)"; } ?>"
+								title="Visualizer fill color"
+								<?php if (1 != get_option('visualizer_rgb_enabled')) echo 'disabled'; ?>>
 						</div>
 						<label>Samples:
 							<select name='visualizer_samples'
-								<?php if (1 != get_option('visualizer_rgb_enabled')) echo 'disabled'; ?>>
+								<?php if (1 != get_option('visualizer_enabled')) echo 'disabled'; ?>>
 								<option value='32' <?php selected( get_option('visualizer_samples'), "32" ); ?>>32
 								</option>
 								<option value='64' <?php selected( get_option('visualizer_samples'), "64" ); ?>>64
@@ -182,14 +183,18 @@
 						<input type='text' name='playlist_top_media_count' value="<?php echo $playlist_top_media_count ?>" class='pure-input-1-4' style="display:<?php echo (1 == $playlist_top_media) ? 'inline' : 'none'; ?>" placeholder="Count"/>
 						<!-- Do not move above without addressing dependencies -->
 						<hr>
-						<label>Colors:
-							<input name="chart_rgb_init" data-jscolor="{preset:'large dark'}"
-								value="<?php if(get_option('chart_rgb_init')){ echo esc_attr( get_option('chart_rgb_init') ); }else{ echo "rgba(0,0,0,1.0)"; } ?>"
-								title="Initial chart fill color">
-							<input name="chart_rgb" data-jscolor="{preset:'large dark'}"
-								value="<?php if(get_option('chart_rgb')){ echo esc_attr( get_option('chart_rgb') ); }else{ echo "rgba(255,255,255,1.0)"; } ?>"
-								title="chart fill color">
+						<label>Override computed colors: <input type="checkbox" name="chart_rgb_enabled" class="" value="1"
+								<?php if (1 == get_option('chart_rgb_enabled')) echo 'checked="checked"'; ?>>
 						</label>
+						<input name="chart_rgb_init" data-jscolor="{preset:'large dark'}"
+							value="<?php if(get_option('chart_rgb_init')){ echo esc_attr( get_option('chart_rgb_init') ); }else{ echo "rgba(0,0,0,1.0)"; } ?>"
+							title="Initial chart fill color"
+							<?php if (1 != get_option('chart_rgb_enabled')) echo 'disabled'; ?>>
+						<input name="chart_rgb" data-jscolor="{preset:'large dark'}"
+							value="<?php if(get_option('chart_rgb')){ echo esc_attr( get_option('chart_rgb') ); }else{ echo "rgba(255,255,255,1.0)"; } ?>"
+							title="chart fill color"
+							<?php if (1 != get_option('chart_rgb_enabled')) echo 'disabled'; ?>>
+
 						<hr>
 						<label><?php _e('Access Log location')?></label>
 						<small>accepts /path/to/access_log, ["/path/to/access_log","/path/to/access_log_other"]</small>
