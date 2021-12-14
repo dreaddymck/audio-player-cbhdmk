@@ -34,7 +34,8 @@ module.exports = {
             "grids-responsive": "purecss/build/grids-responsive.css",
             "jscolor": "@eastdesire/jscolor/jscolor.js",
             "jquery-ui-slider": "jquery-ui-slider/jquery-ui.js",
-            "jquery.cookie": "jquery.cookie/jquery.cookie.js"
+            "jquery.cookie": "jquery.cookie/jquery.cookie.js",
+            "chart": "chart.js/dist/chart.js"
         },
     },
     module: {

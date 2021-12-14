@@ -46,7 +46,7 @@ window.admin_functions = {
             jQuery('.tab-about').html(content);
         });
         jQuery("#wp-admin-bar-" + dmck_audioplayer.plugin_slug).css("font-style","italic");
-        _dmck_charts_pkg.top_requests_chart("#admin-charts");
+        _dmck_charts_pkg.time_scale("#admin-charts");
     },
     submit_form(){
         jQuery(document.body).css({'cursor' : 'wait'});

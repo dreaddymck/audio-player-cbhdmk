@@ -6,6 +6,7 @@ import 'pure';
 import 'base';
 import 'grids';
 import 'grids-responsive';
+import 'chart';
 import './assets/css/playlist.css';
 import "jquery-ui-slider";
 import "jquery.cookie";
@@ -14,6 +15,5 @@ import './assets/js/playlist-control.js';
 import './assets/js/access_log.js';
 import './assets/js/playlist.js';
 import './assets/js/visualizer.js';
-import './assets/js/Chart.bundle.js';
 import './assets/js/charts-pks.js'
 import './assets/js/index.js';

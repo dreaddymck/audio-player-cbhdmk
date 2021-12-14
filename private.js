@@ -6,11 +6,11 @@ import 'pure';
 import 'base';
 import 'grids';
 import 'grids-responsive';
+import 'chart';
 import './admin/admin.css';
 import 'jscolor';
 import 'jquery.cookie';
 import './assets/js/upload.js'
-import './assets/js/Chart.bundle.js';
 import './assets/js/charts-pks.js';
 import './assets/js/functions.js';
 import './admin/admin-events.js';

@@ -20,7 +20,7 @@ window.access_log = {
             container.find( target ).each(function(index){
                jQuery(this).attr("style","color:" + (colors[index] ? colors[index] : "") ); 
                 /**
-                 * top_10_json is currently embeded in html - playlist-layout.php
+                 * top_10_json is currently embeded in html - playlist-html.html
                  * overriding date values with javascript created date value for reasons
                  */
                 if(typeof top_10_json === 'undefined'){return;}

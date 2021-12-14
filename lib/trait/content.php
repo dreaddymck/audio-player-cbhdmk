@@ -8,27 +8,33 @@ trait _content {
 			if (get_option('charts_enabled')) {
 				$paths = $this->extract_embedded_media($content);
 				if(sizeof($paths)){
+					
 					$post_chart_json = array();
+					$chart_array = array();
+					$chart_title_array = array();
+
 					foreach($paths as $p){
 						$basename = basename($p);
 						$filename = urldecode($basename);
 						$pattern = "(".preg_quote($basename)."|".preg_quote($filename).")";
 						$target = pathinfo($filename, PATHINFO_FILENAME);
 						$target = preg_replace("/(\W)+/", '_', $target);
-						$resp = $this->dmck_media_activity_month($post->ID,12);
-						if($resp){
-							foreach($resp as $key=>$value){
-								$json = (object)($value);
-								array_push($post_chart_json, array(
-									"time"=> $json->time,
-									"count" => $json->count,
-									"target" => $target,
-									"filename" => $filename
-								));
-							}
-						}
-						$html = "<div class='post_chart_section ". $target ."_chart'></div><script>let post_chart_json = ".json_encode($post_chart_json)."</script>";
+
+						$response = $this->chart_data_obj( $post->ID, 12);
+						array_push($chart_array, $response);
+						$chart_title_array = array_unique(array_merge($chart_title_array, $response->labels));
 					}
+					usort($chart_title_array, function ($a, $b) {
+						return strtotime($a) - strtotime($b);
+					});  
+					$html .= "
+					<div id='top-10'></div>
+					<script>
+						const chart_json = {
+							labels: ".json_encode($chart_title_array).",
+							datasets: ".json_encode($chart_array)."
+						};            
+					</script>";										
 				}
 			}
 		}

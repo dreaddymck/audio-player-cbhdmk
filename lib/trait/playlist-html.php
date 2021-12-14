@@ -158,16 +158,17 @@ EOF;
         $playlist_data["top_10_json"] = array_values($playlist_data["top_10_json"]); // rebase the array
         $html .= "</tbody></table>";       
         
-        usort($chart_title_array, function ($a, $b) {
-            return strtotime($a) - strtotime($b);
-        });
-        
         if (get_option('charts_enabled')) {
+            usort($chart_title_array, function ($a, $b) {
+                return strtotime($a) - strtotime($b);
+            });            
             $html .= "
             <script>
-                let chart_labels = ".json_encode($chart_title_array).";
-                let chart_json = ".json_encode($chart_array).";
-                let top_10_json = {
+                const chart_json = {
+                    labels: ".json_encode($chart_title_array).",
+                    datasets: ".json_encode($chart_array)."
+                };            
+                const top_10_json = {
                     data: ".($playlist_data["top_10_json"] ? json_encode($playlist_data["top_10_json"]) : "[]" ).",
                     title: ".json_encode($p->top_title).",
                     id: ".json_encode($p->id).",
