@@ -49,6 +49,12 @@ window.access_log = {
                 
                 jQuery("<div />",{ class: "text-center" })
                 .append(
+                    jQuery("<div />", {
+                        class: "text-center",
+                        "text": title
+                    })                
+                ) 
+                .append(
                     jQuery("<a />", {
                         "href": dmck_audioplayer.site_url + "/feed/playlist/?" + jQuery.param(param) ,
                         "title": title,
@@ -57,16 +63,11 @@ window.access_log = {
                     .append(
                         jQuery("<img />", {
                             "src": dmck_audioplayer.site_url + "/wp-includes/images/rss-2x.png",
-                            "vspace":"12"                            
+                            "vspace":"12",
+                            "title": title,                            
                         })                
                     )
-                )
-                .append(
-                    jQuery("<div />", {
-                        class: "text-center",
-                        "text": title
-                    })                
-                )                
+                )               
                 .appendTo( jQuery('#top-10') );                 
             });            
         },

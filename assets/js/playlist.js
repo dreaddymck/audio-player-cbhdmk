@@ -35,6 +35,12 @@ window.playlist = {
 					let title = elem.title + " RSS";
                 	jQuery("<div />",{ class: "text-center" })
 					.append(
+						jQuery("<div />", {
+							class: "text-center",
+							"text": title
+						})                
+					)					
+					.append(
 						jQuery("<a />", {
 							"href": dmck_audioplayer.site_url + "/feed/playlist/?" + jQuery.param(param) ,
 							"title": title,
@@ -46,12 +52,6 @@ window.playlist = {
 								"vspace":"12"
 							})                
 						)						
-					)
-					.append(
-						jQuery("<div />", {
-							class: "text-center",
-							"text": title
-						})                
 					)					
 					.appendTo( jQuery('#' + elem.id) );
            		});

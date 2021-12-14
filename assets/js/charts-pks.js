@@ -160,7 +160,7 @@ window._dmck_charts_pkg = {
             });
         }
     },
-    time_scale: function () {
+    time_scale: function (selector) {
         if (typeof chart_json === 'undefined') { return; }
         if (!chart_json.length) { return; }
         let ctx, id;
@@ -168,10 +168,9 @@ window._dmck_charts_pkg = {
             labels: chart_labels,
             datasets: chart_json
         };
-        id = "testtest_canvas";
-        jQuery("#top-10").append(`<canvas id="` + id + `" width="auto" height="auto"></canvas>`);
+        id = "time_scale_canvas";
+        jQuery(selector).append(`<div class="chart_section_title">History</div><canvas id="` + id + `" width="auto" height="auto"></canvas>`);
         ctx = jQuery("#" + id);
-
         let borderColor = _dmck_functions.computed["color"];
         let backgroundColor = _dmck_functions.computed["background-color"];
         let fontColor = _dmck_functions.computed["color"];
@@ -179,11 +178,11 @@ window._dmck_charts_pkg = {
             borderColor = dmck_audioplayer.chart_rgb
             backgroundColor = dmck_audioplayer.chart_rgb_init;
             fontColor = dmck_audioplayer.chart_rgb;        
-        }    
-
+        }
         new Chart(ctx, {
             type: 'line',
             data: data,
+            
             options: {
                 responsive: true,
                 legend: {
@@ -192,23 +191,6 @@ window._dmck_charts_pkg = {
                     }
                 },
                 scales: {
-                    x: {
-                        type: 'time',
-                        time: {
-                            // Luxon format string
-                            tooltipFormat: 'DD T'
-                        },
-                        title: {
-                            display: true,
-                            text: 'Date'
-                        },
-                    },
-                    y: {
-                        title: {
-                            display: true,
-                            text: 'value'
-                        }
-                    },
                     yAxes: [{
                         ticks: {
                             fontColor: fontColor,
