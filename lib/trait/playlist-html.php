@@ -193,7 +193,7 @@ EOF;
                 const top_10_json = {
                     data: ".($playlist_data["top_10_json"] ? json_encode($playlist_data["top_10_json"]) : "[]" ).",
                     title: ".json_encode($p->top_title).",
-                    id: ".(isset($p->id) ? $p->id : 0).",
+                    id: '".(isset($p->id) ? $p->id : 0)."',
                 }
             </script>
 ";
