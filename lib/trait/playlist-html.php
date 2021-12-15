@@ -182,7 +182,8 @@ EOF;
         if (get_option('charts_enabled')) {
             usort($chart_title_array, function ($a, $b) {
                 return strtotime($a) - strtotime($b);
-            });            
+            }); 
+            //TODO: why would $p->id not have a value            
             $html .= "
             <script>
                 const chart_json = {
@@ -192,7 +193,7 @@ EOF;
                 const top_10_json = {
                     data: ".($playlist_data["top_10_json"] ? json_encode($playlist_data["top_10_json"]) : "[]" ).",
                     title: ".json_encode($p->top_title).",
-                    id: ".json_encode($p->id).",
+                    id: ".(isset($p->id) ? $p->id : 0).",
                 }
             </script>
 ";
