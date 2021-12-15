@@ -153,7 +153,7 @@ ORDER BY time ASC
                 }
             }   
         }
-        $this->dmck_playlist_html_run();
+        $this->dmck_playlist_content();
         if($this->debug){ echo "finished | ".__FUNCTION__. " | ".$this->memory_usage()."\n\r"; }
         return;
     }

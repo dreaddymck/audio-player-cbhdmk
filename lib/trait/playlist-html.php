@@ -2,7 +2,7 @@
 namespace DMCK_WP_MEDIA_PLUGIN;
 trait DMCK_playlist_html {
 
-    function dmck_playlist_html_run(){
+    function dmck_playlist_content(){
         $playlist_data = $this->playlist_data_get();
 		$playlist_html_tabs = "";
         foreach($playlist_data["playlist_json"] as $p) {
@@ -68,6 +68,8 @@ EOF;
 EOF;
         $resp = $obj->obj_request( $pj );
         $playlist = json_decode( $resp );
+        $chart_array = array();
+        $chart_title_array = array();        
         foreach($playlist as $p) {
 
             $html .= <<<EOF
@@ -94,9 +96,28 @@ EOF;
 
 EOF;
 
+            $response = $this->chart_data_obj($p->ID,1);
+            if($response){
+                array_push($chart_array, $response);
+                $chart_title_array = array_unique(array_merge($chart_title_array, $response->labels));
             }
+        }
 
         $html .= "</tbody></table></li>";
+
+        if (get_option('charts_enabled')) {
+            usort($chart_title_array, function ($a, $b) {
+                return strtotime($a) - strtotime($b);
+            });            
+            $html .= "
+            <script>
+                const chart_json_".$p->ID." = {
+                    labels: ".json_encode($chart_title_array).",
+                    datasets: ".json_encode($chart_array)."
+                };            
+            </script>
+";
+        }              
 
         return $html;
 

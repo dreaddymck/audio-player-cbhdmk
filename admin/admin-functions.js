@@ -51,7 +51,7 @@ window.admin_functions = {
     submit_form(){
         jQuery(document.body).css({'cursor' : 'wait'});
         //invalid json will break the submit.
-        if(!admin_functions.json_validate( jQuery("textarea[name='playlist_config']").val()) ){
+        if(!_dmck_functions.json_validate( jQuery("textarea[name='playlist_config']").val()) ){
             admin_functions.notice(".notice-error", "Invalid json configuration");
             jQuery(document.body).css({'cursor' : 'default'});
             return;
@@ -162,40 +162,12 @@ window.admin_functions = {
         }            
         jQuery("textarea[name='playlist_config']").val(JSON.stringify(playlist_config,"",8));
     },
-    string_to_slug: function (str)
-    {
-        str = str.replace(/^\s+|\s+$/g, ''); // trim
-        str = str.toLowerCase();
 
-        // remove accents, swap ñ for n, etc
-        var from = "àáäâèéëêìíïîòóöôùúüûñçěščřžýúůďťň·/_,:;";
-        var to   = "aaaaeeeeiiiioooouuuuncescrzyuudtn------";
-
-        for (var i=0, l=from.length ; i<l ; i++)  {
-            str = str.replace(new RegExp(from.charAt(i), 'g'), to.charAt(i));
-        }
-
-        str = str.replace('.', '-') // replace a dot by a dash
-            .replace(/[^a-z0-9 -]/g, '') // remove invalid chars
-            .replace(/\s+/g, '-') // collapse whitespace and replace by a dash
-            .replace(/-+/g, '-') // collapse dashes
-            .replace( /\//g, '' ); // collapse all forward-slashes
-
-        return str;
-    },
     notice: function(ident,text,timeout){
         if(!ident && !text){return false};
         timeout = timeout ? timeout : 2000;
         jQuery(ident).text(text).show("slow");
         setTimeout(function() {  jQuery(".notice").hide("slow").text(""); }, timeout);
         return false;
-    },
-    json_validate(json){
-        try {
-            JSON.parse(json);
-        } catch (e) {
-            return false;
-        }
-        return true;
     }
 }
