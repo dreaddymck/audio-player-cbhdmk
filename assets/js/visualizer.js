@@ -41,8 +41,7 @@ window.dmck_visualizer = {
             if(dmck_audioplayer.visualizer_rgb_init){ visualizer_rgb_init = dmck_audioplayer.visualizer_rgb_init; }
             if(dmck_audioplayer.visualizer_rgb){ visualizer_rgb = dmck_audioplayer.visualizer_rgb; }
         }
-        let ctx = canvas.getContext("2d");  
-         
+        let ctx = canvas.getContext("2d");
 
         function renderFrame() {
             requestAnimationFrame(renderFrame);

@@ -190,10 +190,14 @@ ORDER BY time ASC
 		if (get_option('charts_enabled')) {
 			$resp = $this->dmck_media_activity_month($post_id,$mths);
 			if($resp){
+                $borderColor = get_option("chart_rgb");
+                $borderColor = get_option("chart_color_array") ? json_decode(get_option("chart_color_array")) : $borderColor;
 				$chart_json = (object) array( 
                     "label" => "",  
                     "labels" => array(), 
                     "data" => array(),
+                    "lineTension" => 0.1,
+                    "borderColor" => $borderColor,
                 );
 				foreach($resp as $key=>$value){
 					$json = (object)($value);

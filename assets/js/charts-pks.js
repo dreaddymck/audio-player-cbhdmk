@@ -29,7 +29,7 @@ window._dmck_charts_pkg = {
             options: {
                 plugins: {
                     title: {
-                        text: 'History',
+                        text: 'Request history',
                         display: true
                     }
                 },
@@ -44,7 +44,8 @@ window._dmck_charts_pkg = {
                         title: {
                             display: true,
                             text: 'Requests'
-                        }
+                        },
+                        type: 'logarithmic',
                     }
                 },
             },

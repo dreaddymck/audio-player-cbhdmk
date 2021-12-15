@@ -183,19 +183,6 @@
 						<input type='text' name='playlist_top_media_count' value="<?php echo $playlist_top_media_count ?>" class='pure-input-1-4' style="display:<?php echo (1 == $playlist_top_media) ? 'inline' : 'none'; ?>" placeholder="Count"/>
 						<!-- Do not move above without addressing dependencies -->
 						<hr>
-						<label>Override computed colors: <input type="checkbox" name="chart_rgb_enabled" class="" value="1"
-								<?php if (1 == get_option('chart_rgb_enabled')) echo 'checked="checked"'; ?>>
-						</label>
-						<input name="chart_rgb_init" data-jscolor="{preset:'large dark'}"
-							value="<?php if(get_option('chart_rgb_init')){ echo esc_attr( get_option('chart_rgb_init') ); }else{ echo "rgba(0,0,0,1.0)"; } ?>"
-							title="Initial chart fill color"
-							<?php if (1 != get_option('chart_rgb_enabled')) echo 'disabled'; ?>>
-						<input name="chart_rgb" data-jscolor="{preset:'large dark'}"
-							value="<?php if(get_option('chart_rgb')){ echo esc_attr( get_option('chart_rgb') ); }else{ echo "rgba(255,255,255,1.0)"; } ?>"
-							title="chart fill color"
-							<?php if (1 != get_option('chart_rgb_enabled')) echo 'disabled'; ?>>
-
-						<hr>
 						<label><?php _e('Access Log location')?></label>
 						<small>accepts /path/to/access_log, ["/path/to/access_log","/path/to/access_log_other"]</small>
 						<input type="text" name="access_log" class="pure-input-1"
@@ -213,7 +200,20 @@
 						<textarea name="ignore_ip_json" class="pure-input-1" title="ignore ip json"
 							<?php if (1 != get_option('ignore_ip_enabled')) echo 'disabled'; ?>><?php echo esc_attr( get_option('ignore_ip_json') ); ?></textarea>
 						<hr>
-						<label><?php _e('Top Chart font color override.'); ?><br>
+						<label>Override computed colors: <input type="checkbox" name="chart_rgb_enabled" class="" value="1"
+								<?php if (1 == get_option('chart_rgb_enabled')) echo 'checked="checked"'; ?>>
+						</label>
+						<input name="chart_rgb_init" data-jscolor="{preset:'large dark'}"
+							value="<?php if(get_option('chart_rgb_init')){ echo esc_attr( get_option('chart_rgb_init') ); }else{ echo "rgba(0,0,0,1.0)"; } ?>"
+							title="Initial chart fill color"
+							<?php if (1 != get_option('chart_rgb_enabled')) echo 'disabled'; ?>>
+						<input name="chart_rgb" data-jscolor="{preset:'large dark'}"
+							value="<?php if(get_option('chart_rgb')){ echo esc_attr( get_option('chart_rgb') ); }else{ echo "rgba(255,255,255,1.0)"; } ?>"
+							title="chart fill color"
+							<?php if (1 != get_option('chart_rgb_enabled')) echo 'disabled'; ?>>
+
+						<hr>						
+						<label><?php _e('Chart color override array.'); ?><br>
 							<small>Example
 								<code>["#ffffff","#F0F0F0","#E0E0E0","#D0D0D0","#C0C0C0","#B0B0B0","#A0A0A0","#909090","#808080","#707070"]</code></small>
 								<input type="text" name="chart_color_array" class="pure-input-1"
@@ -229,7 +229,7 @@
 			<div class="pure-g">
 				<div class="pure-u-1 pure-u-md-5-5">
 					<div class="pure-padding-box">
-						<label>Today</label>
+
 						<?php
 						$access_log_activity = array();
 						$chart_array = array();
@@ -237,7 +237,6 @@
 						$activity="";
 						if( get_option('charts_enabled') ){
 							$access_log_activity = $this->media_activity_today();
-							//TODO: take today's activity data, generate history, render json for time scale chart
 							if(is_array($access_log_activity)){
 								$activity = json_encode($access_log_activity, JSON_PRETTY_PRINT);
 								foreach($access_log_activity as $a){
