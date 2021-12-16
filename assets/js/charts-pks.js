@@ -2,6 +2,7 @@
 
 //TODO: chart color variation script
 
+
 window._dmck_charts_pkg = {
     defaults: function(){
         let response = {
@@ -18,13 +19,13 @@ window._dmck_charts_pkg = {
     },
     time_scale: function (selector) {
          let ctx, id;
+        id = "canvas_" + _dmck_functions.string_to_slug(selector);
+        jQuery("#" + selector).append(`<canvas id="` + id + `" width="auto" height="auto"></canvas>`);
+        ctx = jQuery("#" + id);
         const data = {
             labels: dmck_chart_object[selector].labels,
             datasets: dmck_chart_object[selector].datasets
         };
-        id = "canvas_" + _dmck_functions.string_to_slug(selector);
-        jQuery("#" + selector).append(`<canvas id="` + id + `" width="auto" height="auto"></canvas>`);
-        ctx = jQuery("#" + id);
         let options = _dmck_charts_pkg.defaults();
         new Chart(ctx, {
             type: 'line',
@@ -48,7 +49,6 @@ window._dmck_charts_pkg = {
                             display: true,
                             text: 'Requests'
                         },
-                        type: 'logarithmic',
                     }
                 },
             },

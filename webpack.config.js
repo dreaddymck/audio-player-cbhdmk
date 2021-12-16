@@ -22,7 +22,7 @@ module.exports = {
         new webpack.ProvidePlugin({
             "$": "jquery",
             "jQuery": "jquery",
-            "window.jQuery": "jquery"
+            "window.jQuery": "jquery",
         }),
     ],
     resolve: {
@@ -35,7 +35,7 @@ module.exports = {
             "jscolor": "@eastdesire/jscolor/jscolor.js",
             "jquery-ui-slider": "jquery-ui-slider/jquery-ui.js",
             "jquery.cookie": "jquery.cookie/jquery.cookie.js",
-            "chart": "chart.js/dist/chart.js"
+            "chart": "chart.js/dist/chart.js",
         },
     },
     module: {
