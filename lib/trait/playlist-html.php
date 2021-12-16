@@ -107,7 +107,12 @@ EOF;
 
         if (get_option('charts_enabled')) {
             usort($chart_title_array, function ($a, $b) {
-                return strtotime($a) - strtotime($b);
+                if (strtotime($a) > strtotime($b))
+                    return 1;
+                else if (strtotime($a) < strtotime($b)) 
+                    return -1;
+                else
+                    return 0;
             });            
             $html .= "
             <script>
