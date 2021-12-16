@@ -96,10 +96,12 @@ EOF;
 
 EOF;
 
-            $response = $this->chart_data_obj($p->ID,1);
-            if($response){
-                array_push($chart_array, $response);
-                $chart_title_array = array_unique(array_merge($chart_title_array, $response->labels));
+            if (get_option('charts_enabled')) {
+                $response = $this->chart_data_obj($p->ID,1);
+                if($response){
+                    array_push($chart_array, $response);
+                    $chart_title_array = array_unique(array_merge($chart_title_array, $response->labels));
+                }            
             }
         }
 
@@ -107,8 +109,8 @@ EOF;
 
         if (get_option('charts_enabled')) {
             usort($chart_title_array, function ($a, $b) {
-                return new \DateTime($a) <=> new \DateTime($b);
-            });            
+                return strtotime($a) - strtotime($b);
+            });           
             $html .= "
             <script>
             dmck_chart_object['".$pj->id."'] = {
@@ -171,9 +173,11 @@ EOF;
                 </tr>
 
 EOF;
-            $response = $this->chart_data_obj($value["ID"],1);
-            array_push($chart_array, $response);
-            $chart_title_array = array_unique(array_merge($chart_title_array, $response->labels));
+            if (get_option('charts_enabled')) {
+                $response = $this->chart_data_obj($value["ID"],1);
+                array_push($chart_array, $response);
+                $chart_title_array = array_unique(array_merge($chart_title_array, $response->labels));            
+            }
         }
         foreach ( $unset_queue as $index ){ unset($playlist_data["top_10_json"][$index]); }
         $playlist_data["top_10_json"] = array_values($playlist_data["top_10_json"]); // rebase the array
