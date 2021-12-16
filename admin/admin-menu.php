@@ -211,9 +211,8 @@
 							value="<?php if(get_option('chart_rgb')){ echo esc_attr( get_option('chart_rgb') ); }else{ echo "rgba(255,255,255,1.0)"; } ?>"
 							title="chart fill color"
 							<?php if (1 != get_option('chart_rgb_enabled')) echo 'disabled'; ?>>
-
 						<hr>						
-						<label><?php _e('Chart color override array.'); ?><br>
+						<label><?php _e('Override computed colors with array.'); ?><br>
 							<small>Example
 								<code>["#ffffff","#F0F0F0","#E0E0E0","#D0D0D0","#C0C0C0","#B0B0B0","#A0A0A0","#909090","#808080","#707070"]</code></small>
 								<input type="text" name="chart_color_array" class="pure-input-1"

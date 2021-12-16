@@ -20,7 +20,7 @@ trait _content {
 						$target = pathinfo($filename, PATHINFO_FILENAME);
 						$target = preg_replace("/(\W)+/", '_', $target);
 
-						$response = $this->chart_data_obj( $post->ID, 12);
+						$response = $this->chart_data_obj( $post->ID, 1);
 						array_push($chart_array, $response);
 						$chart_title_array = array_unique(array_merge($chart_title_array, $response->labels));
 					}
