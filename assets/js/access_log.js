@@ -13,8 +13,8 @@ window.access_log = {
     {
         global: {},
         top_requests: function(){
-            if(!jQuery("#top-10").length){return;}
-            let container   = jQuery('#top-10'); 
+            if(!jQuery("#top-media-requests").length){return;}
+            let container   = jQuery('#top-media-requests'); 
             let target      = ".top-10-track";
             let colors      = _dmck_functions.is_json_string(dmck_audioplayer.chart_color_array)  ? JSON.parse(dmck_audioplayer.chart_color_array) : [];
             container.find( target ).each(function(index){
@@ -38,8 +38,6 @@ window.access_log = {
                 let elem = container.find( target + ':first-child').attr("audiourl");
                 if(!elem){ return; }
                 if(!elem.length){ return; }
-                // jQuery("#top-10").removeClass("hidden");
-                // jQuery("#tab-top-10").removeClass("hidden");
                 access_log.active( elem );
                 /**
                  * add rss link for this list

@@ -26,14 +26,15 @@ trait _content {
 					}
 					usort($chart_title_array, function ($a, $b) {
 						return strtotime($a) - strtotime($b);
-					});  
+					});
+					$elemid = "post_".$post->ID;  
 					$html .= "
-					<div id='top-10'></div>
+					<div id='$elemid'></div>
 					<script>
-						const chart_json = {
+						dmck_chart_object['$elemid'] = {
 							labels: ".json_encode($chart_title_array).",
 							datasets: ".json_encode($chart_array)."
-						};            
+						};
 					</script>";										
 				}
 			}

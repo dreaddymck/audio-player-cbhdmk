@@ -7,7 +7,7 @@ function playlist_config_default_json(){
 		"order": "ASC",
 	},
 	{
-		"id": "top.media.requests",
+		"id": "top-media-requests",
 		"top_request" : "false",
 		"top_count" : "10",
 		"top_title" : "Top"
@@ -106,7 +106,7 @@ if($playlist_config){
 
             $config_cat_selection=playlist_config_options($cats, $config->cat,1);
 			
-			if($config->id != 'top.media.requests'){
+			if($config->id != 'top-media-requests'){
 				$playlist_config_selection_label = isset($config->title) ? $config->title : $config->id;
 				$playlist_config_selection_label_title = isset($config->title) ? "title='ID: $config->id'" : "";
 				$playlist_config_selection = $playlist_config_selection."

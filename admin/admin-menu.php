@@ -251,10 +251,10 @@
 						}
 						?>
 						<script>
-						let chart_json = {
+						dmck_chart_object['admin-charts'] = {
 							labels: <?php echo json_encode($chart_title_array) ?>,
 							datasets: <?php echo json_encode($chart_array) ?>
-						}						
+						};												
 						let top_10_json = {
 							data : <?php echo ($activity ? $activity :"[]") ?>,
 						}

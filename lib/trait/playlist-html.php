@@ -42,7 +42,7 @@ EOF;
         return <<<EOF
 
         <li class="nav-item">
-            <a class="nav-link" id="tab-top-10" data-toggle="tab" href="#top-10" role="tab" aria-controls="top-10" aria-selected="true">
+            <a class="nav-link" id="tab-{$p->id}" data-toggle="tab" href="#{$p->id}" role="tab" aria-controls="{$p->id}" aria-selected="true">
                 <p>{$p->top_title}</p>
             </a>
         </li>
@@ -111,10 +111,10 @@ EOF;
             });            
             $html .= "
             <script>
-                const chart_json_".$p->ID." = {
-                    labels: ".json_encode($chart_title_array).",
-                    datasets: ".json_encode($chart_array)."
-                };            
+            dmck_chart_object['".$pj->id."'] = {
+                labels: ".json_encode($chart_title_array).",
+                datasets: ".json_encode($chart_array)."
+            };            
             </script>
 ";
         }              
@@ -126,7 +126,7 @@ EOF;
 
         $html = <<<EOF
 
-            <div class="tab-pane" id="top-10" role="tabpanel" aria-labelledby="top-10-tab">
+            <div class="tab-pane" id="{$p->id}" role="tabpanel" aria-labelledby="tab-{$p->id}">
             <table class="table table-responsive-lg top-requests-data">
             <thead>
                 <tr>
@@ -186,10 +186,10 @@ EOF;
             //TODO: why would $p->id not have a value            
             $html .= "
             <script>
-                const chart_json = {
+                dmck_chart_object['".$p->id."'] = {
                     labels: ".json_encode($chart_title_array).",
                     datasets: ".json_encode($chart_array)."
-                };            
+                };                              
                 const top_10_json = {
                     data: ".($playlist_data["top_10_json"] ? json_encode($playlist_data["top_10_json"]) : "[]" ).",
                     title: ".json_encode($p->top_title).",

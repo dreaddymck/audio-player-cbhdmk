@@ -17,14 +17,13 @@ window._dmck_charts_pkg = {
         return response;
     },
     time_scale: function (selector) {
-        if (typeof chart_json === 'undefined') { return; }
-        let ctx, id;
+         let ctx, id;
         const data = {
-            labels: chart_json.labels,
-            datasets: chart_json.datasets
+            labels: dmck_chart_object[selector].labels,
+            datasets: dmck_chart_object[selector].datasets
         };
-        id = "timescale_canvas_" + _dmck_functions.string_to_slug(selector);
-        jQuery(selector).append(`<canvas id="` + id + `" width="auto" height="auto"></canvas>`);
+        id = "canvas_" + _dmck_functions.string_to_slug(selector);
+        jQuery("#" + selector).append(`<canvas id="` + id + `" width="auto" height="auto"></canvas>`);
         ctx = jQuery("#" + id);
         let options = _dmck_charts_pkg.defaults();
         new Chart(ctx, {
