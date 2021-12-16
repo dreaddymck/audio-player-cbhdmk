@@ -202,7 +202,7 @@ ORDER BY time ASC
 				foreach($resp as $key=>$value){
 					$json = (object)($value);
 					if( $chart_json->label !=  $json->name ){ $chart_json->label = $json->name; }
-					$json->time = date('m-d-Y', $json->time);
+					$json->time = date('d-m-Y', $json->time);
 					array_push($chart_json->labels, $json->time);
 					array_push($chart_json->data, (object) array(
 						"x" => $json->time,
