@@ -115,7 +115,14 @@ EOF;
             <script>
             dmck_chart_object['".$pj->id."'] = {
                 labels: ".json_encode($chart_title_array).",
-                datasets: ".json_encode($chart_array)."
+                datasets: ".json_encode($chart_array).",
+                options: {
+                    plugins: {
+                        title: {
+                            text: \"Past month request history\"
+                        }
+                    }
+                }
             };            
             </script>
 ";
@@ -187,12 +194,18 @@ EOF;
             usort($chart_title_array, function ($a, $b) {
                 return strtotime($a) - strtotime($b);
             }); 
-            //TODO: why would $p->id not have a value            
             $html .= "
             <script>
                 dmck_chart_object['".$p->id."'] = {
                     labels: ".json_encode($chart_title_array).",
-                    datasets: ".json_encode($chart_array)."
+                    datasets: ".json_encode($chart_array).",
+                    options: {
+                        plugins: {
+                            title: {
+                                text: \"Past month request history\"
+                            }
+                        }
+                    }
                 };                              
                 const top_10_json = {
                     data: ".($playlist_data["top_10_json"] ? json_encode($playlist_data["top_10_json"]) : "[]" ).",

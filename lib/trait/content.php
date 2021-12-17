@@ -36,7 +36,14 @@ trait _content {
 						<script>
 							dmck_chart_object['$elemid'] = {
 								labels: ".json_encode($chart_title_array).",
-								datasets: ".json_encode($chart_array)."
+								datasets: ".json_encode($chart_array).",
+								options: {
+									plugins: {
+										title: {
+											text: \"Past month request history\"
+										}
+									}
+								}								
 							};
 						</script>";
 					}

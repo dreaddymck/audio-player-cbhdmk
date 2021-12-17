@@ -26,14 +26,16 @@ window._dmck_charts_pkg = {
             labels: dmck_chart_object[selector].labels,
             datasets: dmck_chart_object[selector].datasets
         };
-        let options = _dmck_charts_pkg.defaults();
+        let title_text = (dmck_chart_object[selector].options && dmck_chart_object[selector].options.plugins.title.text)  ? 
+                            dmck_chart_object[selector].options.plugins.title.text : 
+                            'Request history';
         new Chart(ctx, {
             type: 'line',
             data: data,
             options: {
                 plugins: {
                     title: {
-                        text: 'Request history',
+                        text: title_text,
                         display: true
                     }
                 },
