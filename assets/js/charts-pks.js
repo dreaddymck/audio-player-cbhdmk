@@ -20,7 +20,16 @@ window._dmck_charts_pkg = {
     time_scale: function (selector) {
          let ctx, id;
         id = "canvas_" + _dmck_functions.string_to_slug(selector);
-        jQuery("#" + selector).append(`<canvas id="` + id + `" width="auto" height="auto"></canvas>`);
+
+        let thecanvas = jQuery("<div />", { class: "chart-container" })
+                        .css({
+                            "position":"relative", 
+                            "height":"auto", 
+                            "width":"auto"
+                        })
+                        .append(`<canvas id="` + id + `"></canvas>`)
+
+        jQuery("#" + selector).append(thecanvas);
         ctx = jQuery("#" + id);
         const data = {
             labels: dmck_chart_object[selector].labels,
@@ -33,6 +42,7 @@ window._dmck_charts_pkg = {
             type: 'line',
             data: data,
             options: {
+                responsive: true,
                 plugins: {
                     title: {
                         text: title_text,
