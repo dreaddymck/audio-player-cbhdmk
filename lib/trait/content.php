@@ -20,33 +20,31 @@ trait _content {
 						$target = pathinfo($filename, PATHINFO_FILENAME);
 						$target = preg_replace("/(\W)+/", '_', $target);
 
-						if (get_option('charts_enabled')) {
-							$response = $this->chart_data_obj( $post->ID, 1);
+						$response = $this->chart_data_obj( $post->ID, 1);
+						if($response){
 							array_push($chart_array, $response);
 							$chart_title_array = array_unique(array_merge($chart_title_array, $response->labels));						
 						}
 					}
-					if (get_option('charts_enabled')) {
-						usort($chart_title_array, function ($a, $b) {
-							return strtotime($a) - strtotime($b);
-						});
-						$elemid = "post_".$post->ID;  
-						$html .= "
-						<div id='$elemid'></div>
-						<script>
-							dmck_chart_object['$elemid'] = {
-								labels: ".json_encode($chart_title_array).",
-								datasets: ".json_encode($chart_array).",
-								options: {
-									plugins: {
-										title: {
-											text: \"Past month request history\"
-										}
+					usort($chart_title_array, function ($a, $b) {
+						return strtotime($a) - strtotime($b);
+					});
+					$elemid = "post_".$post->ID;  
+					$html .= "
+					<div id='$elemid'></div>
+					<script>
+						dmck_chart_object['$elemid'] = {
+							labels: ".json_encode($chart_title_array).",
+							datasets: ".json_encode($chart_array).",
+							options: {
+								plugins: {
+									title: {
+										text: \"Past month request history\"
 									}
-								}								
-							};
-						</script>";
-					}
+								}
+							}								
+						};
+					</script>";
 				}
 			}
 		}
