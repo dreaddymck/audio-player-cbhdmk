@@ -44,9 +44,15 @@
 				</div>
 				<div class="pure-u-1 pure-u-md-2-5">
 					<div class="pure-padding-box">
-						<label>
-							<a class="secondary small" id="export-tables"
-								onclick="admin_functions.export_tables()">Export</a> plugin data
+						<label>Enable charts:
+							<input type="checkbox" name="charts_enabled" class="" value="1"
+								<?php if (1 == get_option('charts_enabled')) echo 'checked="checked"'; ?>>
+						</label>
+						<hr>						
+						<label class="export-tables-label <?php if (1 != get_option('charts_enabled')) echo 'hidden'; ?>" >
+							<a class="secondary small" 
+								id="export-tables"
+								onclick="admin_functions.export_tables()">Export</a> chart data
 						</label>
 						<label>Drop tables when deactivated
 							<input type="checkbox" name="drop_table_on_inactive" class="" value="1"
@@ -146,11 +152,7 @@
 							</select>
 						</label>
 						<hr>
-						<label>Charts:
-							<input type="checkbox" name="charts_enabled" class="" value="1"
-								<?php if (1 == get_option('charts_enabled')) echo 'checked="checked"'; ?>>
-						</label>
-						<hr>
+
 						<label>Custom Filename REGEX (Filename is used as title):
 							<input name="media_filename_regex" class="pure-input-1"
 								value="<?php if(get_option('media_filename_regex')){ echo esc_attr( get_option('media_filename_regex') ); } ?>"

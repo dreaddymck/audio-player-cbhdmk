@@ -176,19 +176,22 @@ window.admin_events = {
         jQuery("input[type='checkbox'][name='charts_enabled']").click(function (e) {
             if( jQuery(this).prop("checked")){
                 jQuery("input[name='access_log']").prop("required", true);
-                jQuery("ul.parent-tabs > li").removeClass('current');
-                jQuery(".parent-tab-content").removeClass('current');
+                // jQuery("ul.parent-tabs > li").removeClass('current');
+                // jQuery(".parent-tab-content").removeClass('current');
                 jQuery("li[data-tab='parent-tabs-5']").removeClass("hidden");
                 jQuery("li[data-tab='parent-tabs-7']").removeClass("hidden");
-                jQuery("li[data-tab='parent-tabs-5']").addClass('current');
-                jQuery("#parent-tabs-5").addClass('current');
-                admin_functions.cookie.set({ "tab": "parent-tabs-5" });              
+                // "#parent-tabs-1 > div > div.pure-u-1.pure-u-md-2-5 > div > label.export-tables-label"
+                jQuery("label.export-tables-label").removeClass("hidden");
+                // jQuery("li[data-tab='parent-tabs-5']").addClass('current');
+                // jQuery("#parent-tabs-5").addClass('current');
+                // admin_functions.cookie.set({ "tab": "parent-tabs-5" });              
             }else{
                 jQuery("input[type='checkbox'][name='playlist_top_media']").prop("checked", false)
                 admin_functions.playlist_top_media_activity();
                 jQuery("input[name='access_log']").prop("required", false);
                 jQuery("li[data-tab='parent-tabs-5']").addClass("hidden");
-                jQuery("li[data-tab='parent-tabs-7']").addClass("hidden");                
+                jQuery("li[data-tab='parent-tabs-7']").addClass("hidden");
+                jQuery("label.export-tables-label").addClass("hidden");                
             }
         });
         jQuery("input[type='checkbox'][name='chart_rgb_enabled']").click(function (e) {
