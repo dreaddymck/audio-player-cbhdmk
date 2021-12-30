@@ -39,6 +39,7 @@ trait DMCK_playlist_html {
 EOF;
     }
     function nav_item_top_request($p){
+        if(!isset($p->id)){return;}
         return <<<EOF
 
         <li class="nav-item">
@@ -132,7 +133,7 @@ EOF;
 
     }
     function nav_pane_top_request($playlist_data, $p){
-
+        if(!isset($p->id)){return;}
         $html = <<<EOF
 
             <div class="tab-pane" id="{$p->id}" role="tabpanel" aria-labelledby="tab-{$p->id}">
