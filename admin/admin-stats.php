@@ -27,6 +27,19 @@ let top_10_json = {
     data : <?php echo ($activity ? $activity :"[]") ?>,
 }
 </script>
+
+<?php if ($playlist_config_selection) : ?>
+<select name="playlist_stats_selection" size="4" style="display:none">
+    
+    <?php if (1 == get_option('playlist_top_media')) { ?>
+        
+        <option value='top-media-requests' draggable=true ><?php echo $playlist_top_media_title ?></option>
+        
+    <?php  } ?> 
+    <?php echo $playlist_config_selection ?>
+</select>
+<?php endif; ?>
+
 <div id="admin-charts"></div>
 (<i><small>Double-click input to expand</small></i>)
 <textarea 

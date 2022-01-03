@@ -194,6 +194,9 @@ window.admin_events = {
                 jQuery("label.export-tables-label").addClass("hidden");                
             }
         });
+        jQuery("input[type='checkbox'][name='playlist_top_media']").click(function(e){
+            admin_functions.playlist_top_media_activity();
+        });
         jQuery("input[type='checkbox'][name='chart_rgb_enabled']").click(function (e) {
             jQuery("input[name='chart_rgb_init']").prop("disabled", !jQuery(this).prop("checked"));
             jQuery("input[name='chart_rgb']").prop("disabled", !jQuery(this).prop("checked"));

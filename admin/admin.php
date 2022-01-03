@@ -28,7 +28,8 @@ trait _admin {
         'chart_color_static',
         'audio_control_enabled',
         'audio_control_slider_height',
-        'playlist_config_opt'
+        'playlist_config_opt',
+        'playlist_top_media'
     );
     public $userpreferences 		= array('userpreferences');       
 	

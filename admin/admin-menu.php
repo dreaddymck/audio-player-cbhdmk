@@ -179,7 +179,7 @@
 								requirement:<br><code>* * * * * $(which php) <?php echo plugin_dir_path(__DIR__)?>lib/reports.php logs > /dev/null 2>&1</code></small>
 						<!-- Do not move above without addressing dependencies -->
 						<label  class="pure-checkbox">Enable Top requests:
-							<input type="checkbox" name="playlist_top_media"  value="1" <?php if (1 == $playlist_top_media) echo 'checked="checked"'; ?> class="">
+							<input type="checkbox" name="playlist_top_media"  value="1" <?php if (1 == get_option('playlist_top_media')) echo 'checked="checked"'; ?> class="">
 						</label>
 						<input type='text' name='playlist_top_media_title' value="<?php echo $playlist_top_media_title ?>" class='pure-input-1-2' style="display:<?php echo (1 == $playlist_top_media) ? 'inline' : 'none'; ?>" placeholder="The Title"/>
 						<input type='text' name='playlist_top_media_count' value="<?php echo $playlist_top_media_count ?>" class='pure-input-1-4' style="display:<?php echo (1 == $playlist_top_media) ? 'inline' : 'none'; ?>" placeholder="Count"/>
