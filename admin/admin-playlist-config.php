@@ -55,22 +55,23 @@ function playlist_config_options($arry,$selected,$custom){
 		}
 	}
 	if(strpos($options, $sel)){ $sel = ""; }
-	$options = "<option value='' $sel >empty</option>". $options;
+	// $options = "<option value='' $sel >--</option>". $options;
 	return $options;
 }
 $playlist_config_default = playlist_config_default();
 $playlist_config = json_decode($playlist_config_default);
+$playlist_top_media = "";
+$playlist_top_media_count = "";
+$playlist_top_media_title = "";
+$playlist_config_selection = "";
+$playlist_config_tabs_content = "";
+$playlist_config_tabs_content_inputs = "";
+$playlist_config_x = 0;
+$default_current = "current";
+$default_selected = "selected";
 
 if($playlist_config){
-	$playlist_top_media = "";
-	$playlist_top_media_count = "";
-	$playlist_top_media_title = "";
-	$playlist_config_selection = "";
-	$playlist_config_tabs_content = "";
-	$playlist_config_tabs_content_inputs = "";
-	$playlist_config_x = 0;
-	$default_current = "current";
-	$default_selected = "selected";
+
 	$post__in = get_posts(array(
         'post_status' => 'publish',
         'posts_per_page'=> -1,

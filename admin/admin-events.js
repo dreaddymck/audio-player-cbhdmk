@@ -176,15 +176,10 @@ window.admin_events = {
         jQuery("input[type='checkbox'][name='charts_enabled']").click(function (e) {
             if( jQuery(this).prop("checked")){
                 jQuery("input[name='access_log']").prop("required", true);
-                // jQuery("ul.parent-tabs > li").removeClass('current');
-                // jQuery(".parent-tab-content").removeClass('current');
                 jQuery("li[data-tab='parent-tabs-5']").removeClass("hidden");
                 jQuery("li[data-tab='parent-tabs-7']").removeClass("hidden");
-                // "#parent-tabs-1 > div > div.pure-u-1.pure-u-md-2-5 > div > label.export-tables-label"
                 jQuery("label.export-tables-label").removeClass("hidden");
-                // jQuery("li[data-tab='parent-tabs-5']").addClass('current');
-                // jQuery("#parent-tabs-5").addClass('current');
-                // admin_functions.cookie.set({ "tab": "parent-tabs-5" });              
+            
             }else{
                 jQuery("input[type='checkbox'][name='playlist_top_media']").prop("checked", false)
                 admin_functions.playlist_top_media_activity();
@@ -200,6 +195,28 @@ window.admin_events = {
         jQuery("input[type='checkbox'][name='chart_rgb_enabled']").click(function (e) {
             jQuery("input[name='chart_rgb_init']").prop("disabled", !jQuery(this).prop("checked"));
             jQuery("input[name='chart_rgb']").prop("disabled", !jQuery(this).prop("checked"));
-        });           
+        });
+        //TODO: stubs for later.  
+        jQuery('select[name="playlist_stats_selection"]').change(function () {
+            let obj = {
+                type:"playlist",
+                value: this.value
+            }
+            console.log(obj);
+        });  
+        jQuery('select[name="select_posts_in"]').change(function () {
+
+            let post_ins = jQuery(this).val()
+            console.log( jQuery(this).val());
+            jQuery('input[name="post_in_stats"]').val(JSON.stringify(post_ins));
+            // if(_dmck_functions.json_validate(arr) ){
+            //     arr = JSON.parse(arr);
+            //     arr.push(this.value);
+            //     console.log(arr);
+            // }
+            // let unique = arr.filter(function (value, index, self) {
+            //     return self.indexOf(value) === index;
+            // });
+        });         
     }
 }

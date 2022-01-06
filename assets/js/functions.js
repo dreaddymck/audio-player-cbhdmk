@@ -26,14 +26,7 @@ window._dmck_functions = {
 			return jQuery.cookie(_dmck_functions.cookie.name);
 		}
 	},
-	is_json_string: function (str) {
-		try {
-			JSON.parse(str);
-		} catch (e) {
-			return false;
-		}
-		return true;
-	},
+
 	string_to_slug: function (str) {
 		str = str.replace(/^\s+|\s+$/g, ''); // trim
 		str = str.toLowerCase();
@@ -62,6 +55,14 @@ window._dmck_functions = {
 		}
 		return true;
 	},
+	is_json_string: function (str) {
+		try {
+			JSON.parse(str);
+		} catch (e) {
+			return false;
+		}
+		return true;
+	},	
 	hex_to_rgb: function (h) {
 		let r = 0,
 			g = 0,
