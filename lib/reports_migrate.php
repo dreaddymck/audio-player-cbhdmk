@@ -12,7 +12,7 @@ NOTICE: if plugin is symlinked, then require '.../wp-load.php' path MUST modifie
 namespace DMCK_WP_MEDIA_PLUGIN;
 try{
     require_once(preg_replace('/wp-content.*$/','',__DIR__)."/wp-load.php");
-    require_once(dirname(__FILE__) . "/trait/access-logs.php");
+    require_once(dirname(__FILE__) . "/trait/data.php");
 	require_once(dirname(__FILE__) . "/trait/wavform.php");
     require_once(dirname(__FILE__) . "/trait/utilities.php");
     require_once(dirname(__FILE__) . "/trait/requests.php");
@@ -24,7 +24,7 @@ ini_set("memory_limit","512M");
 
 class dmck_reports_migrate{
 
-    use _accesslog;
+    use _data;
     use _utilities;
     use _requests;
     use _tables;

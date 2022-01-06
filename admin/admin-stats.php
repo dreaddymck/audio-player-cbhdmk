@@ -55,13 +55,13 @@ let top_10_json = {
         <label for="playlist_stats_selection">Options</label> 
             <div class="pure-g">
                 <div class="pure-u-1-2">                
-                    <input type="date" name="post_in_date_from" id="post_in_date_from" title="From date">
+                    <input type="date" name="post_in_date_from" id="post_in_date_from"  class="pure-input-1" title="From date">
                 </div>         
                 <div class="pure-u-1-2">                
-                    <input type="date" name="post_in_date_to" id="post_in_date_to" title="To date">
+                    <input type="date" name="post_in_date_to" id="post_in_date_to"  class="pure-input-1" title="To date">
                 </div>  
                 <div class="pure-u-1-1">                
-                    <input type="text" name="post_in_stats" id="post_in_stats"  class="pure-input-1" value="" title="Select posts"/>
+                    <input type="text" name="post_in_stats" id="post_in_stats"  class="pure-input-1" value="" title="Select posts" readonly/>
                 </div>                                           
             </div>   
         </div>

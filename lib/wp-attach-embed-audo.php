@@ -9,14 +9,14 @@
 namespace DMCK_WP_MEDIA_PLUGIN;
 try{
     require_once dirname(__FILE__) . "/../../../../wp-load.php";
-    require_once(dirname(__FILE__) . "/trait/access-logs.php");
+    require_once(dirname(__FILE__) . "/trait/data.php");
 	require_once(dirname(__FILE__) . "/trait/wavform.php");
     require_once(dirname(__FILE__) . "/trait/utilities.php");
     require_once(dirname(__FILE__) . "/trait/requests.php");
 }
 catch (Exception $e) { exit($e); }
 class wp_attach_embede_audio{
-    use _accesslog;
+    use _data;
     use _wavform;
     use _utilities;
     use _requests;

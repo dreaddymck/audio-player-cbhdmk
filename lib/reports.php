@@ -6,7 +6,7 @@ namespace DMCK_WP_MEDIA_PLUGIN;
 if (!class_exists("dmck_reports")) {
 try{
     require_once dirname(__FILE__) . "/../../../../wp-load.php";
-    require_once(dirname(__FILE__) . "/trait/access-logs.php");
+    require_once(dirname(__FILE__) . "/trait/data.php");
 	require_once(dirname(__FILE__) . "/trait/wavform.php");
     require_once(dirname(__FILE__) . "/trait/utilities.php");   
     require_once(dirname(__FILE__) . "/trait/requests.php"); 
@@ -15,7 +15,7 @@ try{
 }
 catch (Exception $e) { exit($e); }
 class dmck_reports{
-    use _accesslog;
+    use _data;
     use _wavform;
     use _utilities;
     use _requests;
