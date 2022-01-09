@@ -65,15 +65,106 @@ window.admin_functions = {
         jQuery('input[name="post_in_stats"]').val(JSON.stringify([]));
 
         if(jQuery("input[type='checkbox'][name='playlist_top_media']").prop("checked")){
-            jQuery('select[name="playlist_stats_selection"] option[value="top-media-requests"]').attr('selected','selected')
-            _dmck_charts_pkg.time_scale("admin-charts");
+            jQuery('select[name="stats_playlist"] option[value="top-media-requests"]').attr('selected','selected').trigger("change");
         }else{
-            jQuery('select[name="playlist_stats_selection"]')[0].selectedIndex = 0 // TODO: set cookie value for the selected option
+            jQuery('select[name="stats_playlist"]')[0].selectedIndex = 0 // TODO: set cookie value for the selected option
         }
+    },
+    playlist_status_data: function(value){
+
+        let playlist_config = jQuery("textarea[name='playlist_config']").val();
+        if(playlist_config){
+            playlist_config = JSON.parse(playlist_config);
+            playlist_config.find(function(obj, index){
+                if(typeof(obj) !== 'undefined' && typeof(obj.id) !== 'undefined' && obj.id == value){
+                    let base_url_path = dmck_audioplayer.site_url + "/wp-json/" + dmck_audioplayer.plugin_slug + "/" + dmck_audioplayer.plugin_version + "/api/";
+                    let url = base_url_path + "search";
+                    let callback = function(results){
+                        results = JSON.parse(results); 
+                        let ids = []
+                        results.find(function(obj, index){
+                            ids.push(JSON.stringify(obj.ID)); 
+                        });
+                        jQuery('input[name="post_in_stats"]').val(JSON.stringify(ids));            
+                        let json = {
+                            type: "",
+                            value: ids,
+                            to: jQuery('input[name="post_in_date_to"]').val(),
+                            from: jQuery('input[name="post_in_date_from"]').val()
+                        }
+                        admin_functions.status_data(json);                        
+                    }
+                    if(value == "top-media-requests"){
+                        url = base_url_path + "todays_top_data";
+                        callback = function(results){
+                            jQuery('input[name="post_in_stats"]').val(results.ids); 
+                            dmck_chart_object['admin-charts'] = results; 
+                            
+                            jQuery(".chart-container").remove();                         
+                            _dmck_charts_pkg.time_scale("admin-charts");  
+                        }                                                
+                    }    
+                    new Promise(function (resolve, reject) {
+                        jQuery.ajax({
+                            type: "POST",
+                            url: url,
+                            data: obj,
+                            beforeSend: function (xhr) { xhr.setRequestHeader('X-WP-Nonce', dmck_audioplayer.nonce); },
+                        })
+                        .done(function (data) { resolve(data); })
+                        .fail(function (xhr, textStatus, errorThrown) { reject(false); });
+                    })
+                    .then(
+                        function (results) {
+                            jQuery(document.body).css({'cursor' : 'default'});
+                            callback(results)
+                        },
+                        function (error) {
+                            jQuery(document.body).css({'cursor' : 'default'});
+                            admin_functions.notice(".notice-error", error);
+                        }
+                    );
+                }    
+            });                                
+        }
+    },    
+    status_data: function(json){
+        jQuery(document.body).css({'cursor' : 'wait'});
+        let url = dmck_audioplayer.site_url + "/wp-json/" + dmck_audioplayer.plugin_slug + "/" + dmck_audioplayer.plugin_version + "/api/stats_data";
+        function callback(results){
+            results = JSON.parse(results);
+            dmck_chart_object['admin-charts'] = {
+                labels: results.labels,
+                datasets: results.data
+            };
+
+            jQuery(".chart-container").remove();            
+            _dmck_charts_pkg.time_scale("admin-charts");
+            // console.log(results);            
+        }
+        new Promise(function (resolve, reject) {
+            jQuery.ajax({
+                type: "POST",
+                url: url,
+                data: json,
+                beforeSend: function (xhr) { xhr.setRequestHeader('X-WP-Nonce', dmck_audioplayer.nonce); },
+            })
+            .done(function (data) { resolve(data); })
+            .fail(function (xhr, textStatus, errorThrown) { reject(false); });
+        })
+        .then(
+            function (results) {
+                jQuery(document.body).css({'cursor' : 'default'});
+                callback(results)
+             },
+            function (error) {
+                jQuery(document.body).css({'cursor' : 'default'});
+                admin_functions.notice(".notice-error", error);
+             }
+        );        
     },
     submit_form(){
         jQuery(document.body).css({'cursor' : 'wait'});
-        //invalid json will break the submit.
         if(!_dmck_functions.json_validate( jQuery("textarea[name='playlist_config']").val()) ){
             admin_functions.notice(".notice-error", "Invalid json configuration");
             jQuery(document.body).css({'cursor' : 'default'});
@@ -185,7 +276,6 @@ window.admin_functions = {
         }            
         jQuery("textarea[name='playlist_config']").val(JSON.stringify(playlist_config,"",8));
     },
-
     notice: function(ident,text,timeout){
         if(!ident && !text){return false};
         timeout = timeout ? timeout : 2000;

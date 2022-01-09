@@ -19,10 +19,75 @@ trait _requests {
 			case "export_tables":
 				$response = $this->export_tables();
 				break;
+			case "stats_data":
+				$response = $this->stats_data();
+				break;	
+			case "todays_top_data":
+				$response = $this->todays_top_data();
+				break;							
             default:
         }
         return $response;
     }
+	function stats_data(){
+
+		$type = isset($_POST["type"]) ? $_POST["type"] : "";
+		$to = isset($_POST["to"]) ? $_POST["to"] : date("m/d/Y");
+		$from = isset($_POST["from"]) ? $_POST["from"] : date("m/d/Y");
+		$ids =  isset($_POST["value"]) ? $_POST["value"] : "";
+		$response = (object) array(
+			"labels"=>array(),
+			"data"=>array(),
+		);
+
+		//TODO: use the playlist id to get associated post ids
+
+		if(is_array($ids)){
+			foreach ( $ids as $key => $value ) {
+				$json = (object) array(
+					"type" => $type,
+					"value" => $value,
+					"to" => $to,
+					"from" => $from
+				);				
+				$resp = $this->get_chart_json($json);
+				if(!$resp){continue;}
+				array_push($response->data, $resp);
+				$response->labels = array_unique(array_merge($response->labels, $resp->labels));							
+			}
+			if(!empty($response->labels)){
+				usort($response->labels, function ($a, $b) {
+					return strtotime($a) - strtotime($b);
+				});
+			}
+		}		
+		if($this->debug){ echo "array Length: ". count($response) ." | ".__FUNCTION__." | ".$this->memory_usage()."\n\r"; }
+		return json_encode($response);
+	}
+	function todays_top_data(){
+		$chart_array = array();
+		$chart_title_array = array();
+		$ids = array();
+		if( get_option('charts_enabled') ){
+			$access_log_activity = $this->media_activity_today();
+			if(is_array($access_log_activity)){
+				foreach($access_log_activity as $a){
+					$response = $this->get_chart_json_mths($a["ID"],12);
+					array_push($chart_array, $response);
+					array_push($ids,$a["ID"]);
+					$chart_title_array = array_unique(array_merge($chart_title_array, $response->labels));							
+				}
+				usort($chart_title_array, function ($a, $b) {
+					return strtotime($a) - strtotime($b);
+				});								
+			}
+		}
+		return array(
+			"labels" => $chart_title_array,
+			"datasets" => $chart_array,
+			"ids" => '["' . implode('","', $ids) . '"]' //display purpose only
+		);	
+	}
 	function upload(){
 		$response  = (object) array();
 		$response->status = false;

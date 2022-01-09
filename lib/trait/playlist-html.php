@@ -98,7 +98,7 @@ EOF;
 EOF;
 
             if (get_option('charts_enabled')) {
-                $response = $this->chart_data_obj($p->ID,1);
+                $response = $this->get_chart_json_mths($p->ID,1);
                 if($response){
                     array_push($chart_array, $response);
                     $chart_title_array = array_unique(array_merge($chart_title_array, $response->labels));
@@ -182,7 +182,7 @@ EOF;
 
 EOF;
             if (get_option('charts_enabled')) {
-                $response = $this->chart_data_obj($value["ID"],1);
+                $response = $this->get_chart_json_mths($value["ID"],1);
                 array_push($chart_array, $response);
                 $chart_title_array = array_unique(array_merge($chart_title_array, $response->labels));            
             }

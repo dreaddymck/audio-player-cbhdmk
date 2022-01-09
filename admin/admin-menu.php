@@ -78,7 +78,7 @@
 				<div class="pure-u-1 pure-u-md-3-5">
 					<div class="pure-padding-box">
 						<?php if ($playlist_config_selection) : ?>
-						<select name="playlist_config_selection" size="4">
+						<select name="playlist_config_selection" size="6">
 							<?php echo $playlist_config_selection ?>
 						</select>
 						<?php endif; ?>

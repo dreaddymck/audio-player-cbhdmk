@@ -55,14 +55,6 @@ window._dmck_functions = {
 		}
 		return true;
 	},
-	is_json_string: function (str) {
-		try {
-			JSON.parse(str);
-		} catch (e) {
-			return false;
-		}
-		return true;
-	},	
 	hex_to_rgb: function (h) {
 		let r = 0,
 			g = 0,

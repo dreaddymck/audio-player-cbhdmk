@@ -20,8 +20,9 @@ window._dmck_charts_pkg = {
     time_scale: function (selector) {
          let ctx, id;
         id = "canvas_" + _dmck_functions.string_to_slug(selector);
-
-        let thecanvas = jQuery("<div />", { class: "chart-container" })
+        let thecanvas = jQuery("<div />", {
+                            class: "chart-container",
+                        })
                         .css({
                             "position":"relative", 
                             "height":"auto", 

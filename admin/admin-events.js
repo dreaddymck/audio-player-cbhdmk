@@ -196,27 +196,29 @@ window.admin_events = {
             jQuery("input[name='chart_rgb_init']").prop("disabled", !jQuery(this).prop("checked"));
             jQuery("input[name='chart_rgb']").prop("disabled", !jQuery(this).prop("checked"));
         });
-        //TODO: stubs for later.  
-        jQuery('select[name="playlist_stats_selection"]').change(function () {
-            let obj = {
-                type:"playlist",
-                value: this.value
+        jQuery('select[name="stats_posts_in"]').click(function () {
+            jQuery(this).trigger("change");
+        }); 
+        jQuery('select[name="stats_posts_in"]').change(function () {
+            let value = jQuery(this).val();
+            jQuery('input[name="post_in_stats"]').val(JSON.stringify(value));            
+            let json = {
+                type: this.name,
+                value: value,
+                to: jQuery('input[name="post_in_date_to"]').val(),
+                from: jQuery('input[name="post_in_date_from"]').val()
             }
-            console.log(obj);
+            jQuery(".chart-container").hide('slow');
+            admin_functions.status_data(json);
         });  
-        jQuery('select[name="select_posts_in"]').change(function () {
-
-            let post_ins = jQuery(this).val()
-            console.log( jQuery(this).val());
-            jQuery('input[name="post_in_stats"]').val(JSON.stringify(post_ins));
-            // if(_dmck_functions.json_validate(arr) ){
-            //     arr = JSON.parse(arr);
-            //     arr.push(this.value);
-            //     console.log(arr);
-            // }
-            // let unique = arr.filter(function (value, index, self) {
-            //     return self.indexOf(value) === index;
-            // });
-        });         
+        jQuery('select[name="stats_playlist"]').click(function () {
+            jQuery(this).trigger("change");
+        });  
+        jQuery('select[name="stats_playlist"]').change(function () {
+            let value = jQuery(this).val();
+            jQuery(".chart-container").hide('slow');
+            admin_functions.playlist_status_data(value)
+        });  
+             
     }
 }
