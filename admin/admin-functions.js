@@ -69,13 +69,11 @@ window.admin_functions = {
                     })
                     .then(
                         function (results) {
-                            jQuery(document.body).css({'cursor' : 'default'});
-                            jQuery('#loading').hide();
+                            admin_functions.overlay.off()
                             callback(results)
                         },
                         function (error) {
-                            jQuery(document.body).css({'cursor' : 'default'});
-                            jQuery('#loading').hide();
+                            admin_functions.overlay.off()
                             admin_functions.notice(".notice-error", error);
                         }
                     );
@@ -84,8 +82,7 @@ window.admin_functions = {
         }
     },    
     status_data: function(json){
-        jQuery(document.body).css({'cursor' : 'wait'});
-        jQuery('#loading').show();
+        admin_functions.overlay.on()
         let url = dmck_audioplayer.site_url + "/wp-json/" + dmck_audioplayer.plugin_slug + "/" + dmck_audioplayer.plugin_version + "/api/stats_data";
         function callback(results){
             results = JSON.parse(results);
@@ -110,24 +107,20 @@ window.admin_functions = {
         })
         .then(
             function (results) {
-                jQuery(document.body).css({'cursor' : 'default'});
-                jQuery('#loading').hide();
+                admin_functions.overlay.off()
                 callback(results)
              },
             function (error) {
-                jQuery(document.body).css({'cursor' : 'default'});
-                jQuery('#loading').hide();
+                admin_functions.overlay.off()
                 admin_functions.notice(".notice-error", error);
              }
         );        
     },
     submit_form(){
-        jQuery(document.body).css({'cursor' : 'wait'});
-        jQuery('#loading').show();
+        admin_functions.overlay.on()
         if(!_dmck_functions.json_validate( jQuery("textarea[name='playlist_config']").val()) ){
             admin_functions.notice(".notice-error", "Invalid json configuration");
-            jQuery(document.body).css({'cursor' : 'default'});
-            jQuery('#loading').hide();
+            admin_functions.overlay.off()
             return;
         }        
         admin_functions.config_clean(); //remove empty elements
@@ -151,13 +144,11 @@ window.admin_functions = {
         })
         .then(
             function (results) {
-                jQuery(document.body).css({'cursor' : 'default'});
-                jQuery('#loading').hide();
+                admin_functions.overlay.off()
                 document.location.reload();
              },
             function (error) {
-                jQuery(document.body).css({'cursor' : 'default'});
-                jQuery('#loading').hide();
+                admin_functions.overlay.off()
                 admin_functions.notice(".notice-error", error);
              }
         );
@@ -208,7 +199,6 @@ window.admin_functions = {
         .then(
             function (results) {
                 jQuery(document.body).css({'cursor' : 'default'});
-                console.log(results);
                 download(results)
              },
             function (error) {
@@ -244,5 +234,15 @@ window.admin_functions = {
         jQuery(ident).text(text).show("slow");
         setTimeout(function() {  jQuery(".notice").hide("slow").text(""); }, timeout);
         return false;
+    },
+    overlay: {
+        on: function(){
+            jQuery(document.body).css({'cursor' : 'wait'});
+            jQuery('#loading').show();
+        },
+        off: function(){
+            jQuery(document.body).css({'cursor' : 'default'});
+            jQuery('#loading').hide();
+        }        
     }
 }

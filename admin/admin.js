@@ -13,7 +13,7 @@ jQuery(document).ready(function(){
 		});
 		return o;
 	};	
-	jQuery('#loading').fadeOut();
+	admin_functions.overlay.off()
 	jQuery('.admin-container').show();
 	admin_events.init();
 	let cookie = admin_functions.cookie.get();

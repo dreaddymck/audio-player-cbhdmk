@@ -39,9 +39,6 @@ trait _requests {
 			"labels"=>array(),
 			"data"=>array(),
 		);
-
-		//TODO: use the playlist id to get associated post ids
-
 		if(is_array($ids)){
 			foreach ( $ids as $key => $value ) {
 				$json = (object) array(

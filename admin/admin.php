@@ -1,5 +1,4 @@
 <?php
-//TODO: Admin data: render week, month, request activity with charts.
 
 namespace DMCK_WP_MEDIA_PLUGIN;
 trait _admin {

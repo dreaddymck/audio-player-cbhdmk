@@ -208,7 +208,7 @@ window.admin_events = {
                 to: jQuery('input[name="post_in_date_to"]').val(),
                 from: jQuery('input[name="post_in_date_from"]').val()
             }
-            jQuery(".chart-container").hide('slow');
+            jQuery(".chart-container").fadeOut();
             admin_functions.status_data(json);
         });  
         jQuery('select[name="stats_playlist"]').click(function () {
@@ -216,7 +216,7 @@ window.admin_events = {
         });  
         jQuery('select[name="stats_playlist"]').change(function () {
             let value = jQuery(this).val();
-            jQuery(".chart-container").hide('slow');
+            jQuery(".chart-container").fadeOut('slow');
             admin_functions.playlist_status_data(value)
         });  
              
