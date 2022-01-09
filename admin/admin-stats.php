@@ -38,5 +38,10 @@
         </div>
     </div>         
 </div>
-
-<div id="admin-charts"></div>
+<div class="pure-g">
+    <div class="pure-u-1">
+        <div class="pure-padding-box">
+            <div id="admin-charts"></div>
+        </div>
+    </div>         
+</div>

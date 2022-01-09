@@ -1,8 +1,6 @@
 <?php ?>
+<div id="loading"  class="fa-3x"><i id="loading-image" class="fas fa-spinner fa-pulse"></i></div>
 <?php include_once(plugin_dir_path(__FILE__)."admin-playlist-config.php"); ?>
-
-<div class="loading" style="text-align: center; width: 100%;"><img
-		src="<?php echo plugins_url( 'assets/images/loading-nerd.gif', dirname(__FILE__) )?>" /></div>
 <?php $this->notices() ?>
 <form name="admin-settings-form" method="post" action="options.php" class="pure-form pure-form-stacked">
 	<?php settings_fields( self::SETTINGS_GROUP ); ?>

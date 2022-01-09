@@ -15,7 +15,7 @@ trait _data {
             "label" => "",  
             "labels" => array(), 
             "data" => array(),
-            "lineTension" => 0.1,
+            "lineTension" => 0.0,
             "borderColor" => $borderColor,
         );        
     }
