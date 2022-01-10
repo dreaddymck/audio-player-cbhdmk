@@ -15,8 +15,8 @@ trait _data {
             "label" => "",  
             "labels" => array(), 
             "data" => array(),
-            "lineTension" => 0.0,
             "borderColor" => $borderColor,
+            "cubicInterpolationMode" => "monotone"
         );        
     }
     function get_chart_json($json){

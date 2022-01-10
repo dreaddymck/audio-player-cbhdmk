@@ -45,6 +45,16 @@ window._dmck_charts_pkg = {
             options: {
                 responsive: true,
                 plugins: {
+                    legend: {
+                        position: 'left',
+                        labels: {
+                            // This more specific font property overrides the global property
+                            font: {
+                                size: 12,
+                            },
+                            boxWidth: 10
+                        }                       
+                    },
                     title: {
                         text: title_text,
                         display: true
