@@ -66,7 +66,7 @@ window.access_log = {
                         })                
                     )
                 )               
-                .appendTo( jQuery('#top-10') );                 
+                .appendTo( jQuery('#top-media-requests') );                 
             });            
         },
     },
