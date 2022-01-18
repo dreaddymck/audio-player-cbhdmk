@@ -19,23 +19,31 @@ trait _data {
             "cubicInterpolationMode" => "monotone"
         );        
     }
+    function create_chart_json($resp){
+        $chart_json = $this->get_chart_json_default();
+        foreach($resp as $key=>$value){
+            $json = (object)($value);
+            if( $chart_json->label != $json->name ){ 
+                $chart_json->label = $json->name; 
+                $media_filename_regex = esc_attr( get_option('media_filename_regex') );
+                if($media_filename_regex){
+                    $chart_json->label = preg_replace($media_filename_regex, '', $chart_json->label);
+                }    
+            }
+            $json->time = date('d-m-Y', $json->time);
+            array_push($chart_json->labels, $json->time);
+            array_push($chart_json->data, (object) array(
+                "x" => $json->time,
+                "y" => $json->count
+            ));								
+        }
+        return $chart_json;
+    }    
     function get_chart_json($json){
 		$chart_json = "";
 		if (get_option('charts_enabled')) {            
 			$resp = $this->dmck_media_activity_between($json);			
-            if($resp){
-				$chart_json = $this->get_chart_json_default();
-				foreach($resp as $key=>$value){
-					$obj = (object)($value);
-					if( $chart_json->label !=  $obj->name ){ $chart_json->label = $obj->name; }
-					$obj->time = date('d-m-Y', $obj->time);
-					array_push($chart_json->labels, $obj->time);
-					array_push($chart_json->data, (object) array(
-						"x" => $obj->time,
-						"y" => $obj->count
-					));								
-				}
-			}
+            if($resp){ $chart_json = $this->create_chart_json($resp); }
 		}
 		return $chart_json;
 	}
@@ -43,19 +51,7 @@ trait _data {
 		$chart_json = "";
 		if (get_option('charts_enabled')) {
 			$resp = $this->dmck_media_activity_month($post_id,$mths);
-			if($resp){
-                $chart_json = $this->get_chart_json_default();
-				foreach($resp as $key=>$value){
-					$json = (object)($value);
-					if( $chart_json->label !=  $json->name ){ $chart_json->label = $json->name; }
-					$json->time = date('d-m-Y', $json->time);
-					array_push($chart_json->labels, $json->time);
-					array_push($chart_json->data, (object) array(
-						"x" => $json->time,
-						"y" => $json->count
-					));								
-				}
-			}
+			if($resp){ $chart_json = $this->create_chart_json($resp);	}
 		}
 		return $chart_json;
 	}
