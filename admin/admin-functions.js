@@ -24,7 +24,6 @@ window.admin_functions = {
         }
     },
     playlist_status_data: function(value){
-
         let playlist_config = jQuery("textarea[name='playlist_config']").val();
         if(playlist_config){
             playlist_config = JSON.parse(playlist_config);
@@ -51,10 +50,14 @@ window.admin_functions = {
                         url = base_url_path + "todays_top_data";
                         callback = function(results){
                             jQuery('input[name="post_in_stats"]').val(results.ids); 
-                            dmck_chart_object['admin-charts'] = results; 
-                            
-                            jQuery(".chart-container").remove();                         
-                            _dmck_charts_pkg.time_scale("admin-charts");  
+                            dmck_chart_object['admin-charts'] = results;
+                            let json = {
+                                type: "",
+                                value: JSON.parse(results.ids),
+                                to: jQuery('input[name="post_in_date_to"]').val(),
+                                from: jQuery('input[name="post_in_date_from"]').val()
+                            }
+                            admin_functions.status_data(json);                            
                         }                                                
                     }    
                     new Promise(function (resolve, reject) {

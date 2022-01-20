@@ -47,7 +47,7 @@ jQuery(document).ready(function(){
 	jQuery('input[name="post_in_stats"]').val(JSON.stringify([]));
 
 	if(jQuery("input[type='checkbox'][name='playlist_top_media']").prop("checked")){
-		jQuery('select[name="stats_playlist"] option[value="top-media-requests"]').attr('selected','selected').trigger("change");
+		jQuery('select[name="stats_playlist"] option[value="top-media-requests"]').attr('selected','selected').trigger("click");
 	}else{
 		jQuery('select[name="stats_playlist"]')[0].selectedIndex = 0 // TODO: set cookie value for the selected option
 	}	
