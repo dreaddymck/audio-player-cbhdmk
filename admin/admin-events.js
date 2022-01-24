@@ -1,5 +1,7 @@
 "use strict";
 
+const jquery = require("jquery");
+
 window.admin_events = {
     init: function(){
         jQuery('ul.parent-tabs li').on("click",function () {
@@ -14,22 +16,22 @@ window.admin_events = {
             jQuery('.playlist-config-tab-content').removeClass('current');
             jQuery("#playlist-config-tab-" + index).addClass('current');
             admin_functions.cookie.set({ "playlist_config_selected": index });
-        });  
-        jQuery("input[name='title']").on("change",function(e){            
+        });
+        jQuery("input[name='title']").on("change",function(e){
             let title = this.value;
             let index =  jQuery('select[name="playlist_config_selection"]')[0].selectedIndex;
-            let id = jQuery('select[name="playlist_config_selection"] option:eq('+index+')').val(); 
+            let id = jQuery('select[name="playlist_config_selection"] option:eq('+index+')').val();
             let playlist_config = jQuery("textarea[name='playlist_config']").val();
             if(playlist_config){
                 playlist_config = JSON.parse(playlist_config);
                 playlist_config.find(function(obj, index){
                     if(typeof(obj.id) !== 'undefined' && (obj.id.localeCompare(id) == 0)){
-                        return obj.title = title;                         
-                    }    
-                })                
+                        return obj.title = title;
+                    }
+                })
             }
             jQuery("textarea[name='playlist_config']").val(JSON.stringify(playlist_config,"",8));
-        })        
+        })
         jQuery('select[name="select_config_meta_tags"]').on("change",function () {
             let id = jQuery(this).val();
             jQuery('div.config_post_meta_tags').removeClass('current');
@@ -37,7 +39,7 @@ window.admin_events = {
                 jQuery("div#" + id).addClass('current');
                 // admin_functions.cookie.set({ "playlist_config_selected": index });
             }
-        });  
+        });
         jQuery('.playlist_config_up').on("click",function(){
             let config = JSON.parse(jQuery("textarea[name='playlist_config']").val());
             let index =  jQuery('select[name="playlist_config_selection"]')[0].selectedIndex;
@@ -46,8 +48,8 @@ window.admin_events = {
             jQuery('select[name="playlist_config_selection"] option:eq('+index+')').insertBefore(
                 jQuery('select[name="playlist_config_selection"] option:eq('+ (index - 1) +')')
             );
-            jQuery("textarea[name='playlist_config']").val(JSON.stringify(config,"",8));            
-        })	
+            jQuery("textarea[name='playlist_config']").val(JSON.stringify(config,"",8));
+        })
         jQuery('.playlist_config_down').on("click",function(e){
             let config = JSON.parse(jQuery("textarea[name='playlist_config']").val());
             let index =  jQuery('select[name="playlist_config_selection"]')[0].selectedIndex;
@@ -56,8 +58,8 @@ window.admin_events = {
             jQuery('select[name="playlist_config_selection"] option:eq('+index+')').insertAfter(
                 jQuery('select[name="playlist_config_selection"] option:eq('+ (index + 1) +')')
             );
-            jQuery("textarea[name='playlist_config']").val(JSON.stringify(config,"",8));   	
-        })                     
+            jQuery("textarea[name='playlist_config']").val(JSON.stringify(config,"",8));
+        })
         jQuery('.playlist_config_add').on("click",function(e){
             e.preventDefault();
             let id = _dmck_functions.uuidv4();
@@ -71,22 +73,22 @@ window.admin_events = {
             let playlist_config = jQuery("textarea[name='playlist_config']").val();
             if(playlist_config){
                 playlist_config = JSON.parse(playlist_config);
-                playlist_config.find(function(key, value){                    
-                    if(key == "top_request"){ value = jQuery("input[type='checkbox'][name='playlist_top_media']").prop("checked"); }    
-                    if(key == "top_count"){ value = jQuery("input[type='text'][name='playlist_top_media_count']").val(); }    
-                })  
+                playlist_config.find(function(key, value){
+                    if(key == "top_request"){ value = jQuery("input[type='checkbox'][name='playlist_top_media']").prop("checked"); }
+                    if(key == "top_count"){ value = jQuery("input[type='text'][name='playlist_top_media_count']").val(); }
+                })
                 if(typeof playlist_config_default_json !== "undefined"){
                     let default_json = playlist_config_default_json[0];
                     default_json.id = id;
                     let position = playlist_config.length - 1;
                     playlist_config.splice(position, 0, default_json);
                     admin_functions.cookie.set({ "playlist_config_selected": position });
-                    jQuery("textarea[name='playlist_config']").val(JSON.stringify(playlist_config,"",8));                    
+                    jQuery("textarea[name='playlist_config']").val(JSON.stringify(playlist_config,"",8));
                     admin_functions.submit_form();
                 }
-                              
+
             }
-        })        
+        })
         jQuery('.playlist_config_del').on("click",function(e){
             e.preventDefault();
             if (!confirm('Please confirm delete')) { return false; }
@@ -98,31 +100,31 @@ window.admin_events = {
                     if(typeof(obj) !== 'undefined' && typeof(obj.id) !== 'undefined' && obj.id == id){
                         playlist_config.splice(index,1);
                         index = ((index - 1) >= 0) ? (index - 1) : 0;
-                        admin_functions.cookie.set({ "playlist_config_selected": index });        
+                        admin_functions.cookie.set({ "playlist_config_selected": index });
                         jQuery("textarea[name='playlist_config']").val(JSON.stringify(playlist_config,"",8));
-                        admin_functions.submit_form();                        
-                    }    
-                });                                
-            }    
-        })  
-        jQuery("input[name='playlist_top_media_count']").on("change",function(e){            
+                        admin_functions.submit_form();
+                    }
+                });
+            }
+        })
+        jQuery("input[name='playlist_top_media_count']").on("change",function(e){
             let count = this.value;
             let playlist_config = jQuery("textarea[name='playlist_config']").val();
             if(playlist_config){
                 playlist_config = JSON.parse(playlist_config);
                 playlist_config.find(function(obj, index){
                     if(typeof(obj.top_count) !== 'undefined'){
-                        if( ! Number(count) > 0 ){                        
+                        if( ! Number(count) > 0 ){
                             jQuery("input[type='text'][name='playlist_top_media_count']").val(obj.top_count);
                         }else{
                             obj.top_count = jQuery("input[type='text'][name='playlist_top_media_count']").val();
-                        } 
-                    }    
-                })                
+                        }
+                    }
+                })
             }
             jQuery("textarea[name='playlist_config']").val(JSON.stringify(playlist_config,"",8));
         })
-        jQuery("input[name='playlist_top_media_title']").on("change",function(e){             
+        jQuery("input[name='playlist_top_media_title']").on("change",function(e){
             let title = this.value;
             let playlist_config = jQuery("textarea[name='playlist_config']").val();
             if(playlist_config){
@@ -130,12 +132,12 @@ window.admin_events = {
                 playlist_config.find(function(obj, index){
                     if(typeof(obj.top_title) !== 'undefined'){
                         obj.top_title = jQuery('<div>').text(title).html();
-                       return; 
-                    }    
-                })                
+                       return;
+                    }
+                })
             }
             jQuery("textarea[name='playlist_config']").val(JSON.stringify(playlist_config,"",8));
-        })        
+        })
         jQuery('form[name*="admin-settings-form"]').submit(function (e) {
 
             e.preventDefault();
@@ -153,9 +155,9 @@ window.admin_events = {
             jQuery("input[name='visualizer_rgb_enabled']").prop("checked", jQuery(this).prop("checked"));
             jQuery("input[name='visualizer_rgb_enabled']").prop("disabled", !jQuery(this).prop("checked"));
             jQuery("input[name='visualizer_rgb_init']").prop("disabled", !jQuery(this).prop("checked"));
-            jQuery("input[name='visualizer_rgb']").prop("disabled", !jQuery(this).prop("checked"));            
+            jQuery("input[name='visualizer_rgb']").prop("disabled", !jQuery(this).prop("checked"));
             jQuery("select[name='visualizer_samples']").prop("disabled", !jQuery(this).prop("checked"));
-        });        
+        });
         jQuery("input[type='checkbox'][name='visualizer_rgb_enabled']").on("click",function (e) {
             jQuery("input[name='visualizer_rgb_init']").prop("disabled", !jQuery(this).prop("checked"));
             jQuery("input[name='visualizer_rgb']").prop("disabled", !jQuery(this).prop("checked"));
@@ -179,14 +181,14 @@ window.admin_events = {
                 jQuery("li[data-tab='parent-tabs-5']").removeClass("hidden");
                 jQuery("li[data-tab='parent-tabs-7']").removeClass("hidden");
                 jQuery("label.export-tables-label").removeClass("hidden");
-            
+
             }else{
                 jQuery("input[type='checkbox'][name='playlist_top_media']").prop("checked", false)
                 admin_functions.playlist_top_media_activity();
                 jQuery("input[name='access_log']").prop("required", false);
                 jQuery("li[data-tab='parent-tabs-5']").addClass("hidden");
                 jQuery("li[data-tab='parent-tabs-7']").addClass("hidden");
-                jQuery("label.export-tables-label").addClass("hidden");                
+                jQuery("label.export-tables-label").addClass("hidden");
             }
         });
         jQuery("input[type='checkbox'][name='playlist_top_media']").on("click",function(e){
@@ -197,28 +199,40 @@ window.admin_events = {
             jQuery("input[name='chart_rgb']").prop("disabled", !jQuery(this).prop("checked"));
         });
         jQuery('select[name="stats_posts_in"]').on("click",function () {
-            jQuery(this).trigger("change");
-        }); 
-        jQuery('select[name="stats_posts_in"]').on("change",function () {
             let value = jQuery(this).val();
-            jQuery('input[name="post_in_stats"]').val(JSON.stringify(value));            
+            jQuery("input[name='post_in_stats']").val(JSON.stringify(value));
             let json = {
                 type: this.name,
                 value: value,
                 to: jQuery('input[name="post_in_date_to"]').val(),
                 from: jQuery('input[name="post_in_date_from"]').val()
             }
-            jQuery(".chart-container").fadeOut();
+            jQuery(".chart-container").fadeOut('slow');
             admin_functions.status_data(json);
-        });  
+            dmck_chart_object.admin_chart_last_object = this;
+
+        });
         jQuery('select[name="stats_playlist"]').on("click",function () {
-            jQuery(this).trigger("change");
-        });  
-        jQuery('select[name="stats_playlist"]').on("change",function () {
             let value = jQuery(this).val();
             jQuery(".chart-container").fadeOut('slow');
             admin_functions.playlist_status_data(value)
-        });  
-             
+            dmck_chart_object.admin_chart_last_object = this;
+        });
+        jQuery('input[name="post_in_date_from"], input[name="post_in_date_to"]').on("change",function () {
+            clearTimeout(dmck_audioplayer.timeout_handler);
+            dmck_audioplayer.timeout_handler = setTimeout(function(){
+                jquery(dmck_chart_object.admin_chart_last_object)
+                .trigger("focus")
+                .trigger("click")
+            }, 1000)
+        });
+        jQuery('select[name="stats_playlist"], select[name="stats_posts_in"]').on("keyup",function (e) {
+            e.preventDefault();
+            clearTimeout(dmck_audioplayer.timeout_handler);
+            dmck_audioplayer.timeout_handler = setTimeout(function(){
+                jquery(dmck_chart_object.admin_chart_last_object).trigger("click") 
+            }, 1000)            
+                       
+        });
     }
 }
