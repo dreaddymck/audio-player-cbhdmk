@@ -182,7 +182,7 @@ window.admin_functions = {
             elem.setAttribute('download', doc);
             elem.style.display = 'none';
             document.body.appendChild(elem);
-            elem.click();
+            elem.on("click",);
             document.body.removeChild(elem);            
         }
         new Promise(function (resolve, reject) {

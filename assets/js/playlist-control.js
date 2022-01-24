@@ -47,7 +47,7 @@ window.playlist_control = {
 		/**
 		 * events
 		 */
-		jQuery(playlist_control.globals.cfg.play).click(function (e) {
+		jQuery(playlist_control.globals.cfg.play).on("click",function (e) {
 			e.preventDefault();
 			if(playlist_control.globals.container){
 				playlist_control.stopAudio();
@@ -58,18 +58,18 @@ window.playlist_control = {
 			}
 
 		});
-		jQuery(playlist_control.globals.cfg.title).click(function (e) {
+		jQuery(playlist_control.globals.cfg.title).on("click",function (e) {
 			e.preventDefault()
 			let permalink = jQuery(this).attr('permalink')
 			window.open(permalink, '_blank', '')
 		});
 		// pause click
-		jQuery(playlist_control.globals.cfg.pause).click(function (e) {
+		jQuery(playlist_control.globals.cfg.pause).on("click",function (e) {
 			e.preventDefault()
 			playlist_control.stopAudio()
 		});
 		// forward click
-		jQuery(playlist_control.globals.cfg.fwd).click(function (e) {
+		jQuery(playlist_control.globals.cfg.fwd).on("click",function (e) {
 			e.preventDefault();
 			playlist_control.stopAudio();
 			if(playlist_control.globals.container){
@@ -87,7 +87,7 @@ window.playlist_control = {
 			}
 		});
 		// rewind click
-		jQuery(playlist_control.globals.cfg.rew).click(function (e) {
+		jQuery(playlist_control.globals.cfg.rew).on("click",function (e) {
 			e.preventDefault();
 			playlist_control.stopAudio();
 			if(playlist_control.globals.container){

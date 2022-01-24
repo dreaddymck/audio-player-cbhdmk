@@ -16,7 +16,7 @@ jQuery(document).ready(function () {
     // });
         
     jQuery(".tab-pane").hide();
-    jQuery("ul.tabs a").click(function (event) {
+    jQuery("ul.tabs a").on("click",function (event) {
         event.preventDefault();
         let target = jQuery(this).attr("href");
         jQuery(".tab-pane").removeClass('active').hide();

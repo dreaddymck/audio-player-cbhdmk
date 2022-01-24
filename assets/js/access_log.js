@@ -31,7 +31,7 @@ window.access_log = {
                 })
                 jQuery(this).find("td.dmck-row-cover h1").attr("title",date + "\nClick for details");               
                 
-            }).click(function(e){
+            }).on("click",function(e){
                 playlist_control.play_on_click(this);
                 return;                            
             }).promise().done(function(){

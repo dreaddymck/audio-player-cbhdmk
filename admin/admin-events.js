@@ -2,20 +2,20 @@
 
 window.admin_events = {
     init: function(){
-        jQuery('ul.parent-tabs li').click(function () {
+        jQuery('ul.parent-tabs li').on("click",function () {
             var tab_id = jQuery(this).attr('data-tab');
             jQuery('ul.parent-tabs li, .parent-tab-content').removeClass('current');
             jQuery(this).addClass('current');
             jQuery("#" + tab_id).addClass('current');
             admin_functions.cookie.set({ "tab": tab_id });
         });
-        jQuery('select[name="playlist_config_selection"]').change(function () {
+        jQuery('select[name="playlist_config_selection"]').on("change",function () {
             let index = jQuery(this)[0].selectedIndex;
             jQuery('.playlist-config-tab-content').removeClass('current');
             jQuery("#playlist-config-tab-" + index).addClass('current');
             admin_functions.cookie.set({ "playlist_config_selected": index });
         });  
-        jQuery("input[name='title']").change(function(e){            
+        jQuery("input[name='title']").on("change",function(e){            
             let title = this.value;
             let index =  jQuery('select[name="playlist_config_selection"]')[0].selectedIndex;
             let id = jQuery('select[name="playlist_config_selection"] option:eq('+index+')').val(); 
@@ -30,7 +30,7 @@ window.admin_events = {
             }
             jQuery("textarea[name='playlist_config']").val(JSON.stringify(playlist_config,"",8));
         })        
-        jQuery('select[name="select_config_meta_tags"]').change(function () {
+        jQuery('select[name="select_config_meta_tags"]').on("change",function () {
             let id = jQuery(this).val();
             jQuery('div.config_post_meta_tags').removeClass('current');
             if(id){
@@ -38,7 +38,7 @@ window.admin_events = {
                 // admin_functions.cookie.set({ "playlist_config_selected": index });
             }
         });  
-        jQuery('.playlist_config_up').click(function(){
+        jQuery('.playlist_config_up').on("click",function(){
             let config = JSON.parse(jQuery("textarea[name='playlist_config']").val());
             let index =  jQuery('select[name="playlist_config_selection"]')[0].selectedIndex;
             if((index) < 1){return;}
@@ -48,7 +48,7 @@ window.admin_events = {
             );
             jQuery("textarea[name='playlist_config']").val(JSON.stringify(config,"",8));            
         })	
-        jQuery('.playlist_config_down').click(function(e){
+        jQuery('.playlist_config_down').on("click",function(e){
             let config = JSON.parse(jQuery("textarea[name='playlist_config']").val());
             let index =  jQuery('select[name="playlist_config_selection"]')[0].selectedIndex;
             if((index + 1) > config.length){return;}
@@ -58,7 +58,7 @@ window.admin_events = {
             );
             jQuery("textarea[name='playlist_config']").val(JSON.stringify(config,"",8));   	
         })                     
-        jQuery('.playlist_config_add').click(function(e){
+        jQuery('.playlist_config_add').on("click",function(e){
             e.preventDefault();
             let id = _dmck_functions.uuidv4();
             let dupecheck = jQuery(".playlist-config-tab-content").children('input[name="id"]').filter(function(){
@@ -87,7 +87,7 @@ window.admin_events = {
                               
             }
         })        
-        jQuery('.playlist_config_del').click(function(e){
+        jQuery('.playlist_config_del').on("click",function(e){
             e.preventDefault();
             if (!confirm('Please confirm delete')) { return false; }
             let id = jQuery('select[name="playlist_config_selection"]').val();
@@ -105,7 +105,7 @@ window.admin_events = {
                 });                                
             }    
         })  
-        jQuery("input[name='playlist_top_media_count']").change(function(e){            
+        jQuery("input[name='playlist_top_media_count']").on("change",function(e){            
             let count = this.value;
             let playlist_config = jQuery("textarea[name='playlist_config']").val();
             if(playlist_config){
@@ -122,7 +122,7 @@ window.admin_events = {
             }
             jQuery("textarea[name='playlist_config']").val(JSON.stringify(playlist_config,"",8));
         })
-        jQuery("input[name='playlist_top_media_title']").change(function(e){             
+        jQuery("input[name='playlist_top_media_title']").on("change",function(e){             
             let title = this.value;
             let playlist_config = jQuery("textarea[name='playlist_config']").val();
             if(playlist_config){
@@ -143,24 +143,24 @@ window.admin_events = {
             admin_functions.submit_form();
             return;
         });
-        jQuery("input[type='checkbox'][name='ignore_ip_enabled']").click(function (e) {
+        jQuery("input[type='checkbox'][name='ignore_ip_enabled']").on("click",function (e) {
             jQuery("textarea[name='ignore_ip_json']").prop("disabled", !jQuery(this).prop("checked"));
         });
-        jQuery("input[type='checkbox'][name='audio_control_enabled']").click(function (e) {
+        jQuery("input[type='checkbox'][name='audio_control_enabled']").on("click",function (e) {
             jQuery("input[name='audio_control_slider_height']").prop("disabled", !jQuery(this).prop("checked"));
         });
-        jQuery("input[type='checkbox'][name='visualizer_enabled']").click(function (e) {
+        jQuery("input[type='checkbox'][name='visualizer_enabled']").on("click",function (e) {
             jQuery("input[name='visualizer_rgb_enabled']").prop("checked", jQuery(this).prop("checked"));
             jQuery("input[name='visualizer_rgb_enabled']").prop("disabled", !jQuery(this).prop("checked"));
             jQuery("input[name='visualizer_rgb_init']").prop("disabled", !jQuery(this).prop("checked"));
             jQuery("input[name='visualizer_rgb']").prop("disabled", !jQuery(this).prop("checked"));            
             jQuery("select[name='visualizer_samples']").prop("disabled", !jQuery(this).prop("checked"));
         });        
-        jQuery("input[type='checkbox'][name='visualizer_rgb_enabled']").click(function (e) {
+        jQuery("input[type='checkbox'][name='visualizer_rgb_enabled']").on("click",function (e) {
             jQuery("input[name='visualizer_rgb_init']").prop("disabled", !jQuery(this).prop("checked"));
             jQuery("input[name='visualizer_rgb']").prop("disabled", !jQuery(this).prop("checked"));
         });
-        jQuery('#admin-upload-action').click(function (e) {
+        jQuery('#admin-upload-action').on("click",function (e) {
             e.preventDefault();
             if (!confirm('Please confirm')) { return false; }
             let callback = function (resp) {
@@ -173,7 +173,7 @@ window.admin_events = {
                 "input": jQuery('input[name*="admin-upload"]')
             });
         });
-        jQuery("input[type='checkbox'][name='charts_enabled']").click(function (e) {
+        jQuery("input[type='checkbox'][name='charts_enabled']").on("click",function (e) {
             if( jQuery(this).prop("checked")){
                 jQuery("input[name='access_log']").prop("required", true);
                 jQuery("li[data-tab='parent-tabs-5']").removeClass("hidden");
@@ -189,17 +189,17 @@ window.admin_events = {
                 jQuery("label.export-tables-label").addClass("hidden");                
             }
         });
-        jQuery("input[type='checkbox'][name='playlist_top_media']").click(function(e){
+        jQuery("input[type='checkbox'][name='playlist_top_media']").on("click",function(e){
             admin_functions.playlist_top_media_activity();
         });
-        jQuery("input[type='checkbox'][name='chart_rgb_enabled']").click(function (e) {
+        jQuery("input[type='checkbox'][name='chart_rgb_enabled']").on("click",function (e) {
             jQuery("input[name='chart_rgb_init']").prop("disabled", !jQuery(this).prop("checked"));
             jQuery("input[name='chart_rgb']").prop("disabled", !jQuery(this).prop("checked"));
         });
-        jQuery('select[name="stats_posts_in"]').click(function () {
+        jQuery('select[name="stats_posts_in"]').on("click",function () {
             jQuery(this).trigger("change");
         }); 
-        jQuery('select[name="stats_posts_in"]').change(function () {
+        jQuery('select[name="stats_posts_in"]').on("change",function () {
             let value = jQuery(this).val();
             jQuery('input[name="post_in_stats"]').val(JSON.stringify(value));            
             let json = {
@@ -211,10 +211,10 @@ window.admin_events = {
             jQuery(".chart-container").fadeOut();
             admin_functions.status_data(json);
         });  
-        jQuery('select[name="stats_playlist"]').click(function () {
+        jQuery('select[name="stats_playlist"]').on("click",function () {
             jQuery(this).trigger("change");
         });  
-        jQuery('select[name="stats_playlist"]').change(function () {
+        jQuery('select[name="stats_playlist"]').on("change",function () {
             let value = jQuery(this).val();
             jQuery(".chart-container").fadeOut('slow');
             admin_functions.playlist_status_data(value)

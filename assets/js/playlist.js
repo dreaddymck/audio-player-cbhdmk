@@ -22,7 +22,7 @@ window.playlist = {
 			if( jQuery( target ).length ){				
 				jQuery( container ).find( target ).each(function(index){
 					jQuery(this).attr("style","color:" + (colors[index] ? colors[index] : "") );
-				 }).click(function (e) {
+				 }).on("click",function (e) {
 					playlist_control.play_on_click(this);
 					return;
 				}).promise().done(function(){

@@ -1,4 +1,7 @@
-<?php ?>
+<?php 
+//TODO: Add last used stats to cookie. Reload stats on return.
+
+?>
 <div id="loading"  class="fa-3x"><i id="loading-image" class="fas fa-spinner fa-pulse"></i></div>
 <?php include_once(plugin_dir_path(__FILE__)."admin-playlist-config.php"); ?>
 <?php $this->notices() ?>
