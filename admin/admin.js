@@ -1,5 +1,5 @@
 "use strict";
-jQuery(document).ready(function(){	
+jQuery(function(){	
 	jQuery.fn.serializeObject = function () {
 		var o = {};
 		var a = this.serializeArray();

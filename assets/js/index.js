@@ -1,6 +1,6 @@
 "use strict";
 
-jQuery(document).ready(function () {
+jQuery(function () {
     /**
      * 1st initialize playlist control
      * then initialize dependencies
