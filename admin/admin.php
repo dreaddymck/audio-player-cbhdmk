@@ -96,8 +96,8 @@ trait _admin {
     }
     function admin_scripts($hook_suffix) {			
         if ( $this->settings_page == $hook_suffix ) {
-            wp_enqueue_script( 'marked.min.js', $this->plugin_url . 'assets/js/marked.min.js', array('jquery'), $this->plugin_version, false );	
-            wp_enqueue_script( 'bundle.js', $this->plugin_url . 'dist/private.bundle.js', array('jquery'), $this->plugin_version, true );            			
+            wp_enqueue_script( self::PLUGIN_SLUG . '.marked.min.js', $this->plugin_url . 'assets/js/marked.min.js', array('jquery'), $this->plugin_version, false );	
+            wp_enqueue_script( self::PLUGIN_SLUG . '.bundle.js', $this->plugin_url . 'dist/private.bundle.js', array('jquery'), $this->plugin_version, true );            			
             $this->localize_vars();
         }
     }    
