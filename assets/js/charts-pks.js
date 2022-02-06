@@ -18,7 +18,7 @@ window._dmck_charts_pkg = {
         return response;
     },
     time_scale: function (selector) {
-         let ctx, id;
+        let ctx, id;
         id = "canvas_" + _dmck_functions.string_to_slug(selector);
         let thecanvas = jQuery("<div />", {
                             class: "chart-container",
@@ -32,6 +32,13 @@ window._dmck_charts_pkg = {
 
         jQuery("#" + selector).append(thecanvas);
         ctx = jQuery("#" + id);
+        /*
+            Append total count value to each label in the datasets here.               
+        */
+        dmck_chart_object[selector].datasets.forEach(element => {
+            element.label = element.label + " (" + element.dmck_request_count[Object.keys(element.dmck_request_count)[0]] + ")";            
+        });
+        
         const data = {
             labels: dmck_chart_object[selector].labels,
             datasets: dmck_chart_object[selector].datasets

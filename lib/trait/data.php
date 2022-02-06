@@ -1,5 +1,6 @@
 <?php
-
+//TODO: get chart total
+//TODO: ip / country / track association.
 namespace DMCK_WP_MEDIA_PLUGIN;
 
 require_once("playlist-html.php");
@@ -16,7 +17,9 @@ trait _data {
             "labels" => array(), 
             "data" => array(),
             "borderColor" => $borderColor,
-            "cubicInterpolationMode" => "monotone"
+            "cubicInterpolationMode" => "monotone",
+            "dmck_request_count" => array(),
+            "dmck_request_referrer" => "",
         );        
     }
     function create_chart_json($resp){
@@ -26,16 +29,23 @@ trait _data {
             if( $chart_json->label != $json->name ){ 
                 $chart_json->label = $json->name; 
                 $media_filename_regex = esc_attr( get_option('media_filename_regex') );
+                //support admin regex option for track label
                 if($media_filename_regex){
                     $chart_json->label = preg_replace($media_filename_regex, '', $chart_json->label);
-                }    
+                } 
+                // sum request total object initialization
+                if(!isset($chart_json->dmck_request_count[$chart_json->label]) ){
+                    $chart_json->dmck_request_count[$chart_json->label] = 0;
+                }
+                $chart_json->dmck_request_referrer = $json->referer;                
             }
             $json->time = date('d-m-Y', $json->time);
             array_push($chart_json->labels, $json->time);
             array_push($chart_json->data, (object) array(
                 "x" => $json->time,
                 "y" => $json->count
-            ));								
+            ));
+            $chart_json->dmck_request_count[$chart_json->label] += $json->count;
         }
         return $chart_json;
     }    
