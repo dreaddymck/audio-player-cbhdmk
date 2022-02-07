@@ -35,8 +35,10 @@ window._dmck_charts_pkg = {
         /*
             Append total count value to each label in the datasets here.               
         */
+        let count = 0
         dmck_chart_object[selector].datasets.forEach(element => {
-            element.label = element.label + " (" + element.dmck_request_count[Object.keys(element.dmck_request_count)[0]] + ")";            
+            count = element.dmck_request_count ? element.dmck_request_count[Object.keys(element.dmck_request_count)[0]] : 0;
+            if(count){ element.label = element.label + " (" + count + ")"; }                       
         });
         
         const data = {
