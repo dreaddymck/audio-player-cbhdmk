@@ -38,9 +38,7 @@ trait _rss {
         }
     }
     public function _rss_feed_cache()
-    {
-        ini_set('memory_limit','64M');
-        
+    {       
         $playlist_data = $this->playlist_data_get();
         $listid = array();
         if(!$playlist_data){

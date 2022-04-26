@@ -2,6 +2,7 @@
     "name": "dreaddy/audio-player-cbhdmk",
     "description": "wordpress media playlist plugin",
     "require": {
-        "maximal/audio-waveform": "~1.0"
+        "maximal/audio-waveform": "~1.0",
+        "james-heinrich/getid3": "^1.9"
     }
 }

@@ -12,8 +12,10 @@ try{
     require_once(dirname(__FILE__) . "/trait/requests.php"); 
     require_once(dirname(__FILE__) . "/trait/attachments.php"); 
     require_once(dirname(__FILE__) . "/trait/rss.php"); 
+    require_once(dirname(__FILE__) . "/trait/idtag.php");
 }
 catch (Exception $e) { exit($e); }
+ini_set('memory_limit', '512M');
 class dmck_reports{
     use _data;
     use _wavform;
@@ -21,6 +23,7 @@ class dmck_reports{
     use _requests;
     use _attachments;
     use _rss;
+    use _idtag;
 
     public $debug;
     public $options;

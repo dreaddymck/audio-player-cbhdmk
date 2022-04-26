@@ -111,5 +111,6 @@ Update upon login.
             return (json_last_error() === JSON_ERROR_NONE);
         }
         return false;
-    }	
+    }
+	
 }

@@ -1,0 +1,41 @@
+<?php return array(
+    'root' => array(
+        'pretty_version' => 'dev-master',
+        'version' => 'dev-master',
+        'type' => 'library',
+        'install_path' => __DIR__ . '/../../',
+        'aliases' => array(),
+        'reference' => '25c63740a375f4ec44a9432bee7884655b42e48e',
+        'name' => 'dreaddy/audio-player-cbhdmk',
+        'dev' => true,
+    ),
+    'versions' => array(
+        'dreaddy/audio-player-cbhdmk' => array(
+            'pretty_version' => 'dev-master',
+            'version' => 'dev-master',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../../',
+            'aliases' => array(),
+            'reference' => '25c63740a375f4ec44a9432bee7884655b42e48e',
+            'dev_requirement' => false,
+        ),
+        'james-heinrich/getid3' => array(
+            'pretty_version' => 'v1.9.21',
+            'version' => '1.9.21.0',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../james-heinrich/getid3',
+            'aliases' => array(),
+            'reference' => '36f5dabb1325415a4b07a401113f8db2eb81eca1',
+            'dev_requirement' => false,
+        ),
+        'maximal/audio-waveform' => array(
+            'pretty_version' => '1.2.1',
+            'version' => '1.2.1.0',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../maximal/audio-waveform',
+            'aliases' => array(),
+            'reference' => '6f513425b83f2d2a0d39b34118f0a1d99ab8d275',
+            'dev_requirement' => false,
+        ),
+    ),
+);

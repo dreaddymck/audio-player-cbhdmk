@@ -1,5 +1,6 @@
 <?php
 namespace DMCK_WP_MEDIA_PLUGIN;
+
 trait _requests {
 	public $path;
     function requests($data){
@@ -182,6 +183,7 @@ trait _requests {
 					$json[$key]["wavformpng"] = $e->wavformpng;
 					$json[$key]["tags"] = $e->tags;
 					$json[$key]["moreinfo"] = $e->moreinfo;
+					$json[$key]["image_mime"] = $e->image_mime;
 				}
 			}
 		}
@@ -189,6 +191,7 @@ trait _requests {
 	}
 
 	function render_elements($posts) {
+
 		$response = array();
 		$is_secure = $this->isSecure();
 		foreach ( $posts as $post ) {
@@ -217,6 +220,11 @@ trait _requests {
 				$object->title		= esc_attr($title);
 				$object->rating		= 0;
 				$object->cover		= $this->fetch_the_post_thumbnail_src( $post );
+				$object->image_mime = "";
+				if($object->mp3){
+					/* proof of concept mime_image collection */
+					// $object->image_mime = $this->idtag_get_image($object->mp3);
+				}				
 				$object->permalink	= get_permalink( $post->ID );
 				$object->moreinfo	= get_option('moreinfo') ? get_option('moreinfo') : "";
 				$object->playlist_thumb = $object->cover;
@@ -251,6 +259,7 @@ trait _requests {
 				}
 			}
 		}
+
 		return $img ? $img : esc_attr( get_option('default_album_cover'));
 	}
 	function extract_embedded_media($str) { //renamed from fetch_audio_from_string
@@ -282,4 +291,5 @@ trait _requests {
 		}
 		return $playlist_data;
 	}
+		
 }

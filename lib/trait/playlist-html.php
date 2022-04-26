@@ -83,7 +83,8 @@ EOF;
                     permalink="{$p->permalink}"
                     wavformpng="{$p->wavformpng}"
                     tags="{$p->tags}"
-                    title="{$p->title}">
+                    title="{$p->title}"
+                    image_mime="{$p->image_mime}">
                     <td  class="dmck-row-content" title="{$p->title}\nClick to play">
                         <div>
                             <p class="track-title">$p->title</p>
@@ -157,7 +158,6 @@ EOF;
                 $unset_queue[] = $key;
                 continue;
             }
-
             $html .= <<<EOF
 
                 <tr id="top-10-{$value["ID"]}"
@@ -167,8 +167,9 @@ EOF;
                     cover="{$value["cover"]}"
                     permalink="{$value["permalink"]}"
                     wavformpng="{$value["wavformpng"]}"
-                    tags="{$value["tags"]}}
-                    title="{$value["title"]}">
+                    tags="{$value["tags"]}"
+                    title="{$value["title"]}"
+                    image_mime="{$value["image_mime"]}">
                     <td class="dmck-row-content" title="{$value["title"]}\nClick to play">
                         <div>
                             <p class="track-title">{$value["title"]}</p>
