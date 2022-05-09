@@ -212,7 +212,7 @@ trait _requests {
 					$object->wavformpng	    = preg_replace("/^http:/i", "https:", $object->wavformpng);
 					$object->wavformjson	= preg_replace("/^http:/i", "https:", $object->wavformjson);
 				}
-				$title = pathinfo($a, PATHINFO_FILENAME);
+				$title = $post->post_title ? $post->post_title :  pathinfo($a, PATHINFO_FILENAME);
 				$media_filename_regex = esc_attr( get_option('media_filename_regex') );
 				if($media_filename_regex){
 					$title = preg_replace($media_filename_regex, '', $title);

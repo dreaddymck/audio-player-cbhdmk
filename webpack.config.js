@@ -2,8 +2,8 @@ const path = require('path');
 const webpack = require('webpack');
 
 module.exports = {
-    mode: "development",
-    watch: true,
+    // mode: "development",
+    // watch: true,
     watchOptions: {
         aggregateTimeout: 200,
         poll: 1000,
