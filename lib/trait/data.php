@@ -20,14 +20,17 @@ trait _data {
             "cubicInterpolationMode" => "monotone",
             "dmck_request_count" => array(),
             "dmck_request_referrer" => "",
+            "post_id" => "",
         );        
     }
     function create_chart_json($resp){
         $chart_json = $this->get_chart_json_default();
         foreach($resp as $key=>$value){
             $json = (object)($value);
-            if( $chart_json->label != $json->name ){ 
-                $chart_json->label = $json->name; 
+            if( $chart_json->post_id != $json->post_id ){ 
+                $chart_json->post_id = $json->post_id;
+                $post = get_post($json->post_id);
+                $chart_json->label = $post->post_title;
                 $media_filename_regex = esc_attr( get_option('media_filename_regex') );
                 //support admin regex option for track label
                 if($media_filename_regex){
