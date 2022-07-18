@@ -31,7 +31,7 @@
     "@eastdesire/jscolor": "^2.4.0",
     "@mapbox/node-pre-gyp": "^1.0.8",
     "jquery": "^3.6.0",
-    "jquery-ui": "^1.13.0",
+    "jquery-ui": "^1.13.2",
     "jquery-ui-slider": "^1.12.1",
     "jquery.cookie": "^1.4.1",
     "popper.js": "^1.16.1",
