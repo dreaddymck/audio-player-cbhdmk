@@ -163,7 +163,6 @@ window.playlist_control = {
 			return( this.id == elem[0].id )
 		}).addClass('active').addClass("active-highlight")
 
-		jQuery("#now-playing").detach().appendTo( elem.children('td:eq(0)') ).show();
 		jQuery("#canvas_visualizer").detach().appendTo( elem.children('td:eq(0)') ).show("slow");	
 
 		playlist_control.globals.cfg.playing = true;
@@ -184,18 +183,10 @@ window.playlist_control = {
 		if(jQuery.isNumeric(playlist_control.globals.bpm)){ 
 			animation = ((60 / playlist_control.globals.bpm) * 4).toFixed(2) 
 		}
-		jQuery("#now-playing").addClass("bounce").css({
-			"animation": "bounce " + animation + "s infinite alternate",
-			"-webkit-animation": "bounce " + animation + "s infinite alternate"
-		});
 	},
 	stopAudio: function () {
 		if(playlist_control.globals.cfg.song){ playlist_control.globals.cfg.song.pause(); }	
 		playlist_control.globals.cfg.playing = false;
-		jQuery("#now-playing").removeClass("bounce").css({
-			"animation": "",
-			"-webkit-animation": ""
-		});	
 	},
 	set_cover_background: function (img) {
 		jQuery(playlist_control.globals.cfg.cover).css({

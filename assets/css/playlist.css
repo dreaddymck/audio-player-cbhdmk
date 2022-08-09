@@ -1,6 +1,5 @@
 .hidden{ display:none; }
 .dmck_audioplayer #fixed-controls { position: fixed; top: 10px; z-index: 10; text-shadow: 5px 5px #000; padding-top: 24px; padding-bottom: 24px; }
-.dmck_audioplayer #now-playing { display: flex; justify-content: center; align-items: center; }
 .dmck_audioplayer .title { cursor: pointer; }
 .dmck_audioplayer .title,
 .dmck_audioplayer .track-title,
