@@ -5,7 +5,9 @@ trait _content {
 		global $post;
 		$html = "";
 		if ( is_singular() && in_the_loop() ) {
-			if (get_option('charts_enabled')) {
+			
+			$opts_enabled = ( get_option('charts_enabled') ||  get_option('playlist_top_media'));
+			if( $opts_enabled ){
 				$paths = $this->extract_embedded_media($content);
 				if(sizeof($paths)){
 					

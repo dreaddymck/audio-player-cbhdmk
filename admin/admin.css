@@ -42,7 +42,11 @@ pre {
 select {
     width: 100%;
 }
-
+.opt_requirements {
+    border-style: solid;
+    border-color: rgb(255, 0, 0);
+    padding: 2px;
+}
 .container {
     margin: 0 auto;
 }

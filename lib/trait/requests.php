@@ -66,7 +66,8 @@ trait _requests {
 		$chart_array = array();
 		$chart_title_array = array();
 		$ids = array();
-		if( get_option('charts_enabled') ){
+		$opts_enabled = ( get_option('charts_enabled') ||  get_option('playlist_top_media'));
+		if( $opts_enabled ){
 			$access_log_activity = $this->media_activity_today();
 			if(is_array($access_log_activity)){
 				foreach($access_log_activity as $a){

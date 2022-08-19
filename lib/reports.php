@@ -85,8 +85,11 @@ attach: attach embeded media to post.
     function accesslog_activity_put()
     {        
         if($this->debug){ echo __FUNCTION__. " | ". $this->memory_usage()."\n\r"; } 
-        update_option("access_logs_message","");      
-        if(!get_option('charts_enabled')){return;}
+        update_option("access_logs_message","");  
+        
+        $opts_enabled = ( get_option('charts_enabled') ||  get_option('playlist_top_media')); 
+        
+        if(!$opts_enabled){return;}
           
         // expecting a string: filepath OR json array 
         if(!$this->json_validate($this->filepath)){

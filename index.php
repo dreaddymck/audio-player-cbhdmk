@@ -190,6 +190,7 @@ if (!class_exists("dmck_audioplayer")) {
 				'chart_rgb' => get_option("chart_rgb"),
 				'chart_rgb_enabled' => get_option("chart_rgb_enabled"),
 				'charts_enabled' => get_option("charts_enabled"),
+				'playlist_top_media' => get_option("playlist_top_media"),
 				'audio_control_enabled' => get_option("audio_control_enabled"),
 				'default_album_cover' => esc_attr( get_option('default_album_cover'))				
 			);

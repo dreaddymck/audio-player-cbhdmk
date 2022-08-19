@@ -54,7 +54,8 @@ trait _data {
     }    
     function get_chart_json($json){
 		$chart_json = "";
-		if (get_option('charts_enabled')) {            
+		$opts_enabled = ( get_option('charts_enabled') ||  get_option('playlist_top_media'));
+		if( $opts_enabled ){          
 			$resp = $this->dmck_media_activity_between($json);			
             if($resp){ $chart_json = $this->create_chart_json($resp); }
 		}
@@ -62,7 +63,8 @@ trait _data {
 	}
     function get_chart_json_mths($post_id,$mths=1){
 		$chart_json = "";
-		if (get_option('charts_enabled')) {
+		$opts_enabled = ( get_option('charts_enabled') ||  get_option('playlist_top_media'));
+		if( $opts_enabled ){
 			$resp = $this->dmck_media_activity_month($post_id,$mths);
 			if($resp){ $chart_json = $this->create_chart_json($resp);	}
 		}

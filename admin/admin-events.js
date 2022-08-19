@@ -175,22 +175,22 @@ window.admin_events = {
                 "input": jQuery('input[name*="admin-upload"]')
             });
         });
-        jQuery("input[type='checkbox'][name='charts_enabled']").on("click",function (e) {
+        jQuery("input[type='checkbox'][name='playlist_top_media']").on("click",function (e) {
             if( jQuery(this).prop("checked")){
-                jQuery("input[name='access_log']").prop("required", true);
-                jQuery("li[data-tab='parent-tabs-5']").removeClass("hidden");
-                jQuery("li[data-tab='parent-tabs-7']").removeClass("hidden");
-                jQuery("label.export-tables-label").removeClass("hidden");
-
+                jQuery("li[data-tab='parent-tabs-2']").removeClass("hidden");
             }else{
-                jQuery("input[type='checkbox'][name='playlist_top_media']").prop("checked", false)
-                admin_functions.playlist_top_media_activity();
-                jQuery("input[name='access_log']").prop("required", false);
-                jQuery("li[data-tab='parent-tabs-5']").addClass("hidden");
-                jQuery("li[data-tab='parent-tabs-7']").addClass("hidden");
-                jQuery("label.export-tables-label").addClass("hidden");
+                jQuery("li[data-tab='parent-tabs-2']").addClass("hidden");
             }
+            admin_functions.opt_requirements();
         });
+        jQuery("input[type='checkbox'][name='charts_enabled']").on("click",function (e) {
+            if( jQuery(this).prop("checked")){                
+                jQuery("li[data-tab='parent-tabs-5']").removeClass("hidden");
+            }else{
+                jQuery("li[data-tab='parent-tabs-5']").addClass("hidden");
+            }
+            admin_functions.opt_requirements();
+        });        
         jQuery("input[type='checkbox'][name='playlist_top_media']").on("click",function(e){
             admin_functions.playlist_top_media_activity();
         });
