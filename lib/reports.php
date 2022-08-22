@@ -104,6 +104,11 @@ attach: attach embeded media to post.
         $arr    = array();   
         $ignore_ip_json = get_option('ignore_ip_json') ? get_option('ignore_ip_json') : "";
         $ignore_ip_enabled = get_option('ignore_ip_enabled') ? esc_attr( get_option('ignore_ip_enabled') ) : ""; 
+        if($this->debug){
+            if($ignore_ip_enabled){
+                echo ("WARNING: ignore_ip_enabled=" . $ignore_ip_enabled."\n\r");
+            }            
+        }        
         $results = "";
         $regex = '/^(\S+) (\S+) (\S+) \[([^:]+):(\d+:\d+:\d+) ([^\]]+)\] \"(\S+) (.*?) (\S+)\" (\S+) (\S+) "([^"]*)" "([^"]*)"$/';         
 

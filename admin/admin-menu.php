@@ -86,11 +86,19 @@
 							<small><code>* * * * * $(which php) <?php echo plugin_dir_path(__DIR__)?>lib/reports.php logs > /dev/null 2>&1</code></small>
 							<!-- Do not move above without addressing dependencies -->
 							<hr>
+							<label><?php _e('Options'); ?></label>
 							<label><?php _e('access Log location')?></label>
 							<small>accepts /path/to/access_log, ["/path/to/access_log","/path/to/access_log_other"]</small>
 							<input type="text" name="access_log" class="pure-input-1"
 								value="<?php echo esc_attr( get_option('access_log') ); ?>" <?php if (1 == get_option('charts_enabled')) echo 'required placeholder="Required"'; ?>>
-							<hr />
+								<hr>
+								<label><?php _e('Ignore admin ip addresses'); ?>:
+									<input type="checkbox" name="ignore_ip_enabled" class="" value="1"
+										<?php if (1 == get_option('ignore_ip_enabled')) echo 'checked="checked"'; ?>>
+								</label>
+								<textarea name="ignore_ip_json" class="pure-input-1" title="ignore ip json"
+									<?php if (1 != get_option('ignore_ip_enabled')) echo 'disabled'; ?>><?php echo esc_attr( get_option('ignore_ip_json') ); ?></textarea>	
+
 
 						</div>	
 		
@@ -109,13 +117,7 @@
 			<input type="text" name="access_log_pattern" class="pure-input-1"
 				value="<?php echo esc_attr( get_option('access_log_pattern') ); ?>" placeholder="/.mp3/i">
 			
-			<hr>
-			<label><?php _e('Ignore admin ip addresses'); ?>:
-				<input type="checkbox" name="ignore_ip_enabled" class="" value="1"
-					<?php if (1 == get_option('ignore_ip_enabled')) echo 'checked="checked"'; ?>>
-			</label>
-			<textarea name="ignore_ip_json" class="pure-input-1" title="ignore ip json"
-				<?php if (1 != get_option('ignore_ip_enabled')) echo 'disabled'; ?>><?php echo esc_attr( get_option('ignore_ip_json') ); ?></textarea>						
+					
 						
 
 		</div>
