@@ -4,6 +4,7 @@
 ?>
 <div id="loading"  class="fa-3x"><i id="loading-image" class="fas fa-spinner fa-pulse"></i></div>
 <?php include_once(plugin_dir_path(__FILE__)."admin-playlist-config.php"); ?>
+<?php $opts_enabled = ( get_option('charts_enabled') ||  get_option('playlist_top_media'));  ?>
 <?php $this->notices() ?>
 <form name="admin-settings-form" method="post" action="options.php" class="pure-form pure-form-stacked">
 	<?php settings_fields( self::SETTINGS_GROUP ); ?>
@@ -19,8 +20,7 @@
 						href="#" class="pure-menu-link">Top Media</a></li>
 				<?php $charts_en = get_option('charts_enabled') ?>
 				<li class="pure-menu-item <?php echo (!$charts_en ? "hidden" : "") ?>" data-tab="parent-tabs-5"><a
-						href="#" class="pure-menu-link">Charts</a></li>
-				<?php $opts_enabled = ( get_option('charts_enabled') ||  get_option('playlist_top_media'));  ?>
+						href="#" class="pure-menu-link">Charts</a></li>				
 				<li class="pure-menu-item <?php echo (!$opts_enabled ? "hidden" : "") ?>" data-tab="parent-tabs-7"><a
 						href="#" class="pure-menu-link">Stats</a></li>
 				<li class="pure-menu-item" data-tab="parent-tabs-6"><a href="#" class="pure-menu-link">Plugin git
@@ -65,20 +65,14 @@
 							<input type="checkbox" name="playlist_top_media"  value="1" 
 								<?php if (1 == get_option('playlist_top_media')) echo 'checked="checked"'; ?> class="">
 						</label>
-						<label class="export-tables-label <?php if (1 != get_option('charts_enabled')) echo 'hidden'; ?>" >
+						<label class="export-tables-label <?php echo (!$opts_enabled ? "hidden" : "") ?>" >
 							<a class="secondary small" 
 								id="export-tables"
 								onclick="admin_functions.export_tables()">Export</a> chart data
 						</label>												
 						<hr>
-						<?php 
-							$hidden = "hidden";
-							if( (1 == get_option('playlist_top_media')) || (1 == get_option('charts_enabled' ))){ 
-								$hidden = "";
-							}
-							
-						?>
-						<div class="opt_requirements <?php echo $hidden ?>">
+
+						<div class="opt_requirements <?php echo (!$opts_enabled ? "hidden" : "") ?>">
 							
 							<label><?php _e('Required '); ?></label>
 
