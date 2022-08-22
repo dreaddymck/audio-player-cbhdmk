@@ -13,7 +13,9 @@ window.access_log = {
     {
         global: {},
         top_requests: function(){
+            //TODO: find out why top_10_json is undefined when toggling top_media admin option
             if(!jQuery("#top-media-requests").length){return;}
+            if(typeof top_10_json === 'undefined'){return;}
             let container   = jQuery('#top-media-requests'); 
             let target      = ".top-10-track";
             let colors      = _dmck_functions.json_validate(dmck_audioplayer.chart_color_array)  ? JSON.parse(dmck_audioplayer.chart_color_array) : [];
@@ -23,7 +25,7 @@ window.access_log = {
                  * top_10_json is currently embeded in html - playlist-html.html
                  * overriding date values with javascript created date value for reasons
                  */
-                if(typeof top_10_json === 'undefined'){return;}
+                
                 let date = new Date(top_10_json.data[index].time*1000 ).toLocaleString();
                 let cover = jQuery(this).attr('cover');
                 jQuery(this).find("td.dmck-row-cover div").css({   

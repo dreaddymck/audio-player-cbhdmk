@@ -53,6 +53,8 @@ EOF;
     }
     function nav_pane($obj, $pj){
 
+        $opt_enabled = ( get_option('charts_enabled') ||  get_option('playlist_top_media') );
+
         $html = <<<EOF
 
             <li class="tab-pane" id="{$pj->id}" role="tabpanel" aria-labelledby="tab-{$pj->id}">
@@ -98,7 +100,7 @@ EOF;
 
 EOF;
 
-            if (get_option('charts_enabled')) {
+            if ( $opt_enabled ) {
                 $response = $this->get_chart_json_mths($p->ID,1);
                 if($response){
                     array_push($chart_array, $response);
@@ -109,7 +111,7 @@ EOF;
 
         $html .= "</tbody></table></li>";
 
-        if (get_option('charts_enabled')) {
+        if ( $opt_enabled ) {
             usort($chart_title_array, function ($a, $b) {
                 return strtotime($a) - strtotime($b);
             });           
@@ -135,6 +137,7 @@ EOF;
     }
     function nav_pane_top_request($playlist_data, $p){
         if(!isset($p->id)){return;}
+        $opt_enabled = ( get_option('charts_enabled') ||  get_option('playlist_top_media') );
         $html = <<<EOF
 
             <div class="tab-pane" id="{$p->id}" role="tabpanel" aria-labelledby="tab-{$p->id}">
@@ -182,7 +185,7 @@ EOF;
                 </tr>
 
 EOF;
-            if (get_option('charts_enabled')) {
+            if ( $opt_enabled   ) {
                 $response = $this->get_chart_json_mths($value["ID"],1);
                 array_push($chart_array, $response);
                 $chart_title_array = array_unique(array_merge($chart_title_array, $response->labels));            
@@ -192,7 +195,7 @@ EOF;
         $playlist_data["top_10_json"] = array_values($playlist_data["top_10_json"]); // rebase the array
         $html .= "</tbody></table>";       
         
-        if (get_option('charts_enabled')) {
+        if (( $opt_enabled )) {
             usort($chart_title_array, function ($a, $b) {
                 return strtotime($a) - strtotime($b);
             }); 
