@@ -14,8 +14,8 @@
     </div>
     <div class="pure-u-1 pure-u-md-1-3">
         <div class="pure-padding-box">
-            <label for="stats_posts_in">Posts:</label>
-
+            <label for="stats_posts_in">Posts: 
+                    <i id="stats-all" class="fa fa-expand" title="select all"></i></label>
             <select name='stats_posts_in' multiple size="6" title="Multiple select ctrl + left click">
                 <?php echo playlist_config_options($post__in, array(), "id(array)") ?>
             </select>

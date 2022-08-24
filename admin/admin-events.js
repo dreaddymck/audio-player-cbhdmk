@@ -234,5 +234,11 @@ window.admin_events = {
             }, 1000)            
                        
         });
+        jQuery('#stats-all').on("click",function (e) {
+            e.preventDefault();
+            clearTimeout(dmck_audioplayer.timeout_handler);
+            jQuery('select[name="stats_posts_in"] option').prop('selected', true);
+            jQuery('select[name="stats_posts_in"]').trigger("click");
+        });            
     }
 }
