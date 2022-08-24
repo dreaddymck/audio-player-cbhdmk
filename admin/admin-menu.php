@@ -55,16 +55,14 @@
 								<?php if (1 == get_option('delete_options_on_inactive')) echo 'checked="checked"'; ?>>
 						</label>
 						<hr>
-
-						<label>Enable charts:
-							<input type="checkbox" name="charts_enabled" class="" value="1"
-								<?php if (1 == get_option('charts_enabled')) echo 'checked="checked"'; ?>>
-						</label>
-						<!-- Do not move above without addressing dependencies - thank you -->
 						<label  class="pure-checkbox">Enable Top requests:
 							<input type="checkbox" name="playlist_top_media"  value="1" 
 								<?php if (1 == get_option('playlist_top_media')) echo 'checked="checked"'; ?> class="">
 						</label>
+						<label>Enable charts below playlist and post:
+							<input type="checkbox" name="charts_enabled" class="" value="1"
+								<?php if (1 == get_option('charts_enabled')) echo 'checked="checked"'; ?>>
+						</label>						
 						<label class="export-tables-label <?php echo (!$opts_enabled ? "hidden" : "") ?>" >
 							<a class="secondary small" 
 								id="export-tables"
