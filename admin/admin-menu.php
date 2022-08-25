@@ -18,9 +18,6 @@
 				<?php $top_media_en = get_option('playlist_top_media') ?>
 				<li class="pure-menu-item <?php echo (!$top_media_en ? "hidden_" : "") ?>" data-tab="parent-tabs-2"><a
 						href="#" class="pure-menu-link">Top Media</a></li>
-				<?php $charts_en = get_option('charts_enabled') ?>
-				<li class="pure-menu-item <?php echo (!$charts_en ? "hidden" : "") ?>" data-tab="parent-tabs-5"><a
-						href="#" class="pure-menu-link">Charts</a></li>				
 				<li class="pure-menu-item <?php echo (!$opts_enabled ? "hidden" : "") ?>" data-tab="parent-tabs-7"><a
 						href="#" class="pure-menu-link">Stats</a></li>
 				<li class="pure-menu-item" data-tab="parent-tabs-6"><a href="#" class="pure-menu-link">Plugin git
@@ -50,7 +47,7 @@
 							<input type="checkbox" name="drop_table_on_inactive" class="" value="1"
 								<?php if (1 == get_option('drop_table_on_inactive')) echo 'checked="checked"'; ?>>
 						</label>
-						<label> Delete saved options when deactivated
+						<label> Delete options when deactivated
 							<input type="checkbox" name="delete_options_on_inactive" class="" value="1"
 								<?php if (1 == get_option('delete_options_on_inactive')) echo 'checked="checked"'; ?>>
 						</label>
@@ -76,24 +73,42 @@
 
 							<label><?php _e('cron '); ?></label>
 							<small><code>* * * * * $(which php) <?php echo plugin_dir_path(__DIR__)?>lib/reports.php logs > /dev/null 2>&1</code></small>
-							<!-- Do not move above without addressing dependencies -->
-							<hr>
-							<label><?php _e('Options'); ?></label>
+
 							<label><?php _e('access Log location')?></label>
 							<small>accepts /path/to/access_log, ["/path/to/access_log","/path/to/access_log_other"]</small>
 							<input type="text" name="access_log" class="pure-input-1"
 								value="<?php echo esc_attr( get_option('access_log') ); ?>" <?php if (1 == get_option('charts_enabled')) echo 'required placeholder="Required"'; ?>>
-								<hr>
-								<label><?php _e('Ignore admin ip addresses'); ?>:
-									<input type="checkbox" name="ignore_ip_enabled" class="" value="1"
-										<?php if (1 == get_option('ignore_ip_enabled')) echo 'checked="checked"'; ?>>
-								</label>
-								<textarea name="ignore_ip_json" class="pure-input-1" title="ignore ip json"
-									<?php if (1 != get_option('ignore_ip_enabled')) echo 'disabled'; ?>><?php echo esc_attr( get_option('ignore_ip_json') ); ?></textarea>	
+							<hr>
+							<label><?php _e('Options'); ?></label>
+							<label><?php _e('Ignore admin ip addresses'); ?>:
+								<input type="checkbox" name="ignore_ip_enabled" class="" value="1"
+									<?php if (1 == get_option('ignore_ip_enabled')) echo 'checked="checked"'; ?>>
+							</label>
+							<textarea name="ignore_ip_json" class="pure-input-1" title="ignore ip json"
+								<?php if (1 != get_option('ignore_ip_enabled')) echo 'disabled'; ?>><?php echo esc_attr( get_option('ignore_ip_json') ); ?></textarea>	
 
+							<hr>
+							<label><?php _e('Chart '); ?></label>
+							<label><?php _e('Colors:'); ?> <input type="checkbox" name="chart_rgb_enabled" class="" value="1"
+									<?php if (1 == get_option('chart_rgb_enabled')) echo 'checked="checked"'; ?>>
+							</label>
+							<input name="chart_rgb_init" data-jscolor="{preset:'large dark'}"
+								value="<?php if(get_option('chart_rgb_init')){ echo esc_attr( get_option('chart_rgb_init') ); }else{ echo "rgba(0,0,0,1.0)"; } ?>"
+								title="Initial chart fill color"
+								<?php if (1 != get_option('chart_rgb_enabled')) echo 'disabled'; ?>>
+							<input name="chart_rgb" data-jscolor="{preset:'large dark'}"
+								value="<?php if(get_option('chart_rgb')){ echo esc_attr( get_option('chart_rgb') ); }else{ echo "rgba(255,255,255,1.0)"; } ?>"
+								title="chart fill color"
+								<?php if (1 != get_option('chart_rgb_enabled')) echo 'disabled'; ?>>
+							<hr>						
+							<label><?php _e('Colors array:'); ?><br>
+								<small>Example
+									<code>["#ffffff","#F0F0F0","#E0E0E0","#D0D0D0","#C0C0C0","#B0B0B0","#A0A0A0","#909090","#808080","#707070"]</code></small>
+									<input type="text" name="chart_color_array" class="pure-input-1"
+										value="<?php echo esc_attr( get_option('chart_color_array') ); ?>">
+							</label>
 
-						</div>	
-		
+						</div>
 					</div>
 				</div>
 			</div>
@@ -107,9 +122,7 @@
 
 			<label><?php _e('Access log filter '); ?></label><small>Simple regex. The default is <code>/.mp3/i</code>.</small>
 			<input type="text" name="access_log_pattern" class="pure-input-1"
-				value="<?php echo esc_attr( get_option('access_log_pattern') ); ?>" placeholder="/.mp3/i">
-			
-					
+				value="<?php echo esc_attr( get_option('access_log_pattern') ); ?>" placeholder="/.mp3/i">					
 						
 
 		</div>
@@ -214,31 +227,13 @@
 				</div>				
 			</div>
 		</div>
-		<!-- charts -->
+		<!-- undefined -->
 		<div id="parent-tabs-5" class="parent-tab-content tab-content tab-charts ">
 			<div class="pure-g">
 				<div class="pure-u-1 pure-u-md-5-5">
 					<div class="pure-padding-box">
 
-						<hr>
-						<label><?php _e('Colors:'); ?> <input type="checkbox" name="chart_rgb_enabled" class="" value="1"
-								<?php if (1 == get_option('chart_rgb_enabled')) echo 'checked="checked"'; ?>>
-						</label>
-						<input name="chart_rgb_init" data-jscolor="{preset:'large dark'}"
-							value="<?php if(get_option('chart_rgb_init')){ echo esc_attr( get_option('chart_rgb_init') ); }else{ echo "rgba(0,0,0,1.0)"; } ?>"
-							title="Initial chart fill color"
-							<?php if (1 != get_option('chart_rgb_enabled')) echo 'disabled'; ?>>
-						<input name="chart_rgb" data-jscolor="{preset:'large dark'}"
-							value="<?php if(get_option('chart_rgb')){ echo esc_attr( get_option('chart_rgb') ); }else{ echo "rgba(255,255,255,1.0)"; } ?>"
-							title="chart fill color"
-							<?php if (1 != get_option('chart_rgb_enabled')) echo 'disabled'; ?>>
-						<hr>						
-						<label><?php _e('Colors array:'); ?><br>
-							<small>Example
-								<code>["#ffffff","#F0F0F0","#E0E0E0","#D0D0D0","#C0C0C0","#B0B0B0","#A0A0A0","#909090","#808080","#707070"]</code></small>
-								<input type="text" name="chart_color_array" class="pure-input-1"
-									value="<?php echo esc_attr( get_option('chart_color_array') ); ?>">
-						</label>
+
 						<hr>
 					</div>
 				</div>
