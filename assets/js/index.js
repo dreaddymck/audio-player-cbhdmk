@@ -54,14 +54,15 @@ jQuery(function () {
             p2
         ]
     ).then(function() {
+        jQuery('.' + dmck_audioplayer.plugin_slug).fadeIn();
+        dmck_audioplayer_end();
         if(dmck_audioplayer.charts_enabled){ 
             if(typeof dmck_chart_object !== 'undefined'){
                 for(let uuid in dmck_chart_object){
                     _dmck_charts_pkg.time_scale(uuid);
                 }
             }
-        }
-        dmck_audioplayer_end();
+        }        
         if(dmck_audioplayer.autoplay){
             if( jQuery('audio')[0] ){ jQuery('audio')[0].load().play(); }
         }        

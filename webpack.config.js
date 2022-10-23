@@ -11,7 +11,11 @@ module.exports = {
     },
     entry: {
         public: './public.js',
-        private: './private.js'
+        private: './private.js',
+        pure: './pure.js',
+        chart: './chart.js',
+        fonts: './fonts.js',
+        solid: './solid.js',
     },
     output: {
         filename: '[name].bundle.js',

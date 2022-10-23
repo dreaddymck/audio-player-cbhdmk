@@ -1,4 +1,4 @@
-<div class="<?php echo self::PLUGIN_SLUG ?>">
+<div class="<?php echo self::PLUGIN_SLUG ?>" style="display:none">
 
 	<div class="panel panel-box box-background <?php if (0 == get_option('audio_control_enabled')) echo "hidden"; ?>">
 		<div class="heading">
