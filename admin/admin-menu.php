@@ -4,7 +4,6 @@
 ?>
 <div id="loading"  class="fa-3x"><i id="loading-image" class="fas fa-spinner fa-pulse"></i></div>
 <?php include_once(plugin_dir_path(__FILE__)."admin-playlist-config.php"); ?>
-<?php $opts_enabled = ( get_option('charts_enabled') ||  get_option('playlist_top_media'));  ?>
 <?php $this->notices() ?>
 <form name="admin-settings-form" method="post" action="options.php" class="pure-form pure-form-stacked">
 	<?php settings_fields( self::SETTINGS_GROUP ); ?>
@@ -13,15 +12,12 @@
 		<div class="pure-menu pure-menu-horizontal">
 			<a class="pure-menu-heading pure-menu-link"><?php echo $this->plugin_title ?></a>
 			<ul class="pure-menu-list tabs-settings parent-tabs tabs">
-				<li class="pure-menu-item" data-tab="parent-tabs-1"><a href="#" class="pure-menu-link">Settings</a></li>
+				<li class="pure-menu-item" data-tab="parent-tabs-1"><a href="#" class="pure-menu-link">Settings</a></li>				
+				<li class="pure-menu-item <?php if (1 != get_option('playlist_top_media')) echo 'hidden'; ?>" data-tab="parent-tabs-2"><a href="#" class="pure-menu-link">Top Requests</a></li>
+				<li class="pure-menu-item <?php if (1 != get_option('playlist_top_media')) echo 'hidden'; ?>" data-tab="parent-tabs-8"><a href="#" class="pure-menu-link">Charts</a></li>						
+				<li class="pure-menu-item <?php if (1 != get_option('playlist_top_media')) echo 'hidden'; ?>" data-tab="parent-tabs-7"><a href="#" class="pure-menu-link">Stats</a></li>
 				<li class="pure-menu-item" data-tab="parent-tabs-4"><a href="#" class="pure-menu-link">Playlists</a></li>
-				<?php $top_media_en = get_option('playlist_top_media') ?>
-				<li class="pure-menu-item <?php echo (!$top_media_en ? "hidden_" : "") ?>" data-tab="parent-tabs-2"><a
-						href="#" class="pure-menu-link">Top Media</a></li>
-				<li class="pure-menu-item <?php echo (!$opts_enabled ? "hidden" : "") ?>" data-tab="parent-tabs-7"><a
-						href="#" class="pure-menu-link">Stats</a></li>
-				<li class="pure-menu-item" data-tab="parent-tabs-6"><a href="#" class="pure-menu-link">Plugin git
-						commits</a></li>
+				<li class="pure-menu-item" data-tab="parent-tabs-6"><a href="#" class="pure-menu-link">Plugin git commits</a></li>
 				<li class="pure-menu-item" data-tab="parent-tabs-3"><a href="#" class="pure-menu-link">About</a></li>
 			</ul>
 		</div>
@@ -55,31 +51,27 @@
 						<label  class="pure-checkbox">Enable Top requests:
 							<input type="checkbox" name="playlist_top_media"  value="1" 
 								<?php if (1 == get_option('playlist_top_media')) echo 'checked="checked"'; ?> class="">
-						</label>
-						<label>Enable charts below playlist and post:
-							<input type="checkbox" name="charts_enabled" class="" value="1"
-								<?php if (1 == get_option('charts_enabled')) echo 'checked="checked"'; ?>>
 						</label>						
-						<label class="export-tables-label <?php echo (!$opts_enabled ? "hidden" : "") ?>" >
+						<label class="export-tables-label <?php if (1 != get_option('playlist_top_media')) echo 'hidden'; ?>" >
 							<a class="secondary small" 
-								id="export-tables"
-								onclick="admin_functions.export_tables()">Export</a> chart data
+								id="export-top requests
+								onclick="admin_functions.export_tables()">Export</a> top requests to sql
 						</label>												
 						<hr>
 
-						<div class="opt_requirements <?php echo (!$opts_enabled ? "hidden" : "") ?>">
+						<div class="opt_requirements <?php if (1 != get_option('playlist_top_media')) echo 'hidden'; ?>">
 							
-							<label><?php _e('Required '); ?></label>
+							<label><?php _e('Required options'); ?></label>
 
-							<label><?php _e('cron '); ?></label>
+							<label><?php _e('Cron task'); ?></label>
 							<small><code>* * * * * $(which php) <?php echo plugin_dir_path(__DIR__)?>lib/reports.php logs > /dev/null 2>&1</code></small>
 
-							<label><?php _e('access Log location')?></label>
+							<label><?php _e('Location to access Log')?></label>
 							<small>accepts /path/to/access_log, ["/path/to/access_log","/path/to/access_log_other"]</small>
 							<input type="text" name="access_log" class="pure-input-1"
 								value="<?php echo esc_attr( get_option('access_log') ); ?>" <?php if (1 == get_option('charts_enabled')) echo 'required placeholder="Required"'; ?>>
 							<hr>
-							<label><?php _e('Options'); ?></label>
+							<label><?php _e('Optional'); ?></label>
 							<label><?php _e('Ignore admin ip addresses'); ?>:
 								<input type="checkbox" name="ignore_ip_enabled" class="" value="1"
 									<?php if (1 == get_option('ignore_ip_enabled')) echo 'checked="checked"'; ?>>
@@ -88,25 +80,7 @@
 								<?php if (1 != get_option('ignore_ip_enabled')) echo 'disabled'; ?>><?php echo esc_attr( get_option('ignore_ip_json') ); ?></textarea>	
 
 							<hr>
-							<label><?php _e('Chart '); ?></label>
-							<label><?php _e('Colors:'); ?> <input type="checkbox" name="chart_rgb_enabled" class="" value="1"
-									<?php if (1 == get_option('chart_rgb_enabled')) echo 'checked="checked"'; ?>>
-							</label>
-							<input name="chart_rgb_init" data-jscolor="{preset:'large dark'}"
-								value="<?php if(get_option('chart_rgb_init')){ echo esc_attr( get_option('chart_rgb_init') ); }else{ echo "rgba(0,0,0,1.0)"; } ?>"
-								title="Initial chart fill color"
-								<?php if (1 != get_option('chart_rgb_enabled')) echo 'disabled'; ?>>
-							<input name="chart_rgb" data-jscolor="{preset:'large dark'}"
-								value="<?php if(get_option('chart_rgb')){ echo esc_attr( get_option('chart_rgb') ); }else{ echo "rgba(255,255,255,1.0)"; } ?>"
-								title="chart fill color"
-								<?php if (1 != get_option('chart_rgb_enabled')) echo 'disabled'; ?>>
-							<hr>						
-							<label><?php _e('Colors array:'); ?><br>
-								<small>Example
-									<code>["#ffffff","#F0F0F0","#E0E0E0","#D0D0D0","#C0C0C0","#B0B0B0","#A0A0A0","#909090","#808080","#707070"]</code></small>
-									<input type="text" name="chart_color_array" class="pure-input-1"
-										value="<?php echo esc_attr( get_option('chart_color_array') ); ?>">
-							</label>
+
 
 						</div>
 					</div>
@@ -120,11 +94,42 @@
 			<input type='text' name='playlist_top_media_title' value="<?php echo $playlist_top_media_title ?>" class='pure-input-1-2' style="display:<?php echo (1 == $playlist_top_media) ? 'inline' : 'none'; ?>" placeholder="The Title"/>
 			<input type='text' name='playlist_top_media_count' value="<?php echo $playlist_top_media_count ?>" class='pure-input-1-4' style="display:<?php echo (1 == $playlist_top_media) ? 'inline' : 'none'; ?>" placeholder="Count"/>
 
-			<label><?php _e('Access log filter '); ?></label><small>Simple regex. The default is <code>/.mp3/i</code>.</small>
+			<label><?php _e('Filter access log'); ?></label><small>Regex override, default <code>/.mp3/i</code>.</small>
 			<input type="text" name="access_log_pattern" class="pure-input-1"
 				value="<?php echo esc_attr( get_option('access_log_pattern') ); ?>" placeholder="/.mp3/i">					
 						
 
+		</div>
+		<div id="parent-tabs-8" class="parent-tab-content tab-content tab-charts">
+
+
+			<label>Show charts to visitors below playlist and post:
+				<input type="checkbox" name="charts_enabled" class="" value="1"
+					<?php if (1 == get_option('charts_enabled')) echo 'checked="checked"'; ?>>
+			</label>		
+
+			<label><?php _e('Char colors:'); ?> <input type="checkbox" name="chart_rgb_enabled" class="" value="1"
+					<?php if (1 == get_option('chart_rgb_enabled')) echo 'checked="checked"'; ?>>
+			</label>
+			<input name="chart_rgb_init" data-jscolor="{preset:'large dark'}"
+				value="<?php if(get_option('chart_rgb_init')){ echo esc_attr( get_option('chart_rgb_init') ); }else{ echo "rgba(0,0,0,1.0)"; } ?>"
+				title="Initial chart fill color"
+				<?php if (1 != get_option('chart_rgb_enabled')) echo 'disabled'; ?>>
+			<input name="chart_rgb" data-jscolor="{preset:'large dark'}"
+				value="<?php if(get_option('chart_rgb')){ echo esc_attr( get_option('chart_rgb') ); }else{ echo "rgba(255,255,255,1.0)"; } ?>"
+				title="chart fill color"
+				<?php if (1 != get_option('chart_rgb_enabled')) echo 'disabled'; ?>>
+			<hr>						
+			<label><?php _e('Chart colors array override chart colors:'); ?><br>
+				<small>Example
+					<code>["#ffffff","#F0F0F0","#E0E0E0","#D0D0D0","#C0C0C0","#B0B0B0","#A0A0A0","#909090","#808080","#707070"]</code></small>
+					<input 
+						type="text" 
+						name="chart_color_array" 
+						class="pure-input-1"
+						value="<?php echo esc_attr( get_option('chart_color_array') ); ?>"
+						<?php if (1 != get_option('chart_rgb_enabled')) echo 'disabled'; ?>>
+			</label>
 		</div>
 		<!-- about -->
 		<div id="parent-tabs-3" class="parent-tab-content tab-content tab-about"></div>

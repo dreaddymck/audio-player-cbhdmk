@@ -179,34 +179,17 @@ window.admin_events = {
 
             if( jQuery(this).prop("checked")){
                 jQuery("li[data-tab='parent-tabs-2']").removeClass("hidden");
+                jQuery("li[data-tab='parent-tabs-8']").removeClass("hidden");
             }else{
                 jQuery("li[data-tab='parent-tabs-2']").addClass("hidden");
+                jQuery("li[data-tab='parent-tabs-8']").addClass("hidden");
             }
-
-            var opts_enabled = jQuery("input[type='checkbox'][name='charts_enabled']").prop("checked") ||
-            jQuery("input[type='checkbox'][name='playlist_top_media']").prop("checked");
-
-            if( opts_enabled )
-            {            
-                jQuery(".opt_requirements").removeClass("hidden");
-                jQuery("li[data-tab='parent-tabs-7']").removeClass("hidden");
-                jQuery("label.export-tables-label").removeClass("hidden"); //
-                jQuery("input[name='access_log']").prop("required", true);//
-
-            }else{
-                jQuery(".opt_requirements").addClass("hidden");
-                jQuery("li[data-tab='parent-tabs-7']").addClass("hidden");
-                jQuery("label.export-tables-label").addClass("hidden"); //  
-                admin_functions.playlist_top_media_activity();
-                jQuery("input[name='access_log']").prop("required", false);// 
-            }
-        });       
-        jQuery("input[type='checkbox'][name='playlist_top_media']").on("click",function(e){
-            admin_functions.playlist_top_media_activity();
-        });
+            admin_functions.toggle_options();
+        });  
         jQuery("input[type='checkbox'][name='chart_rgb_enabled']").on("click",function (e) {
             jQuery("input[name='chart_rgb_init']").prop("disabled", !jQuery(this).prop("checked"));
             jQuery("input[name='chart_rgb']").prop("disabled", !jQuery(this).prop("checked"));
+            jQuery("input[name='chart_color_array']").prop("disabled", !jQuery(this).prop("checked"));
         });
         jQuery('select[name="stats_posts_in"]').on("click",function () {
             let value = jQuery(this).val();

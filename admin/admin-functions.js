@@ -210,6 +210,27 @@ window.admin_functions = {
              }
         );        
     },
+    toggle_options: function(){
+
+        if( 
+            jQuery("input[type='checkbox'][name='charts_enabled']").prop("checked") 
+            ||
+            jQuery("input[type='checkbox'][name='playlist_top_media']").prop("checked") 
+        )
+        {            
+            jQuery(".opt_requirements").removeClass("hidden");
+            jQuery("li[data-tab='parent-tabs-7']").removeClass("hidden");
+            jQuery("label.export-tables-label").removeClass("hidden"); //
+            jQuery("input[name='access_log']").prop("required", true);//
+
+        }else{
+            jQuery(".opt_requirements").addClass("hidden");
+            jQuery("li[data-tab='parent-tabs-7']").addClass("hidden");
+            jQuery("label.export-tables-label").addClass("hidden"); //              
+            jQuery("input[name='access_log']").prop("required", false);// 
+        }  
+        admin_functions.playlist_top_media_activity(); 
+    },
     playlist_top_media_activity: function(){
         let playlist_config = jQuery("textarea[name='playlist_config']").val();
         if(playlist_config){
