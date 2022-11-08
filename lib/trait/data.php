@@ -17,7 +17,6 @@ trait _data {
             "labels" => array(), 
             "data" => array(),
             "borderColor" => $borderColor,
-            "cubicInterpolationMode" => "monotone",
             "dmck_request_count" => array(),
             "dmck_request_referrer" => "",
             "post_id" => "",

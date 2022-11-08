@@ -55,13 +55,9 @@ window._dmck_charts_pkg = {
                 responsive: true,
                 plugins: {
                     legend: {
-                        position: 'left',
+                        position: 'bottom',
                         labels: {
-                            // This more specific font property overrides the global property
-                            font: {
-                                size: 12,
-                            },
-                            boxWidth: 10
+                            boxWidth: 12
                         }                       
                     },
                     title: {
@@ -71,16 +67,19 @@ window._dmck_charts_pkg = {
                 },
                 scales: {
                     x: {
+                        beginAtZero: true,
                         title: {
                             display: true,
                             text: 'Date'
                         },
+                        
                     },
                     y: {
                         title: {
                             display: true,
                             text: 'Requests'
                         },
+                        beginAtZero: true,
                     }
                 },
             },

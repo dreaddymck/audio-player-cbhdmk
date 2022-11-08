@@ -9,7 +9,8 @@ Author URI: https://github.com/dreaddymck
 License: GPL2
 
 TODO: Gutenberg block support.
-TODO: Add support for embedded videos as playlist items
+TODO: Add support for embedded videos as playlist items.
+TODO: Chart,js layout selection
 
 
 */
