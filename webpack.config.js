@@ -2,12 +2,10 @@ const path = require('path');
 const webpack = require('webpack');
 
 module.exports = {
-    // mode: "development",
-    // watch: true,
     watchOptions: {
         aggregateTimeout: 200,
         poll: 1000,
-        ignored: /node_modules/,
+        ignored: ['**/node_modules/','**/vendor/'],
     },
     entry: {
         public: './public.js',

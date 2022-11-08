@@ -162,7 +162,7 @@
 						<label>Audio Control slider height (pixels):
 							<input type="text" name="audio_control_slider_height" class="pure-input-1"
 								value="<?php if(get_option('audio_control_slider_height')){ echo esc_attr( get_option('audio_control_slider_height') ); }else{ echo "200"; } ?>"
-								<?php if (0 == get_option('audio_control_enabled')) echo 'disabled'; ?>>
+								<?php if (1 != get_option('audio_control_enabled')) echo 'disabled'; ?>>
 						</label>
 						<hr>
 						<label>Visualizer: <input type="checkbox" name="visualizer_enabled" class="" value="1"

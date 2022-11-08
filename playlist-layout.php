@@ -1,6 +1,6 @@
 <div class="<?php echo self::PLUGIN_SLUG ?>" style="display:none">
 
-	<div class="panel panel-box box-background <?php if (0 == get_option('audio_control_enabled')) echo "hidden"; ?>">
+	<div class="panel panel-box box-background <?php if (1 != get_option('audio_control_enabled')) echo "hidden"; ?>">
 		<div class="heading">
 			<h1 class="title" title="click for more information"></h1>
 		</div>
