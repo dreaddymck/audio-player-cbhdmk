@@ -97,8 +97,7 @@ trait _admin {
     function admin_scripts($hook_suffix) {			
         if ( $this->settings_page == $hook_suffix ) {
             wp_enqueue_script( self::PLUGIN_SLUG . '.marked.min.js', $this->plugin_url . 'assets/js/marked.min.js', array('jquery'), $this->plugin_version, false );	
-            wp_enqueue_script( self::PLUGIN_SLUG . '.fonts.js', $this->plugin_url . 'dist/fonts.bundle.js', array('jquery'), $this->plugin_version, true );  
-            wp_enqueue_script( self::PLUGIN_SLUG . '.solid.js', $this->plugin_url . 'dist/solid.bundle.js', array('jquery'), $this->plugin_version, true ); 
+            wp_enqueue_script( self::PLUGIN_SLUG . '.fonts.js', $this->plugin_url . 'dist/fonts.bundle.js', array('jquery'), $this->plugin_version, true ); 
             wp_enqueue_script( self::PLUGIN_SLUG . '.pure.js', $this->plugin_url . 'dist/pure.bundle.js', array('jquery'), $this->plugin_version, true ); 
             wp_enqueue_script( self::PLUGIN_SLUG . '.chart.js', $this->plugin_url . 'dist/chart.bundle.js', array('jquery'), $this->plugin_version, true ); 
             wp_enqueue_script( self::PLUGIN_SLUG . '.bundle.js', $this->plugin_url . 'dist/private.bundle.js', array('jquery'), $this->plugin_version, true );

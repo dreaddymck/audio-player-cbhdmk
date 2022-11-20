@@ -2,7 +2,7 @@
 
 
 ?>
-<div id="loading"  class="fa-3x"><i id="loading-image" class="fas fa-spinner fa-pulse"></i></div>
+<div id="loading"  class=""><i id="loading-image" class="dmck-loader-animation"></i></div>
 <?php include_once(plugin_dir_path(__FILE__)."admin-playlist-config.php"); ?>
 <?php $this->notices() ?>
 <form name="admin-settings-form" method="post" action="options.php" class="pure-form pure-form-stacked">

@@ -18,16 +18,16 @@
 		<div class="options">
 			<div class="pure-g controls" style="text-align: center">
 				<div class="pure-u-1-4">
-					<div class="play fa fa-play fa-2x"  aria-hidden="true" title="Play"></div>
+					<div class="play"  aria-hidden="true" title="Play">&#8250;</div>
 				</div>
 				<div class="pure-u-1-4">
-					<div class="pause fa fa-stop fa-2x"  aria-hidden="true" title="Pause"></div>
+					<div class="pause"  aria-hidden="true" title="Pause">&#215;</div>
 				</div>
 				<div class="pure-u-1-4">
-					<div class="rew fa fa-step-backward fa-2x" aria-hidden="true" title="Back"></div>
+					<div class="rew" aria-hidden="true" title="Back">&#171;</div>
 				</div>
 				<div class="pure-u-1-4">
-					<div class="fwd fa fa-step-forward fa-2x"  aria-hidden="true" title="Forward"></div>
+					<div class="fwd"  aria-hidden="true" title="Forward">&#187;</div>
 				</div>
 			</div>			
 		</div>			

@@ -13,7 +13,6 @@ module.exports = {
         pure: './pure.js',
         chart: './chart.js',
         fonts: './fonts.js',
-        solid: './solid.js',
     },
     output: {
         filename: '[name].bundle.js',
