@@ -82,3 +82,8 @@ div.config_post_meta_tags.current {
 [type="date"]::-webkit-calendar-picker-indicator {
     opacity: 0;
 }
+label {
+    font-weight: bolder;
+    font-variant-caps: all-small-caps;
+    background-color: #ddd;
+  }
