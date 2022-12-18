@@ -3,7 +3,7 @@
 Plugin Name: (DMCK) audio player
 Plugin URI: https://github.com/dreaddymck/audio-player-cbhdmk
 Description: Generates a media playlists and simple charts. Shortcode [dmck-audioplayer]
-Version: 1.1.2
+Version: 1.1.3
 Author: dreaddymck
 Author URI: https://github.com/dreaddymck
 License: GPL2
@@ -65,7 +65,7 @@ if (!class_exists("dmck_audioplayer")) {
 		
 		function __construct() {
 
-			$this->setTimezone();
+			// $this->setTimezone();
 			$this->set_plugin_version();
 			$this->plugin_title = '(DMCK) Audio:' . $this->plugin_version;
 			$this->plugin_url 	= plugins_url("/",__FILE__);
@@ -123,7 +123,6 @@ if (!class_exists("dmck_audioplayer")) {
 		function user_scripts() {			
 			if( $this->has_shortcode( $this->shortcode ) ) {}			
 			wp_enqueue_script( self::PLUGIN_SLUG . '.fonts.js', $this->plugin_url . 'dist/fonts.bundle.js', array('jquery'), $this->plugin_version, true );
-			wp_enqueue_script( self::PLUGIN_SLUG . '.solid.js', $this->plugin_url . 'dist/solid.bundle.js', array('jquery'), $this->plugin_version, true ); 
 			wp_enqueue_script( self::PLUGIN_SLUG . '.pure.js', $this->plugin_url . 'dist/pure.bundle.js', array('jquery'), $this->plugin_version, true ); 
 			wp_enqueue_script( self::PLUGIN_SLUG . '.chart.js', $this->plugin_url . 'dist/chart.bundle.js', array('jquery'), $this->plugin_version, true ); 
 			wp_enqueue_script( self::PLUGIN_SLUG . '.bundle.js', $this->plugin_url . 'dist/public.bundle.js', array('jquery'), $this->plugin_version, true );	
