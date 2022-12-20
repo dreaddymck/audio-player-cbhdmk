@@ -143,12 +143,14 @@ if($playlist_config){
 	<option value='sel_category__not_in'>category__not_in</option> 
 </select>
 </label>
+<label>Post meta selection options: 
 <div id='sel_post__in' class='config_post_meta_tags current'>
 <input type='hidden' name='post__in' value='{$config->post__in}' class='pure-input-1' readonly />
 <select name='select_config_post__in' multiple onchange='admin_functions.config_update(this,\"{$config->id}\")'>
 	".playlist_config_options($post__in, json_decode($config->post__in), "id(array)")."
 </select>
 </div>
+</label>
 
 
 <div id='sel_tag' class='config_post_meta_tags'>
