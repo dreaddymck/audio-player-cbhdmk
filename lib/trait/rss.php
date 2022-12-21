@@ -59,8 +59,9 @@ trait _rss {
                     }
                     query_posts($args);
                     ob_start();
-                    // include( ABSPATH .'wp-includes/feed-rss2.php');
+                    $level = ob_get_level();
                     include( plugin_dir_path(__DIR__) . "feed-rss2-no-header.php");
+                    while(ob_get_level() > $level) ob_end_flush();
                     $output = ob_get_clean();
                     wp_reset_postdata();
                     $query = "
