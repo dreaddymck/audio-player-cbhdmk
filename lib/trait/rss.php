@@ -43,7 +43,7 @@ trait _rss {
         $listid = array();
         if($playlist_data){
             foreach($playlist_data["playlist_json"] as $p) {
-                if(isset($p->id) && $p->id != "top-media-requests") {
+                if(isset($p->id)) {
                     array_push($listid, $p->id);                
                     if(isset($p->title)){
                         $args = $this->obj_request_args($p);
