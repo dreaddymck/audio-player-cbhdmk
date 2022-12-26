@@ -31,7 +31,7 @@ window.playlist = {
 					/**
 					 * add rss link for this list
 					 */
-					let param = {id: elem.id }
+					let param = {id: elem.id, rand: Math.random() }
 					let title = elem.title + " RSS";
                 	jQuery("<div />",{ class: "text-center" })
 					.append(

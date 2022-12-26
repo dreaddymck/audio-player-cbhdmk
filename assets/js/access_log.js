@@ -44,7 +44,7 @@ window.access_log = {
                 /**
                  * add rss link for this list
                  */
-                let param = {id: top_10_json.id }
+                let param = {id: top_10_json.id, rand: Math.random() }
                 let title = (top_10_json.title ? (top_10_json.title) + " " : "") + " RSS";
                 
                 jQuery("<div />",{ class: "text-center" })
