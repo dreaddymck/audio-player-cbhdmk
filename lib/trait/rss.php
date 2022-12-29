@@ -15,7 +15,7 @@ trait _rss {
         // Making sure that the feed is created
         if ( ! in_array( $feedname, $wp_rewrite->feeds ) ) {
             $wp_rewrite->feeds[] = $feedname;
-            flush_rewrite_rules( FALSE );
+            flush_rewrite_rules();
         }
         add_feed( $feedname, function(){$this->_rss_render_feed();} );
     }    
@@ -52,6 +52,7 @@ trait _rss {
                         $idarray = array();
                         $top_count = isset($p->top_count) ? $p->top_count : 0;
                         $data = $this->media_activity_today($limit=$top_count);
+                        if(empty($data)){continue;}
                         foreach($data as $value) {                
                             array_push($idarray, $value["ID"]);     
                         }
