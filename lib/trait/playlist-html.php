@@ -5,11 +5,12 @@ trait DMCK_playlist_html {
     function dmck_playlist_content(){
         $playlist_data = $this->playlist_data_get();
 		$playlist_html_tabs = "";
-        foreach($playlist_data["playlist_json"] as $p) {
+
+        foreach($playlist_data["playlist_json"] as $p) { 
 			if(isset($p->id) && isset($p->title)) {
 				$playlist_html_tabs .= $this->nav_item($p);
 			}else
-			if(isset($p->top_request) && filter_var($p->top_request, FILTER_VALIDATE_BOOLEAN)){
+			if(get_option('playlist_top_media_public')){
 				$playlist_html_tabs .= $this->nav_item_top_request($p);
 			}
 		}
@@ -21,7 +22,7 @@ trait DMCK_playlist_html {
 			if(isset($p->id) && isset($p->title)) {
 				$playlist_html_pane .= $this->nav_pane($this, $p);
 			}else
-			if(isset($p->top_request) && filter_var($p->top_request, FILTER_VALIDATE_BOOLEAN)){
+			if(get_option('playlist_top_media_public')){
 				$playlist_html_pane .= $this->nav_pane_top_request($playlist_data, $p);
 			}
 		}
@@ -52,8 +53,6 @@ EOF;
 
     }
     function nav_pane($obj, $pj){
-
-        $opt_enabled = ( get_option('charts_enabled') ||  get_option('playlist_top_media') );
 
         $html = <<<EOF
 
@@ -100,7 +99,7 @@ EOF;
 
 EOF;
 
-            if ( $opt_enabled ) {
+            if ( get_option('charts_enabled') ) {
                 $response = $this->get_chart_json_mths($p->ID,1);
                 if($response){
                     array_push($chart_array, $response);
@@ -111,7 +110,7 @@ EOF;
 
         $html .= "</tbody></table></li>";
 
-        if ( $opt_enabled ) {
+        if ( get_option('charts_enabled') ) {
             usort($chart_title_array, function ($a, $b) {
                 return strtotime($a) - strtotime($b);
             });           
@@ -137,7 +136,7 @@ EOF;
     }
     function nav_pane_top_request($playlist_data, $p){
         if(!isset($p->id)){return;}
-        $opt_enabled = ( get_option('charts_enabled') ||  get_option('playlist_top_media') );
+
         $html = <<<EOF
 
             <div class="tab-pane" id="{$p->id}" role="tabpanel" aria-labelledby="tab-{$p->id}">
@@ -185,7 +184,7 @@ EOF;
                 </tr>
 
 EOF;
-            if ( $opt_enabled   ) {
+            if ( get_option('charts_enabled')   ) {
                 $response = $this->get_chart_json_mths($value["ID"],1);
                 array_push($chart_array, $response);
                 $chart_title_array = array_unique(array_merge($chart_title_array, $response->labels));            
@@ -195,7 +194,7 @@ EOF;
         $playlist_data["top_10_json"] = array_values($playlist_data["top_10_json"]); // rebase the array
         $html .= "</tbody></table>";       
         
-        if (( $opt_enabled )) {
+        if (( get_option('charts_enabled') )) {
             usort($chart_title_array, function ($a, $b) {
                 return strtotime($a) - strtotime($b);
             }); 

@@ -87,7 +87,7 @@ attach: attach embeded media to post.
         if($this->debug){ echo __FUNCTION__. " | ". $this->memory_usage()."\n\r"; } 
         update_option("access_logs_message","");  
         
-        $opts_enabled = ( get_option('charts_enabled') ||  get_option('playlist_top_media')); 
+        $opts_enabled = (get_option('playlist_top_media')); 
         
         if(!$opts_enabled){return;}
           

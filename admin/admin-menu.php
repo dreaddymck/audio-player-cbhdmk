@@ -48,10 +48,14 @@
 								<?php if (1 == get_option('delete_options_on_inactive')) echo 'checked="checked"'; ?>>
 						</label>
 						<hr>
-						<label  class="pure-checkbox">Enable Top requests:
+						<label  class="pure-checkbox">Enable Top requests stats:
 							<input type="checkbox" name="playlist_top_media"  value="1" 
 								<?php if (1 == get_option('playlist_top_media')) echo 'checked="checked"'; ?> class="">
-						</label>						
+						</label>
+						<label  class="pure-checkbox playlist_top_media_public <?php if (1 != get_option('playlist_top_media')) echo 'hidden'; ?>">Enable top requests in playlist:
+							<input type="checkbox" name="playlist_top_media_public"  value="1" 
+								<?php if (1 == get_option('playlist_top_media_public')) echo 'checked="checked"'; ?> class="">
+						</label>												
 						<label class="export-tables-label <?php if (1 != get_option('playlist_top_media')) echo 'hidden'; ?>" >
 							<a class="secondary small" 
 								id="export-top requests
